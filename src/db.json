@@ -1,0 +1,78 @@
+{
+  "title": "cmu-score-announcement",
+  "information": {
+    "subject": "Web Application in Advance",
+    "group": 3,
+    "Faculty": "Engineering"
+  },
+  "student": [
+    {
+      "name": "Newin Yamaguchi",
+      "id": 630615028
+    },
+    {
+      "name": "Thiti Kaewja",
+      "id": 630615024
+    },
+    {
+      "name": "Patcharaporn Satantaipop",
+      "id": 630615035
+    }
+  ],
+  "user": [
+    {
+      "email": "newin_yamaguchi@cmu.ac.th",
+      "password": "iqcejomkbox"
+    },
+    {
+      "email": "thiti_gaewja@cmu.ac.th",
+      "password": "thiti1234"
+    },
+    {
+      "email": "patcharaporn_satan@cmu.ac.th",
+      "password": "patcharaporn1234"
+    }
+  ],
+  "role": [
+    {
+      "name": "student",
+      "id": 630615028,
+      "email": "newin_yamaguchi@cmu.ac.th"
+    },
+    {
+      "name": "student",
+      "id": 630615024,
+      "email": "thiti_gaewja@cmu.ac.th"
+    },
+    {
+      "name": "student",
+      "id": 630615035,
+      "email": "Patcharaporn Satantaipop"
+    }
+  ],
+  "subject": [
+    {
+      "id": 269497,
+      "name": "Selected Topics in Information Systems 2",
+      "credit": 3,
+      "instructor": "Dome Potikanond",
+      "assignment": {
+        "task": "Project #3 : CMU Score Announcement",
+        "due_date": "2023-07-31",
+        "total_score": 100
+      }
+    },
+    {
+      "id": 261200,
+      "name": "Object-Oriented Programming",
+      "credit": 3,
+      "instructor": "Navadon Khunlertgit"
+    },
+    {
+      "id": 259191,
+      "name": "Principle of Being Professional",
+      "credit": 3,
+      "instructor": "Songyot Kitthamkesorn"
+    }
+  ]
+}
