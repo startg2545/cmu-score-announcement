@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+  /* font-family: "Bungee", cursive; */
+  width: 100vw;
+  background-color: rgb(255, 255, 255);
+}
+
+body {
+  margin: 0;
+}
+
+:root {
+  --color-bg: #4e4d9d;
+}
+
+.framenavbar {
+  display: flex;
+  width: 376px;
+  height: 1036px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.navbar {
+  width: 376px;
+  height: 1036px;
+  flex-shrink: 0;
+  background-color: #9F9EDA;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.cmulogo {
+  width: 480px;
+  height: 300px;
+  flex-shrink: 0;
+  background: rgba(211, 211, 211, 0) -121.292px -61.596px / 217.191% 202.815% no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: -40px;
+}
+
+.innernavbar {
+  width: 264px;
+  height: 600px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #EEEDFD;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin-top: -10px;
+}
