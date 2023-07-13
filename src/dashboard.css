@@ -25,19 +25,25 @@ body {
 
 .navbar {
   width: 376px;
-  height: 1036px;
+  height: 1066px;
   flex-shrink: 0;
   background-color: #9F9EDA;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  position: relative;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
+
+
 .cmulogo {
-  width: 480px;
-  height: 300px;
+  width: 250px;
+  height: 260px;
   flex-shrink: 0;
   background: rgba(211, 211, 211, 0) -121.292px -61.596px / 217.191% 202.815% no-repeat;
   display: flex;
@@ -47,7 +53,7 @@ body {
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  margin-top: -40px;
+  margin-top: -20px;
 }
 
 .innernavbar {
@@ -63,3 +69,25 @@ body {
   flex-shrink: 0;
   margin-top: -10px;
 }
+
+.frameprofile {
+  width: 256px;
+  height: 61px;
+  flex-shrink: 0;
+  border-radius: 25px;
+  background: #000;
+  position: relative;
+  top: 40px; /* Adjust the value as needed */
+}
+
+.framelogout {
+  width: 256px;
+  height: 61px;
+  flex-shrink: 0;
+  border-radius: 25px;
+  background: #ED4040;
+  position: absolute;
+  top: 920px; /* Adjust the value as needed */
+}
+
+

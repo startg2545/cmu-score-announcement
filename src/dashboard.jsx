@@ -30,6 +30,8 @@ export default function Dashboard() {
         <div className='innernavbar'>
           {/* Inner Navbar Content */}
         </div>
+        <div className='frameprofile'></div>
+        <div className='framelogout'></div>
       </div>
     </div>
   );
