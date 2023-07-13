@@ -4,11 +4,14 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Dashboard from './dashboard.jsx'
+import Db from './database/db.jsx';
+import Spreadsheet from './Spreadsheet.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
+    <Spreadsheet />
+    <Db />
     <Dashboard />
   </React.StrictMode>
 );
