@@ -28,6 +28,7 @@ const semaster = [
 export default function Api() {
   const [selectedYear, setSelectedYear] = useState(academicYear[0].value)
   const [selectedSemaster, setSelectedSemaster] = useState(semaster[0].value)
+  const [selectedSubject, setSelectedSubject] = useState('Choose Subject')
   const [subject, setSubject] = useState([])
   const [countSubmit, setCountSubmit] = useState(0)
 
@@ -39,7 +40,7 @@ export default function Api() {
       setSelectedSemaster(event.target.value);
       setCountSubmit(countSubmit+1)
     }
-    if(event.target.value == 0 || event.target.value == 4){
+    if(event.target.value === 0 || event.target.value === 4){
       document.getElementById('chooseCourse').style.display = 'none'
       setCountSubmit(0)
     }
@@ -48,6 +49,11 @@ export default function Api() {
       callApi()
       document.getElementById('chooseCourse').style.display = 'block'
     }
+  }
+
+  const handleChangeCourse = event => {
+
+      console.log(event.target.value)
   }
 
   async function callApi() {
@@ -88,7 +94,7 @@ export default function Api() {
             </option>
           ))}
         </select>
-      <div id="chooseCourse" value="chooseCourse" style={{ display: 'none' }}>
+      <div id="chooseCourse" value="chooseCourse" onChange={handleChangeCourse} style={{ display: 'none' }}>
         <h2>Choose Course</h2>
           <select value={subject} style={{ width: "160px" }}>
             {subject.map(subject => (
