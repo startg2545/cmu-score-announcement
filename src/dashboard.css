@@ -1,93 +1,64 @@
-* {
-  box-sizing: border-box;
-  /* font-family: "Bungee", cursive; */
-  width: 100vw;
-  background-color: rgb(255, 255, 255);
-}
-
 body {
-  margin: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
-:root {
-  --color-bg: #4e4d9d;
-}
-
-.framenavbar {
-  display: flex;
-  width: 376px;
-  height: 1036px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-}
-
+/* Add styles for the navbar and sidebar icon */
 .navbar {
-  width: 376px;
-  height: 1066px;
-  flex-shrink: 0;
-  background-color: #9F9EDA;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-
-
-.cmulogo {
-  width: 250px;
-  height: 260px;
-  flex-shrink: 0;
-  background: rgba(211, 211, 211, 0) -121.292px -61.596px / 217.191% 202.815% no-repeat;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: -20px;
-}
-
-.innernavbar {
-  width: 264px;
-  height: 600px;
-  flex-shrink: 0;
-  border-radius: 15px;
-  background: #EEEDFD;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-  margin-top: -10px;
-}
-
-.frameprofile {
-  width: 256px;
-  height: 61px;
-  flex-shrink: 0;
-  border-radius: 25px;
-  background: #000;
   position: relative;
-  top: 40px; /* Adjust the value as needed */
+  height: 117px;
+  background: #8084C8;
+  padding-left: 50px; /* Add some padding to the left for the icon */
 }
 
-.framelogout {
-  width: 256px;
-  height: 61px;
-  flex-shrink: 0;
-  border-radius: 25px;
-  background: #ED4040;
+.sidebar-icon {
   position: absolute;
-  top: 920px; /* Adjust the value as needed */
+  top: 50%; /* Center the icon vertically within the navbar */
+  left: 40px; /* Position the icon in the left corner */
+  transform: translateY(-50%); /* Adjust to vertically center the icon properly */
+  width: 58px; /* Change the width to resize the icon */
+  height: 58px; /* Change the height to resize the icon */
+  border-radius: 4px; /* Optional: Add border radius to make the border corners rounded */
+  background-color: #8084C8;
 }
+
+.cmulogo{
+  position: absolute;
+  top: 50%; /* Center the icon vertically within the navbar */
+  left: 120px; /* Position the icon in the left corner */
+  transform: translateY(-50%); /* Adjust to vertically center the icon properly */
+  width: 180px; /* Change the width to resize the icon */
+  height: 180px; /* Change the height to resize the icon */
+  border-radius: 4px; /* Optional: Add border radius to make the border corners rounded */
+}
+
+.hellostyle {
+  position: absolute;
+  top: -5px;
+  right: 40px; /* Align to the right corner */
+  color: #FFF;
+  text-align: right;
+  text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  font-family: 'Roboto', sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 590;
+  line-height: normal;
+
+}
+
+.rolestyle {
+  position: absolute;
+  top: 42px; /* Adjust the top position to place it below the hellostyle */
+  right: 40px; /* Align to the right corner */
+  color: #F7C878;
+  text-align: right;
+  font-family: 'Roboto', sans-serif;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 510;
+  line-height: normal;
+}
+
+
 
 

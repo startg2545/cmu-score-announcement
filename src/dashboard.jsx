@@ -1,20 +1,15 @@
+import React from 'react';
 import './dashboard.css';
-
 import cmulogo from './image/cmulogo.png';
-
+import sidebaricon from './icon/sidebaricon.svg';
 
 export default function Dashboard() {
-
   return (
-    <div className='framenavbar'>
-      <div className="navbar">
-        <img className="cmulogo" src={cmulogo} alt="CMU Logo" />
-        <div className='innernavbar'>
-          {/* Inner Navbar Content */}
-        </div>
-        <div className='frameprofile'></div>
-        <div className='framelogout'></div>
-      </div>
+    <div className='navbar'>
+      <img src={sidebaricon} alt="SidebarIcon" className="sidebar-icon" />
+      <img src={cmulogo} alt="CMULogo" className="cmulogo" />
+      <p className="hellostyle" >Hello, Dome P.</p>
+      <p className="rolestyle">1/66, Instructor</p>
     </div>
   );
 }
