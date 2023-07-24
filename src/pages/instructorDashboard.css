@@ -15,8 +15,8 @@ body {
   top: 50%; /* Center the icon vertically within the navbar */
   left: 30px; /* Position the icon in the left corner */
   transform: translateY(-50%); /* Adjust to vertically center the icon properly */
-  width: 28px; /* Change the width to resize the icon */
-  height: 28px; /* Change the height to resize the icon */
+  width: 35px; /* Change the width to resize the icon */
+  height: 35px; /* Change the height to resize the icon */
   border-radius: 4px; /* Optional: Add border radius to make the border corners rounded */
   background-color: #8084C8;
 }
@@ -26,8 +26,8 @@ body {
   top: 50%; /* Center the icon vertically within the navbar */
   left: 70px; /* Position the icon in the left corner */
   transform: translateY(-50%); /* Adjust to vertically center the icon properly */
-  width: 100px; /* Change the width to resize the icon */
-  height: 100px; /* Change the height to resize the icon */
+  width: 120px; /* Change the width to resize the icon */
+  height: 120px; /* Change the height to resize the icon */
   border-radius: 4px; /* Optional: Add border radius to make the border corners rounded */
 }
 
