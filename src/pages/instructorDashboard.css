@@ -1,11 +1,14 @@
 body {
   font-family: 'Roboto', sans-serif;
+  margin: 0; /* Reset default body margin */
+  padding: 0; /* Reset default body padding */
+  position: relative; /* Make sure the body is relatively positioned */
 }
 
 /* Add styles for the navbar and sidebar icon */
 .navbar {
   position: relative;
-  height: 70px;
+  height: 80px;
   background: #8084C8;
   padding-left: 50px; /* Add some padding to the left for the icon */
 }
@@ -24,7 +27,7 @@ body {
 .cmulogo{
   position: absolute;
   top: 50%; /* Center the icon vertically within the navbar */
-  left: 70px; /* Position the icon in the left corner */
+  left: 80px; /* Position the icon in the left corner */
   transform: translateY(-50%); /* Adjust to vertically center the icon properly */
   width: 120px; /* Change the width to resize the icon */
   height: 120px; /* Change the height to resize the icon */
@@ -33,22 +36,22 @@ body {
 
 .hellostyle {
   position: absolute;
-  top: -8px;
-  right: 30px; /* Align to the right corner */
+  
+  right: 25px; /* Align to the right corner */
   color: #FFF;
   text-align: right;
   text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   font-family: 'Roboto', sans-serif;
   font-size: 22px;
   font-style: normal;
-  font-weight: 590;
+  font-weight: 580;
   line-height: normal;
-
+  transform: translateY(-20%);
 }
 
 .rolestyle {
   position: absolute;
-  top: 25px; /* Adjust the top position to place it below the hellostyle */
+  top: 0px; /* Adjust the top position to place it below the hellostyle */
   right: 30px; /* Align to the right corner */
   color: #F7C878;
   text-align: right;
@@ -57,7 +60,26 @@ body {
   font-style: normal;
   font-weight: 510;
   line-height: normal;
+  transform: translateY(150%);
 }
+
+.framewindow {
+  position: absolute;
+  top: calc(100% + 25px); /* Position the frame below the navbar with 20px distance from the bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  max-width: 95%; /* Set the maximum width of the frame if needed */
+  height: 81vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  border-radius: 25px;
+  border: 3px solid #696CA3;
+  background: #FFF;
+}
+
 
 
 
