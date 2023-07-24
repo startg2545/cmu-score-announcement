@@ -1,7 +1,7 @@
 import React from 'react';
-import './dashboard.css';
-import cmulogo from './image/cmulogo.png';
-import sidebaricon from './icon/sidebaricon.svg';
+import './instructorDashboard.css';
+import cmulogo from '../image/cmulogo.png';
+import sidebaricon from '../icon/sidebaricon.svg';
 
 export default function Dashboard() {
   return (

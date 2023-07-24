@@ -3,15 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Dashboard from './dashboard.jsx';
+
 import Api from './database/Api';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <>
     <App /> 
-    {/* <Api />
-    {/* <Dashboard /> */}
+    {/* <Api /> */}
     </>
 );
 
