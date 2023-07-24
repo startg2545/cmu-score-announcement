@@ -5,7 +5,7 @@ body {
 /* Add styles for the navbar and sidebar icon */
 .navbar {
   position: relative;
-  height: 117px;
+  height: 70px;
   background: #8084C8;
   padding-left: 50px; /* Add some padding to the left for the icon */
 }
@@ -13,10 +13,10 @@ body {
 .sidebar-icon {
   position: absolute;
   top: 50%; /* Center the icon vertically within the navbar */
-  left: 40px; /* Position the icon in the left corner */
+  left: 30px; /* Position the icon in the left corner */
   transform: translateY(-50%); /* Adjust to vertically center the icon properly */
-  width: 58px; /* Change the width to resize the icon */
-  height: 58px; /* Change the height to resize the icon */
+  width: 28px; /* Change the width to resize the icon */
+  height: 28px; /* Change the height to resize the icon */
   border-radius: 4px; /* Optional: Add border radius to make the border corners rounded */
   background-color: #8084C8;
 }
@@ -24,22 +24,22 @@ body {
 .cmulogo{
   position: absolute;
   top: 50%; /* Center the icon vertically within the navbar */
-  left: 120px; /* Position the icon in the left corner */
+  left: 70px; /* Position the icon in the left corner */
   transform: translateY(-50%); /* Adjust to vertically center the icon properly */
-  width: 180px; /* Change the width to resize the icon */
-  height: 180px; /* Change the height to resize the icon */
+  width: 100px; /* Change the width to resize the icon */
+  height: 100px; /* Change the height to resize the icon */
   border-radius: 4px; /* Optional: Add border radius to make the border corners rounded */
 }
 
 .hellostyle {
   position: absolute;
-  top: -5px;
-  right: 40px; /* Align to the right corner */
+  top: -8px;
+  right: 30px; /* Align to the right corner */
   color: #FFF;
   text-align: right;
   text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   font-family: 'Roboto', sans-serif;
-  font-size: 32px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 590;
   line-height: normal;
@@ -48,12 +48,12 @@ body {
 
 .rolestyle {
   position: absolute;
-  top: 42px; /* Adjust the top position to place it below the hellostyle */
-  right: 40px; /* Align to the right corner */
+  top: 25px; /* Adjust the top position to place it below the hellostyle */
+  right: 30px; /* Align to the right corner */
   color: #F7C878;
   text-align: right;
   font-family: 'Roboto', sans-serif;
-  font-size: 26px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 510;
   line-height: normal;
