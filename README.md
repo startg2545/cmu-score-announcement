@@ -6,3 +6,4 @@ cmu-score-announcement -> src -> db.json
 ### Database: Firebase Firestore
 ### IDE: up to you
 ### App main is located in cmu-score-announcement -> src -> App.js
+### Database MongoDB located in cmu-score-announcement -> main.py
