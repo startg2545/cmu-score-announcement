@@ -1,5 +1,5 @@
 import React from 'react';
-// import './instructorDashboard.css';
+import './instructorDashboard.css';
 import cmulogo from '../image/cmulogo.png';
 import sidebaricon from '../icon/sidebaricon.svg';
 
