@@ -15,19 +15,21 @@ body {
   
   .sidebar-icon {
     position: absolute;
-    top: 50%; /* Center the icon vertically within the navbar */
-    left: 30px; /* Position the icon in the left corner */
-    transform: translateY(-50%); /* Adjust to vertically center the icon properly */
-    width: 35px; /* Change the width to resize the icon */
-    height: 35px; /* Change the height to resize the icon */
-    border-radius: 4px; /* Optional: Add border radius to make the border corners rounded */
+    top: 45%;
+    left: 30px;
+    transform: translateY(-50%);
+    width: 35px;
+    height: 35px;
+    border-radius: 4px;
     background-color: #8084C8;
   }
+  
+
   
   .cmulogo{
     position: absolute;
     top: 50%; /* Center the icon vertically within the navbar */
-    left: 80px; /* Position the icon in the left corner */
+    left: 100px; /* Position the icon in the left corner */
     transform: translateY(-50%); /* Adjust to vertically center the icon properly */
     width: 120px; /* Change the width to resize the icon */
     height: 120px; /* Change the height to resize the icon */
@@ -62,15 +64,19 @@ body {
     line-height: normal;
     transform: translateY(150%);
   }
+
+
   
   .framewindow {
-    position: absolute;
-    top: calc(100% + 25px); /* Position the frame below the navbar with 20px distance from the bottom */
+    /* Your existing styles */
+    position: fixed;
+    top: 105px;
     left: 50%;
     transform: translateX(-50%);
     width: 100vw;
-    max-width: 95%; /* Set the maximum width of the frame if needed */
-    height: 81vh;
+    max-width: 96.6%;
+    height: calc(95vh - 100px);
+    overflow-y: auto;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -78,4 +84,49 @@ body {
     border-radius: 25px;
     border: 3px solid #696CA3;
     background: #FFF;
+    transition: width 0.4s ease, margin-left 0.4s ease; /* Apply smooth transitions for width and margin-left */
   }
+  
+  .framewindow-container {
+    /* Your existing styles */
+    position: relative;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .framewindow.shrink {
+    /* Your existing styles */
+    justify-content: center;
+    align-items: center;
+    width: calc(100vw - 350px); /* Reduce the width by the width of the sssidebar */
+    margin-left: 150px; /* Move the framewindow to the right to accommodate the sssidebar */
+  }
+
+.startstyle {
+  color: #696CA3;
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 590;
+  line-height: normal;
+}
+
+.sssidebar {
+  position: fixed;
+  top: 80px; /* Position the sidebar below the navbar with 80px distance from the top */
+  left: -300px; /* Initially hide the sidebar off the left side of the screen */
+  width: 300px; /* Adjust the width as needed */
+  height: 100%; /* Set the maximum height based on the distance from the top */
+  z-index: 0; /* Set z-index to 0 to place it behind the framewindow */
+  
+  background-color: #ffffff; /* Set a background color */
+  transition: left 0.4s ease; /* Apply a smooth transition for the left property */
+}
+
+.sssidebar.show {
+  left: 0; /* Slide the sidebar in from the left side when the "show" class is added */
+  box-shadow: 5px 0 5px rgba(0, 0, 0, 0.25); /* Apply the drop shadow */
+}
+
+
