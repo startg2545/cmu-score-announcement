@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
+import './css/main.css';
 
 const year = [
 	{value: 0, text: 'Choose academic year'},
+	{value: 2566, text: '2566'},
 	{value: 2565, text: '2565'},
 	{value: 2564, text: '2564'},
 	{value: 2563, text: '2563'},
@@ -25,11 +27,23 @@ const semaster = [
 	{value: 2, text: 'Semaster 2'},
 	{value: 3, text: 'Semaster 3'}
 ]
+const sections = [
+	{value: 0, text: 'Choose Section'},
+	{value: 1, text: '001'},
+	{value: 2, text: '002'},
+	{value: 3, text: '003'},
+	{value: 701, text: '701'},
+	{value: 702, text: '702'},
+	{value: 703, text: '703'},
+	{value: 801, text: '801'},
+	{value: 802, text: '802'},
+	{value: 803, text: '803'},
+]
 
-const ScoreAnnouncement = () => {
-
+const SearchCourse = () => {
 	const [data, setData] = useState([]);
 	const [selectedCourseNo, setSelectedCourseNo] = useState("");
+	const [selectedSection, setSelectedSection] = useState("");
 	const [selectedYear, setSelectedYear] = useState(0);
 	const [selectedSemaster, setSelectedSemaster] = useState(0);
 	
@@ -39,14 +53,15 @@ const ScoreAnnouncement = () => {
 	const signal = controller.signal;
 	const navigate = useNavigate();
 	const params = createSearchParams({
+			courseNo: selectedCourseNo,
+			section: selectedSection,
 			year: selectedYear,
-			semaster: selectedSemaster,
-			courseNo: selectedCourseNo
+			semaster: selectedSemaster
 	}).toString()
 	console.log(params)
 
 	const goToNav = () => {
-		navigate('/grade?' + params)
+		navigate('/add-score?' + params)
 	}
 
 	// Axios Part
@@ -70,11 +85,15 @@ const ScoreAnnouncement = () => {
 			headers: { Authorization: `Bearer ${accessToken}` }
 		})
 		.then(res => setData(res.data.courseDetails));
+		
 	}, [])
 	console.log(data)
 
 	const handleCourseNo = (event) => {
 		setSelectedCourseNo(event)
+	}
+	const handleSection = (event) => {
+		setSelectedSection(event)
 	}
 	const handleYear = (event) => {
 		setSelectedYear(event)
@@ -84,7 +103,7 @@ const ScoreAnnouncement = () => {
 	}
 	
 	return (
-		<div>
+		<body>
 			{/* Here is professor dashboard's location */}
 			<button onClick={axiosFetch} style={{ width: '50px' }}>Begin</button>
 			<button onClick={axiosAbort} style={{ width: '50px' }}>Abort</button>
@@ -92,7 +111,7 @@ const ScoreAnnouncement = () => {
 				goToNav()
 			}}>
 			<div>
-				<h2>Choose Course</h2>
+				<h3>Choose Course</h3>
 				<select value={selectedCourseNo} onChange={e=>handleCourseNo(e.target.value)} style={{ width: '100px' }} required>
 					{data.map((res,index)=>(
 						<option key={index} value={res.value}>
@@ -100,8 +119,14 @@ const ScoreAnnouncement = () => {
 						</option>
 					))}
 				</select>
-			</div>
-			<div>
+				<h3>Choose Section</h3>
+				<select value={selectedSection} onChange={e=>handleSection(e.target.value)} style={{ width: '100px' }} required>
+					{sections.map((res,index)=>(
+						<option key={index} value={res.value}>
+							{res.text}
+						</option>
+					))}
+				</select>
 				<h3>Choose Year</h3>
 				<select value={selectedYear} onChange={e=>handleYear(e.target.value)} style={{ width: '170px' }} required>
 					{year.map((res,index)=>(
@@ -122,8 +147,8 @@ const ScoreAnnouncement = () => {
 			</div>
 			<button style={{ width: '200px' }} type="submit">Save The Course Selection</button>
 			</form>
-		</div>
+		</body>
 	);
 };
 
-export default ScoreAnnouncement;
+export default SearchCourse;
