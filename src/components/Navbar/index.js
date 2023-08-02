@@ -12,14 +12,14 @@ const Navbar = () => {
 					<NavLink to="/contact" activestyle="true">
 						Contact Us
 					</NavLink>
-					<NavLink to="/grade" activestyle="true">
-						Grades
+					<NavLink to="/add-score" activestyle="true">
+						Add Score
 					</NavLink>
 					<NavLink to="/sign-up" activestyle="true">
 						Sign Up
 					</NavLink>
-					<NavLink to="/score-announcement" activestyle="true">
-						Score Announcement
+					<NavLink to="/search-course" activestyle="true">
+						Search Course
 					</NavLink>
 					<NavLink to="/student-dashboard" activestyle="true">
 						Student Dashboard
