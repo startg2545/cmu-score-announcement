@@ -69,13 +69,14 @@ body {
   
   .framewindow {
     /* Your existing styles */
-    position: fixed;
-    top: 105px;
+    position: absolute;
+    top: calc(20px + 50%); /* Center vertically with top offset */
+    bottom: calc(10px + 50%); /* Center vertically with bottom offset */
     left: 50%;
     transform: translateX(-50%);
     width: 100vw;
     max-width: 96.6%;
-    height: calc(95vh - 100px);
+    height: calc(95vh - 85px);
     overflow-y: auto;
     justify-content: center;
     align-items: center;
@@ -84,8 +85,9 @@ body {
     border-radius: 25px;
     border: 3px solid #696CA3;
     background: #FFF;
-    transition: width 0.4s ease, margin-left 0.4s ease; /* Apply smooth transitions for width and margin-left */
+    transition: width 0.4s ease, margin-left 0.4s ease;
   }
+  
   
   .framewindow-container {
     /* Your existing styles */
@@ -98,8 +100,8 @@ body {
     /* Your existing styles */
     justify-content: center;
     align-items: center;
-    width: calc(100vw - 350px); /* Reduce the width by the width of the sssidebar */
-    margin-left: 150px; /* Move the framewindow to the right to accommodate the sssidebar */
+    width: calc(100vw - 340px); /* Reduce the width by the width of the sssidebar */
+    margin-left: 142px; /* Move the framewindow to the right to accommodate the sssidebar */
   }
 
 .startstyle {
@@ -116,17 +118,81 @@ body {
   position: fixed;
   top: 80px; /* Position the sidebar below the navbar with 80px distance from the top */
   left: -300px; /* Initially hide the sidebar off the left side of the screen */
-  width: 300px; /* Adjust the width as needed */
+  width: 280px; /* Adjust the width as needed */
   height: 100%; /* Set the maximum height based on the distance from the top */
   z-index: 0; /* Set z-index to 0 to place it behind the framewindow */
-  
+  display: flex;
   background-color: #ffffff; /* Set a background color */
   transition: left 0.4s ease; /* Apply a smooth transition for the left property */
+  flex-direction: column; /* Arrange items vertically */
+  justify-content: space-between; /* Push items to the top and bottom */
 }
 
 .sssidebar.show {
   left: 0; /* Slide the sidebar in from the left side when the "show" class is added */
   box-shadow: 5px 0 5px rgba(0, 0, 0, 0.25); /* Apply the drop shadow */
 }
+
+
+
+.profilebutton
+{
+  width: 230px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: 25px;
+  background: #000000;
+  align-self: center;
+  position: absolute;
+  bottom: 190px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-indent: 45px;
+  font-size: 22px;
+  filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
+  transition: background-color 0.3s ease;
+}
+
+.profilebutton:hover {
+  background: #ffffff; /* Change background color to white on hover */
+  color: #000000; /* Change text color to black on hover */
+}
+
+.profilebutton svg {
+  position: absolute;
+  left: 50px;
+}
+
+
+.logoutbutton
+{
+  width: 230px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: 25px;
+  background: #ED4040;
+  align-self: center;
+  position: absolute;
+  bottom: 110px; 
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-indent: 45px; 
+  font-size: 22px;
+  filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.logoutbutton svg {
+  position: absolute; /* Use absolute positioning for the icon */
+  left: 50px; /* Adjust the left value as needed */
+}
+
+
+
 
 
