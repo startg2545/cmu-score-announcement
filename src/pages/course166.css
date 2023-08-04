@@ -70,13 +70,13 @@ body {
   .courseframewindow {
     /* Your existing styles */
     position: absolute;
-    top: calc(110px + 50%); /* Center vertically with top offset */
+    top: calc(75px + 50%); /* Center vertically with top offset */
     bottom: calc(10px + 50%); /* Center vertically with bottom offset */
     left: 50%;
     transform: translateX(-50%);
     width: 100vw;
     max-width: 96.6%;
-    height: calc(82vh - 85px);
+    height: calc(82vh - 60px);
     overflow-y: auto;
     justify-content: center;
     align-items: center;
@@ -264,7 +264,7 @@ body {
   font-style: normal;
   font-weight: 540;
   line-height: normal;
-  transform: translate(30px, 20px);
+  transform: translate(30px, 10px);
   transition: transform 0.4s ease;
 }
 
@@ -272,21 +272,21 @@ body {
 {
     color: #696CA3;
     font-family: 'Roboto', sans-serif;
-    font-size: 28px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 450;
     line-height: normal;
-    transform: translate(-250px, 80px);
+    transform: translate(-250px, 67px);
     transition: transform 0.4s ease;
 }
 
 .coursetopictext.move-right
 {
-    transform: translate(310px, 20px);
+    transform: translate(310px, 10px);
     transition: transform 0.4s ease; 
 }
 .datetext.move-right {
-    transform: translate(30px, 80px);
+    transform: translate(30px, 67px);
   transition: transform 0.4s ease; 
 }
 
