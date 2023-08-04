@@ -11,6 +11,7 @@ import SearchCourse from './pages/searchCourse';
 import StudentDashboard from './pages/studentDashboard';
 import InstructorDashboard from './pages/instructorDashboard';
 import CourseDetail from './pages/courseDetail';
+import Course166 from './pages/course166';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route exact path='/search-course' element={<SearchCourse />} />
         <Route exact path='/student-dashboard' element={<StudentDashboard />} />
         <Route exact path='/instructor-dashboard' element={<InstructorDashboard />} />
+        <Route exact path='/course-166' element={<Course166 />} />
       </Routes>
     </Router>
   )
