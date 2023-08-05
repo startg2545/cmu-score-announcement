@@ -11,7 +11,11 @@ import SearchCourse from './pages/searchCourse';
 import StudentDashboard from './pages/studentDashboard';
 import InstructorDashboard from './pages/instructorDashboard';
 import CourseDetail from './pages/courseDetail';
+<<<<<<< HEAD
 import CMUOAuthCallback from "./pages/cmuOAuthCallback";
+=======
+import Course166 from './pages/course166';
+>>>>>>> afb765281fe80d5048eae62d512339d58b9dde07
 
 function App() {
   return (
@@ -28,6 +32,7 @@ function App() {
         <Route exact path='/search-course' element={<SearchCourse />} />
         <Route exact path='/student-dashboard' element={<StudentDashboard />} />
         <Route exact path='/instructor-dashboard' element={<InstructorDashboard />} />
+        <Route exact path='/course-166' element={<Course166 />} />
       </Routes>
     </Router>
   )
