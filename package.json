@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
+    "cookies-next": "^2.1.2",
     "firebase": "^9.23.0",
     "http-server": "^14.1.1",
     "https-server": "^0.1.2",
