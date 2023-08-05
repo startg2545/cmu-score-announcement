@@ -1,8 +1,7 @@
 import axios, { AxiosError } from "axios";
-import { async } from "q";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setCookie } from "cookies-next";
+
 
 export default function CMUOAuthCallback() {
 
@@ -29,7 +28,7 @@ export default function CMUOAuthCallback() {
         )
       return resp.data;
     } catch (err) {
-      return null;
+      return err;
     }
   };
 
