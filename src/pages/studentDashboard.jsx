@@ -7,7 +7,7 @@ const StudentDashboard = () => {
   const location = useLocation();
   const [userInfo, setUserInfo] = useState([]);
   const [token, setToken] = useState([]);
-  const [jwtToken, setJwtToken] = useState([]);
+  const [jwtToken, setJwtToken] = useState('');
 
   useEffect(() => {
     if (location.state == null) navigate("/sign-in");
