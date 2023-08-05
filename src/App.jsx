@@ -11,11 +11,8 @@ import SearchCourse from './pages/searchCourse';
 import StudentDashboard from './pages/studentDashboard';
 import InstructorDashboard from './pages/instructorDashboard';
 import CourseDetail from './pages/courseDetail';
-<<<<<<< HEAD
 import CMUOAuthCallback from "./pages/cmuOAuthCallback";
-=======
 import Course166 from './pages/course166';
->>>>>>> afb765281fe80d5048eae62d512339d58b9dde07
 
 function App() {
   return (
