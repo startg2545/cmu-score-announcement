@@ -5,19 +5,19 @@ import { getCourse } from "../services/course";
 const StudentDashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [userInfo, setUserInfo] = useState([]);
+  const [token, setToken] = useState([]);
+  const [jwtToken, setJwtToken] = useState([]);
 
-  // useEffect(() => {
-  //   if(location.state == null)
-  //   {
-  //     navigate('/sign-in')
-  //   } 
-  // }, []);
+  useEffect(() => {
+    if (location.state == null) navigate("/sign-in");
+    else {
+      setUserInfo(location.state.userInfo);
+      setToken(location.state.token);
+      setJwtToken(location.state.jwt);
+    }
+  }, [location]);
 
-  const userInfo = location.state.userInfo;
-  const token = location.state.token;
-  const jwtToken = location.state.jwt;
-
- 
   const [course, setCourse] = useState([]);
 
   console.log(jwtToken);
@@ -47,9 +47,12 @@ const StudentDashboard = () => {
       <button onClick={sreachCourse}>Check Api</button>
       <div>
         <h1>Course</h1>
-        {
-          course.map((item) => {
-          return <div key={item.courseNo}>{item.courseNo} : {item.courseNameEN}</div>;
+        {course.map((item) => {
+          return (
+            <div key={item.courseNo}>
+              {item.courseNo} : {item.courseNameEN}
+            </div>
+          );
         })}
       </div>
       <div>
