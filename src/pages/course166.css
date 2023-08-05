@@ -1,5 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400&display=swap');
+
 body {
-    font-family: 'Roboto', sans-serif;
     margin: 0; /* Reset default body margin */
     padding: 0; /* Reset default body padding */
     position: relative; /* Make sure the body is relatively positioned */
@@ -43,12 +44,12 @@ body {
     color: #FFF;
     text-align: right;
     text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-size: 22px;
     font-style: normal;
-    font-weight: 580;
+    font-weight: 780;
     line-height: normal;
-    transform: translateY(-20%);
+    transform: translateY(-30%);
   }
   
   .rolestyle {
@@ -57,12 +58,12 @@ body {
     right: 30px; /* Align to the right corner */
     color: #F7C878;
     text-align: right;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Prompt', sans-serif;
     font-size: 16px;
     font-style: normal;
-    font-weight: 510;
+    font-weight: 610;
     line-height: normal;
-    transform: translateY(150%);
+    transform: translateY(120%);
   }
 
 
@@ -107,10 +108,10 @@ body {
 .startstyle {
   color: #696CA3;
   text-align: center;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Prompt', sans-serif;
   font-size: 32px;
   font-style: normal;
-  font-weight: 590;
+  font-weight: 800;
   line-height: normal;
 }
 
@@ -145,6 +146,7 @@ body {
   align-self: center;
   position: absolute;
   bottom: 175px;
+  font-family: 'Prompt', sans-serif;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -183,11 +185,12 @@ body {
   position: absolute;
   bottom: 110px; 
   cursor: pointer;
+  font-family: 'Prompt', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
-  text-indent: -15px; 
+  text-indent: -5px; 
   font-size: 18px;
   filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
   transition: background-color 0.3s ease;

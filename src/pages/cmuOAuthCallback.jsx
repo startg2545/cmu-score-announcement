@@ -39,7 +39,18 @@ export default function CMUOAuthCallback() {
     const fetchData = async () => {
       const resp = await signIn(code);
       if(resp.token) {
-        navigate('/student-dashboard', {state: {userInfo: resp.userInfo, token: resp.token, jwt: resp.jwt}})
+        if(resp.userInfo.itaccounttype_id === 'StdAcc')
+        {
+          navigate('/student-dashboard', {state: {userInfo: resp.userInfo, token: resp.token, jwt: resp.jwt}})
+        }
+        else if (resp.userInfo.itaccounttype_id === 'MISEmpAcc')
+        {
+          navigate('/instructor-dashboard', {state: {userInfo: resp.userInfo, token: resp.token, jwt: resp.jwt}})
+        }
+        else
+        {
+          navigate('/')
+        }
       }
     }
 

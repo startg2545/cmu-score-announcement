@@ -1,15 +1,23 @@
-import { async } from "q";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getCourse } from "../services/course";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  // useEffect(() => {
+  //   if(location.state == null)
+  //   {
+  //     navigate('/sign-in')
+  //   } 
+  // }, []);
+
   const userInfo = location.state.userInfo;
   const token = location.state.token;
   const jwtToken = location.state.jwt;
 
+ 
   const [course, setCourse] = useState([]);
 
   console.log(jwtToken);
