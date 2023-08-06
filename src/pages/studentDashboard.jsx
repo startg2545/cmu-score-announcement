@@ -1,35 +1,40 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import { getCourse } from "../services/course";
+import { getUserInfo } from "../services/userInfo";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const token = cookies.get("token");
   const [userInfo, setUserInfo] = useState([]);
-  const [token, setToken] = useState([]);
-  const [jwtToken, setJwtToken] = useState('');
 
   useEffect(() => {
-    if (location.state == null) navigate("/sign-in");
-    else {
-      setUserInfo(location.state.userInfo);
-      setToken(location.state.token);
-      setJwtToken(location.state.jwt);
-    }
-  }, [location]);
+    const fetchData = async () => {
+      if(!token) navigate("/sign-in");
+      const resp = await getUserInfo(token);
+      setUserInfo(resp.userInfo);
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(userInfo);
 
   const [course, setCourse] = useState([]);
 
-  console.log(jwtToken);
-  console.log(userInfo);
-  console.log(token);
-
   function signOut() {
-    navigate("/sign-in");
+    axios
+      .post(`${process.env.REACT_APP_BASE_URL}/api/v1/user/signOut`)
+      .finally(() => {
+        cookies.remove("token");
+        navigate("/sign-in");
+      });
   }
 
   async function sreachCourse() {
-    const resp = await getCourse(jwtToken);
+    const resp = await getCourse(token);
     setCourse(resp);
     console.log(resp);
   }
@@ -38,11 +43,11 @@ const StudentDashboard = () => {
     <div className="p-3">
       <div>
         <h1>User Info</h1>
-        <h3>cmuAccount : {userInfo.cmuitaccount}</h3>
-        <h3>firstName : {userInfo.firstname_EN}</h3>
-        <h3>lastName : {userInfo.lastname_EN}</h3>
-        <h3>studentId : {userInfo.student_id}</h3>
-        <h3>itAccountType : {userInfo.itaccounttype_id}</h3>
+        <h3>cmuAccount : {userInfo.cmuAccount}</h3>
+        <h3>firstName : {userInfo.firstName}</h3>
+        <h3>lastName : {userInfo.lastName}</h3>
+        <h3>studentId : {userInfo.studentId}</h3>
+        <h3>itAccountType : {userInfo.itAccountType}</h3>
       </div>
       <button onClick={sreachCourse}>Check Api</button>
       <div>
@@ -54,10 +59,6 @@ const StudentDashboard = () => {
             </div>
           );
         })}
-      </div>
-      <div>
-        <h1>Token</h1>
-        <h3>access_token : {token.access_token}</h3>
       </div>
       <button onClick={signOut}>Sign out</button>
     </div>

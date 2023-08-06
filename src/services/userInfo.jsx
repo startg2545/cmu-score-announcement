@@ -1,16 +1,15 @@
 import axios from "axios";
 
-export async function getCourse(authorizationCode) {
+export async function getUserInfo(authorizationCode) {
   try {
     const resp = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/course/detail`,
+      `${process.env.REACT_APP_BASE_URL}/api/v1/user`,
       {
         headers: { Authorization: "Bearer " + authorizationCode },
         withCredentials: true,
-      }
+      },
     );
-    console.log(resp.data.courseDetails);
-    return resp.data.courseDetails;
+    return resp.data;
   } catch (err) {
     return err.response.data.message;
   }
