@@ -1,20 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import { getCourse } from "../services/course";
 import { getUserInfo } from "../services/userInfo";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
-  const token = cookies.get("token");
   const [userInfo, setUserInfo] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      if(!token) navigate("/sign-in");
-      const resp = await getUserInfo(token);
-      setUserInfo(resp.userInfo);
+      const resp = await getUserInfo();
+      if (!resp.ok) navigate("/sign-in");
+      else setUserInfo(resp.userInfo);
     };
 
     fetchData();
@@ -26,15 +24,20 @@ const StudentDashboard = () => {
 
   function signOut() {
     axios
-      .post(`${process.env.REACT_APP_BASE_URL}/api/v1/user/signOut`)
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/api/v1/user/signOut`,
+        {},
+        {
+          withCredentials: true,
+        }
+      )
       .finally(() => {
-        cookies.remove("token");
         navigate("/sign-in");
       });
   }
 
   async function sreachCourse() {
-    const resp = await getCourse(token);
+    const resp = await getCourse();
     setCourse(resp);
     console.log(resp);
   }
