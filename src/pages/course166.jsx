@@ -119,14 +119,14 @@ export default function Course166Container() {
           <div className={`c166datetext ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> 5 Aug, 2023 </div>
           <div className={`c166courseframewindow ${showSsSidebar ? 'shrink' : ''}`}>
         </div>
-        <div className={`c166courseframewindow ${showSsSidebar ? 'shrink' : ''}`}>
+        <div className={`c166courseframewindow ${showSsSidebar ? 'shrink' : ''}`} style={{gap: 30}}>
+          <div className='c166frameEachCourse'style={{marginTop: 18}}></div>
           <div className='c166frameEachCourse'></div>
           <div className='c166frameEachCourse'></div>
           <div className='c166frameEachCourse'></div>
           <div className='c166frameEachCourse'></div>
           <div className='c166frameEachCourse'></div>
-          <div className='c166frameEachCourse'></div>
-          <div className='c166frameEachCourse'></div>
+          <div className='c166frameEachCourse'style={{marginBottom: 18}}></div>
         </div>
       </div>
       </>
