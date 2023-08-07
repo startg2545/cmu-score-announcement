@@ -291,7 +291,6 @@ body {
 }
 
 .c166frameEachCourse {
-  /* position: absolute; */
   top: 18px;
   width: 99vw;
   max-width: 98%;
@@ -305,4 +304,12 @@ body {
   justify-content: center;
   align-items: center;
   vertical-align: bottom;
+}
+
+.c166frameEachCourse:first-child {
+  margin-top: 18px;
+}
+
+.c166frameEachCourse:last-child {
+  margin-bottom: 18px;
 }
