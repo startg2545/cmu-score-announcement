@@ -96,7 +96,7 @@ export default function Dashboard() {
           </div>
         </div>
         <div className={`insDaframewindow ${showSsSidebar ? 'shrink' : ''}`}>
-          <p className='startstyle'>
+          <p className='insDastartstyle'>
             {showSsSidebar ? 'Please select academic year' : 'Click icon at the top left corner'}
             <br />
             {showSsSidebar && 'in the sidebar menu'}
