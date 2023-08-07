@@ -66,10 +66,7 @@ body {
     transform: translateY(120%);
   }
 
-
-  
   .c166courseframewindow {
-    /* Your existing styles */
     position: absolute;
     top: calc(75px + 50%); /* Center vertically with top offset */
     bottom: calc(10px + 50%); /* Center vertically with bottom offset */
@@ -78,16 +75,17 @@ body {
     width: 100vw;
     max-width: 96.6%;
     height: calc(82vh - 60px);
-    overflow-y: auto;
-    justify-content: center;
+    overflow-y:auto;
     align-items: center;
     display: flex;
-    flex-shrink: 0;
+    flex-direction: column;
     border-radius: 25px;
     border: 3px solid #696CA3;
     background: #FFF;
     transition: width 0.4s ease, margin-left 0.4s ease;
   }
+
+
   
   
   .c166framewindow-container {
@@ -95,6 +93,8 @@ body {
     position: relative;
     display: flex;
     flex-direction: row;
+    padding-top: 15px;
+    padding-bottom: 15px;
   }
   
   .c166courseframewindow.shrink {
@@ -212,7 +212,7 @@ body {
   /* Set the filter to turn the SVG red on hover */
 }
 
-.c166framecourse {
+.c166frameCourseInSideBar {
   position: absolute;
   display: flex;
   width: 220px;
@@ -220,7 +220,6 @@ body {
   flex-direction: column;
   align-items: flex-start;
   flex-shrink: 0;
- 
   align-self: center;
   top: 25px
 }
@@ -262,36 +261,79 @@ body {
 .c166coursetopictext
 {
   color: #696CA3;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Prompt', sans-serif;
   font-size: 52px;
   font-style: normal;
   font-weight: 540;
   line-height: normal;
-  transform: translate(30px, 10px);
+  transform: translate(30px, 0px);
   transition: transform 0.4s ease;
 }
 
 .c166datetext
 {
     color: #696CA3;
-    font-family: 'Roboto', sans-serif;
-    font-size: 24px;
+    font-family: 'Prompt', sans-serif;
+    font-size: 28px;
     font-style: normal;
     font-weight: 450;
     line-height: normal;
-    transform: translate(-250px, 67px);
+    transform: translate(-268px, 65px);
     transition: transform 0.4s ease;
 }
 
 .c166coursetopictext.move-right
 {
-    transform: translate(310px, 10px);
+    transform: translate(310px, 0px);
     transition: transform 0.4s ease; 
 }
 .c166datetext.move-right {
-    transform: translate(30px, 67px);
+    transform: translate(14px, 65px);
   transition: transform 0.4s ease; 
 }
+
+.c166frameEachCourse {
+  position: absolute;
+  top: 18px;
+  width: 99vw;
+  max-width: 98%;
+  height: 100px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #696CA3;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: bottom;
+}
+
+.c166frameEachCourse:nth-child(2) {
+  top: 138px;
+}
+
+.c166frameEachCourse:nth-child(3) {
+  top: 258px;
+}
+
+.c166frameEachCourse:nth-child(4) {
+  top: 378px;
+}
+
+.c166frameEachCourse:nth-child(5) {
+  top: 498px;
+}
+
+.c166frameEachCourse:nth-child(6) {
+  top: 618px;
+}
+
+.c166frameEachCourse:nth-child(7) {
+  top: 738px;
+}
+
+
 
 
 
