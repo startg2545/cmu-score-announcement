@@ -30,7 +30,7 @@ export default function CMUOAuthCallback() {
     } catch (err) {
       if (!err.response) {
         setMessage(
-          "Cannot connect to CMU OAuth Server. Please try again later."
+          "Cannot connect to api Server. Please try again later."
         );
       } else if (!err.response.data.ok) {
         setMessage(err.response.data.message);
@@ -45,7 +45,7 @@ export default function CMUOAuthCallback() {
 
     const fetchData = async () => {
       const resp = await signIn(code);
-      if (resp.accessToken) {
+      if (resp) {
         if (resp.itaccounttype_id === "StdAcc") {
           navigate("/student-dashboard");
         } else if (resp.itaccounttype_id === "MISEmpAcc") {
