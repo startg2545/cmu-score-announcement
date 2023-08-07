@@ -47,7 +47,7 @@ export default function Dashboard() {
         {/* Conditionally render the sssidebar */}
         <div className={`insDasssidebar ${showSsSidebar ? 'show' : ''}`}>
           <div className='insDaframecourse'>
-          `<Link to="/course-166" className="coursebutton">
+          `<Link to="/course-166" className="insDacoursebutton">
               <svg xmlns="http://www.w3.org/2000/svg" width="11" height="16" viewBox="0 0 11 16" fill="none">
               <path d="M9.74365 8.83008L3.10303 15.4707C2.64404 15.9297 1.90186 15.9297 1.44775 15.4707L0.344238 14.3672C-0.114746 13.9082 -0.114746 13.166 0.344238 12.7119L5.05127 8.00488L0.344238 3.29785C-0.114746 2.83887 -0.114746 2.09668 0.344238 1.64258L1.44287 0.529297C1.90186 0.0703125 2.64404 0.0703125 3.09814 0.529297L9.73877 7.16992C10.2026 7.62891 10.2026 8.37109 9.74365 8.83008Z" fill="black"/>
               </svg> Course 1/66 
