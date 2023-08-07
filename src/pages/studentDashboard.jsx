@@ -1,9 +1,8 @@
-import axios from "axios";
 import './studentDashboard.css';
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCourse } from "../services/course";
-import { getUserInfo } from "../services/userInfo";
+import { getUserInfo, signOut } from "../services/user";
 import cmulogo from '../image/cmulogo.png';
 import { Link } from 'react-router-dom';
 
@@ -26,23 +25,7 @@ const StudentDashboard = () => {
     fetchData();
   }, []);
 
-  console.log(userInfo);
-
   const [course, setCourse] = useState([]);
-
-  function signOut() {
-    axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/api/v1/user/signOut`,
-        {},
-        {
-          withCredentials: true,
-        }
-      )
-      .finally(() => {
-        navigate("/sign-in");
-      });
-  }
 
   async function sreachCourse() {
     const resp = await getCourse();
@@ -107,7 +90,7 @@ const StudentDashboard = () => {
           );
         })}
       </div>
-      <button onClick={signOut}>Sign out</button>
+      <button onClick={() => signOut().finally(navigate("/sign-in"))}>Sign out</button>
     </div>
   );
 };
