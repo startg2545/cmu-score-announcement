@@ -7,14 +7,14 @@ body {
   }
   
   /* Add styles for the navbar and sidebar icon */
-  .navbar {
+  .c166navbar {
     position: relative;
     height: 80px;
     background: #8084C8;
     padding-left: 50px; /* Add some padding to the left for the icon */
   }
   
-  .sidebar-icon {
+  .c166sidebar-icon {
     position: absolute;
     top: 45%;
     left: 30px;
@@ -27,7 +27,7 @@ body {
   
 
   
-  .cmulogo{
+  .c166cmulogo{
     position: absolute;
     top: 50%; /* Center the icon vertically within the navbar */
     left: 100px; /* Position the icon in the left corner */
@@ -37,7 +37,7 @@ body {
     border-radius: 4px; /* Optional: Add border radius to make the border corners rounded */
   }
   
-  .hellostyle {
+  .c166hellostyle {
     position: absolute;
   
     right: 25px; /* Align to the right corner */
@@ -52,7 +52,7 @@ body {
     transform: translateY(-30%);
   }
   
-  .rolestyle {
+  .c166rolestyle {
     position: absolute;
     top: 0px; /* Adjust the top position to place it below the hellostyle */
     right: 30px; /* Align to the right corner */
@@ -68,7 +68,7 @@ body {
 
 
   
-  .courseframewindow {
+  .c166courseframewindow {
     /* Your existing styles */
     position: absolute;
     top: calc(75px + 50%); /* Center vertically with top offset */
@@ -90,14 +90,14 @@ body {
   }
   
   
-  .framewindow-container {
+  .c166framewindow-container {
     /* Your existing styles */
     position: relative;
     display: flex;
     flex-direction: row;
   }
   
-  .courseframewindow.shrink {
+  .c166courseframewindow.shrink {
     /* Your existing styles */
     justify-content: center;
     align-items: center;
@@ -105,7 +105,7 @@ body {
     margin-left: 142px; /* Move the framewindow to the right to accommodate the sssidebar */
   }
 
-.startstyle {
+.c166startstyle {
   color: #696CA3;
   text-align: center;
   font-family: 'Prompt', sans-serif;
@@ -115,7 +115,7 @@ body {
   line-height: normal;
 }
 
-.sssidebar {
+.c166sssidebar {
   position: fixed;
   top: 80px; /* Position the sidebar below the navbar with 80px distance from the top */
   left: -300px; /* Initially hide the sidebar off the left side of the screen */
@@ -129,14 +129,14 @@ body {
   justify-content: space-between; /* Push items to the top and bottom */
 }
 
-.sssidebar.show {
+.c166sssidebar.show {
   left: 0; /* Slide the sidebar in from the left side when the "show" class is added */
   box-shadow: 5px 0 5px rgba(0, 0, 0, 0.25); /* Apply the drop shadow */
 }
 
 
 
-.profilebutton
+.c166profilebutton
 {
   width: 220px;
   height: 50px;
@@ -158,23 +158,23 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.profilebutton:hover {
+.c166profilebutton:hover {
   background: #ffffff; /* Change background color to white on hover */
   color: #000000; /* Change text color to black on hover */
   box-shadow: inset 0 0 0 2px #000000;
 }
 
-.profilebutton svg {
+.c166profilebutton svg {
   position: absolute;
   left: 30px;
 }
 
-.profilebutton:hover svg {
+.c166profilebutton:hover svg {
   filter: invert(100%) sepia(0) saturate(0) hue-rotate(0) brightness(0) contrast(100); /* Set the filter to turn the SVG black */
 }
 
 
-.logoutbutton
+.c166logoutbutton
 {
   width: 220px;
   height: 50px;
@@ -196,23 +196,23 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.logoutbutton svg {
+.c166logoutbutton svg {
   position: absolute;
   left: 30px;
 }
 
-.logoutbutton:hover {
+.c166logoutbutton:hover {
   background: #ffffff;
   color: #ED4040;
   box-shadow: inset 0 0 0 2px #ED4040;
 }
 
-.logoutbutton:hover svg {
+.c166logoutbutton:hover svg {
   filter: invert(96%) sepia(100%) saturate(75000%) hue-rotate(355deg) brightness(90%) contrast(100%);
   /* Set the filter to turn the SVG red on hover */
 }
 
-.framecourse {
+.c166framecourse {
   position: absolute;
   display: flex;
   width: 220px;
@@ -225,7 +225,7 @@ body {
   top: 25px
 }
 
-.coursebutton
+.c166coursebutton
 {
   width: 200px;
   height: 45px;
@@ -243,23 +243,23 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.coursebutton svg{
+.c166coursebutton svg{
   position: absolute;
   left: 20px;
 }
 
-.coursebutton:hover {
+.c166coursebutton:hover {
   background: #d9d9e5;
   color: #000000;
  
 }
 
-.purple-button {
+.c166purple-button {
     background-color: #b6b8e6;
     color: rgb(0, 0, 0);
   }
 
-.coursetopictext
+.c166coursetopictext
 {
   color: #696CA3;
   font-family: 'Roboto', sans-serif;
@@ -271,7 +271,7 @@ body {
   transition: transform 0.4s ease;
 }
 
-.datetext
+.c166datetext
 {
     color: #696CA3;
     font-family: 'Roboto', sans-serif;
@@ -283,12 +283,12 @@ body {
     transition: transform 0.4s ease;
 }
 
-.coursetopictext.move-right
+.c166coursetopictext.move-right
 {
     transform: translate(310px, 10px);
     transition: transform 0.4s ease; 
 }
-.datetext.move-right {
+.c166datetext.move-right {
     transform: translate(30px, 67px);
   transition: transform 0.4s ease; 
 }
