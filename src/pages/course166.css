@@ -264,7 +264,7 @@ body {
   font-style: normal;
   font-weight: 540;
   line-height: normal;
-  transform: translate(30px, 0px);
+  transform: translate(30px, -10px);
   transition: transform 0.4s ease;
 }
 
@@ -276,17 +276,17 @@ body {
     font-style: normal;
     font-weight: 450;
     line-height: normal;
-    transform: translate(-268px, 65px);
+    transform: translate(-268px, 55px);
     transition: transform 0.4s ease;
 }
 
 .c166coursetopictext.move-right
 {
-    transform: translate(310px, 0px);
+    transform: translate(310px, -10px);
     transition: transform 0.4s ease; 
 }
 .c166datetext.move-right {
-    transform: translate(14px, 65px);
+    transform: translate(14px, 55px);
   transition: transform 0.4s ease; 
 }
 
@@ -301,7 +301,8 @@ body {
   flex-shrink: 0;
   cursor: pointer;
   display: flex;
-  justify-content: center;
+  
+  text-indent: 40px;
   align-items: center;
   vertical-align: bottom;
 }
@@ -313,3 +314,25 @@ body {
 .c166frameEachCourse:last-child {
   margin-bottom: 18px;
 }
+
+.c166courseName{
+  color: #ffffff;
+  text-align: center;
+  font-family: 'Prompt', sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.c166intoCourse svg {
+  position: absolute;
+  right: 60px; 
+  left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* Prevent the icon from interfering with mouse events */
+  margin-top: 6px;
+}
+

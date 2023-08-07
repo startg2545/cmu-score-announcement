@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './course166.css';
 import cmulogo from '../image/cmulogo.png';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,7 +10,6 @@ const Course166 = ({ showSsSidebar, setShowSsSidebar }) => {
   const toggleSsSidebar = () => {
     setShowSsSidebar((prev) => !prev);
   };
-
 
 
   return (
@@ -42,6 +41,7 @@ const Course166 = ({ showSsSidebar, setShowSsSidebar }) => {
 
 export default function Course166Container() {
     const [showSsSidebar, setShowSsSidebar] = useState(false);
+
     const handleSidebarClick = () => {
         setShowSsSidebar(!showSsSidebar);
       };
@@ -60,6 +60,25 @@ export default function Course166Container() {
           navigate("/sign-in");
         });
       }
+    
+      const [currentDate, setCurrentDate] = useState(new Date());
+
+      useEffect(() => {
+        // Update the current date every second
+        const interval = setInterval(() => {
+          setCurrentDate(new Date());
+        }, 1000);
+    
+        // Clear the interval when the component unmounts
+        return () => clearInterval(interval);
+      }, []);
+    
+    
+      // Function to format the date as "XX Aug, 20XX"
+      const formatDate = (date) => {
+        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        return date.toLocaleDateString('en-US', options);
+      };
     
   
     return (
@@ -116,19 +135,40 @@ export default function Course166Container() {
             </div>
           </div>
           <div className={`c166coursetopictext ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Course 1/66 </div>
-          <div className={`c166datetext ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> 5 Aug, 2023 </div>
-          <div className={`c166courseframewindow ${showSsSidebar ? 'shrink' : ''}`}>
-        </div>
-        <div className={`c166courseframewindow ${showSsSidebar ? 'shrink' : ''}`} style={{gap: 30}}>
-          <div className='c166frameEachCourse'></div>
-          <div className='c166frameEachCourse'></div>
-          <div className='c166frameEachCourse'></div>
-          <div className='c166frameEachCourse'></div>
-          <div className='c166frameEachCourse'></div>
-          <div className='c166frameEachCourse'></div>
-          <div className='c166frameEachCourse'></div>
+          <div className={`c166datetext ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
+          <div className={`c166courseframewindow ${showSsSidebar ? 'shrink' : ''}`}></div>
+          <div className={`c166courseframewindow ${showSsSidebar ? 'shrink' : ''}`} style={{ gap: 25 }}>
+            {Array.from([
+              "261207 - BASIC COMP ENGR LAB",
+              "261405 - ADV COMPUTER ENGR TECH",
+              "261494 - SEL TOPIC IN COMP ENGR",
+              "261497 - SEL TOPIC IN COMP SOFT",
+              "269497 - SEL TOPIC IN IS 2",
+              // Add more items here as needed
+            ], (item, index) => (
+            <div key={index} className='c166frameEachCourse'>
+              <div className='c166courseName'>
+                {/* SVG icon */}
+                <div className='c166intoCourse'>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="23"
+                    height="30"
+                    viewBox="0 0 19 30"
+                    fill="none"
+                  >
+                    <path
+                      d="M19.8367 16.6865L6.61282 29.1352C5.69882 29.9956 4.22086 29.9956 3.31659 29.1352L1.11909 27.0665C0.205094 26.2061 0.205094 24.8148 1.11909 23.9635L10.4925 15.1396L1.11909 6.31575C0.205094 5.45534 0.205094 4.06402 1.11909 3.21276L3.30686 1.12578C4.22086 0.265364 5.69882 0.265364 6.6031 1.12578L19.8269 13.5744C20.7507 14.4348 20.7507 15.8261 19.8367 16.6865Z"
+                      fill="white"
+                    />
+                  </svg>
+                {item}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-      </>
-    );
-  }
+    </>
+  );
+}
