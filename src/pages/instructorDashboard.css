@@ -7,14 +7,14 @@ body {
   }
   
   /* Add styles for the navbar and sidebar icon */
-  .navbar {
+  .insDaNavBar {
     position: relative;
     height: 80px;
     background: #8084C8;
     padding-left: 50px; /* Add some padding to the left for the icon */
   }
   
-  .sidebar-icon {
+  .insDasidebar-icon {
     position: absolute;
     top: 45%;
     left: 30px;
@@ -27,7 +27,7 @@ body {
   
 
   
-  .cmulogo{
+  .insDacmulogo{
     position: absolute;
     top: 50%; /* Center the icon vertically within the navbar */
     left: 100px; /* Position the icon in the left corner */
@@ -37,7 +37,7 @@ body {
     border-radius: 4px; /* Optional: Add border radius to make the border corners rounded */
   }
   
-  .hellostyle {
+  .insDahellostyle {
     position: absolute;
   
     right: 25px; /* Align to the right corner */
@@ -52,7 +52,7 @@ body {
     transform: translateY(-30%);
   }
   
-  .rolestyle {
+  .insDarolestyle {
     position: absolute;
     top: 0px; /* Adjust the top position to place it below the hellostyle */
     right: 30px; /* Align to the right corner */
@@ -68,7 +68,7 @@ body {
 
 
   
-  .framewindow {
+  .insDaframewindow {
     /* Your existing styles */
     position: absolute;
     top: calc(20px + 50%); /* Center vertically with top offset */
@@ -90,14 +90,14 @@ body {
   }
   
   
-  .framewindow-container {
+  .insDaframewindow-container {
     /* Your existing styles */
     position: relative;
     display: flex;
     flex-direction: row;
   }
   
-  .framewindow.shrink {
+  .insDaframewindow.shrink {
     /* Your existing styles */
     justify-content: center;
     align-items: center;
@@ -105,7 +105,7 @@ body {
     margin-left: 142px; /* Move the framewindow to the right to accommodate the sssidebar */
   }
 
-.startstyle {
+.insDastartstyle {
   color: #696CA3;
   text-align: center;
   font-family: 'Prompt', sans-serif;
@@ -115,7 +115,7 @@ body {
   line-height: normal;
 }
 
-.sssidebar {
+.insDasssidebar {
   position: fixed;
   top: 80px; /* Position the sidebar below the navbar with 80px distance from the top */
   left: -300px; /* Initially hide the sidebar off the left side of the screen */
@@ -129,14 +129,14 @@ body {
   justify-content: space-between; /* Push items to the top and bottom */
 }
 
-.sssidebar.show {
+.insDasssidebar.show {
   left: 0; /* Slide the sidebar in from the left side when the "show" class is added */
   box-shadow: 5px 0 5px rgba(0, 0, 0, 0.25); /* Apply the drop shadow */
 }
 
 
 
-.profilebutton
+.insDaprofilebutton
 {
   width: 220px;
   height: 50px;
@@ -152,29 +152,29 @@ body {
   justify-content: center;
   align-items: center;
   color: white;
-  text-indent: 15px;
+  text-indent: -15px;
   font-size: 18px;
   filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
   transition: background-color 0.3s ease;
 }
 
-.profilebutton:hover {
+.insDaprofilebutton:hover {
   background: #ffffff; /* Change background color to white on hover */
   color: #000000; /* Change text color to black on hover */
   box-shadow: inset 0 0 0 2px #000000;
 }
 
-.profilebutton svg {
+.insDaprofilebutton svg {
   position: absolute;
   left: 30px;
 }
 
-.profilebutton:hover svg {
+.insDaprofilebutton:hover svg {
   filter: invert(100%) sepia(0) saturate(0) hue-rotate(0) brightness(0) contrast(100); /* Set the filter to turn the SVG black */
 }
 
 
-.logoutbutton
+.insDalogoutbutton
 {
   width: 220px;
   height: 50px;
@@ -196,23 +196,23 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.logoutbutton svg {
+.insDalogoutbutton svg {
   position: absolute;
   left: 30px;
 }
 
-.logoutbutton:hover {
+.insDalogoutbutton:hover {
   background: #ffffff;
   color: #ED4040;
   box-shadow: inset 0 0 0 2px #ED4040;
 }
 
-.logoutbutton:hover svg {
+.insDalogoutbutton:hover svg {
   filter: invert(96%) sepia(100%) saturate(75000%) hue-rotate(355deg) brightness(90%) contrast(100%);
   /* Set the filter to turn the SVG red on hover */
 }
 
-.framecourse {
+.insDaframecourse {
   position: absolute;
   display: flex;
   width: 220px;
@@ -225,7 +225,7 @@ body {
   top: 25px
 }
 
-.coursebutton
+.insDacoursebutton
 {
   width: 200px;
   height: 45px;
@@ -243,15 +243,14 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.coursebutton svg{
+.insDacoursebutton svg{
   position: absolute;
   left: 20px;
 }
 
-.coursebutton:hover {
+.insDacoursebutton:hover {
   background: #d9d9e5;
   color: #000000;
- 
 }
 
 
