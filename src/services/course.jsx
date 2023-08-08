@@ -9,8 +9,8 @@ export async function getCourse() {
       }
     );
     console.log(resp.data.courseDetails);
-    return resp.data.courseDetails;
+    return resp.data;
   } catch (err) {
-    return err.response.data.message;
+    return err.response.data;
   }
 }

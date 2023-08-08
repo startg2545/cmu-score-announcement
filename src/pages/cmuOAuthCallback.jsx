@@ -29,9 +29,7 @@ export default function CMUOAuthCallback() {
       return resp.data;
     } catch (err) {
       if (!err.response) {
-        setMessage(
-          "Cannot connect to api Server. Please try again later."
-        );
+        setMessage("Cannot connect to API Server. Please try again later.");
       } else if (!err.response.data.ok) {
         setMessage(err.response.data.message);
       } else {
@@ -59,5 +57,10 @@ export default function CMUOAuthCallback() {
     fetchData();
   }, [code]);
 
-  return <div className="p-3">{message || "Redirecting ..."}</div>;
+  return (
+    <div>
+      <h3 style={{ color: "red" }}>{message || "Redirecting ..."}</h3>
+      <button onClick={() => navigate('/sign-in')}>Go Back</button>
+    </div>
+  );
 }
