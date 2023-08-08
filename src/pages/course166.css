@@ -1,0 +1,357 @@
+@font-face {
+  font-family: 'SF PRo';
+  src: url(./font/SF-Pro.ttf) format('truetype');
+  /* You can specify other font formats (e.g., woff, woff2) as needed */
+}
+
+body {
+    margin: 0; /* Reset default body margin */
+    padding: 0; /* Reset default body padding */
+    position: relative; /* Make sure the body is relatively positioned */
+  }
+  
+  /* Add styles for the navbar and sidebar icon */
+  .c166navbar {
+    position: relative;
+    height: 80px;
+    background: #8084C8;
+    padding-left: 50px; /* Add some padding to the left for the icon */
+  }
+  
+  .c166sidebar-icon {
+    position: absolute;
+    top: 45%;
+    left: 30px;
+    transform: translateY(-50%);
+    width: 35px;
+    height: 35px;
+    border-radius: 4px;
+    background-color: #8084C8;
+  }
+  
+
+  
+  .c166cmulogo{
+    position: absolute;
+    top: 50%; /* Center the icon vertically within the navbar */
+    left: 100px; /* Position the icon in the left corner */
+    transform: translateY(-50%); /* Adjust to vertically center the icon properly */
+    width: 120px; /* Change the width to resize the icon */
+    height: 120px; /* Change the height to resize the icon */
+    border-radius: 4px; /* Optional: Add border radius to make the border corners rounded */
+  }
+  
+  .c166hellostyle {
+    position: absolute;
+  
+    right: 25px; /* Align to the right corner */
+    color: #FFF;
+    text-align: right;
+    text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    font-family: 'SF PRo', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 780;
+    line-height: normal;
+    transform: translateY(-40%);
+  }
+  
+  .c166rolestyle {
+    position: absolute;
+    top: 0px; /* Adjust the top position to place it below the hellostyle */
+    right: 30px; /* Align to the right corner */
+    color: #F7C878;
+    text-align: right;
+    font-family: 'SF PRo', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 610;
+    line-height: normal;
+    transform: translateY(120%);
+  }
+
+  .c166courseframewindow {
+    position: absolute;
+    top: calc(105px + 50%); /* Center vertically with top offset */
+    bottom: calc(10px + 50%); /* Center vertically with bottom offset */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    max-width: 96.6%;
+    height: calc(79vh - 60px);
+    overflow-y:auto;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 25px;
+    border: 3px solid #696CA3;
+    background: #FFF;
+    transition: width 0.4s ease, margin-left 0.4s ease;
+  }
+  
+  .c166framewindow-container {
+    /* Your existing styles */
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  
+  .c166courseframewindow.shrink  {
+    /* Your existing styles */
+    align-items: center;
+    width: calc(100vw - 340px); /* Reduce the width by the width of the sssidebar */
+    margin-left: 142px; /* Move the framewindow to the right to accommodate the sssidebar */
+  }
+
+
+
+.c166startstyle {
+  color: #696CA3;
+  text-align: center;
+  font-family: 'SF PRo', sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.c166sssidebar {
+  position: fixed;
+  top: 80px; /* Position the sidebar below the navbar with 80px distance from the top */
+  left: -300px; /* Initially hide the sidebar off the left side of the screen */
+  width: 280px; /* Adjust the width as needed */
+  height: 100%; /* Set the maximum height based on the distance from the top */
+  z-index: 0; /* Set z-index to 0 to place it behind the framewindow */
+  display: flex;
+  background-color: #ffffff; /* Set a background color */
+  transition: left 0.4s ease; /* Apply a smooth transition for the left property */
+  flex-direction: column; /* Arrange items vertically */
+  justify-content: space-between; /* Push items to the top and bottom */
+}
+
+.c166sssidebar.show {
+  left: 0; /* Slide the sidebar in from the left side when the "show" class is added */
+  box-shadow: 5px 0 5px rgba(0, 0, 0, 0.25); /* Apply the drop shadow */
+}
+
+
+
+.c166profilebutton
+{
+  width: 220px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 25px;
+  background: #000000;
+  align-self: center;
+  position: absolute;
+  bottom: 175px;
+  font-family: 'SF PRo', sans-serif;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-indent: -15px;
+  font-size: 18px;
+  filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
+  transition: background-color 0.3s ease;
+}
+
+.c166profilebutton:hover {
+  background: #ffffff; /* Change background color to white on hover */
+  color: #000000; /* Change text color to black on hover */
+  box-shadow: inset 0 0 0 2px #000000;
+}
+
+.c166profilebutton svg {
+  position: absolute;
+  left: 30px;
+}
+
+.c166profilebutton:hover svg {
+  filter: invert(100%) sepia(0) saturate(0) hue-rotate(0) brightness(0) contrast(100); /* Set the filter to turn the SVG black */
+}
+
+
+.c166logoutbutton
+{
+  width: 220px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 25px;
+  background: #ED4040;
+  align-self: center;
+  position: absolute;
+  bottom: 110px; 
+  cursor: pointer;
+  font-family: 'SF PRo', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-indent: -5px; 
+  font-size: 18px;
+  filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
+  transition: background-color 0.3s ease;
+}
+
+.c166logoutbutton svg {
+  position: absolute;
+  left: 30px;
+}
+
+.c166logoutbutton:hover {
+  background: #ffffff;
+  color: #ED4040;
+  box-shadow: inset 0 0 0 2px #ED4040;
+}
+
+.c166logoutbutton:hover svg {
+  filter: invert(96%) sepia(100%) saturate(75000%) hue-rotate(355deg) brightness(90%) contrast(100%);
+  /* Set the filter to turn the SVG red on hover */
+}
+
+.c166frameCourseInSideBar {
+  position: absolute;
+  display: flex;
+  width: 220px;
+  height: 308px;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+  align-self: center;
+  top: 25px
+}
+
+.c166coursebutton
+{
+  width: 200px;
+  height: 45px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #ffffff;
+  bottom: 110px; 
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  text-indent: -15px; 
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.c166coursebutton svg{
+  position: absolute;
+  left: 20px;
+}
+
+.c166coursebutton:hover {
+  background: #d9d9e5;
+  color: #000000;
+ 
+}
+
+.c166purple-button {
+    background-color: #b6b8e6;
+    color: rgb(0, 0, 0);
+  }
+
+.c166coursetopictext
+{
+  color: #696CA3;
+  font-family: 'SF PRo', sans-serif;
+  font-size: 52px;
+  font-style: normal;
+  font-weight: 540;
+  line-height: normal;
+  transform: translate(27px, 5px);
+  transition: transform 0.4s ease;
+}
+
+.c166datetext
+{
+    color: #696CA3;
+    font-family: 'SF PRo', sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 450;
+    line-height: normal;
+    transform: translate(30px, 2px);
+    transition: transform 0.4s ease;
+}
+
+.c166coursetopictext.move-right
+{
+    transform: translate(305px, 5px);
+    transition: transform 0.4s ease; 
+}
+.c166datetext.move-right {
+    transform: translate(310px, 2px);
+  transition: transform 0.4s ease; 
+}
+
+.c166frameEachCourse {
+  top: 18px;
+  width: 99vw;
+  max-width: 98%;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #7579c1;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  text-indent: 40px;
+  align-items: center;
+  vertical-align: bottom;
+}
+
+.c166frameEachCourse:hover {
+  top: 18px;
+  width: 99vw;
+  max-width: 98%;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #575986;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  text-indent: 40px;
+  align-items: center;
+  vertical-align: bottom;
+}
+
+.c166frameEachCourse:first-child {
+  margin-top: 18px;
+}
+
+.c166frameEachCourse:last-child {
+  margin-bottom: 18px;
+}
+
+.c166courseName{
+  color: #ffffff;
+  text-align: center;
+  font-family: 'SF PRo', sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.c166intoCourse svg {
+  position: absolute;
+  right: 60px; 
+  left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* Prevent the icon from interfering with mouse events */
+  margin-top: 0px;
+}
+

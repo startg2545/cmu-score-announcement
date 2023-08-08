@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400&display=swap');
+
+
+.signinbody {
+    background-color: #eeebebfc; 
+    margin: 0; 
+    padding: 0; 
+}
+
+.logincmulogo {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 80px;
+  }
+  
+
+.popuplogin {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 400px;
+    overflow-y: auto;
+    justify-content: center;
+    display: flex;
+    flex-shrink: 0;
+    border: #696CA3 solid 2px;
+    border-radius: 25px;
+    background: #FFF;
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.25)); /* Adjust the values to control the shadow spread and blur */
+}
+
+.topictext {
+    color: #696CA3;
+    font-family: 'Prompt', sans-serif;
+    font-size: 33px;
+    font-style: normal;
+    position: absolute;
+    top: 40%;
+    font-weight: 800;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.logintext
+{
+    color: #000000;
+    font-family: 'Prompt', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    position: absolute;
+    top: 68%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.loginbutton
+{
+    width: 300px;
+    height: 50px;
+    border-radius: 10px;
+    background: #696CA3;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    display: flex;
+    font-family: 'Prompt', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.emblem
+{
+    width: 30px;
+    height: 30px;
+    transform: translateX(-10px);
+}
+  
+  
+  
+
+  
