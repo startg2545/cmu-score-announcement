@@ -70,7 +70,7 @@ const SearchCourse = () => {
 		axios.get('https://api.cpe.eng.cmu.ac.th/api/v1/course/detail', {
 			signal: signal,
 			headers: { Authorization: `Bearer ${accessToken}` }
-		}).then(res => setData(res))
+		}).then(res => setData(res.data.courseDetails))
 		  .catch(err => console.error('Error:', err))
 	}
 	function axiosAbort() {
