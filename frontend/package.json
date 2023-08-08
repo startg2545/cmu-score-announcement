@@ -1,8 +1,4 @@
 {
-<<<<<<< HEAD
-  "dependencies": {
-    "http-proxy-middleware": "^2.0.6"
-=======
   "name": "cmu-web-advance",
   "version": "0.1.0",
   "private": true,
@@ -54,6 +50,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
->>>>>>> origin
-  }
+  },
+  "proxy": "http://127.0.0.1:5000"
 }
