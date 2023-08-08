@@ -25,16 +25,48 @@ def parse_json(data):
 def get_score_detail():
     arr = []
     for x in scores.find():
-        arr.append(x['data'])
+        arr.append(x)
     return parse_json(arr)
 
+def update_course(person_id):
+    # from bson.objectid import ObjectId
+
+    # _id = ObjectId(person_id)
+
+    # all_updates = {
+    #     '$set': {'new_field': True},
+    #     '$rename': {'first': 'first_name', 'last': 'last_name'}
+    # }
+
+    # person_collection.update_one({'_id': _id}, all_updates)
+    # perosn_collection.update_one({'_id': _id}, {'$unset': {'new_field': ''}})
+    print(f'updated person id {person_id}')
 
 @app.route('/course-detail', methods=['POST'])
-def insert_scores():
-    return jsonify({"Result": "Received scores of subject " + request.json['courseNo'] + " successfully."})
+def insert_score():
+    courses = []
+    
+    for x in scores.find():
+        courses.append(x)
+    myrequest = request.json
+    isFound = False
+
+    for data in courses:
+        #  find duplicated courses
+        if data['courseNo'] == myrequest['courseNo'] and data['section'] == myrequest['section'] and data['semaster'] == myrequest['semaster'] and data['year'] == myrequest['year']:
+            # find _id of mongodb to update
+            for item in scores.find_one({'courseNo': data['courseNo']}):
+                update_course(item.get('_id'))
+            isFound = True  # duplicated course has been found
+            print(f"New score has been added in {myrequest['courseNo']}, section {myrequest['section']}, {myrequest['semaster']}/{myrequest['year']}")
+    if isFound == False:  # inseart score in new course/section/semaster/year
+        scores.insert_one(myrequest)
+        print(f"New score has been added in {myrequest['courseNo']} which is a new course!")
+
+    return jsonify({"Result": "Received scores of subject " + myrequest['courseNo'] + " successfully."})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='127.0.0.1')
 
 
 # notification = client.notification
@@ -82,19 +114,6 @@ if __name__ == '__main__':
 #     people = person_collection.find({}, columns)
 #     for person in people:
 #         printer.pprint(person)
-
-# def update_person_by_id(person_id):
-#     from bson.objectid import ObjectId
-
-#     _id = ObjectId(person_id)
-
-#     # all_updates = {
-#     #     '$set': {'new_field': True},
-#     #     '$rename': {'first': 'first_name', 'last': 'last_name'}
-#     # }
-
-#     # person_collection.update_one({'_id': _id}, all_updates)
-#     # perosn_collection.update_one({'_id': _id}, {'$unset': {'new_field': ''}})
 
 # def replace_one(person_id):
 #     from bson.objectid import ObjectId
