@@ -1,0 +1,20 @@
+
+.box-drop {
+    display: flex;
+    width: 209px;
+    height: 42px;
+    padding: 14px 13px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  
+  .font{
+    color: #000000;
+    /* font-family: SF Pro; */
+    font-size: 200px;
+    font-style: normal;
+    font-weight: 510;
+    line-height: normal;
+  }
