@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400&display=swap');
+@font-face {
+  font-family: 'SF PRo';
+  src: url(./font/SF-Pro.ttf) format('truetype');
+  /* You can specify other font formats (e.g., woff, woff2) as needed */
+}
 
 body {
     margin: 0; /* Reset default body margin */
@@ -44,12 +48,12 @@ body {
     color: #FFF;
     text-align: right;
     text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    font-family: 'Prompt', sans-serif;
-    font-size: 22px;
+    font-family: 'SF PRo', sans-serif;
+    font-size: 24px;
     font-style: normal;
     font-weight: 780;
     line-height: normal;
-    transform: translateY(-30%);
+    transform: translateY(-40%);
   }
   
   .c166rolestyle {
@@ -58,8 +62,8 @@ body {
     right: 30px; /* Align to the right corner */
     color: #F7C878;
     text-align: right;
-    font-family: 'Prompt', sans-serif;
-    font-size: 16px;
+    font-family: 'SF PRo', sans-serif;
+    font-size: 18px;
     font-style: normal;
     font-weight: 610;
     line-height: normal;
@@ -68,13 +72,13 @@ body {
 
   .c166courseframewindow {
     position: absolute;
-    top: calc(75px + 50%); /* Center vertically with top offset */
+    top: calc(105px + 50%); /* Center vertically with top offset */
     bottom: calc(10px + 50%); /* Center vertically with bottom offset */
     left: 50%;
     transform: translateX(-50%);
     width: 100vw;
     max-width: 96.6%;
-    height: calc(82vh - 60px);
+    height: calc(79vh - 60px);
     overflow-y:auto;
     align-items: center;
     display: flex;
@@ -106,7 +110,7 @@ body {
 .c166startstyle {
   color: #696CA3;
   text-align: center;
-  font-family: 'Prompt', sans-serif;
+  font-family: 'SF PRo', sans-serif;
   font-size: 32px;
   font-style: normal;
   font-weight: 800;
@@ -144,7 +148,7 @@ body {
   align-self: center;
   position: absolute;
   bottom: 175px;
-  font-family: 'Prompt', sans-serif;
+  font-family: 'SF PRo', sans-serif;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -183,7 +187,7 @@ body {
   position: absolute;
   bottom: 110px; 
   cursor: pointer;
-  font-family: 'Prompt', sans-serif;
+  font-family: 'SF PRo', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -259,34 +263,34 @@ body {
 .c166coursetopictext
 {
   color: #696CA3;
-  font-family: 'Prompt', sans-serif;
+  font-family: 'SF PRo', sans-serif;
   font-size: 52px;
   font-style: normal;
   font-weight: 540;
   line-height: normal;
-  transform: translate(30px, -10px);
+  transform: translate(27px, 5px);
   transition: transform 0.4s ease;
 }
 
 .c166datetext
 {
     color: #696CA3;
-    font-family: 'Prompt', sans-serif;
+    font-family: 'SF PRo', sans-serif;
     font-size: 28px;
     font-style: normal;
     font-weight: 450;
     line-height: normal;
-    transform: translate(-268px, 55px);
+    transform: translate(30px, 2px);
     transition: transform 0.4s ease;
 }
 
 .c166coursetopictext.move-right
 {
-    transform: translate(310px, -10px);
+    transform: translate(305px, 5px);
     transition: transform 0.4s ease; 
 }
 .c166datetext.move-right {
-    transform: translate(14px, 55px);
+    transform: translate(310px, 2px);
   transition: transform 0.4s ease; 
 }
 
@@ -297,11 +301,26 @@ body {
   height: 80px;
   flex-shrink: 0;
   border-radius: 15px;
-  background: #696CA3;
+  background: #7579c1;
   flex-shrink: 0;
   cursor: pointer;
   display: flex;
-  
+  text-indent: 40px;
+  align-items: center;
+  vertical-align: bottom;
+}
+
+.c166frameEachCourse:hover {
+  top: 18px;
+  width: 99vw;
+  max-width: 98%;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #575986;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
   text-indent: 40px;
   align-items: center;
   vertical-align: bottom;
@@ -318,7 +337,7 @@ body {
 .c166courseName{
   color: #ffffff;
   text-align: center;
-  font-family: 'Prompt', sans-serif;
+  font-family: 'SF PRo', sans-serif;
   font-size: 28px;
   font-style: normal;
   font-weight: 500;
@@ -333,6 +352,6 @@ body {
   align-items: center;
   justify-content: center;
   pointer-events: none; /* Prevent the icon from interfering with mouse events */
-  margin-top: 6px;
+  margin-top: 0px;
 }
 

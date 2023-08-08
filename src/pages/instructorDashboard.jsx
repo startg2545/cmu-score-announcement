@@ -5,8 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 
-
-
 const Component = ({ showSsSidebar, setShowSsSidebar }) => {
   const [isHovered, setIsHovered] = useState(false);
   
@@ -16,9 +14,6 @@ const Component = ({ showSsSidebar, setShowSsSidebar }) => {
   };
 
   
-
-
-
   return (
     <div className='insDaNavBar'>
       <div
