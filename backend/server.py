@@ -34,7 +34,7 @@ def insert_scores():
     return jsonify({"Result": "Received scores of subject " + request.json['courseNo'] + " successfully."})
 
 if __name__ == '__main__':
-    app.run(debug=True,port=3000)
+    app.run(debug=True)
 
 
 # notification = client.notification
