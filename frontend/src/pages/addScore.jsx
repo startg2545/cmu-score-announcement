@@ -2,7 +2,6 @@ import './css/main.css';
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Container, Header } from 'semantic-ui-react'
 import { useLocation, useNavigate} from 'react-router-dom';
-import axios from "axios";
 import * as XLSX from 'xlsx';
 
 function AddScore() {
@@ -36,8 +35,8 @@ function AddScore() {
   }
   const submitHandler = (e) => {
     e.preventDefault();
-    setIsDisplayMean(document.getElementById('show-mean').checked);  // set display mean as true or false
-    navigate('/add-database', {state: data});
+    setIsDisplayMean(document.getElementById('show-mean').checked);
+    navigate('/course-detail', {state: data});
   }
 
   useEffect(() => {
@@ -58,8 +57,7 @@ function AddScore() {
     const jsonData = XLSX.utils.sheet_to_json(worksheet, {
       header: 1,
       defval: ""
-    })
-    jsonData.shift()  // delete first row which contains = {"student_code", "point", "comment"}
+    });
     setFileName(file.name)  // set for showing status
     setJson(jsonData);
     setStudentNumber(jsonData.length-1);
@@ -95,17 +93,17 @@ function AddScore() {
       <Form onSubmit={submitHandler}>
         <Form.Field>
           <label htmlFor='score_name' className='component'>Score Name: </label>
-          <input type='text' value={scoreName} name='score_name' onChange={(e) => setScoreName(e.target.value)} placeholder='Enter Score Name'/>
+          <input type='text' value={scoreName} onChange={(e) => setScoreName(e.target.value)} placeholder='Enter Score Name'/>
         </Form.Field>
         <Form.Field>
           <label htmlFor='full_score'>Full Score: </label>
-          <input type='text' value={fullScore} name='full_score' onChange={(e) => setFullScore(e.target.value)} placeholder='Enter Full Score'/>
+          <input type='text' value={fullScore} onChange={(e) => setFullScore(e.target.value)} placeholder='Enter Full Score'/>
         </Form.Field>
         <div className='element1'>
           <label>Display avarage score of section: </label>
-          <input type='radio' id='show-mean' name='avg_score' value="show-mean" />
+          <input type='radio' id='show-mean' name='avg-score' value="show-mean" />
           <label>Show mean</label>
-          <input type='radio' name='avg_score' value="not-show-mean" />
+          <input type='radio' name='avg-score' value="not-show-mean" />
           <label>Don't show mean</label>
         </div>
         <div className='element1'>
@@ -118,7 +116,7 @@ function AddScore() {
           <br/><label id='file-status'></label>
         </div>
         <Form.Field>
-          <label htmlFor='comment' name='note'>Note to students in section: </label>
+          <label htmlFor='comment'>Note to students in section: </label>
           <input type='text' value={note} onChange={(e) => setNote(e.target.value)} placeholder='Enter comment'/>
         </Form.Field>
         <Button color='green' type='submit'>Submit</Button>

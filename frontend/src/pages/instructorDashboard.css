@@ -1,19 +1,24 @@
+@font-face {
+  font-family: 'SF PRo';
+  src: url(./font/SF-Pro.ttf) format('truetype');
+  /* You can specify other font formats (e.g., woff, woff2) as needed */
+}
+
 body {
-    font-family: 'Roboto', sans-serif;
     margin: 0; /* Reset default body margin */
     padding: 0; /* Reset default body padding */
     position: relative; /* Make sure the body is relatively positioned */
   }
   
   /* Add styles for the navbar and sidebar icon */
-  .navbar {
+  .insDaNavBar {
     position: relative;
     height: 80px;
     background: #8084C8;
     padding-left: 50px; /* Add some padding to the left for the icon */
   }
   
-  .sidebar-icon {
+  .insDasidebar-icon {
     position: absolute;
     top: 45%;
     left: 30px;
@@ -23,31 +28,60 @@ body {
     border-radius: 4px;
     background-color: #8084C8;
   }
+  
 
-
-
-  .cmulogo{
+  
+  .insDacmulogo{
     position: absolute;
     top: 50%; /* Center the icon vertically within the navbar */
     left: 100px; /* Position the icon in the left corner */
     transform: translateY(-50%); /* Adjust to vertically center the icon properly */
     width: 120px; /* Change the width to resize the icon */
     height: 120px; /* Change the height to resize the icon */
+    border-radius: 4px; /* Optional: Add border radius to make the border corners rounded */
+  }
+  
+  .insDahellostyle {
+    position: absolute;
+  
+    right: 25px; /* Align to the right corner */
+    color: #FFF;
+    text-align: right;
+    text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    font-family: 'SF PRo', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 780;
     line-height: normal;
-    transform: translateY(150%);
+    transform: translateY(-40%);
+  }
+  
+  .insDarolestyle {
+    position: absolute;
+    top: 0px; /* Adjust the top position to place it below the hellostyle */
+    right: 30px; /* Align to the right corner */
+    color: #F7C878;
+    text-align: right;
+    font-family: 'SF PRo', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 610;
+    line-height: normal;
+    transform: translateY(120%);
   }
 
 
-
-  .framewindow {
+  
+  .insDaframewindow {
     /* Your existing styles */
-    position: fixed;
-    top: 105px;
+    position: absolute;
+    top: calc(20px + 50%); /* Center vertically with top offset */
+    bottom: calc(10px + 50%); /* Center vertically with bottom offset */
     left: 50%;
     transform: translateX(-50%);
     width: 100vw;
     max-width: 96.6%;
-    height: calc(95vh - 100px);
+    height: calc(95vh - 85px);
     overflow-y: auto;
     justify-content: center;
     align-items: center;
@@ -56,47 +90,178 @@ body {
     border-radius: 25px;
     border: 3px solid #696CA3;
     background: #FFF;
-    transition: width 0.4s ease, margin-left 0.4s ease; /* Apply smooth transitions for width and margin-left */
+    transition: width 0.4s ease, margin-left 0.4s ease;
   }
-
-  .framewindow-container {
+  
+  
+  .insDaframewindow-container {
     /* Your existing styles */
     position: relative;
     display: flex;
     flex-direction: row;
   }
-
-  .framewindow.shrink {
+  
+  .insDaframewindow.shrink {
     /* Your existing styles */
     justify-content: center;
     align-items: center;
-    width: calc(100vw - 350px); /* Reduce the width by the width of the sssidebar */
-    margin-left: 150px; /* Move the framewindow to the right to accommodate the sssidebar */
+    width: calc(100vw - 340px); /* Reduce the width by the width of the sssidebar */
+    margin-left: 142px; /* Move the framewindow to the right to accommodate the sssidebar */
   }
 
-.startstyle {
+.insDastartstyle {
   color: #696CA3;
   text-align: center;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'SF PRo', sans-serif;
   font-size: 32px;
   font-style: normal;
-  font-weight: 590;
+  font-weight: 690;
   line-height: normal;
 }
 
-.sssidebar {
+.insDasssidebar {
   position: fixed;
   top: 80px; /* Position the sidebar below the navbar with 80px distance from the top */
   left: -300px; /* Initially hide the sidebar off the left side of the screen */
-  width: 300px; /* Adjust the width as needed */
+  width: 280px; /* Adjust the width as needed */
   height: 100%; /* Set the maximum height based on the distance from the top */
   z-index: 0; /* Set z-index to 0 to place it behind the framewindow */
-
+  display: flex;
   background-color: #ffffff; /* Set a background color */
   transition: left 0.4s ease; /* Apply a smooth transition for the left property */
+  flex-direction: column; /* Arrange items vertically */
+  justify-content: space-between; /* Push items to the top and bottom */
 }
 
-.sssidebar.show {
+.insDasssidebar.show {
   left: 0; /* Slide the sidebar in from the left side when the "show" class is added */
   box-shadow: 5px 0 5px rgba(0, 0, 0, 0.25); /* Apply the drop shadow */
 }
+
+
+
+.insDaprofilebutton
+{
+  width: 220px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 25px;
+  background: #000000;
+  align-self: center;
+  position: absolute;
+  bottom: 175px;
+  font-family: 'SF PRo', sans-serif;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-indent: -15px;
+  font-size: 18px;
+  filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
+  transition: background-color 0.3s ease;
+}
+
+.insDaprofilebutton:hover {
+  background: #ffffff; /* Change background color to white on hover */
+  color: #000000; /* Change text color to black on hover */
+  box-shadow: inset 0 0 0 2px #000000;
+}
+
+.insDaprofilebutton svg {
+  position: absolute;
+  left: 30px;
+}
+
+.insDaprofilebutton:hover svg {
+  filter: invert(100%) sepia(0) saturate(0) hue-rotate(0) brightness(0) contrast(100); /* Set the filter to turn the SVG black */
+}
+
+
+.insDalogoutbutton
+{
+  width: 220px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 25px;
+  background: #ED4040;
+  align-self: center;
+  position: absolute;
+  bottom: 110px; 
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  font-family: 'SF PRo', sans-serif;
+  align-items: center;
+  color: white;
+  text-indent: -5px; 
+  font-size: 18px;
+  filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
+  transition: background-color 0.3s ease;
+}
+
+.insDalogoutbutton svg {
+  position: absolute;
+  left: 30px;
+}
+
+.insDalogoutbutton:hover {
+  background: #ffffff;
+  color: #ED4040;
+  box-shadow: inset 0 0 0 2px #ED4040;
+}
+
+.insDalogoutbutton:hover svg {
+  filter: invert(96%) sepia(100%) saturate(75000%) hue-rotate(355deg) brightness(90%) contrast(100%);
+  /* Set the filter to turn the SVG red on hover */
+}
+
+.insDaframecourse {
+  position: absolute;
+  display: flex;
+  width: 220px;
+  height: 308px;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+ 
+  align-self: center;
+  top: 25px
+}
+
+.insDacoursebutton
+{
+  width: 200px;
+  height: 45px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #ffffff;
+  bottom: 110px; 
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  text-indent: -15px; 
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.insDacoursebutton svg{
+  position: absolute;
+  left: 20px;
+}
+
+.insDacoursebutton:hover {
+  background: #d9d9e5;
+  color: #000000;
+}
+
+
+
+
+
+
+
+
+
