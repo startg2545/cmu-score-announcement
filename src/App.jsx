@@ -13,6 +13,7 @@ import InstructorDashboard from './pages/instructorDashboard';
 import CourseDetail from './pages/courseDetail';
 import CMUOAuthCallback from "./pages/cmuOAuthCallback";
 import Course166 from './pages/course166';
+import UploadScorePage from './pages/uploadScorePage';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route exact path='/student-dashboard' element={<StudentDashboard />} />
         <Route exact path='/instructor-dashboard' element={<InstructorDashboard />} />
         <Route exact path='/course-166' element={<Course166 />} />
+        <Route exact path='/upload-score-page' element={<UploadScorePage />} />
       </Routes>
     </Router>
   )

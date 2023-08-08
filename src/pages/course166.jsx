@@ -34,7 +34,6 @@ const Course166 = ({ showSsSidebar, setShowSsSidebar }) => {
         <p className="c166hellostyle">Hello, Dome P.</p>
         <p className="c166rolestyle">1/66, Instructor</p>
       </div>
-      {/* Additional content for the course page */}
     </div>
   );
 };
@@ -84,7 +83,6 @@ export default function Course166Container() {
     return (
       <>
         <Course166 showSsSidebar={showSsSidebar} setShowSsSidebar={setShowSsSidebar} />
-        <div className="c166framewindow-container">
           <div className={`c166sssidebar ${showSsSidebar ? 'show' : ''}`}>
             <div className='c166frameCourseInSideBar'>
               <Link to="/course-166" className={`c166coursebutton ${showSsSidebar ? 'purple-button' : ''}`} onClick={handleSidebarClick}>
@@ -136,7 +134,6 @@ export default function Course166Container() {
           </div>
           <div className={`c166coursetopictext ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Course 1/66 </div>
           <div className={`c166datetext ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
-          <div className={`c166courseframewindow ${showSsSidebar ? 'shrink' : ''}`}></div>
           <div className={`c166courseframewindow ${showSsSidebar ? 'shrink' : ''}`} style={{ gap: 25 }}>
             {Array.from([
               "261207 - BASIC COMP ENGR LAB",
@@ -168,7 +165,6 @@ export default function Course166Container() {
             </div>
           ))}
         </div>
-      </div>
     </>
   );
 }

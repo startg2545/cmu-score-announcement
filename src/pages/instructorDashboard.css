@@ -1,4 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400&display=swap');
+@font-face {
+  font-family: 'SF PRo';
+  src: url(./font/SF-Pro.ttf) format('truetype');
+  /* You can specify other font formats (e.g., woff, woff2) as needed */
+}
 
 body {
     margin: 0; /* Reset default body margin */
@@ -44,12 +48,12 @@ body {
     color: #FFF;
     text-align: right;
     text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    font-family: 'Prompt', sans-serif;
-    font-size: 22px;
+    font-family: 'SF PRo', sans-serif;
+    font-size: 24px;
     font-style: normal;
     font-weight: 780;
     line-height: normal;
-    transform: translateY(-30%);
+    transform: translateY(-40%);
   }
   
   .insDarolestyle {
@@ -58,8 +62,8 @@ body {
     right: 30px; /* Align to the right corner */
     color: #F7C878;
     text-align: right;
-    font-family: 'Prompt', sans-serif;
-    font-size: 16px;
+    font-family: 'SF PRo', sans-serif;
+    font-size: 18px;
     font-style: normal;
     font-weight: 610;
     line-height: normal;
@@ -108,10 +112,10 @@ body {
 .insDastartstyle {
   color: #696CA3;
   text-align: center;
-  font-family: 'Prompt', sans-serif;
+  font-family: 'SF PRo', sans-serif;
   font-size: 32px;
   font-style: normal;
-  font-weight: 890;
+  font-weight: 690;
   line-height: normal;
 }
 
@@ -146,7 +150,7 @@ body {
   align-self: center;
   position: absolute;
   bottom: 175px;
-  font-family: 'Prompt', sans-serif;
+  font-family: 'SF PRo', sans-serif;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -187,7 +191,7 @@ body {
   cursor: pointer;
   display: flex;
   justify-content: center;
-  font-family: 'Prompt', sans-serif;
+  font-family: 'SF PRo', sans-serif;
   align-items: center;
   color: white;
   text-indent: -5px; 
