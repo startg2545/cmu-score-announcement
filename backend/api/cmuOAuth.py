@@ -51,6 +51,8 @@ def get_token():
       'message': "Cannot get cmu basic info"
     }, 400
 
+  print(resp2.json())
+
   #create session
   token = jwt.encode(
     payload={
@@ -68,8 +70,8 @@ def get_token():
   print(token)
   
   return {
-        'itaccounttype_id': resp2.itaccounttype_id,
-        'accessToken': resp.data,
+        'itaccounttype_id': resp2.json().get('itaccounttype_id'),
+        'accessToken': resp.json().get('access_token'),
         'token': token,
       }
     
