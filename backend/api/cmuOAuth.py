@@ -1,5 +1,4 @@
-import json
-from flask import Flask, jsonify, request, Blueprint, Response
+from flask import *
 import os
 import requests
 import jwt
@@ -51,8 +50,6 @@ def get_token():
       'message': "Cannot get cmu basic info"
     }, 400
 
-  print(resp2.json())
-
   #create session
   token = jwt.encode(
     payload={
@@ -67,11 +64,23 @@ def get_token():
     algorithm="HS256",
   )
   
-  print(token)
-  
-  return {
+  res = make_response()
+  res.set_cookie(
+    key="token",
+    value=token,
+    max_age=3600*24,
+    httponly=True,
+    samesite='lax',
+    secure=os.environ.get("NODE_ENV") == "production",
+    path="/",
+    domain=os.environ.get("DOMAIN"),
+  )
+  res.status_code = 200
+  res.set_data(value=json.dumps({
         'itaccounttype_id': resp2.json().get('itaccounttype_id'),
         'accessToken': resp.json().get('access_token'),
         'token': token,
-      }
+      }))
+  
+  return res
     

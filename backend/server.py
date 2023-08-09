@@ -28,12 +28,6 @@ app = Flask(__name__)
 cors = CORS(app, origins="http://localhost:3000", supports_credentials='true')
 
 app.url_map.strict_slashes = False
-# @app.after_request
-# def after_request(resp):
-#     resp.headers['Access-Control-Allow-Origin']='http://localhost:3000'
-#     resp.headers['Access-Control-Allow-Credentials']='true'
-#     resp.headers['Access-Control-Allow-Headers']="Origin, X-Requested-With, Content-Type, Accept, Authorization"
-#     return resp
 
 app.register_blueprint(cmuOAuth_api, url_prefix = prefix + '/cmuOAuth')
 app.register_blueprint(user_api, url_prefix = prefix + '/user')
