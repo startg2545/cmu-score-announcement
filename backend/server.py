@@ -1,10 +1,15 @@
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import os
 import pprint
 from pymongo import MongoClient
 import json
 from bson import json_util
+from api.cmuOAuth import cmuOAuth_api
+from api.user import user_api
+from api.course import course_api
+
 load_dotenv(find_dotenv())  # load environment variable files
 
 password = os.environ.get("MONGODB_PWD")
@@ -13,10 +18,26 @@ connection_string = f"mongodb+srv://startg2545:{password}@scoreannouncement.mbqo
 client = MongoClient(connection_string)
 
 dbs = client.list_database_names()  # get all database
-score_announcement = client.score_announcement  # create database calls score_announcement
+# create database calls score_announcement
+score_announcement = client.score_announcement
 scores = score_announcement.scores  # create colleciton calls scores
 
+prefix = '/api/v1'
+
 app = Flask(__name__)
+cors = CORS(app, origins="http://localhost:3000", supports_credentials='true')
+
+app.url_map.strict_slashes = False
+@app.after_request
+def after_request(resp):
+    resp.headers['Access-Control-Allow-Origin']='http://localhost:3000'
+    resp.headers['Access-Control-Allow-Credentials']='true'
+    resp.headers['Access-Control-Allow-Headers']="Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    return resp
+
+app.register_blueprint(cmuOAuth_api, url_prefix = prefix + '/cmuOAuth')
+app.register_blueprint(user_api, url_prefix = prefix + '/user')
+app.register_blueprint(course_api, url_prefix = prefix + '/course')
 
 def parse_json(data):
     return json.loads(json_util.dumps(data))
@@ -33,8 +54,9 @@ def get_score_detail():
 def insert_scores():
     return jsonify({"Result": "Received scores of subject " + request.json['courseNo'] + " successfully."})
 
+
 if __name__ == '__main__':
-    app.run(debug=True,port=3000)
+    app.run(debug=True)
 
 
 # notification = client.notification
