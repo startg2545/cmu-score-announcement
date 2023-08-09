@@ -93,7 +93,7 @@ const StudentDashboard = () => {
       <div>
         <h1>Course</h1>
         {course.ok ? (
-          course.map((item) => {
+          course.courseDetails.map((item) => {
             return (
               <div key={item.courseNo}>
                 {item.courseNo} : {item.courseNameEN}

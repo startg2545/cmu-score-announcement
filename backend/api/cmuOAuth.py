@@ -1,8 +1,8 @@
-import json
-from flask import Flask, jsonify, request, Blueprint, Response
+from flask import *
 import os
 import requests
 import jwt
+import datetime
 
 cmuOAuth_api = Blueprint('cmuOAuth_api', __name__)
 
@@ -49,25 +49,38 @@ def get_token():
       'ok': False,
       'message': "Cannot get cmu basic info"
     }, 400
-    
+
   #create session
   token = jwt.encode(
-    {
+    payload={
       'cmuAccount': resp2.json().get('cmuitaccount'),
       'firstName': resp2.json().get('firstname_EN'),
       'lastName': resp2.json().get('lastname_EN'),
       'studentId': resp2.json().get('student_id') if resp2.json().get('student_id') else None, #Note that not everyone has this. Teachers and CMU Staffs don't have student id!
       'itAccountType': resp2.json().get('itaccounttype_id'),
+      'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24),
     },
-    os.environ.get("JWT_SECRET"),
-    {
-      'expiresIn': "1d", #Token will last for one day only
-    }
+    key=os.environ.get("JWT_SECRET"),
+    algorithm="HS256",
   )
   
-  return {
-        'itaccounttype_id': resp2.itaccounttype_id,
-        'accessToken': resp.data,
+  res = make_response()
+  res.set_cookie(
+    key="token",
+    value=token,
+    max_age=3600*24,
+    httponly=True,
+    samesite='lax',
+    secure=os.environ.get("NODE_ENV") == "production",
+    path="/",
+    domain=os.environ.get("DOMAIN"),
+  )
+  res.status_code = 200
+  res.set_data(value=json.dumps({
+        'itaccounttype_id': resp2.json().get('itaccounttype_id'),
+        'accessToken': resp.json().get('access_token'),
         'token': token,
-      }
+      }))
+  
+  return res
     
