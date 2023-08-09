@@ -8,7 +8,6 @@ export async function getCourse() {
         withCredentials: true,
       }
     );
-    console.log(resp.data.courseDetails);
     return resp.data;
   } catch (err) {
     return err.response.data;

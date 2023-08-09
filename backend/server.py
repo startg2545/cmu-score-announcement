@@ -1,10 +1,15 @@
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import os
 import pprint
 from pymongo import MongoClient
 import json
 from bson import json_util
+from api.cmuOAuth import cmuOAuth_api
+from api.user import user_api
+from api.course import course_api
+
 load_dotenv(find_dotenv())  # load environment variable files
 
 password = os.environ.get("MONGODB_PWD")
@@ -13,10 +18,26 @@ connection_string = f"mongodb+srv://startg2545:{password}@scoreannouncement.mbqo
 client = MongoClient(connection_string)
 
 dbs = client.list_database_names()  # get all database
-score_announcement = client.score_announcement  # create database calls score_announcement
+# create database calls score_announcement
+score_announcement = client.score_announcement
 scores = score_announcement.scores  # create colleciton calls scores
 
+prefix = '/api/v1'
+
 app = Flask(__name__)
+cors = CORS(app, origins="http://localhost:3000", supports_credentials='true')
+
+app.url_map.strict_slashes = False
+@app.after_request
+def after_request(resp):
+    resp.headers['Access-Control-Allow-Origin']='http://localhost:3000'
+    resp.headers['Access-Control-Allow-Credentials']='true'
+    resp.headers['Access-Control-Allow-Headers']="Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    return resp
+
+app.register_blueprint(cmuOAuth_api, url_prefix = prefix + '/cmuOAuth')
+app.register_blueprint(user_api, url_prefix = prefix + '/user')
+app.register_blueprint(course_api, url_prefix = prefix + '/course')
 
 def parse_json(data):
     return json.loads(json_util.dumps(data))
@@ -25,16 +46,49 @@ def parse_json(data):
 def get_score_detail():
     arr = []
     for x in scores.find():
-        arr.append(x['data'])
+        arr.append(x)
     return parse_json(arr)
 
+def update_course(person_id):
+    # from bson.objectid import ObjectId
+
+    # _id = ObjectId(person_id)
+
+    # all_updates = {
+    #     '$set': {'new_field': True},
+    #     '$rename': {'first': 'first_name', 'last': 'last_name'}
+    # }
+
+    # person_collection.update_one({'_id': _id}, all_updates)
+    # perosn_collection.update_one({'_id': _id}, {'$unset': {'new_field': ''}})
+    print(f'updated person id {person_id}')
 
 @app.route('/course-detail', methods=['POST'])
-def insert_scores():
-    return jsonify({"Result": "Received scores of subject " + request.json['courseNo'] + " successfully."})
+def insert_score():
+    courses = []
+    
+    for x in scores.find():
+        courses.append(x)
+    myrequest = request.json
+    isFound = False
+
+    for data in courses:
+        #  find duplicated courses
+        if data['courseNo'] == myrequest['courseNo'] and data['section'] == myrequest['section'] and data['semaster'] == myrequest['semaster'] and data['year'] == myrequest['year']:
+            # find _id of mongodb to update
+            for item in scores.find_one({'courseNo': data['courseNo']}):
+                update_course(item.get('_id'))
+            isFound = True  # duplicated course has been found
+            print(f"New score has been added in {myrequest['courseNo']}, section {myrequest['section']}, {myrequest['semaster']}/{myrequest['year']}")
+    if isFound == False:  # inseart score in new course/section/semaster/year
+        scores.insert_one(myrequest)
+        print(f"New score has been added in {myrequest['courseNo']} which is a new course!")
+
+    return jsonify({"Result": "Received scores of subject " + myrequest['courseNo'] + " successfully."})
+
 
 if __name__ == '__main__':
-    app.run(debug=True,port=3000)
+    app.run(debug=True, host='127.0.0.1')
 
 
 # notification = client.notification
@@ -82,19 +136,6 @@ if __name__ == '__main__':
 #     people = person_collection.find({}, columns)
 #     for person in people:
 #         printer.pprint(person)
-
-# def update_person_by_id(person_id):
-#     from bson.objectid import ObjectId
-
-#     _id = ObjectId(person_id)
-
-#     # all_updates = {
-#     #     '$set': {'new_field': True},
-#     #     '$rename': {'first': 'first_name', 'last': 'last_name'}
-#     # }
-
-#     # person_collection.update_one({'_id': _id}, all_updates)
-#     # perosn_collection.update_one({'_id': _id}, {'$unset': {'new_field': ''}})
 
 # def replace_one(person_id):
 #     from bson.objectid import ObjectId
