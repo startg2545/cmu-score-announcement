@@ -232,7 +232,7 @@ body {
 .uploadScorecoursebutton
 {
   width: 200px;
-  height: 45px;
+  height: 40px;
   flex-shrink: 0;
   border-radius: 15px;
   background: #ffffff;
@@ -245,6 +245,7 @@ body {
   text-indent: -15px; 
   font-size: 20px;
   transition: background-color 0.3s ease;
+  margin-bottom: 6px;
 }
 
 .uploadScorecoursebutton svg{
@@ -369,25 +370,22 @@ body {
 }
 
 .uploadScoreDescriptionBox {
-  padding: 12px;
+  padding: 10px;
   border: 1px  ;
   background-color: #faedca;
   border-radius: 5px;
-  font-family: SF Pro;
+ 
   width: calc(57.7vw); 
-  height: calc(1vh + 60px);
-  font-size: 16px;
+  height: calc(1.6vh + 60px);
   margin-left: 220px;
   margin-top: -20px;
   margin-bottom: 20px;
   transition: width 0.3s ease;
-  justify-content: center;
-  align-items: center;
 }
 
 .uploadScoreDescriptionBox.move-right {
   width: calc(52.5vw); /* Use viewport width */
-  height: calc(1vh + 60px);
+  height: calc(1.6vh + 60px);
   transition: width 0.3s ease;
 }
 
@@ -485,7 +483,6 @@ body {
   position: absolute;
   right: 60px;
   margin: 0;
-  
   font-weight: 700; 
   color: #23834b;
   transition: color 0.3s ease;
@@ -499,6 +496,93 @@ body {
 .uploadScoreConfirmButton:hover .uploadScoreConfirmText {
   color: #ffffff; 
 }
+
+
+.uploadScorePopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; 
+}
+
+.uploadScorePopup-Content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  height:220px;
+  width: 450px;
+  font-weight: 500;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+}
+
+.uploadScorePopup-ContentInner {
+  background-color: #8084C8;
+  border-radius: 10px 10px 0px 0px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+  height:45px;
+  width: 490px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 24px;
+  transform: translateY(-28px);
+}
+
+.UploadScorePopupButtons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.UploadScoreCancelPopupLeaveButton,
+.UploadScoreCancelPopupStayButton {
+  transform: translateY(-10px);
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+
+
+.UploadScoreCancelPopupLeaveButton {
+  width: 120px;
+  height: 35px;
+  border-radius: 10px;
+  border: 1px ;
+  background: linear-gradient(180deg, rgba(36, 43, 176, 0.40) 0%, #535ADF 100%);
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+
+.UploadScoreCancelPopupStayButton {
+  width: 120px;
+  height: 35px;
+  border-radius: 10px;
+  border: 1px ;
+  background: #FFF;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.15);
+  font-size: 18px;
+}
+
+.UploadScoreSvgInline {
+  display: flex;
+  justify-content: center;
+}
+
+
 
 
 
