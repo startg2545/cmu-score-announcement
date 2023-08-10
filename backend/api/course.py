@@ -1,4 +1,4 @@
-from flask import *
+from flask import Blueprint, request
 import os
 import requests
 import jwt
