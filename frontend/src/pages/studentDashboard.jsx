@@ -1,7 +1,6 @@
 import "./studentDashboard.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCourse } from "../services/course";
 import { getUserInfo, signOut } from "../services/user";
 import cmulogo from "../image/cmulogo.png";
 
@@ -20,14 +19,6 @@ const StudentDashboard = () => {
 
     fetchData();
   }, [navigate]);
-
-  const [course, setCourse] = useState([]);
-
-  async function sreachCourse() {
-    const resp = await getCourse();
-    setCourse(resp);
-    console.log(resp);
-  }
 
   const toggleSsSidebar = () => {
     setShowSsSidebar((prev) => !prev);
@@ -87,21 +78,6 @@ const StudentDashboard = () => {
         <h3>lastName : {userInfo.lastName}</h3>
         <h3>studentId : {userInfo.studentId}</h3>
         <h3>itAccountType : {userInfo.itAccountType}</h3>
-      </div>
-      <button onClick={() => sreachCourse()}>Check Api</button>
-      <div>
-        <h1>Course</h1>
-        {course.ok ? (
-          course.courseDetails.map((item) => {
-            return (
-              <div key={item.courseNo}>
-                {item.courseNo} : {item.courseNameEN}
-              </div>
-            );
-          })
-        ) : (
-          <h3 style={{ color: "red" }}>{course.message}</h3>
-        )}
       </div>
       <button onClick={() => signOut().finally(navigate("/sign-in"))}>
         Sign out
