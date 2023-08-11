@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { getCourse } from "../services/course";
 import { getUserInfo, signOut } from "../services/user";
 import cmulogo from "../image/cmulogo.png";
-import { Link } from "react-router-dom";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -20,7 +19,7 @@ const StudentDashboard = () => {
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
   const [course, setCourse] = useState([]);
 

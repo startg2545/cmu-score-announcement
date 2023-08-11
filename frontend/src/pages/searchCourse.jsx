@@ -112,7 +112,8 @@ const SearchCourse = () => {
 			}}>
 			<div>
 				<h3>Choose Course</h3>
-				<select value={selectedCourseNo} onChange={e=>handleCourseNo(e.target.value)} style={{ width: '100px' }} required>
+				<select value={selectedCourseNo} onChange={e=>handleCourseNo(e.target.value)} style={{ width: '170px' }} required>
+					<option>Choose Course</option>
 					{data.map((res,index)=>(
 						<option key={index} value={res.value}>
 							{res.courseNo}
@@ -120,7 +121,7 @@ const SearchCourse = () => {
 					))}
 				</select>
 				<h3>Choose Section</h3>
-				<select value={selectedSection} onChange={e=>handleSection(e.target.value)} style={{ width: '100px' }} required>
+				<select value={selectedSection} onChange={e=>handleSection(e.target.value)} style={{ width: '170px' }} required>
 					{sections.map((res,index)=>(
 						<option key={index} value={res.value}>
 							{res.text}

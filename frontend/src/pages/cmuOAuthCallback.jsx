@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -55,7 +55,7 @@ export default function CMUOAuthCallback() {
     };
 
     fetchData();
-  }, [code]);
+  }, [code, navigate]);
 
   return (
     <div>

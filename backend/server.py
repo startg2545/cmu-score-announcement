@@ -1,12 +1,9 @@
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, jsonify, request
-from flask_cors import CORS
 import os
-import pprint
 from pymongo import MongoClient
 import json
 from bson import json_util, ObjectId
-from bson import json_util
 
 load_dotenv(find_dotenv())  # load environment variable files
 
@@ -16,8 +13,7 @@ connection_string = f"mongodb+srv://startg2545:{password}@scoreannouncement.mbqo
 client = MongoClient(connection_string)
 
 dbs = client.list_database_names()  # get all database
-# create database calls score_announcement
-score_announcement = client.score_announcement
+score_announcement = client.score_announcement  # create database calls score_announcement
 scores = score_announcement.scores  # create colleciton calls scores
 
 prefix = '/api/v1'
@@ -34,17 +30,21 @@ def get_score_detail():
         arr.append(x)
     return parse_json(arr)
 
+def get_myrequest_obj(req):
+    obj = {
+        'scoreName': req['details'][0]['scoreName'],
+        'studentNumber': req['details'][0]['studentNumber'],
+        'fullName': req['details'][0]['fullScore'],
+        'isDisplayMean': req['details'][0]['isDisplayMean'],
+        'mean': req['details'][0]['mean'],
+        'results': req['details'][0]['results']
+    }
+    return obj
+
 @app.route('/course-detail', methods=['POST'])
 def insert_score():
-    my_request = request.json
-    obj = {
-        'scoreName': my_request['details'][0]['scoreName'],
-        'studentNumber': my_request['details'][0]['studentNumber'],
-        'fullName': my_request['details'][0]['fullScore'],
-        'isDisplayMean': my_request['details'][0]['isDisplayMean'],
-        'mean': my_request['details'][0]['mean'],
-        'results': my_request['details'][0]['results']
-    }
+    myrequest = request.json
+    obj = get_myrequest_obj(myrequest)
 
     existing_scores = []
     for x in scores.find():
@@ -52,86 +52,18 @@ def insert_score():
     is_found = False
     for data in existing_scores:
         #  find duplicated scores
-        if data['courseNo'] == my_request['courseNo'] and data['section'] == my_request['section'] and data['semaster'] == my_request['semaster'] and data['year'] == my_request['year']:
+        if data['courseNo'] == myrequest['courseNo'] and data['section'] == myrequest['section'] and data['semaster'] == myrequest['semaster'] and data['year'] == myrequest['year']:
             # find _id of mongodb to insert score in section
             scores.update_one(
-                { 'courseNo': "001201" },
+                { '_id': ObjectId(data['_id']) },
                 { '$push': { 'details': obj } }
             )
             is_found = True  # duplicated course has been found
-            print(f"New score has been added in {my_request['courseNo']}, section {my_request['section']}, {my_request['semaster']}/{my_request['year']}")
     if not is_found:  # inseart score in new course/section/semaster/year
-        scores.insert_one(my_request)
-        print(f"New score has been added in {my_request['courseNo']} which is a new course!")
+        scores.insert_one(myrequest)
 
-    return jsonify({"Result": "Received scores of subject " + my_request['courseNo'] + " successfully."})
-
+    return jsonify({"Result": "Received scores of subject " + myrequest['courseNo'] + " successfully."})
 
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1')
-
-# notification = client.notification
-# person_collection = notification.person_collection
-
-# def create_documents():
-#     instructor_id = ['61a82ed2e1d2b69f983664ee', '61a82ed2e1d2b69f983664f5', '61a82ed2e1d2b69f983664fa']
-#     first_name = ['Pruet', 'Kasemsit', 'Karn']
-#     last_name = ['Boonma', 'Teeyapan', 'Patanukhom']
-
-#     docs = []
-
-#     for instructor_id, first_name, last_name in zip(instructor_id, first_name, last_name):
-#         doc = {'instructor_id': instructor_id, 'first_name': first_name, 'last_name': last_name}
-#         docs.append(doc)
-#     person_collection.insert_many(docs)
-
-# printer = pprint.PrettyPrinter()
-
-# def find_all_people():
-#     people = person_collection.find()
-
-#     for person in people:
-#         printer.pprint(person)
-
-# def find_pruet():
-#     pruet = person_collection.find_one({'first_name': 'Pruet'})
-#     printer.pprint(pruet)
-
-# def count_all_people():
-#     # SELECT COUNT(*) FROM person
-#     count = person_collection.find().count()
-#     print('Number of people', count)
-
-# def get_person_by_id(person_id):
-#     # SELECT * FROM person WHERE id = person_id
-#     from bson.objectid import ObjectId
-
-#     _id = ObjectId(person_id)
-#     person = person_collection.find_one({'_id': _id})
-#     printer.pprint(person)
-
-# def project_columns():
-#     columns = {'_id': 0, 'first_name': 1, 'last_name': 1}
-#     people = person_collection.find({}, columns)
-#     for person in people:
-#         printer.pprint(person)
-
-# def replace_one(person_id):
-#     from bson.objectid import ObjectId
-#     _id = ObjectId(person_id)
-
-#     new_doc = {
-#         'first_name': 'new first name',
-#         'last_name': 'new last name',
-#         'instructor_id': 'new instructor id'
-#     }
-
-#     person_collection.replace_one({'_id': _id}, new_doc)
-
-# def delete_doc_by_id(person_id):
-#     from bson.objectid import ObjectId
-#     _id = ObjectId(person_id)
-#     person_collection.delete_one({'_id': _id})
-
-# delete_doc_by_id('64cf51b3d4e30867e34098f7')
