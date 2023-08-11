@@ -16,7 +16,7 @@ function AddScore() {
   const [mean, setMean] = useState(0);
   const [note, setNote] = useState('');
   const [fileName, setFileName] = useState(null);
-  const [json, setJson] = useState([]);
+  const [results, setResults] = useState([]);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -26,17 +26,22 @@ function AddScore() {
     section: section,
     year: year,
     semaster: semaster,
-    scoreName: scoreName,
-    studentNumber: studentNumber,
-    fullScore: fullScore,
-    isDisplayMean: isDisplayMean,
-    mean: mean,
-    json: json
+    details: [
+      {
+        scoreName: scoreName,
+        studentNumber: studentNumber,
+        fullScore: fullScore,
+        isDisplayMean: isDisplayMean,
+        mean: mean,
+        results: results
+      }
+    ]
   }
   const submitHandler = (e) => {
     e.preventDefault();
     setIsDisplayMean(document.getElementById('show-mean').checked);
-    navigate('/course-detail', {state: data});
+    console.log(data)
+    navigate('/add-database', {state: data});
   }
 
   useEffect(() => {
@@ -54,21 +59,31 @@ function AddScore() {
     const data = await file.arrayBuffer();
     const workbook = XLSX.read(data);
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+    const resultsData = XLSX.utils.sheet_to_json(worksheet, {
       header: 1,
       defval: ""
     });
     setFileName(file.name)  // set for showing status
-    setJson(jsonData);
-    setStudentNumber(jsonData.length-1);
+    resultsData.shift()
+    const results_list = []
+    for (let x in resultsData) {
+      let results_obj = {
+        'student_code': x[0],
+        'point': x[1],
+        'comment': x[2]
+      }
+      results_list[x] = results_obj
+    }
+    setResults(resultsData);
+    setStudentNumber(resultsData.length-1);
 
     // calculate mean
     var sum = 0;
-    for (let i=1;i<jsonData.length;i++) {
-      sum += jsonData[i][1];
+    for (let i=1;i<resultsData.length;i++) {
+      sum += resultsData[i][1];
     }
-    var avg = sum / ( jsonData.length - 1 );
-    setMean(avg);
+    var avg = sum / ( resultsData.length - 1 );
+    setMean(avg.toFixed(2));
   }
   function renderFile() {
     let obj = document.getElementById('file-status')
@@ -131,9 +146,9 @@ function AddScore() {
             Filename: <span>{fileName}</span>
           </p>
           <p>
-            json:{" "} 
+            results:{" "} 
             <select>
-              {json.map((res,index) => (
+              {results.map((res,index) => (
                 <option key={index} value={res}>{res[0]}</option>
               ))}
             </select>
