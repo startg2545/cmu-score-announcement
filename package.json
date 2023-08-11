@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "flask": "^0.2.10",
+    "http-proxy-middleware": "^2.0.6",
+    "namor": "^3.0.1"
+  }
+}

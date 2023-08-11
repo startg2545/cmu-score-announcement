@@ -1,5 +1,6 @@
+
 @font-face {
-    font-family: 'SF PRo';
+    font-family: 'SF PRO';
     src: url(./font/SF-Pro.ttf) format('truetype');
     /* You can specify other font formats (e.g., woff, woff2) as needed */
   }
@@ -78,19 +79,22 @@ body {
     transform: translateX(-50%);
     width: 100vw;
     max-width: 96.6%;
-    height: calc(74vh - 60px);
-    overflow-y:auto;
-    align-items: center;
+    height: calc(69vh - 60px);
+    justify-content: center;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     border-radius: 25px;
     border: 3px solid #696CA3;
     background: #FFF;
     transition: width 0.4s ease, margin-left 0.4s ease;
+    padding-top: 30px;
+    padding-bottom: 30px;
   }
   
   .uploadScoreframewindow-container {
     /* Your existing styles */
+    justify-content: center;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -99,7 +103,7 @@ body {
   
   .uploadScorecourseframewindow.shrink  {
     /* Your existing styles */
-    align-items: center;
+    justify-content: center;
     width: calc(100vw - 340px); /* Reduce the width by the width of the sssidebar */
     margin-left: 142px; /* Move the framewindow to the right to accommodate the sssidebar */
   }
@@ -228,7 +232,7 @@ body {
 .uploadScorecoursebutton
 {
   width: 200px;
-  height: 45px;
+  height: 40px;
   flex-shrink: 0;
   border-radius: 15px;
   background: #ffffff;
@@ -241,6 +245,7 @@ body {
   text-indent: -15px; 
   font-size: 20px;
   transition: background-color 0.3s ease;
+  margin-bottom: 6px;
 }
 
 .uploadScorecoursebutton svg{
@@ -263,11 +268,11 @@ body {
 {
   color: #696CA3;
   font-family: 'SF PRo', sans-serif;
-  font-size: 52px;
+  font-size: 48px;
   font-style: normal;
   font-weight: 540;
   line-height: normal;
-  transform: translate(27px, 2px);
+  transform: translate(62px, 6px);
   transition: transform 0.4s ease;
 }
 
@@ -275,21 +280,21 @@ body {
 {
     color: #696CA3;
     font-family: 'SF PRo', sans-serif;
-    font-size: 28px;
+    font-size: 24px;
     font-style: normal;
     font-weight: 450;
     line-height: normal;
-    transform: translate(32px, 2px);
+    transform: translate(65px, 4px);
     transition: transform 0.4s ease;
 }
 
 .uploadScorecoursetopictext.move-right
 {
-    transform: translate(300px, 2px);
+    transform: translate(340px, 6px);
     transition: transform 0.4s ease; 
 }
 .uploadScoredatetext.move-right {
-    transform: translate(305px, 2px);
+    transform: translate(342px, 4px);
     transition: transform 0.4s ease; 
 }
 
@@ -301,7 +306,7 @@ body {
   font-style: normal;
   font-weight: 540;
   line-height: normal;
-  transform: translate(32px, 9px);
+  transform: translate(30px, 10px);
   transition: transform 0.4s ease;
 }
 
@@ -312,14 +317,272 @@ body {
 }
 
 .uploadScoreLine {
-    transform: translate(-12px, 8px);
+    transform: translate(-8px, 8px);
     transition: transform 0.3s ease; /* Add a smooth transition */
   }
   
-  .uploadScoreLine.move-right {
-    transform: translate(275px, 8px); /* Adjust the translation value as needed */
-    width: 70%;
-  }
-  
+.uploadScoreLine.move-right {
+  transform: translate(275px, 8px); /* Adjust the translation value as needed */
+  width: 74%;
+}
+
+.uploadScoreText{
+  color: #696CA3;
+  font-family: SF Pro;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 590;
+  line-height: normal;
+  margin-left: 40px;
+}
+
+.uploadScoreTextBox {
+  padding: 8px;
+  border: 2px solid #696CA3;
+  background-color: #eeecec;
+  border-radius: 3px;
+  font-family: SF Pro;
+  width: calc(68.5%);
+  font-size: 16px;
+  transform: translateX(20px);
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.uploadScoreInlineContainer.move-right .uploadScoreTextBox {
+  transition: transform 0.3s ease;
+}
+
+.uploadScoreInlineContainer {
+  display: flex; /* Use flexbox to align items in a row */
+  align-items: center;
+  margin-bottom: 30px;
+  transition: transform 0.3s ease;
+  margin-top: -15px;
+}
+
+.uploadScoreFileDescription {
+  font-size: 18px;
+  color: #000000;
+  font-family: SF Pro;
+  transition: transform 0.3s ease;
+  margin-top: 0px;
+}
+
+.uploadScoreDescriptionBox {
+  padding: 10px;
+  border: 1px  ;
+  background-color: #faedca;
+  border-radius: 5px;
+ 
+  width: calc(57.7vw); 
+  height: calc(1.6vh + 60px);
+  margin-left: 220px;
+  margin-top: -20px;
+  margin-bottom: 20px;
+  transition: width 0.3s ease;
+}
+
+.uploadScoreDescriptionBox.move-right {
+  width: calc(52.5vw); /* Use viewport width */
+  height: calc(1.6vh + 60px);
+  transition: width 0.3s ease;
+}
+
+.uploadScoreCancelButton{
+  transform: translate(40px,45px);
+  width: 150px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  border: #cd5340 solid 2px;
+  background: #ffffff;
+  bottom: 110px; 
+  cursor: pointer;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  text-indent: -35px; 
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.uploadScoreCancelButtonInner{
+  width: 45px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 0px 10px 10px 0px;
+  background: #D13E10;
+  bottom: 110px; 
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  text-indent: -15px; 
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.uploadScoreCancelButton:hover {
+  background: #D13E10;
+  transition: background-color 0.3s ease;
+}
+
+.uploadScoreCancelButton:hover .uploadScoreCancelText {
+  color: #ffffff; 
+}
+
+.uploadScoreCancelText {
+  position: absolute;
+  right: 60px;
+  margin: 0;
+  font-weight: 700;
+  color: #cd5340;
+  transition: color 0.3s ease;
+}
+
+.uploadScoreConfirmButton{
+  transform: translate(60px,45px);
+  width: 150px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  border: #1b7744 solid 2px ;
+  background: #ffffff;
+  bottom: 110px; 
+  cursor: pointer;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  text-indent: -35px; 
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.uploadScoreConfirmButtonInner{
+  width: 45px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 0px 10px 10px 0px;
+  background: #23834b;
+  bottom: 110px; 
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  text-indent: -15px; 
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.uploadScoreConfirmText{
+  position: absolute;
+  right: 60px;
+  margin: 0;
+  font-weight: 700; 
+  color: #23834b;
+  transition: color 0.3s ease;
+}
+
+.uploadScoreConfirmButton:hover {
+  background: #23834b;
+  transition: background-color 0.3s ease;
+}
+
+.uploadScoreConfirmButton:hover .uploadScoreConfirmText {
+  color: #ffffff; 
+}
+
+
+.uploadScorePopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; 
+}
+
+.uploadScorePopup-Content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  height:220px;
+  width: 450px;
+  font-weight: 500;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+}
+
+.uploadScorePopup-ContentInner {
+  background-color: #8084C8;
+  border-radius: 10px 10px 0px 0px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+  height:45px;
+  width: 490px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 24px;
+  transform: translateY(-28px);
+}
+
+.UploadScorePopupButtons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.UploadScoreCancelPopupLeaveButton,
+.UploadScoreCancelPopupStayButton {
+  transform: translateY(-10px);
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+
+
+.UploadScoreCancelPopupLeaveButton {
+  width: 120px;
+  height: 35px;
+  border-radius: 10px;
+  border: 1px ;
+  background: linear-gradient(180deg, rgba(36, 43, 176, 0.40) 0%, #535ADF 100%);
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+
+.UploadScoreCancelPopupStayButton {
+  width: 120px;
+  height: 35px;
+  border-radius: 10px;
+  border: 1px ;
+  background: #FFF;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.15);
+  font-size: 18px;
+}
+
+.UploadScoreSvgInline {
+  display: flex;
+  justify-content: center;
+}
+
+
+
 
 
