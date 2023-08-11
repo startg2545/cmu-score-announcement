@@ -1,0 +1,254 @@
+@font-face {
+  font-family: "SF PRo";
+  src: url(../../font/SF-Pro.ttf) format("truetype");
+  /* You can specify other font formats (e.g., woff, woff2) as needed */
+}
+
+body {
+  margin: 0; /* Reset default body margin */
+  padding: 0; /* Reset default body padding */
+  position: relative; /* Make sure the body is relatively positioned */
+}
+
+/* Add styles for the navbar and sidebar icon */
+.navbar {
+  position: relative;
+  height: 80px;
+  background: #8084c8;
+  padding-left: 50px; /* Add some padding to the left for the icon */
+}
+
+.sidebar_icon {
+  position: absolute;
+  top: 45%;
+  left: 30px;
+  transform: translateY(-50%);
+  width: 35px;
+  height: 35px;
+  border-radius: 4px;
+  background-color: #8084c8;
+}
+
+.cmulogo {
+  position: absolute;
+  top: 50%; /* Center the icon vertically within the navbar */
+  left: 100px; /* Position the icon in the left corner */
+  transform: translateY(
+    -50%
+  ); /* Adjust to vertically center the icon properly */
+  width: 120px; /* Change the width to resize the icon */
+  height: 120px; /* Change the height to resize the icon */
+  border-radius: 4px; /* Optional: Add border radius to make the border corners rounded */
+}
+
+.hello {
+  position: absolute;
+
+  right: 25px; /* Align to the right corner */
+  color: #fff;
+  text-align: right;
+  text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  font-family: "SF PRo", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 780;
+  line-height: normal;
+  transform: translateY(-40%);
+}
+
+.role {
+  position: absolute;
+  top: 0px; /* Adjust the top position to place it below the hello */
+  right: 30px; /* Align to the right corner */
+  color: #f7c878;
+  text-align: right;
+  font-family: "SF PRo", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 610;
+  line-height: normal;
+  transform: translateY(120%);
+}
+
+.courseframewindow {
+  position: absolute;
+  top: calc(120px + 50%); /* Center vertically with top offset */
+  bottom: calc(10px + 50%); /* Center vertically with bottom offset */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  max-width: 96.6%;
+  height: calc(74vh - 60px);
+  overflow-y: auto;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  border: 3px solid #696ca3;
+  background: #fff;
+  transition: width 0.4s ease, margin-left 0.4s ease;
+}
+
+.framewindow_container {
+  /* Your existing styles */
+  position: relative;
+  display: flex;
+  flex-direction: row;
+}
+
+.courseframewindow.shrink {
+  /* Your existing styles */
+  align-items: center;
+  width: calc(
+    100vw - 340px
+  ); /* Reduce the width by the width of the sssidebar */
+  margin-left: 142px; /* Move the framewindow to the right to accommodate the sssidebar */
+}
+
+.startstyle {
+  color: #696ca3;
+  text-align: center;
+  font-family: "SF PRo", sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.sidebar {
+  position: fixed;
+  top: 80px; /* Position the sidebar below the navbar with 80px distance from the top */
+  left: -300px; /* Initially hide the sidebar off the left side of the screen */
+  width: 280px; /* Adjust the width as needed */
+  height: 100%; /* Set the maximum height based on the distance from the top */
+  z-index: 0; /* Set z-index to 0 to place it behind the framewindow */
+  display: flex;
+  background-color: #ffffff; /* Set a background color */
+  transition: left 0.4s ease; /* Apply a smooth transition for the left property */
+  flex-direction: column; /* Arrange items vertically */
+  justify-content: space-between; /* Push items to the top and bottom */
+}
+
+.sidebar.show {
+  left: 0; /* Slide the sidebar in from the left side when the "show" class is added */
+  box-shadow: 5px 0 5px rgba(0, 0, 0, 0.25); /* Apply the drop shadow */
+}
+
+.profileButton {
+  width: 220px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 25px;
+  background: #000000;
+  align-self: center;
+  position: absolute;
+  bottom: 175px;
+  font-family: "SF PRo", sans-serif;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-indent: -15px;
+  font-size: 18px;
+  filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
+  transition: background-color 0.3s ease;
+}
+
+.profileButton:hover {
+  background: #ffffff; /* Change background color to white on hover */
+  color: #000000; /* Change text color to black on hover */
+  box-shadow: inset 0 0 0 2px #000000;
+}
+
+.profileButton svg {
+  position: absolute;
+  left: 30px;
+}
+
+.profileButton:hover svg {
+  filter: invert(100%) sepia(0) saturate(0) hue-rotate(0) brightness(0)
+    contrast(100); /* Set the filter to turn the SVG black */
+}
+
+.logoutButton {
+  width: 220px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 25px;
+  background: #ed4040;
+  align-self: center;
+  position: absolute;
+  bottom: 110px;
+  cursor: pointer;
+  font-family: "SF PRo", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-indent: -5px;
+  font-size: 18px;
+  filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
+  transition: background-color 0.3s ease;
+}
+
+.logoutButton svg {
+  position: absolute;
+  left: 30px;
+}
+
+.logoutButton:hover {
+  background: #ffffff;
+  color: #ed4040;
+  box-shadow: inset 0 0 0 2px #ed4040;
+}
+
+.logoutButton:hover svg {
+  filter: invert(96%) sepia(100%) saturate(75000%) hue-rotate(355deg)
+    brightness(90%) contrast(100%);
+  /* Set the filter to turn the SVG red on hover */
+}
+
+.frameCourseInSideBar {
+  position: absolute;
+  display: flex;
+  width: 220px;
+  height: 308px;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+  align-self: center;
+  top: 25px;
+}
+
+.courseButton {
+  width: 200px;
+  height: 45px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #ffffff;
+  bottom: 110px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  text-indent: -15px;
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.courseButton svg {
+  position: absolute;
+  left: 20px;
+}
+
+.courseButton:hover {
+  background: #d9d9e5;
+  color: #000000;
+}
+
+.purple_button {
+  background-color: #b6b8e6;
+  color: rgb(0, 0, 0);
+}
