@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./uploadScorePage.css";
 import SideBar from "../components/SideBar";
-import CMUNavbar from "../components/Navbar";
+import CMUNavbar from "../components/CMUNavbar";
 
 export default function UploadScorePageContainer() {
   const [showSsSidebar, setShowSsSidebar] = useState(false);
