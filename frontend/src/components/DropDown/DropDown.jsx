@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styleDrop from "./dropdown.module.css";
 
 const DropDown = () => {
@@ -13,14 +13,22 @@ const DropDown = () => {
     setDropDown(false);
   };
 
+  //close when click outside
+  const menuRef = useRef();
+  useEffect(() => {
+    document.addEventListener("mousedown", (event) => {
+      if (!menuRef.current.contains(event.target)) {
+        setDropDown(false);
+      }
+    });
+  });
   const styleArrow = {
     transform: isDropDown ? "rotate(180deg)" : "rotate(0deg)",
     transition: "transform 0.2s ease",
   };
 
-  
-return (
-    <div className={styleDrop.boxdrop}>
+  return (
+    <div className={styleDrop.boxdrop} ref={menuRef}>
       <div>
         <p className={`${styleDrop.box_select} ${styleDrop.font}`}>
           {isSelectSec ? isSelectSec : "Select section"}
@@ -55,6 +63,18 @@ return (
             onClick={() => onClickSection("Section 002")}
           >
             Section 002
+          </li>
+          <li
+            className={`${styleDrop.option} ${styleDrop.font}`}
+            onClick={() => onClickSection("Section 007")}
+          >
+            Section 007
+          </li>
+          <li
+            className={`${styleDrop.option} ${styleDrop.font}`}
+            onClick={() => onClickSection("Section 008cd")}
+          >
+            Section 008
           </li>
           <li
             className={`${styleDrop.option} ${styleDrop.font}`}

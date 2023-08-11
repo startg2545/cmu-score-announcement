@@ -14,7 +14,8 @@ import CourseDetail from './pages/courseDetail';
 import CMUOAuthCallback from "./pages/cmuOAuthCallback";
 import Course166 from './pages/course166';
 import UploadScorePage from './pages/uploadScorePage';
-import DropDown from './components/Navbar/DropDown/DropDown'
+import DropDown from './components/DropDown/DropDown'
+import TableScore from './components/TableScore/TableScore'
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route exact path='/course-166' element={<Course166 />} />
         <Route exact path='/upload-score-page' element={<UploadScorePage />} />
         <Route exact path='/dropdown' element={<DropDown />} />
+        <Route exact path='/table-score' element={<TableScore />} />
       </Routes>
     </Router>
   )
