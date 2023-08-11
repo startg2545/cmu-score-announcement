@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import styleDrop from "./dropdown.module.css";
+import styleDrop from "./css/dropdown.module.css";
 
 const DropDown = () => {
   const [isDropDown, setDropDown] = useState(false);
@@ -72,7 +72,7 @@ const DropDown = () => {
           </li>
           <li
             className={`${styleDrop.option} ${styleDrop.font}`}
-            onClick={() => onClickSection("Section 008cd")}
+            onClick={() => onClickSection("Section 008")}
           >
             Section 008
           </li>
