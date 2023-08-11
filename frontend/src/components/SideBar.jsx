@@ -10,15 +10,15 @@ const SideBar = ({ showSidebar, setShowSidebar }) => {
     setShowSidebar(!showSidebar);
   };
 
+  console.log(showSidebar);
+
   return (
     <>
       <div className={`${style.sidebar} ${showSidebar ? style.show : ""}`}>
         <div className={style.frameCourseInSideBar}>
           <Link
             to="/course-166"
-            className={`${style.courseButton} ${
-              showSidebar ? style.purple_button : ""
-            }`}
+            className={`${style.courseButton} ${ showSidebar ? style.purple_button : ""}`}
             onClick={handleSidebarClick}
           >
             <svg
