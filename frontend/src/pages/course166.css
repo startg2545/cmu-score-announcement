@@ -229,7 +229,7 @@ body {
 .c166coursebutton
 {
   width: 200px;
-  height: 45px;
+  height: 40px;
   flex-shrink: 0;
   border-radius: 15px;
   background: #ffffff;
@@ -242,6 +242,7 @@ body {
   text-indent: -15px; 
   font-size: 20px;
   transition: background-color 0.3s ease;
+  margin-bottom: 6px;
 }
 
 .c166coursebutton svg{
