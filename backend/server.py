@@ -4,7 +4,8 @@ import os
 import pprint
 from pymongo import MongoClient
 import json
-from bson import json_util
+from bson import json_util, ObjectId
+
 load_dotenv(find_dotenv())  # load environment variable files
 
 password = os.environ.get("MONGODB_PWD")
@@ -18,8 +19,10 @@ scores = score_announcement.scores  # create colleciton calls scores
 
 app = Flask(__name__)
 
+
 def parse_json(data):
     return json.loads(json_util.dumps(data))
+
 
 @app.route('/course-detail', methods=['GET'])
 def get_score_detail():
@@ -28,46 +31,42 @@ def get_score_detail():
         arr.append(x)
     return parse_json(arr)
 
-def update_course(person_id):
-    # from bson.objectid import ObjectId
-
-    # _id = ObjectId(person_id)
-
-    # all_updates = {
-    #     '$set': {'new_field': True},
-    #     '$rename': {'first': 'first_name', 'last': 'last_name'}
-    # }
-
-    # person_collection.update_one({'_id': _id}, all_updates)
-    # perosn_collection.update_one({'_id': _id}, {'$unset': {'new_field': ''}})
-    print(f'updated person id {person_id}')
 
 @app.route('/course-detail', methods=['POST'])
 def insert_score():
-    courses = []
-    
+    my_request = request.json
+    obj = {
+        'scoreName': my_request['details'][0]['scoreName'],
+        'studentNumber': my_request['details'][0]['studentNumber'],
+        'fullName': my_request['details'][0]['fullScore'],
+        'isDisplayMean': my_request['details'][0]['isDisplayMean'],
+        'mean': my_request['details'][0]['mean'],
+        'results': my_request['details'][0]['results']
+    }
+
+    existing_scores = []
     for x in scores.find():
-        courses.append(x)
-    myrequest = request.json
-    isFound = False
+        existing_scores.append(x)
+    is_found = False
+    for data in existing_scores:
+        #  find duplicated scores
+        if data['courseNo'] == my_request['courseNo'] and data['section'] == my_request['section'] and data['semaster'] == my_request['semaster'] and data['year'] == my_request['year']:
+            # find _id of mongodb to insert score in section
+            scores.update_one(
+                { 'courseNo': "001201" },
+                { '$push': { 'details': obj } }
+            )
+            is_found = True  # duplicated course has been found
+            print(f"New score has been added in {my_request['courseNo']}, section {my_request['section']}, {my_request['semaster']}/{my_request['year']}")
+    if not is_found:  # inseart score in new course/section/semaster/year
+        scores.insert_one(my_request)
+        print(f"New score has been added in {my_request['courseNo']} which is a new course!")
 
-    for data in courses:
-        #  find duplicated courses
-        if data['courseNo'] == myrequest['courseNo'] and data['section'] == myrequest['section'] and data['semaster'] == myrequest['semaster'] and data['year'] == myrequest['year']:
-            # find _id of mongodb to update
-            for item in scores.find_one({'courseNo': data['courseNo']}):
-                update_course(item.get('_id'))
-            isFound = True  # duplicated course has been found
-            print(f"New score has been added in {myrequest['courseNo']}, section {myrequest['section']}, {myrequest['semaster']}/{myrequest['year']}")
-    if isFound == False:  # inseart score in new course/section/semaster/year
-        scores.insert_one(myrequest)
-        print(f"New score has been added in {myrequest['courseNo']} which is a new course!")
+    return jsonify({"Result": "Received scores of subject " + my_request['courseNo'] + " successfully."})
 
-    return jsonify({"Result": "Received scores of subject " + myrequest['courseNo'] + " successfully."})
 
 if __name__ == '__main__':
     app.run(debug=True, host='127.0.0.1')
-
 
 # notification = client.notification
 # person_collection = notification.person_collection
