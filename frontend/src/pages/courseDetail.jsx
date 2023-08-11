@@ -1,16 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+
 const CourseDetail = () => {
   const [scores, setScores] = useState([])
+
+  const course_topic = scores.map((data,key) => {
+    return (
+      <div key={key}>
+        <button>
+          <label><b>Course ID: </b>{data.courseNo}, </label>
+          <label><b>Section: </b>{data.section}, </label>
+          <label><b>Semaster: </b>{data.semaster}, </label>
+          <label><b>Year: </b>{data.year} </label>
+        </button>
+      </div>
+    )
+  })
+
+  useEffect(()=>{
+
+  }, [])
   const info = scores.map((data,key) => {
     return (
       <tr key={key}>
         <td>{scores.findIndex(x=>x.courseNo===data.courseNo)+1}</td>
-        <td>{data.scoreName}</td>
-        <td>{data.studentNumber}</td>
-        <td>{data.fullScore}</td>
-        <td>{data.mean}</td>
+        <td>{data['details'][0]['scoreName']}</td>
+        <td>{data['details'][0]['studentNumber']}</td>
+        <td>{data['details'][0]['fullScore']}</td>
+        <td>{data['details'][0]['mean']}</td>
         <td><button>Eye</button></td>
         <td>
           <button>Add</button>
@@ -23,12 +41,13 @@ const CourseDetail = () => {
   useEffect(()=>{
     axios.get('http://localhost:3000/course-detail')
       .then(res=>setScores(res.data))
-      .then(res=>console.log(res))
       .catch(err=>console.log(err))
   }, [setScores])
   console.log(scores)
   return (
-    <table>
+    <div>
+    {course_topic}
+    <table id='table'>
       <tbody>
       <tr>
         <th>Number</th>
@@ -42,6 +61,7 @@ const CourseDetail = () => {
       {info}
       </tbody>
     </table>
+    </div>
   )
 }
 

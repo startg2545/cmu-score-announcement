@@ -15,15 +15,17 @@ import CMUOAuthCallback from "./pages/cmuOAuthCallback";
 import Course166 from './pages/course166';
 import UploadScorePage from './pages/uploadScorePage';
 import DropDown from './components/Navbar/DropDown/DropDown'
+import AddDatabase from './pages/addDatabase'
 
 function App() {
   return (
     <Router>
-      {/* <Navbar /> */}
+      <Navbar />
       <Routes>
         <Route exact path='/' element={<Home />} />
         <Route exact path='/about' element={<About />} />
         <Route exact path='/contact' element={<Contact />} />
+        <Route exact path='/add-database' element={<AddDatabase />} />
         <Route path='/course-detail' element={<CourseDetail />} />
         <Route path='/add-score' element={<AddScore />} />
         <Route exact path='/sign-in' element={<SignIn />} />
