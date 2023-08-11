@@ -1,10 +1,18 @@
 from dotenv import load_dotenv, find_dotenv
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 import os
 import pprint
 from pymongo import MongoClient
 import json
+<<<<<<< HEAD
 from bson import json_util, ObjectId
+=======
+from bson import json_util
+from api.cmuOAuth import cmuOAuth_api
+from api.user import user_api
+from api.course import course_api
+>>>>>>> b524893028f060638a793b793ebe68ac127b9ae7
 
 load_dotenv(find_dotenv())  # load environment variable files
 
@@ -14,10 +22,20 @@ connection_string = f"mongodb+srv://startg2545:{password}@scoreannouncement.mbqo
 client = MongoClient(connection_string)
 
 dbs = client.list_database_names()  # get all database
-score_announcement = client.score_announcement  # create database calls score_announcement
+# create database calls score_announcement
+score_announcement = client.score_announcement
 scores = score_announcement.scores  # create colleciton calls scores
 
+prefix = '/api/v1'
+
 app = Flask(__name__)
+cors = CORS(app, origins="http://localhost:3000", supports_credentials='true')
+
+app.url_map.strict_slashes = False
+
+app.register_blueprint(cmuOAuth_api, url_prefix = prefix + '/cmuOAuth')
+app.register_blueprint(user_api, url_prefix = prefix + '/user')
+app.register_blueprint(course_api, url_prefix = prefix + '/course')
 
 
 def parse_json(data):
@@ -63,6 +81,7 @@ def insert_score():
         print(f"New score has been added in {my_request['courseNo']} which is a new course!")
 
     return jsonify({"Result": "Received scores of subject " + my_request['courseNo'] + " successfully."})
+
 
 
 if __name__ == '__main__':

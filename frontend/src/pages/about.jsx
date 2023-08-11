@@ -4,7 +4,9 @@ const About = () => {
 	return (
 		<div>
 			<h1>
-				CMU Score Announcement is where professors show student's scores.
+				CMU Score Announcement is 
+                where professors can show 
+                student's scores in this website  
 			</h1>
 		</div>
 	);
