@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # CMU Score Announcement
 ## Want to know where our database is? 
 cmu-score-announcement -> src -> db.json
@@ -9,7 +8,6 @@ cmu-score-announcement -> src -> db.json
 ### IDE: up to you
 ### App main is located in cmu-score-announcement -> src -> App.js
 ### Database MongoDB located in cmu-score-announcement -> main.py
-=======
 # Get started
 ## at directory 'cmu-score-announcement'
 ## 1. run frontend
@@ -19,5 +17,4 @@ cmu-score-announcement -> src -> db.json
 ## 2. run backend
 ###   2.1) open second terminal
 ###   2.2) run ``` cd backend ```
-###   2.3) run ``` python server.py ```
->>>>>>> 17876f0bcc103bb0da569a8660a983654e39c5cd
+###   2.3) run ``` npm run dev ```
