@@ -15,10 +15,11 @@ const DropDown = () => {
 
   const styleArrow = {
     transform: isDropDown ? "rotate(180deg)" : "rotate(0deg)",
-    transition: "tranform 0.3s ease",
+    transition: "transform 0.2s ease",
   };
 
-  return (
+  
+return (
     <div className={styleDrop.boxdrop}>
       <div>
         <p className={`${styleDrop.box_select} ${styleDrop.font}`}>

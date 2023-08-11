@@ -1,7 +1,6 @@
 .boxdrop {
   width: 230px;
   margin: 15px;
-
 }
 .box_select {
   display: flex;
@@ -31,8 +30,11 @@
   background-color: rgb(253, 253, 253);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
 }
-.sec_menu  .font{
-  color: #000;
+
+
+
+.sec_menu .font {
+  color: #5c5c5c;
   font-family: SF Pro;
   font-size: 20px;
   font-style: normal;
@@ -53,4 +55,6 @@
 
 .option:hover {
   background: #f2f2f2;
+  color: #000000;
+  
 }
