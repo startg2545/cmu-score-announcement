@@ -9,7 +9,7 @@
   top: calc(105px + 50%); /* Center vertically with top offset */
   bottom: calc(10px + 50%); /* Center vertically with bottom offset */
   left: 50%;
-  transform: translate(-50%,-3%);
+  transform: translate(-50%,1%);
   width: 100vw;
   max-width: 96.6%;
   height: calc(79vh - 60px);
@@ -152,7 +152,10 @@
   text-indent: -5px;
   font-size: 18px;
   transition: background-color 0.3s ease;
-  transform: translate(810%, -65px);
+  position: fixed;
+  right: 25px; 
+  top: 110px; 
+  
 }
 
 .c166AddCourseButton svg {
