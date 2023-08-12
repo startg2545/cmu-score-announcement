@@ -31,7 +31,7 @@ function AddScore() {
     e.preventDefault()
     setIsDisplayMean(document.getElementById('show-mean').checked);
     console.log(data)
-    // navigate('/add-database', {state: data});
+    navigate('/add-database', {state: data});
   }
 
   useEffect(() => {
@@ -40,8 +40,7 @@ function AddScore() {
     let year = location.search.split('&')[2].split('=')[1]  // get year from Hooks
     let semaster = location.search.split('&')[3].split('=')[1]  // get semaster from Hooks
     setCourseNo(courseNo); setSection(section); setYear(year); setSemaster(semaster);
-    console.log(details)
-  }, [location, details]);
+  }, [location]);
 
 
   // handle Microsoft Excel file (.xlsx)
@@ -99,8 +98,8 @@ function AddScore() {
         results: results_list
       }
       arr[i] = obj
-      console.log(arr[i])
     }
+    setDetails(arr)
   }
 
   const handleFile = async (e) => {
