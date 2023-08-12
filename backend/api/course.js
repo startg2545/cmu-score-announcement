@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
-const courseModel = require("../db/scores");
+const courseModel = require("../db/scoreSchema");
 const router = express.Router();
 
 //get course detail from api cpe
@@ -50,8 +50,9 @@ router.post("/add", async (req, res) => {
 
     // if(req.body.courseNo.substring(0, 3) === "261" && decoded.cmuAccount === "dome.potikanond@cmu.ac.th")
 
+    // add new course
     if (!course) {
-      const newCourse = new courseModel({
+      const newCourse = await courseModel.create({
         courseOwner: decoded.cmuAccount,
         courseNo: req.body.courseNo,
         section: req.body.section,
@@ -59,23 +60,15 @@ router.post("/add", async (req, res) => {
         semaster: req.body.semaster,
         details: req.body.details,
       });
-
       await newCourse.save();
       return res.send(newCourse);
     } else if (course.courseOwner.includes(decoded.cmuAccount)) {
-      // update score
-      if (course.details.includes({ scoreName: req.body.details[0].scoreName })) {
-        course.updateOne(
-          { "details.scoreName": req.body.details[0].scoreName },
-          { $addToset: { details: req.body.details[0] } }
-        );
-      } else {
-        // add new score
-        course.details.push(req.body.details[0]);
-      }
+      // add new score
+      course.details.push(req.body.details[0]);
       await course.save();
       return res.send(course);
     }
+
     return res.send({
       message: "You Cannot Add This Course",
     });
@@ -104,24 +97,6 @@ router.put("/owner", async (req, res) => {
 
     course.courseOwner.push(req.query.owner);
     await course.save();
-    return res.send(course);
-  } catch (err) {
-    return err;
-  }
-});
-
-//get scores
-router.get("/scores", async (req, res) => {
-  try {
-    const token = req.cookies.token;
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err)
-        return res.status(401).send({ ok: false, message: "Invalid token" });
-      else if (!user.cmuAccount)
-        return res.status(403).send({ ok: false, message: "Invalid token" });
-    });
-
-    const course = await courseModel.find();
     return res.send(course);
   } catch (err) {
     return err;
