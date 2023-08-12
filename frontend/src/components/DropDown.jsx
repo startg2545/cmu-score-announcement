@@ -51,7 +51,7 @@ const DropDown = () => {
       </div>
 
       {isDropDown && (
-        <ul className={styleDrop.sec_menu}>
+        <ul className={ `${styleDrop.sec_menu} ${styleDrop.scroll}`}>
           <li
             className={`${styleDrop.option} ${styleDrop.font}`}
             onClick={() => onClickSection("Section 001")}
@@ -66,6 +66,30 @@ const DropDown = () => {
           </li>
           <li
             className={`${styleDrop.option} ${styleDrop.font}`}
+            onClick={() => onClickSection("Section 003")}
+          >
+            Section 003
+          </li>
+          <li
+            className={`${styleDrop.option} ${styleDrop.font}`}
+            onClick={() => onClickSection("Section 004")}
+          >
+            Section 004
+          </li>
+          <li
+            className={`${styleDrop.option} ${styleDrop.font}`}
+            onClick={() => onClickSection("Section 005")}
+          >
+            Section 005
+          </li>
+          <li
+            className={`${styleDrop.option} ${styleDrop.font}`}
+            onClick={() => onClickSection("Section 006")}
+          >
+            Section 006
+          </li>
+          <li
+            className={`${styleDrop.option} ${styleDrop.font}`}
             onClick={() => onClickSection("Section 007")}
           >
             Section 007
@@ -75,6 +99,36 @@ const DropDown = () => {
             onClick={() => onClickSection("Section 008")}
           >
             Section 008
+          </li>
+          <li
+            className={`${styleDrop.option} ${styleDrop.font}`}
+            onClick={() => onClickSection("Section 009")}
+          >
+            Section 009
+          </li>
+          <li
+            className={`${styleDrop.option} ${styleDrop.font}`}
+            onClick={() => onClickSection("Section 010")}
+          >
+            Section 010
+          </li>
+          <li
+            className={`${styleDrop.option} ${styleDrop.font}`}
+            onClick={() => onClickSection("Section 011")}
+          >
+            Section 011
+          </li>
+          <li
+            className={`${styleDrop.option} ${styleDrop.font}`}
+            onClick={() => onClickSection("Section 012")}
+          >
+            Section 012
+          </li>
+          <li
+            className={`${styleDrop.option} ${styleDrop.font}`}
+            onClick={() => onClickSection("Section 013")}
+          >
+            Section 013
           </li>
           <li
             className={`${styleDrop.option} ${styleDrop.font}`}
