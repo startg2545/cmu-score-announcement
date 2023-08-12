@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
-import { getCourse } from "../services/course";
 import './css/main.css';
 
 const year = [
@@ -66,7 +65,7 @@ const SearchCourse = () => {
 	}
 
 	// Axios Part
-  function axiosFetch() {
+	function axiosFetch() {
 		console.log('Fetching');
 		axios.get('https://api.cpe.eng.cmu.ac.th/api/v1/course/detail', {
 			signal: signal,
@@ -74,13 +73,6 @@ const SearchCourse = () => {
 		}).then(res => setData(res.data.courseDetails))
 		  .catch(err => console.error('Error:', err))
 	}
-  // get course detail from api server
-	// async function axiosFetch() {
-	// 	console.log('Fetching');
-	// 	const res = await getCourse(signal);
-	// 	if (res.ok) setData(res.courseDetails);
-	// 	else console.error('Error:',res.message);
-	// }
 	function axiosAbort() {
 		console.log('Abort');
 		controller.abort();
@@ -88,32 +80,14 @@ const SearchCourse = () => {
 
 	useEffect(() => {
 		// Get API by using axios
-    axios.get('https://api.cpe.eng.cmu.ac.th/api/v1/course/detail',
+		axios.get('https://api.cpe.eng.cmu.ac.th/api/v1/course/detail',
 		{
 			headers: { Authorization: `Bearer ${accessToken}` }
 		})
 		.then(res => setData(res.data.courseDetails));
-	  // get course detail from api server
-		// const fetchData = async () => {
-		// 	const res =  await getCourse();
-		// 	setData(res.courseDetails);
-		// }
-		// fetchData();
+		
 	}, [])
 	console.log(data)
-
-	const handleCourseNo = (event) => {
-		setSelectedCourseNo(event)
-	}
-	const handleSection = (event) => {
-		setSelectedSection(event)
-	}
-	const handleYear = (event) => {
-		setSelectedYear(event)
-	}
-	const handleSemaster = (event) => {
-		setSelectedSemaster(event)
-	}
 	
 	return (
 		<body>
@@ -125,7 +99,7 @@ const SearchCourse = () => {
 			}}>
 			<div>
 				<h3>Choose Course</h3>
-				<select value={selectedCourseNo} onChange={e=>handleCourseNo(e.target.value)} style={{ width: '170px' }} required>
+				<select value={selectedCourseNo} onChange={e=>setSelectedCourseNo(e.target.value)} style={{ width: '170px' }} required>
 					<option>Choose Course</option>
 					{data.map((res,index)=>(
 						<option key={index} value={res.value}>
@@ -134,7 +108,7 @@ const SearchCourse = () => {
 					))}
 				</select>
 				<h3>Choose Section</h3>
-				<select value={selectedSection} onChange={e=>handleSection(e.target.value)} style={{ width: '170px' }} required>
+				<select value={selectedSection} onChange={e=>setSelectedSection(e.target.value)} style={{ width: '170px' }} required>
 					{sections.map((res,index)=>(
 						<option key={index} value={res.value}>
 							{res.text}
@@ -142,7 +116,7 @@ const SearchCourse = () => {
 					))}
 				</select>
 				<h3>Choose Year</h3>
-				<select value={selectedYear} onChange={e=>handleYear(e.target.value)} style={{ width: '170px' }} required>
+				<select value={selectedYear} onChange={e=>setSelectedYear(e.target.value)} style={{ width: '170px' }} required>
 					{year.map((res,index)=>(
 						<option key={index} value={res.value}>
 							{res.text}
@@ -150,7 +124,7 @@ const SearchCourse = () => {
 					))}
 				</select>
 				<h3>Choose Semaster</h3>
-				<select value={selectedSemaster} onChange={e=>handleSemaster(e.target.value)} style={{ width: '170px' }} required>
+				<select value={selectedSemaster} onChange={e=>setSelectedSemaster(e.target.value)} style={{ width: '170px' }} required>
 					{semaster.map((res,index)=>(
 						<option key={index} value={res.value}>
 							{res.text}

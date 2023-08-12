@@ -5,18 +5,16 @@ import { useLocation, useNavigate} from 'react-router-dom';
 import * as XLSX from 'xlsx';
 
 function AddScore() {
+  const [details, setDetails] = useState([])
   const [courseNo, setCourseNo] = useState(0);
   const [section, setSection] = useState(0);
   const [year, setYear] = useState(0);
   const [semaster, setSemaster] = useState(0);
   const [scoreName, setScoreName] = useState('');
-  const [studentNumber, setStudentNumber] = useState(0) 
   const [fullScore, setFullScore] = useState('');
   const [isDisplayMean, setIsDisplayMean] = useState(false);
-  const [mean, setMean] = useState(0);
   const [note, setNote] = useState('');
   const [fileName, setFileName] = useState(null);
-  const [results, setResults] = useState([]);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -26,19 +24,11 @@ function AddScore() {
     section: section,
     year: year,
     semaster: semaster,
-    details: [
-      {
-        scoreName: scoreName,
-        studentNumber: studentNumber,
-        fullScore: fullScore,
-        isDisplayMean: isDisplayMean,
-        mean: mean,
-        results: results
-      }
-    ]
+    details: details
   }
+
   const submitHandler = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     setIsDisplayMean(document.getElementById('show-mean').checked);
     console.log(data)
     navigate('/add-database', {state: data});
@@ -54,6 +44,64 @@ function AddScore() {
 
 
   // handle Microsoft Excel file (.xlsx)
+  function getResults(list, keys) {
+    // list is array of dictionary, keys is array
+    const results_list = []
+    for (let i in list) {
+      let obj = {}
+      for ( let j in keys) {
+        obj[keys[j]] = list[i][j] 
+      }
+      results_list[i] = obj
+    }
+    return results_list
+  }
+
+  function getAvg(list, keys) {
+    // list is array of dictionary, keys is array
+    var sum = 0;
+    if ( keys[0] === 'student_code' && keys[1] === 'point' && keys[2] === 'comment' ) {
+      // this is single scores
+      for (let i in list) { sum += list[i]['point'] }
+      const avg = sum / ( list.length );
+      return avg.toFixed(2)  
+    } else {
+      // this is multiple scores
+      const avg_obj = {}
+      for (let i=1; i<keys.length; i++) {
+        for (let j in list) { sum += list[j][keys[i]] }
+        const avg = sum / ( list.length )
+        avg_obj[keys[i]] = avg.toFixed(2)
+      }
+      return avg_obj
+    }
+  }
+
+  function addDetails(keys, full_score, student_number, avg, results) {
+    const arr = []
+    for(let i=0; i<keys.length-1; i++) {
+      let results_list = []
+      for(let j in results) {
+        let obj = {
+          student_code: results[j]['student_code'],
+          point: results[j][keys[i+1]]
+        }
+        results_list[j] = obj
+      }
+      let obj = {
+        scoreName: keys[i+1], 
+        fullScore: full_score[i], 
+        isDisplayMean: isDisplayMean,
+        studentNumber: student_number, 
+        note: note, 
+        mean: avg[keys[i+1]],
+        results: results_list
+      }
+      arr[i] = obj
+    }
+    setDetails(arr)
+  }
+
   const handleFile = async (e) => {
     const file = e.target.files[0];
     const data = await file.arrayBuffer();
@@ -63,28 +111,35 @@ function AddScore() {
       header: 1,
       defval: ""
     });
+    const keys = resultsData.shift()
     setFileName(file.name)  // set for showing status
-    resultsData.shift()
-    const results_list = []
-    for (let x in resultsData) {
-      let results_obj = {
-        'student_code': x[0],
-        'point': x[1],
-        'comment': x[2]
-      }
-      results_list[x] = results_obj
+    var results = {}
+    var avg = 0
+    var student_number = 0
+    if ( keys[0] === 'student_code' && keys[1] === 'point' && keys[2] === 'comment' ) {
+      results = getResults(resultsData, keys)
+      avg = getAvg(results, keys)
+      setDetails([
+        { 
+          scoreName: scoreName,
+          fullScore: fullScore,
+          isDisplayMean: isDisplayMean,
+          studentNumber: resultsData.length,
+          note: note,
+          mean: avg,
+          results: results
+        }
+      ])
+    } else {
+      let full_score = resultsData.pop()
+      full_score.shift()
+      results = getResults(resultsData, keys)
+      avg = getAvg(results, keys)
+      student_number = resultsData.length
+      addDetails(keys, full_score, student_number, avg, results)
     }
-    setResults(resultsData);
-    setStudentNumber(resultsData.length-1);
-
-    // calculate mean
-    var sum = 0;
-    for (let i=1;i<resultsData.length;i++) {
-      sum += resultsData[i][1];
-    }
-    var avg = sum / ( resultsData.length - 1 );
-    setMean(avg.toFixed(2));
   }
+
   function renderFile() {
     let obj = document.getElementById('file-status')
     if(obj!=null)
@@ -95,8 +150,7 @@ function AddScore() {
     if(obj!=null)
       obj.innerHTML = "Please attach Microsoft Excel file with the right template.";
   }
-
-  fileName!=null ? renderFile() : notYet();  // showing file status
+  fileName!=null ? renderFile() : notYet();  // show file status
 
 
   return (
@@ -106,6 +160,7 @@ function AddScore() {
         React Microsoft Excel
       </Header>
       <Form onSubmit={submitHandler}>
+        <h3>Announce Score</h3>
         <Form.Field>
           <label htmlFor='score_name' className='component'>Score Name: </label>
           <input type='text' value={scoreName} onChange={(e) => setScoreName(e.target.value)} placeholder='Enter Score Name'/>
@@ -116,9 +171,9 @@ function AddScore() {
         </Form.Field>
         <div className='element1'>
           <label>Display avarage score of section: </label>
-          <input type='radio' id='show-mean' name='avg-score' value="show-mean" />
+          <input type='radio' id='show-mean' name='avg-score' value={isDisplayMean} onChange={()=> setIsDisplayMean(true)} />
           <label>Show mean</label>
-          <input type='radio' name='avg-score' value="not-show-mean" />
+          <input type='radio' name='avg-score' value={isDisplayMean} onChange={()=> setIsDisplayMean(false)} />
           <label>Don't show mean</label>
         </div>
         <div className='element1'>
@@ -127,34 +182,18 @@ function AddScore() {
         </div>
         <div className='element1'>
           <label htmlFor='point'>Test score file: </label>
-          <input type='file' name='file' onChange={(e) => handleFile(e)} />
-          <br/><label id='file-status'></label>
+          <div>
+            <input type='file' name='file-single' onChange={(e) => handleFile(e)} />
+            <label id='file-status'></label>
+          </div>
         </div>
         <Form.Field>
           <label htmlFor='comment'>Note to students in section: </label>
           <input type='text' value={note} onChange={(e) => setNote(e.target.value)} placeholder='Enter comment'/>
         </Form.Field>
-        <Button color='green' type='submit'>Submit</Button>
+        <Button type='submit'>Submit</Button>
       </Form>
       <hr/>
-
-
-      {/* <h3>ParseExcel</h3>
-      {fileName && (
-        <React.Fragment>
-          <p>
-            Filename: <span>{fileName}</span>
-          </p>
-          <p>
-            results:{" "} 
-            <select>
-              {results.map((res,index) => (
-                <option key={index} value={res}>{res[0]}</option>
-              ))}
-            </select>
-          </p>
-        </React.Fragment>
-      )} */}
 
     </Container>
   );
