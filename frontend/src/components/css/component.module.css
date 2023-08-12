@@ -250,6 +250,7 @@ body {
 }
 
 .purple_button {
-  background-color: #b6b8e6;
-  color: rgb(0, 0, 0);
+  background-color: #d0d1f0;
+    color: rgb(0, 0, 0);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
 }

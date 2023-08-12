@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400&display=swap');
+@font-face {
+  font-family: 'SF PRO';
+  src: url(./font/SF-Pro.ttf) format('truetype');
+}
 
 body {
     margin: 0; /* Reset default body margin */
@@ -6,62 +9,163 @@ body {
     position: relative; /* Make sure the body is relatively positioned */
   }
 
-  /* Add styles for the navbar and sidebar icon */
-  .StuDaNavBar {
+  .stuDaframewindow {
+    position: fixed;
+    right: 35px; 
+    top: calc(185px ); /* Center vertically with top offset */
+    bottom: calc(10px + 50%); /* Center vertically with bottom offset */
+    transform: translateY(3%);
+    width: 65.5vw;
+    height: calc(79vh - 60px);
+    overflow-y:auto;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    border: 3px solid #696CA3;
+    background: #FFF;
+    transition: width 0.4s ease, margin-left 0.4s ease;
+  }
+  
+  
+  .stuDaframewindow-container {
     position: relative;
-    height: 80px;
-    background: #8084C8;
-    padding-left: 50px; /* Add some padding to the left for the icon */
+    display: flex;
+    flex-direction: row;
+    padding-top: 15px;
+    padding-bottom: 15px;
   }
   
-  .StuDaSidebar-icon {
-    position: absolute;
-    top: 45%;
-    left: 30px;
-    transform: translateY(-50%);
-    width: 35px;
-    height: 35px;
-    border-radius: 4px;
-    background-color: #8084C8;
+  .stuDaframewindow.shrink {
+    align-items: center;
+    width: 47vw; /* Reduce the width by the width of the sssidebar */
+    
   }
-  
 
-  
-  .StuDacmulogo{
-    position: absolute;
-    top: 50%; /* Center the icon vertically within the navbar */
-    left: 100px; /* Position the icon in the left corner */
-    transform: translateY(-50%); /* Adjust to vertically center the icon properly */
-    width: 120px; /* Change the width to resize the icon */
-    height: 120px; /* Change the height to resize the icon */
-    border-radius: 4px; /* Optional: Add border radius to make the border corners rounded */
-  }
-  
-  .StuDahellostyle {
-    position: absolute;
-  
-    right: 25px; /* Align to the right corner */
-    color: #FFF;
-    text-align: right;
-    text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-    font-family: 'Prompt', sans-serif;
-    font-size: 22px;
+  .stuStartText {
+    color: #696CA3;
+    text-align: center;
+    font-family: 'SF PRo', sans-serif;
+    font-size: 32px;
     font-style: normal;
-    font-weight: 780;
+    font-weight: 600;
     line-height: normal;
-    transform: translateY(-30%);
   }
-  
-  .StuDarolestyle {
-    position: absolute;
-    top: 0px; /* Adjust the top position to place it below the hellostyle */
-    right: 30px; /* Align to the right corner */
-    color: #F7C878;
-    text-align: right;
-    font-family: 'Prompt', sans-serif;
-    font-size: 16px;
+
+  .stucoursetopictext
+{
+  color: #696CA3;
+  font-family: 'SF PRo', sans-serif;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 540;
+  line-height: normal;
+  transform: translate(32px, 20px);
+  transition: transform 0.4s ease;
+}
+
+.studatetext
+{
+    color: #696CA3;
+    font-family: 'SF PRo', sans-serif;
+    font-size: 28px;
     font-style: normal;
-    font-weight: 610;
+    font-weight: 450;
     line-height: normal;
-    transform: translateY(120%);
-  }
+    transform: translate(34px, 20px);
+    transition: transform 0.4s ease;
+}
+
+.stucoursetopictext.move-right
+{
+    transform: translate(305px, 20px);
+    transition: transform 0.4s ease; 
+}
+.studatetext.move-right {
+    transform: translate(310px, 20px);
+  transition: transform 0.4s ease; 
+}
+
+.stuNotiFrame{
+  position: fixed;
+    left: 30px; 
+    top: calc(185px ); /* Center vertically with top offset */
+    bottom: calc(10px + 50%); /* Center vertically with bottom offset */
+    transform: translateY(3%);
+    width: 28vw;
+    height: calc(79vh - 60px);
+    overflow-y:auto;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    border: 3px solid #9F9EDA;
+    background: #9F9EDA;
+    transition: width 0.4s ease, margin-left 0.4s ease;
+}
+
+.stuNotiFrame.shrink {
+  align-items: center;
+  width: 28vw; /* Reduce the width by the width of the sssidebar */
+  margin-left: 275px;
+}
+
+.stuNotiBox
+{
+  width: 26vw;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: 10px;
+ 
+  background: #FFF;
+  
+  max-width: 100%;
+  align-items: center;
+  vertical-align: bottom;
+  text-indent: 40px;
+  cursor: pointer;
+}
+
+.stuNotiBox:first-child {
+  margin-top: 15px;
+}
+
+.stuNotiBox:last-child {
+  margin-bottom: 15px;
+}
+
+.stucourseName{
+  color: #000000;
+  text-align: center;
+  font-family: 'SF PRo', sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  transform: translate(-146px,12px);
+}
+
+.stucourseNameDetail{
+  color: #000000;
+  font-family: 'SF PRo';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  transform: translate(-12px,14px);
+}
+
+.stucourseNameDate{
+  color: #696CA3;
+  text-align: right;
+  font-family: 'SF PRo', sans-serif;
+  font-size: 15px;
+  font-weight: 510;
+  line-height: normal;
+  position: fixed;
+  left: 380px;
+  transform: translate(-100px,-10px);
+  text-justify: right; 
+  white-space: nowrap;
+}
