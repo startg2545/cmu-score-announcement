@@ -1,7 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
-const testModel = require("../db/scores");
+const courseModel = require("../db/scores");
 const router = express.Router();
 
 //get course detail from api cpe
@@ -32,39 +32,40 @@ router.get("/", async (req, res) => {
 router.post("/add", async (req, res) => {
   try {
     const token = req.cookies.token;
-
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err)
         return res.status(401).send({ ok: false, message: "Invalid token" });
       else if (!user.cmuAccount)
         return res.status(403).send({ ok: false, message: "Invalid token" });
     });
-
     const decoded = jwt.decode(token);
-    const course = await testModel.findOne({
-      courseNo: req.query.courseNo,
-      section: req.query.section,
-      year: req.query.year,
-      semaster: req.query.semaster,
+
+    const course = await courseModel.findOne({
+      courseNo: req.body.courseNo,
+      section: req.body.section,
+      year: req.body.year,
+      semaster: req.body.semaster,
     });
 
-    console.log(course);
-
-    // if(req.query.courseNo.substring(0, 3) === "261" && decoded.cmuAccount === "dome.potikanond@cmu.ac.th")
+    // if(req.body.courseNo.substring(0, 3) === "261" && decoded.cmuAccount === "dome.potikanond@cmu.ac.th")
 
     if (!course) {
-      const course = new testModel({
-        courseOwner: [decoded.cmuAccount],
-        courseNo: req.query.courseNo,
-        section: req.query.section,
-        year: req.query.year,
-        semaster: req.query.semaster,
+      const newCourse = new courseModel({
+        courseOwner: decoded.cmuAccount,
+        courseNo: req.body.courseNo,
+        section: req.body.section,
+        year: req.body.year,
+        semaster: req.body.semaster,
+        details: req.body.details,
       });
-
+      await newCourse.save();
+      return res.send(newCourse);
+    } else if (course.courseOwner.includes(decoded.cmuAccount)) {
+      course.updateOne({
+        details: req.body.details,
+      });
       await course.save();
       return res.send(course);
-    } else if (course.courseOwner.includes(decoded.cmuAccount)) {
-      
     }
 
     return res.send({
@@ -87,7 +88,7 @@ router.put("/owner", async (req, res) => {
         return res.status(403).send({ ok: false, message: "Invalid token" });
     });
 
-    const course = await testModel.findOne({
+    const course = await courseModel.findOne({
       courseNo: req.query.courseNo,
       section: req.query.section,
       year: req.query.year,
@@ -102,8 +103,8 @@ router.put("/owner", async (req, res) => {
   }
 });
 
-//get score
-router.get("/score", async (req, res) => {
+//get scores
+router.get("/scores", async (req, res) => {
   try {
     const token = req.cookies.token;
 
@@ -114,7 +115,9 @@ router.get("/score", async (req, res) => {
         return res.status(403).send({ ok: false, message: "Invalid token" });
     });
 
-    res.send(response.data);
+    const course = await courseModel.find();
+    
+    return res.send(course);
   } catch (err) {
     return err;
   }

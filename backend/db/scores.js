@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const scoresSchema = new mongoose.Schema({
+const scoreSchema = new mongoose.Schema({
   courseOwner: [{ type: String }],
   courseNo: String,
   section: String,
@@ -15,7 +15,7 @@ const scoresSchema = new mongoose.Schema({
       mean: Number,
       results: [
         {
-          student_code: String,
+          student_code: Number,
           point: Number,
           comment: String,
         },
@@ -24,4 +24,4 @@ const scoresSchema = new mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model("Tests", scoresSchema);
+module.exports = mongoose.model("Tests", scoreSchema);

@@ -11,7 +11,7 @@ function AddScore() {
   const [semaster, setSemaster] = useState(0);
   const [scoreName, setScoreName] = useState('');
   const [studentNumber, setStudentNumber] = useState(0) 
-  const [fullScore, setFullScore] = useState('');
+  const [fullScore, setFullScore] = useState();
   const [isDisplayMean, setIsDisplayMean] = useState(false);
   const [mean, setMean] = useState(0);
   const [note, setNote] = useState('');
@@ -47,8 +47,8 @@ function AddScore() {
   useEffect(() => {
     let courseNo = location.search.split('&')[0].split('=')[1]  // get course number from Hooks
     let section = location.search.split('&')[1].split('=')[1]  // get section from Hooks
-    let year = location.search.split('&')[2].split('=')[1]  // get year from Hooks
-    let semaster = location.search.split('&')[3].split('=')[1]  // get semaster from Hooks
+    let year = parseInt(location.search.split('&')[2].split('=')[1])  // get year from Hooks
+    let semaster = parseInt(location.search.split('&')[3].split('=')[1])  // get semaster from Hooks
     setCourseNo(courseNo); setSection(section); setYear(year); setSemaster(semaster);
   }, [location]);
 
@@ -83,7 +83,7 @@ function AddScore() {
       sum += resultsData[i][1];
     }
     var avg = sum / ( resultsData.length - 1 );
-    setMean(avg.toFixed(2));
+    setMean(parseFloat(avg.toFixed(2)));
   }
   function renderFile() {
     let obj = document.getElementById('file-status')
@@ -112,7 +112,7 @@ function AddScore() {
         </Form.Field>
         <Form.Field>
           <label htmlFor='full_score'>Full Score: </label>
-          <input type='text' value={fullScore} onChange={(e) => setFullScore(e.target.value)} placeholder='Enter Full Score'/>
+          <input type='text' value={fullScore} onChange={(e) => setFullScore(parseInt(e.target.value))} placeholder='Enter Full Score'/>
         </Form.Field>
         <div className='element1'>
           <label>Display avarage score of section: </label>

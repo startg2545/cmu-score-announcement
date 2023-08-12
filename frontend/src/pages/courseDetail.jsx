@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { getScores } from '../services/course';
 
 
 const CourseDetail = () => {
@@ -39,9 +40,15 @@ const CourseDetail = () => {
     )
   })
   useEffect(()=>{
-    axios.get('http://localhost:3000/course-detail')
-      .then(res=>setScores(res.data))
-      .catch(err=>console.log(err))
+      const fetchData = async () => {
+        const resp = await getScores();
+        if (resp) {
+          console.log(resp);
+          setScores(resp)
+        }
+      };
+  
+      fetchData();
   }, [setScores])
   console.log(scores)
   return (
