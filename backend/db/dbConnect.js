@@ -1,25 +1,17 @@
-const { MongoClient } = require("mongodb");
+const mongoose = require("mongoose");
 
-async function listDatabases(client) {
-  databasesList = await client.db().admin().listDatabases();
-
-  console.log("Databases:");
-  databasesList.databases.forEach((db) => console.log(` - ${db.name}`));
+async function dbConnect() {
+  mongoose.connect(process.env.DB_URL);
+  mongoose.connection.on("connected", () => {
+    console.log("database is connected successfully");
+  });
+  mongoose.connection.on("disconnected", () => {
+    console.log("database is disconnected successfully");
+  });
+  mongoose.connection.on(
+    "error",
+    console.error.bind(console, "connection error:")
+  );
 }
 
-const db = async () => {
-  const client = new MongoClient(process.env.DB_URL);
-
-  try {
-    // Connect to the MongoDB cluster
-    await client.connect();
-
-    await listDatabases(client);
-  } catch (err) {
-    console.error(e);
-  } finally {
-    await client.close();
-  }
-};
-
-module.exports = db;
+module.exports = dbConnect;
