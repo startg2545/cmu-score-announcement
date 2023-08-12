@@ -17,7 +17,7 @@ const CMUNavbar = ({ showSidebar, setShowSidebar }) => {
     };
 
     fetchData();
-  }, []);
+  }, [navigate]);
 
   const toggleSsSidebar = () => {
     setShowSidebar((prev) => !prev);

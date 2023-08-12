@@ -1,41 +1,22 @@
 import "./studentDashboard.css";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { getUserInfo, signOut } from "../services/user";
-import cmulogo from "../image/cmulogo.png";
+import React, { useState } from "react";
 import StudentSideBar from "../components/StudentSidebar";
 import CMUNavbar from "../components/CMUNavbar";
 
 const StudentDashboard = () => {
-  const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useState([]);
-  const [isHovered, setIsHovered] = useState(false); // Define isHovered state
+
   const [showSsSidebar, setShowSsSidebar] = useState(false);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const resp = await getUserInfo();
-      if (!resp.ok) navigate("/sign-in");
-      else setUserInfo(resp.userInfo);
-    };
-
-    fetchData();
-  }, [navigate]);
-
   const [selectedNotification, setSelectedNotification] = useState(null);
 
   const handleNotificationClick = (notification) => {
     setSelectedNotification(notification);
   };
 
-  const toggleSsSidebar = () => {
-    setShowSsSidebar((prev) => !prev);
-  };
 
   const handleSidebarClick = () => {
     setShowSsSidebar(!showSsSidebar);
   };
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate] = useState(new Date());
 
   // Function to format the date as "XX Aug, 20XX"
   const formatDate = (date) => {
