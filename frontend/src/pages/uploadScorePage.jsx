@@ -70,8 +70,8 @@ export default function UploadScorePageContainer() {
         <div className={`uploadScoreLine ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>
               <svg width="120%" height="9">
                   <defs>
-                  <filter id="filter0_i_261_1358" x="0" y="0" width="1451" height="6" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                  <filter id="filter0_i_261_1358" x="0" y="0" width="1451" height="6" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                      <feFlood floodOpacity="0" result="BackgroundImageFix"/>
                       <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
                       <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
                       <feOffset dy="4"/>
@@ -87,7 +87,7 @@ export default function UploadScorePageContainer() {
                   x2="90%"
                   y2="50%"
                   stroke="#8084C8"
-                  stroke-width="2"
+                  strokeWidth="2"
                   opacity="0.3125"
                   filter="url(#filter0_i_261_1358)"
                   />
