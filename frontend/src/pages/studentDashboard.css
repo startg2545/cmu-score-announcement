@@ -10,15 +10,14 @@ body {
   }
 
   .stuDaframewindow {
-    position: fixed;
+    position: absolute;
     right: 35px; 
     top: calc(185px ); /* Center vertically with top offset */
     bottom: calc(10px + 50%); /* Center vertically with bottom offset */
     transform: translateY(3%);
-    width: 65.5vw;
+    width: calc(660px + 20%);
     height: calc(79vh - 60px);
     overflow-y:auto;
-    align-items: center;
     justify-content: center;
     display: flex;
     flex-direction: column;
@@ -26,7 +25,10 @@ body {
     border: 3px solid #696CA3;
     background: #FFF;
     transition: width 0.4s ease, margin-left 0.4s ease;
+    align-items: right;
   }
+
+  
   
   
   .stuDaframewindow-container {
@@ -63,6 +65,7 @@ body {
   line-height: normal;
   transform: translate(32px, 20px);
   transition: transform 0.4s ease;
+  position: absolute;
 }
 
 .studatetext
@@ -73,8 +76,9 @@ body {
     font-style: normal;
     font-weight: 450;
     line-height: normal;
-    transform: translate(34px, 20px);
+    transform: translate(34px, 75px);
     transition: transform 0.4s ease;
+    position: absolute;
 }
 
 .stucoursetopictext.move-right
@@ -83,7 +87,7 @@ body {
     transition: transform 0.4s ease; 
 }
 .studatetext.move-right {
-    transform: translate(310px, 20px);
+  transform: translate(310px, 75px);
   transition: transform 0.4s ease; 
 }
 
@@ -117,14 +121,14 @@ body {
   height: 72px;
   flex-shrink: 0;
   border-radius: 10px;
- 
+  position: relative;
   background: #FFF;
-  
   max-width: 100%;
   align-items: center;
   vertical-align: bottom;
   text-indent: 40px;
   cursor: pointer;
+  justify-content: flex-start;
 }
 
 .stuNotiBox:first-child {
@@ -137,13 +141,12 @@ body {
 
 .stucourseName{
   color: #000000;
-  text-align: center;
   font-family: 'SF PRo', sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  transform: translate(-146px,12px);
+  transform: translate(-10px,12px);
 }
 
 .stucourseNameDetail{
@@ -153,7 +156,11 @@ body {
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  transform: translate(-12px,14px);
+  position: absolute;
+  top: 50%;
+  left: -10px; /* Adjust this value as needed */
+  transform: translateY(20%);
+  white-space: nowrap;
 }
 
 .stucourseNameDate{
@@ -163,9 +170,9 @@ body {
   font-size: 15px;
   font-weight: 510;
   line-height: normal;
-  position: fixed;
-  left: 380px;
-  transform: translate(-100px,-10px);
-  text-justify: right; 
+  position: absolute;
+  top: 50%;
+  right: 30px; /* Adjust this value as needed */
+  transform: translateY(-110%);
   white-space: nowrap;
 }
