@@ -8,7 +8,6 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const token = req.cookies.token;
-
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err)
         return res.status(401).send({ ok: false, message: "Invalid token" });
@@ -22,6 +21,7 @@ router.get("/", async (req, res) => {
         headers: { Authorization: "Bearer " + process.env.TOKEN_API_CPE },
       }
     );
+
     res.send(response.data);
   } catch (err) {
     return err;
@@ -71,6 +71,7 @@ router.post("/add", async (req, res) => {
     return res.send({
       message: "You Cannot Add This Course",
     });
+
   } catch (err) {
     return err;
   }
@@ -80,7 +81,6 @@ router.post("/add", async (req, res) => {
 router.put("/owner", async (req, res) => {
   try {
     const token = req.cookies.token;
-
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err)
         return res.status(401).send({ ok: false, message: "Invalid token" });
@@ -98,6 +98,7 @@ router.put("/owner", async (req, res) => {
     course.courseOwner.push(req.query.owner);
     await course.save();
     return res.send(course);
+
   } catch (err) {
     return err;
   }
@@ -107,7 +108,6 @@ router.put("/owner", async (req, res) => {
 router.get("/scores", async (req, res) => {
   try {
     const token = req.cookies.token;
-
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err)
         return res.status(401).send({ ok: false, message: "Invalid token" });
@@ -116,8 +116,8 @@ router.get("/scores", async (req, res) => {
     });
 
     const course = await courseModel.find();
-    
     return res.send(course);
+    
   } catch (err) {
     return err;
   }
