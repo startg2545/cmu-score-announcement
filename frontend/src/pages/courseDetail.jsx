@@ -1,30 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { getScores } from '../services/course';
+import { getScores } from '../services/scores';
 
 const CourseDetail = () => {
   const [scores, setScores] = useState([])
   const [details, setDetails] = useState([])
   const [key, setKey] = useState(0)
 
-  useEffect(()=>{
-    axios.get('course-detail')
-    .then(res=>setScores(res.data))
-    .catch(err=>console.log(err))
-    // console.log(scores)
-    console.log(details)
-  }, [setScores, details])
-
   // useEffect(()=>{
-  //     const fetchData = async () => {
-  //       const resp = await getScores();
-  //       if (resp) {
-  //         console.log(resp);
-  //         setScores(resp)
-  //       }
-  //     };
-  //     fetchData();
-  // }, [setScores])
+  //   axios.get('course-detail')
+  //   .then(res=>setScores(res.data))
+  //   .catch(err=>console.log(err))
+  //   // console.log(scores)
+  //   console.log(details)
+  // }, [setScores, details])
+
+  useEffect(()=>{
+      const fetchData = async () => {
+        const resp = await getScores();
+        if (resp) {
+          setScores(resp)
+        }
+      };
+      fetchData();
+  }, [setScores, details])
   return (
     <div>
     {scores.map(function(data,key){

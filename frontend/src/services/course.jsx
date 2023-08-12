@@ -32,17 +32,3 @@ export async function addCourse(data) {
     return err.response;
   }
 }
-
-export async function getScores() {
-  try {
-    const resp = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/course/scores`,
-      {
-        withCredentials: true,
-      }
-    );
-    return resp.data;
-  } catch (err) {
-    return err.response.data;
-  }
-}

@@ -8,20 +8,20 @@ const AddDatabase = () => {
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    // const fetchData = async () => {
-    //   const resp = await addCourse(location.state);
-    //   if (resp) {
-    //     console.log(resp);
-    //     navigate('/course-detail');
-    //   }
-    // };
-    // fetchData();
-    axios.post('/course-detail', location.state, {
-      timeout: 5000
-    })
-      .then((res)=>{console.log(res.data)})
-      .then(()=>{navigate('/course-detail')})
-      .catch((err)=>{console.log(err)})
+    const fetchData = async () => {
+      const resp = await addCourse(location.state);
+      if (resp) {
+        console.log(resp);
+        navigate('/course-detail');
+      }
+    };
+    fetchData();
+    // axios.post('/course-detail', location.state, {
+    //   timeout: 5000
+    // })
+    //   .then((res)=>{console.log(res.data)})
+    //   .then(()=>{navigate('/course-detail')})
+    //   .catch((err)=>{console.log(err)})
   }, [location, navigate]);
   return (
     <div>
