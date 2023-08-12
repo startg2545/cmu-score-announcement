@@ -2,6 +2,7 @@
 import style from "./css/component.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "../services/user";
+import { useEffect } from "react";
 
 const SideBar = ({ showSidebar, setShowSidebar }) => {
   const navigate = useNavigate();
@@ -10,7 +11,11 @@ const SideBar = ({ showSidebar, setShowSidebar }) => {
     setShowSidebar(!showSidebar);
   };
 
-  console.log(showSidebar);
+  
+  useEffect (()=> {
+    console.log(showSidebar);
+
+  }, [showSidebar])
 
   return (
     <>
