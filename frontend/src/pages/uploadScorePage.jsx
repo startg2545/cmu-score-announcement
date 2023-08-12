@@ -96,10 +96,10 @@ export default function UploadScorePageContainer() {
         <div className={`uploadScorecoursetopictext ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>Upload Score 261497 </div>
         <div className={`uploadScoredatetext ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
         <div className={`uploadScorecourseframewindow ${showSsSidebar ? 'shrink' : ''}`}>
-          <div className="uploadScoreInlineContainer">
+          {/* <div className="uploadScoreInlineContainer">
             <div className='uploadScoreText'>Assignment</div>
             <input type="text" className={`uploadScoreTextBox ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} placeholder="Assignment Name"/>
-          </div>
+          </div> */}
           <div className="uploadScoreInlineContainer">
             <div className='uploadScoreText'>Score File</div>
             <input type="file" className={`uploadScoreTextBox ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} accept=".xlsx, .xls" onChange={handleFileUpload} style={{ transform: 'translateX(50px)'}}/>
@@ -117,7 +117,7 @@ export default function UploadScorePageContainer() {
           <input type="text" className="uploadScoreTextBox" placeholder="" style={{ transform: 'translateX(40px)', marginTop: '-24px', width: '70%', height: '60px' }} />
           <div className={`uploadScoreDescriptionBox ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} style={{transform: 'translateY(30px)', marginLeft: '40px', backgroundColor:'#D0CDFE'}}>
             <p className='uploadScoreFileDescription' style={{paddingTop: '4px'}}>
-              The system <span style={{ fontWeight: 'bold' }}>automatically computes </span>  the statistical values, including the mean section, mean course, median, maximum value, SD, upper quartile, and lower quartile. Instructors have the option to publish these value to students or not after completing the upload.
+              The system <span style={{ fontWeight: 'bold' }}>automatically calculates </span>  the statistical values, including the mean section, mean course, median, maximum value, SD, upper quartile, and lower quartile. Instructors have the option to publish these value to students or not after completing the upload.
             </p>
           </div>
           <div className={`uploadScoreDescriptionBox ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} style={{transform: 'translateY(38px)', marginLeft: '40px', backgroundColor:'#A8F0F4', height: '20px' }}>
@@ -189,7 +189,7 @@ export default function UploadScorePageContainer() {
                 </linearGradient>
               </defs>
             </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="45" viewBox="0 0 44 40" fill="none" transform="translate(-4, 15)" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="40" viewBox="0 0 44 40" fill="none" transform="translate(-4, 22)" >
               <path d="M26.622 3.17771L26.6221 3.17796L42.8112 31.6836C44.794 35.1767 42.2528 39.5 38.192 39.5H5.81084C1.74691 39.5 -0.793947 35.1765 1.18874 31.6836L17.3778 3.17796C19.4058 -0.392872 24.5971 -0.392349 26.622 3.17771ZM24.4033 33.7694C25.0417 33.1371 25.4013 32.2785 25.4013 31.3822C25.4013 30.4859 25.0417 29.6273 24.4033 28.995C23.7651 28.3629 22.9005 28.0086 22 28.0086C21.0994 28.0086 20.2348 28.3629 19.5966 28.995C18.9582 29.6273 18.5987 30.4859 18.5987 31.3822C18.5987 32.2785 18.9582 33.1371 19.5966 33.7694C20.2348 34.4015 21.0994 34.7558 22 34.7558C22.9005 34.7558 23.7651 34.4015 24.4033 33.7694ZM22 7.89368C21.0994 7.89368 20.2348 8.24795 19.5966 8.88008C18.9582 9.51237 18.5987 10.371 18.5987 11.2672V19.8879C18.5987 20.7842 18.9582 21.6428 19.5966 22.2751C20.2348 22.9072 21.0994 23.2615 22 23.2615C22.9005 23.2615 23.7651 22.9072 24.4033 22.2751C25.0417 21.6428 25.4013 20.7842 25.4013 19.8879V11.2672C25.4013 10.371 25.0417 9.51237 24.4033 8.88008C23.7651 8.24795 22.9005 7.89368 22 7.89368Z" fill="url(#paint0_linear_299_1210)" stroke="black"/>
               <defs >
                 <linearGradient id="paint0_linear_299_1210" x1="22" y1="0" x2="22" y2="40" gradientUnits="userSpaceOnUse">

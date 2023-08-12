@@ -13,7 +13,7 @@ export default function Course166Container() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
-    // Update the current date every second
+   
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     }, 1000);
@@ -54,11 +54,10 @@ export default function Course166Container() {
               "261494 - SEL TOPIC IN COMP ENGR",
               "261497 - SEL TOPIC IN COMP SOFT",
               "269497 - SEL TOPIC IN IS 2",
-              // Add more items here as needed
             ], (item, index) => (
             <div key={index} className='c166frameEachCourse'>
               <div className='c166courseName'>
-                {/* SVG icon */}
+
                 <div className='c166intoCourse'>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
