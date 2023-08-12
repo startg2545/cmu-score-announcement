@@ -1,0 +1,268 @@
+@font-face {
+  font-family: "SF PRo";
+  src: url(../font/SF-Pro.ttf) format("truetype");
+  /* You can specify other font formats (e.g., woff, woff2) as needed */
+}
+
+.courseframewindow {
+  position: absolute;
+  top: calc(105px + 50%); /* Center vertically with top offset */
+  bottom: calc(10px + 50%); /* Center vertically with bottom offset */
+  left: 50%;
+  transform: translate(-50%, -3%);
+  width: 100vw;
+  max-width: 96.6%;
+  height: calc(79vh - 60px);
+  overflow-y: auto;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  border-radius: 25px;
+  border: 3px solid #696ca3;
+  background: #fff;
+  transition: width 0.4s ease, margin-left 0.4s ease;
+}
+
+.framewindow-container {
+  /* Your existing styles */
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.courseframewindow.shrink {
+  /* Your existing styles */
+  align-items: center;
+  width: calc(
+    100vw - 340px
+  ); /* Reduce the width by the width of the sssidebar */
+  margin-left: 142px; /* Move the framewindow to the right to accommodate the sssidebar */
+}
+
+.coursetopictext {
+  color: #696ca3;
+  font-family: "SF PRo", sans-serif;
+  font-size: 52px;
+  font-style: normal;
+  font-weight: 540;
+  line-height: normal;
+  transform: translate(27px, 5px);
+  transition: transform 0.4s ease;
+}
+
+.datetext {
+  color: #696ca3;
+  font-family: "SF PRo", sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 450;
+  line-height: normal;
+  transform: translate(30px, 2px);
+  transition: transform 0.4s ease;
+}
+
+.coursetopictext.moveRight {
+  transform: translate(305px, 5px);
+  transition: transform 0.4s ease;
+}
+.datetext.moveRight {
+  transform: translate(310px, 2px);
+  transition: transform 0.4s ease;
+}
+
+.frameEachCourse {
+  top: 18px;
+  width: 99vw;
+  max-width: 98%;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #7579c1;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  text-indent: 40px;
+  align-items: center;
+  vertical-align: bottom;
+}
+
+.frameEachCourse:hover {
+  top: 18px;
+  width: 99vw;
+  max-width: 98%;
+  height: 80px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #575986;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  text-indent: 40px;
+  align-items: center;
+  vertical-align: bottom;
+}
+
+.frameEachCourse:first-child {
+  margin-top: 18px;
+}
+
+.frameEachCourse:last-child {
+  margin-bottom: 18px;
+}
+
+.courseName {
+  color: #ffffff;
+  text-align: center;
+  font-family: "SF PRo", sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.intoCourse svg {
+  position: absolute;
+  right: 60px;
+  left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* Prevent the icon from interfering with mouse events */
+  margin-top: 0px;
+}
+
+.AddCourseButton {
+  width: 200px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: #ffffff;
+  align-self: center;
+  bottom: 110px;
+  cursor: pointer;
+  font-family: "SF PRo";
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #7579c1;
+  border: #7579c1 3px solid;
+  text-indent: -5px;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+  transform: translate(810%, -65px);
+}
+
+.AddCourseButton svg {
+  position: absolute;
+  left: 25px;
+  top: 12px;
+}
+
+.AddCourseButton:hover {
+  background-color: #7579c1;
+  color: #ffffff;
+}
+
+.AddCourseButton:hover svg {
+  /* background-color: aqua; */
+  fill: #ffffff;
+}
+
+.MenuIndexLayout {
+  margin-inline: 50px;
+}
+
+.MenuIndex {
+  display: flex;
+  align-items: center;
+  gap: 21px;
+  color: #696ca3;
+  font-family: SF Pro;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 510;
+  line-height: normal;
+}
+
+.lineIndex {
+  height: 2px;
+  background-color: #8084c8;
+  opacity: 0.25;
+  box-shadow: 0px 10px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.TitleLayout {
+  margin-block: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.Title {
+  color: #696ca3;
+  font-family: SF Pro;
+  font-size: 52px;
+  font-style: normal;
+  font-weight: 590;
+  line-height: normal;
+  transform: translate(0px, 5px);
+  transition: transform 0.4s ease;
+}
+
+.Date {
+  color: #696ca3;
+  font-family: "SF PRo", sans-serif;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 450;
+  line-height: normal;
+  transform: translate(0px, 2px);
+  transition: transform 0.4s ease;
+}
+
+.Title.moveRight {
+  transform: translate(305px, 5px);
+  transition: transform 0.4s ease;
+}
+.Date.moveRight {
+  transform: translate(310px, 2px);
+  transition: transform 0.4s ease;
+}
+
+.ButtonTitleLayout {
+  display: flex;
+  align-items: top;
+  justify-content: space-between;
+}
+
+
+.boxdrop {
+  display: flex;
+  flex-direction:row;
+  align-items: flex-start;
+  margin-top: 20px;
+  gap: 20px;
+}
+.box_upload {
+  display: flex;
+  height: 15px;
+  gap: 20px;
+  padding: 12px 13px;
+  margin-top: 21px;
+  border-radius: 10px;
+  border: 3px solid #696ca3;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.boxdrop .font {
+  color: #696ca3;
+  font-family: SF Pro;
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 510;
+  line-height: normal;
+}
