@@ -40,6 +40,7 @@ router.post("/add", async (req, res) => {
     });
     const decoded = jwt.decode(token);
 
+    //find duplicated course
     const course = await courseModel.findOne({
       courseNo: req.body.courseNo,
       section: req.body.section,
@@ -58,20 +59,26 @@ router.post("/add", async (req, res) => {
         semaster: req.body.semaster,
         details: req.body.details,
       });
+
       await newCourse.save();
       return res.send(newCourse);
     } else if (course.courseOwner.includes(decoded.cmuAccount)) {
-      course.updateOne({
-        details: req.body.details,
-      });
+      // update score
+      if (course.details.includes({ scoreName: req.body.details[0].scoreName })) {
+        course.updateOne(
+          { "details.scoreName": req.body.details[0].scoreName },
+          { $addToset: { details: req.body.details[0] } }
+        );
+      } else {
+        // add new score
+        course.details.push(req.body.details[0]);
+      }
       await course.save();
       return res.send(course);
     }
-
     return res.send({
       message: "You Cannot Add This Course",
     });
-
   } catch (err) {
     return err;
   }
@@ -98,7 +105,6 @@ router.put("/owner", async (req, res) => {
     course.courseOwner.push(req.query.owner);
     await course.save();
     return res.send(course);
-
   } catch (err) {
     return err;
   }
@@ -117,7 +123,6 @@ router.get("/scores", async (req, res) => {
 
     const course = await courseModel.find();
     return res.send(course);
-    
   } catch (err) {
     return err;
   }
