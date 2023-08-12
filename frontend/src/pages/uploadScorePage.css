@@ -13,7 +13,7 @@ body {
 
   .uploadScorecourseframewindow {
     position: absolute;
-    top: calc(120px + 50%); /* Center vertically with top offset */
+    top: calc(180px + 50%); /* Center vertically with top offset */
     bottom: calc(10px + 50%); /* Center vertically with bottom offset */
     left: 50%;
     transform: translateX(-50%);
@@ -57,8 +57,9 @@ body {
   font-style: normal;
   font-weight: 540;
   line-height: normal;
-  transform: translate(62px, 6px);
+  transform: translate(62px, 45px);
   transition: transform 0.4s ease;
+  position: absolute;
 }
 
 .uploadScoredatetext
@@ -69,46 +70,53 @@ body {
     font-style: normal;
     font-weight: 450;
     line-height: normal;
-    transform: translate(65px, 4px);
+    transform: translate(65px, 100px);
     transition: transform 0.4s ease;
+    position: absolute;
 }
 
 .uploadScorecoursetopictext.move-right
 {
-    transform: translate(340px, 6px);
+    transform: translate(340px, 45px);
     transition: transform 0.4s ease; 
+    position: absolute;
 }
 .uploadScoredatetext.move-right {
-    transform: translate(342px, 4px);
+    transform: translate(342px, 100px);
     transition: transform 0.4s ease; 
+    position: absolute;
 }
 
 .uploadScoreTextNavigate
 {
-    color: #696CA3;
-    font-family: 'SF PRo', sans-serif;
+  color: #696CA3;
+  font-family: 'SF PRo', sans-serif;
   font-size: 22px;
   font-style: normal;
   font-weight: 540;
   line-height: normal;
   transform: translate(30px, 10px);
   transition: transform 0.4s ease;
+  position: absolute;
 }
 
 .uploadScoreTextNavigate.move-right
 {
     transform: translate(305px, 9px);
     transition: transform 0.4s ease; 
+    position: absolute;
 }
 
 .uploadScoreLine {
-    transform: translate(-8px, 8px);
+    transform: translate(1px, 35px);
     transition: transform 0.3s ease; /* Add a smooth transition */
+    width: 80%;
+    position: absolute;
   }
   
 .uploadScoreLine.move-right {
-  transform: translate(275px, 8px); /* Adjust the translation value as needed */
-  width: 74%;
+  transform: translate(275px, 35px); /* Adjust the translation value as needed */
+  position: absolute;
 }
 
 .uploadScoreText{
