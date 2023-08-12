@@ -24,7 +24,6 @@ export default function Course166Container() {
   }, [isShowTableScore]);
 
   useEffect(() => {
-    // Update the current date every second
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     }, 1000);
@@ -93,7 +92,6 @@ export default function Course166Container() {
               Add Course
             </p>
           </div>
-
           <div
             className={`${Course.courseframewindow} ${
               showSsSidebar ? Course.shrink : ""
@@ -163,8 +161,7 @@ export default function Course166Container() {
           </div>
 
           <div className={Course.ButtonTitleLayout}>
- 
-          <div className={Course.TitleLayout}>
+            <div className={Course.TitleLayout}>
               <div
                 className={`${Course.Title} ${
                   showSsSidebar ? Course.moveRight : ""
@@ -203,8 +200,6 @@ export default function Course166Container() {
                 <DropDown />
               </div>
             </div>
-         
-
           </div>
         </div>
       )}

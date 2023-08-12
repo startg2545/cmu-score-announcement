@@ -40,8 +40,7 @@ function AddScore() {
     let year = location.search.split('&')[2].split('=')[1]  // get year from Hooks
     let semaster = location.search.split('&')[3].split('=')[1]  // get semaster from Hooks
     setCourseNo(courseNo); setSection(section); setYear(year); setSemaster(semaster);
-    console.log(details)
-  }, [location, details]);
+  }, [location]);
 
 
   // handle Microsoft Excel file (.xlsx)
@@ -78,7 +77,32 @@ function AddScore() {
     }
   }
 
-  const handleFileMultiple = async (e) => {
+  function addDetails(keys, full_score, student_number, avg, results) {
+    const arr = []
+    for(let i=0; i<keys.length-1; i++) {
+      let results_list = []
+      for(let j in results) {
+        let obj = {
+          student_code: results[j]['student_code'],
+          point: results[j][keys[i+1]]
+        }
+        results_list[j] = obj
+      }
+      let obj = {
+        scoreName: keys[i+1], 
+        fullScore: full_score[i], 
+        isDisplayMean: isDisplayMean,
+        studentNumber: student_number, 
+        note: note, 
+        mean: avg[keys[i+1]],
+        results: results_list
+      }
+      arr[i] = obj
+    }
+    setDetails(arr)
+  }
+
+  const handleFile = async (e) => {
     const file = e.target.files[0];
     const data = await file.arrayBuffer();
     const workbook = XLSX.read(data);
@@ -89,11 +113,10 @@ function AddScore() {
     });
     const keys = resultsData.shift()
     setFileName(file.name)  // set for showing status
-    var full_score = 0
     var results = {}
     var avg = 0
+    var student_number = 0
     if ( keys[0] === 'student_code' && keys[1] === 'point' && keys[2] === 'comment' ) {
-      full_score = fullScore
       results = getResults(resultsData, keys)
       avg = getAvg(results, keys)
       setDetails([
@@ -108,53 +131,15 @@ function AddScore() {
         }
       ])
     } else {
-      full_score = resultsData.pop()
-      full_score[0] = 'full_score'  // set keys into first index of array
+      let full_score = resultsData.pop()
+      full_score.shift()
       results = getResults(resultsData, keys)
       avg = getAvg(results, keys)
-      for (let i=1; i<keys.length; i++) {
-        setDetails([
-          ...details,
-          { 
-            scoreName: keys[i],
-            fullScore: results[resultsData.length-1][keys[i]],
-            isDisplayMean: isDisplayMean,
-            studentNumber: resultsData.length,
-            note: note,
-            mean: avg,
-            results: results
-          }
-        ])
-      }
+      student_number = resultsData.length
+      addDetails(keys, full_score, student_number, avg, results)
     }
   }
 
-  const handleFileSingle = async (e) => {
-    const file = e.target.files[0];
-    const data = await file.arrayBuffer();
-    const workbook = XLSX.read(data);
-    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-    const resultsData = XLSX.utils.sheet_to_json(worksheet, {
-      header: 1,
-      defval: ""
-    });
-    setFileName(file.name)  // set for showing status
-    const keys = resultsData.shift()
-    const results = getResults(resultsData, keys)
-    const avg = getAvg(results, keys)
-    const studentNumber = resultsData.length
-    setDetails([
-      { 
-        scoreName: scoreName,
-        fullScore: fullScore,
-        isDisplayMean: isDisplayMean,
-        studentNumber: studentNumber,
-        note: note,
-        mean: avg,
-        results: results
-      }
-    ])
-  }
   function renderFile() {
     let obj = document.getElementById('file-status')
     if(obj!=null)
@@ -174,37 +159,8 @@ function AddScore() {
       <Header as="h2">
         React Microsoft Excel
       </Header>
-      <h3>Announce Multiple Score</h3>
       <Form onSubmit={submitHandler}>
-        <Form.Field>
-        <div className='element1'>
-          <label>Display avarage score of section: </label>
-          <input type='radio' id='show-mean' name='avg-score' value="show-mean" />
-          <label>Show mean</label>
-          <input type='radio' name='avg-score' value="not-show-mean" />
-          <label>Don't show mean</label>
-        </div>
-        <div className='element1'>
-          <label>Mean: </label>
-          <label>** The system will calculate the mean value automatically.</label>
-        </div>
-        <div className='element1'>
-          <label htmlFor='point'>Test score file: </label>
-          <div>
-            <input type='file' name='file-multiple' onChange={(e) => handleFileMultiple(e)} />
-            <label id='file-status'></label>
-          </div>
-        </div>
-        <Form.Field>
-          <label htmlFor='comment'>Note to students in section: </label>
-          <input type='text' value={note} onChange={(e) => setNote(e.target.value)} placeholder='Enter comment'/>
-        </Form.Field>
-        <Button type='submit'>Submit</Button>
-        </Form.Field>
-      </Form>
-      <hr/>
-      <Form onSubmit={submitHandler}>
-        <h3>Announce Single Score</h3>
+        <h3>Announce Score</h3>
         <Form.Field>
           <label htmlFor='score_name' className='component'>Score Name: </label>
           <input type='text' value={scoreName} onChange={(e) => setScoreName(e.target.value)} placeholder='Enter Score Name'/>
@@ -227,7 +183,7 @@ function AddScore() {
         <div className='element1'>
           <label htmlFor='point'>Test score file: </label>
           <div>
-            <input type='file' name='file-single' onChange={(e) => handleFileSingle(e)} />
+            <input type='file' name='file-single' onChange={(e) => handleFile(e)} />
             <label id='file-status'></label>
           </div>
         </div>
