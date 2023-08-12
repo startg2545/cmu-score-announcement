@@ -16,8 +16,6 @@ dbs = client.list_database_names()  # get all database
 score_announcement = client.score_announcement  # create database calls score_announcement
 scores = score_announcement.scores  # create colleciton calls scores
 
-prefix = '/api/v1'
-
 app = Flask(__name__)
 
 def parse_json(data):
