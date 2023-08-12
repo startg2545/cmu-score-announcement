@@ -14,7 +14,6 @@ const AddDatabase = () => {
         navigate('/course-detail');
       }
     };
-
     fetchData();
   }, [location, navigate]);
   return (

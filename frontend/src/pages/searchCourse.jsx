@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { getCourse } from "../services/course";
@@ -49,7 +48,7 @@ const SearchCourse = () => {
 	const [selectedSemaster, setSelectedSemaster] = useState(0);
 	
 	// Create an instance
-	const accessToken = "2d63c18e-878d-487f-b7ae-53e42f5e1ce7";
+	// accessToken = "2d63c18e-878d-487f-b7ae-53e42f5e1ce7";
 	const controller = new AbortController();
 	const signal = controller.signal;
 	const navigate = useNavigate();
