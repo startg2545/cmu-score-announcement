@@ -1,5 +1,6 @@
 const express = require("express");
-var cookieParser = require("cookie-parser");
+const cookieParser = require("cookie-parser");
+const bodyParser = require('body-parser');
 const cors = require("cors");
 const app = express();
 require("dotenv").config();
@@ -15,6 +16,7 @@ const course = require("./api/course");
 
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(cookieParser());
+app.use(bodyParser.json());
 
 app.use(`${prefix}/cmuOAuth`, cmuOAuth);
 app.use(`${prefix}/user`, user);

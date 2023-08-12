@@ -65,40 +65,25 @@ const SearchCourse = () => {
 		navigate('/add-score?' + params)
 	}
 
-	// Axios Part
-  function axiosFetch() {
+ 	// get course detail from api server
+	async function axiosFetch() {
 		console.log('Fetching');
-		axios.get('https://api.cpe.eng.cmu.ac.th/api/v1/course/detail', {
-			signal: signal,
-			headers: { Authorization: `Bearer ${accessToken}` }
-		}).then(res => setData(res.data.courseDetails))
-		  .catch(err => console.error('Error:', err))
+		const res = await getCourse(signal);
+		if (res.ok) setData(res.courseDetails);
+		else console.error('Error:',res.message);
 	}
-  // get course detail from api server
-	// async function axiosFetch() {
-	// 	console.log('Fetching');
-	// 	const res = await getCourse(signal);
-	// 	if (res.ok) setData(res.courseDetails);
-	// 	else console.error('Error:',res.message);
-	// }
 	function axiosAbort() {
 		console.log('Abort');
 		controller.abort();
 	}
 
 	useEffect(() => {
-		// Get API by using axios
-    axios.get('https://api.cpe.eng.cmu.ac.th/api/v1/course/detail',
-		{
-			headers: { Authorization: `Bearer ${accessToken}` }
-		})
-		.then(res => setData(res.data.courseDetails));
 	  // get course detail from api server
-		// const fetchData = async () => {
-		// 	const res =  await getCourse();
-		// 	setData(res.courseDetails);
-		// }
-		// fetchData();
+		const fetchData = async () => {
+			const res =  await getCourse();
+			setData(res.courseDetails);
+		}
+		fetchData();
 	}, [])
 	console.log(data)
 
