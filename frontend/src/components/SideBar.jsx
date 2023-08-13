@@ -1,30 +1,34 @@
 import React, { useState, useEffect, useContext } from "react";
 import style from "./css/component.module.css";
-import { createSearchParams, Link, useNavigate } from "react-router-dom";
+import { createSearchParams, Link, useNavigate, useSearchParams } from "react-router-dom";
 import { signOut } from "../services/user";
 import ShowSidebarContext from "../context/showSidebarContex";
 import { getScores } from '../services/scores';
 
 const SideBar = () => {
-  const [selectedWhen, setSelectedWhen] = useState({ semaster: 1, year: 2566 })
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [selectedYear, setSelectedYear] = useState(0)
+  const [selectedSemaster, setSelectedSemaster] = useState(0)
 
   const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const navigate = useNavigate();
 
-  // console.log(scores)
-  useEffect(()=>{
-    console.log(showSidebar)
-    console.log(selectedWhen)
-  }, [selectedWhen])
+  const params = createSearchParams({
+    year: selectedYear,
+    semaster: selectedSemaster
+}).toString()
 
-  const params = createSearchParams(selectedWhen).toString()
-
-  const handleSemasterYear = (semaster, year) => {
-    let updatedObj = {};
-    updatedObj = {semaster: semaster, year: year}
-    setSelectedWhen(updatedObj)
-    handleSidebarClick()
-    navigate('?' + params)
+  const handleSemasterYear = (semaster, year) => { 
+    setSelectedSemaster(semaster)
+    setSelectedYear(year)
+    handleSidebarClick(true)
+    navToSemasterYear(semaster, year)
+  }
+  function navToSemasterYear (semaster, year) {
+    navigate({
+      pathname: '/course-166',
+      search: `?semaster=${semaster}&year=${year}`
+    })
   }
 
   return (
