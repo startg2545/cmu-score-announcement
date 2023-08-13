@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import style from "./css/component.module.css";
 import cmulogo from "../image/cmulogo.png";
 import { getUserInfo } from "../services/user";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const CMUNavbar = ({ showSidebar, setShowSidebar }) => {
+  const { pathname } = useLocation();
+  const withoutNavbar = ["/sign-in"];
   const [userInfo, setUserInfo] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
@@ -22,6 +24,8 @@ const CMUNavbar = ({ showSidebar, setShowSidebar }) => {
   const toggleSsSidebar = () => {
     setShowSidebar((prev) => !prev);
   };
+
+  if (withoutNavbar.some((path) => pathname.includes(path))) return null;
 
   return (
     <div className={style.navbar}>
@@ -61,10 +65,7 @@ const CMUNavbar = ({ showSidebar, setShowSidebar }) => {
       )}
       {userInfo && (
         <p className={style.role}>
-          1/66,{" "}
-          {userInfo.itAccountType === "StdAcc"
-            ? "Student"
-            : "Instructor"}
+          1/66, {userInfo.itAccountType === "StdAcc" ? "Student" : "Instructor"}
         </p>
       )}
     </div>

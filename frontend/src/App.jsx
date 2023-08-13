@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages";
@@ -16,10 +16,17 @@ import UploadScorePage from "./pages/uploadScorePage";
 import AddDatabase from "./pages/addDatabase";
 import DropDown from "./components/DropDown";
 import TableScore from "./components/TableScore";
+import CMUNavbar from "./components/CMUNavbar";
 
 function App() {
+  const [showSsSidebar, setShowSsSidebar] = useState(false);
+
   return (
     <Router>
+      <CMUNavbar
+        showSidebar={showSsSidebar}
+        setShowSidebar={setShowSsSidebar}
+      />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/about" element={<About />} />
@@ -30,14 +37,46 @@ function App() {
         <Route exact path="/sign-in" element={<SignIn />} />
         <Route exact path="/cmuOAuthCallback" element={<CMUOAuthCallback />} />
         <Route exact path="/search-course" element={<SearchCourse />} />
-        <Route exact path="/student-dashboard" element={<StudentDashboard />} />
+        <Route
+          exact
+          path="/student-dashboard"
+          element={
+            <StudentDashboard
+              showSidebar={showSsSidebar}
+              setShowSidebar={setShowSsSidebar}
+            />
+          }
+        />
         <Route
           exact
           path="/instructor-dashboard"
-          element={<InstructorDashboard />}
+          element={
+            <InstructorDashboard
+              showSidebar={showSsSidebar}
+              setShowSidebar={setShowSsSidebar}
+            />
+          }
         />
-        <Route exact path="/course-166" element={<Course166 />} />
-        <Route exact path="/upload-score-page" element={<UploadScorePage />} />
+        <Route
+          exact
+          path="/course-166"
+          element={
+            <Course166
+              showSidebar={showSsSidebar}
+              setShowSidebar={setShowSsSidebar}
+            />
+          }
+        />
+        <Route
+          exact
+          path="/upload-score-page"
+          element={
+            <UploadScorePage
+              showSidebar={showSsSidebar}
+              setShowSidebar={setShowSsSidebar}
+            />
+          }
+        />
         <Route exact path="/dropdown" element={<DropDown />} />
         <Route exact path="/table-score" element={<TableScore />} />
       </Routes>
