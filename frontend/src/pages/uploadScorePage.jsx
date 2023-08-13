@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./uploadScorePage.css";
 import SideBar from "../components/SideBar";
+import showSidebarContext from "../context/showSidebarContex";
 
-export default function UploadScorePageContainer({ showSidebar, setShowSidebar }) {
-
-  const handleSidebarClick = () => {
-    setShowSidebar(!showSidebar);
-  };
+export default function UploadScorePageContainer() {
+  const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
 
   const handleFileUpload = (e) => {
     const selectedFile = e.target.files[0]; // Get the selected file
@@ -62,7 +60,7 @@ export default function UploadScorePageContainer({ showSidebar, setShowSidebar }
 
   return (
     <>
-      <SideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+      <SideBar />
       <div className={`uploadScoreTextNavigate ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Course 1/66 &nbsp; {'>'} &nbsp; 261497 &nbsp; {'>'} &nbsp; Upload Score </div>
         <div className={`uploadScoreLine ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>
               <svg width="120%" height="9">

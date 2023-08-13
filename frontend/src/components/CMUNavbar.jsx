@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import style from "./css/component.module.css";
 import cmulogo from "../image/cmulogo.png";
 import { getUserInfo } from "../services/user";
 import { useLocation, useNavigate } from "react-router-dom";
+import ShowSidebarContext from "../context/showSidebarContex";
 
-const CMUNavbar = ({ showSidebar, setShowSidebar }) => {
+const CMUNavbar = () => {
+  const { handleSidebarClick } = useContext(ShowSidebarContext);
   const { pathname } = useLocation();
   const withoutNavbar = ["/sign-in"]; //can add page that would not show navbar
   const [userInfo, setUserInfo] = useState([]);
@@ -21,10 +23,6 @@ const CMUNavbar = ({ showSidebar, setShowSidebar }) => {
     fetchData();
   }, [navigate]);
 
-  const toggleSsSidebar = () => {
-    setShowSidebar((prev) => !prev);
-  };
-
   if (withoutNavbar.some((path) => pathname.includes(path))) return null;
 
   return (
@@ -33,7 +31,7 @@ const CMUNavbar = ({ showSidebar, setShowSidebar }) => {
         className={style.sidebar_icon}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={toggleSsSidebar}
+        onClick={() => handleSidebarClick()}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./instructorDashboard.css";
 import SideBar from "../components/SideBar";
+import ShowSidebarContext from "../context/showSidebarContex";
 
-export default function Dashboard({ showSidebar, setShowSidebar }) {
+export default function Dashboard() {
+  const { showSidebar } = useContext(ShowSidebarContext);
 
   return (
     <>
-      <SideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+      <SideBar />
       <div className="insDaframewindow-container">
         {/* Conditionally render the sssidebar */}
         <div className={`insDaframewindow ${showSidebar ? "shrink" : ""}`}>

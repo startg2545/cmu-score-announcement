@@ -1,17 +1,13 @@
-
+import { useEffect, useContext } from "react";
 import style from "./css/component.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "../services/user";
-import { useEffect } from "react";
+import ShowSidebarContext from "../context/showSidebarContex";
 
-const SideBar = ({ showSidebar, setShowSidebar }) => {
+const SideBar = () => {
+  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const navigate = useNavigate();
 
-  const handleSidebarClick = () => {
-    setShowSidebar(!showSidebar);
-  };
-
-  
   useEffect (()=> {
     console.log(showSidebar);
 
