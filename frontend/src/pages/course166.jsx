@@ -76,15 +76,14 @@ export default function Course166Container() {
     return date.toLocaleDateString("en-US", options);
   };
 
-
-
-
   const handleRequest = () => {
     if (searchParams.get("courseNo") == null) {
       let semaster = searchParams.get("semaster");
       let year = searchParams.get("year");
       let courseTopic = document.getElementById("courseTopic");
-      courseTopic.innerHTML = `Course ${semaster}/${year.slice(2, 4)}`;
+      if (courseTopic) {
+        courseTopic.innerHTML = `Course ${semaster}/${year.slice(2, 4)}`;
+      }
     }
   };
 
@@ -100,11 +99,9 @@ export default function Course166Container() {
     navigate("/upload-score-page?" + url);
   }
 
-    const handleAddCourse = () => {
+  const handleAddCourse = () => {
     navigate("/search-course");
   };
-
-
 
   return (
     <>
@@ -258,8 +255,11 @@ export default function Course166Container() {
               </div>
             </div>
 
-            {isUploadScore ? (<div className={Course.showUpload}><UploadSc/></div>)
-              : (
+            {isUploadScore ? (
+              <div className={Course.showUpload}>
+                <UploadSc />
+              </div>
+            ) : (
               <div>
                 <div className={Course.boxdrop}>
                   <div
@@ -281,7 +281,6 @@ export default function Course166Container() {
                     <p onClick={goToNav}>Upload Score</p>
                   </div>
                   <DropDown />
-
                 </div>
               </div>
             )}
