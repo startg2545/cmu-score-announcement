@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import SideBar from "../components/SideBar";
 import DropDown from "../components/DropDown";
 import showSidebarContext from "../context/showSidebarContex";
 
 export default function Course166Container() {
+  const [searchParams, setSearchParams] = useSearchParams({});
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isHovered, setIsHovered] = useState(false);
   const [isSelectedCourse, setSelectedCourse] = useState(false);
@@ -14,18 +15,24 @@ export default function Course166Container() {
   const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const onClickCourse = (item) => {
-    setShowTableScore(item.substring(0, 6));
+    let courseNo = item.courseNo
+    setShowTableScore(courseNo);
     setSelectedCourse(true);
+    searchParams.set('courseNo', courseNo)
+    setSearchParams(searchParams)
   };
   useEffect(() => {
+    if (searchParams.get('semaster')!=null) handleRequest()
+
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     }, 1000);
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, []);
+  }, [location, isShowTableScore, searchParams]);
 
   // Function to format the date as "XX Aug, 20XX"
   const formatDate = (date) => {
@@ -33,8 +40,17 @@ export default function Course166Container() {
     return date.toLocaleDateString("en-US", options);
   };
 
-  const handleAddCourse = () => {
-    navigate('/search-course' )
+  const handleRequest = () => {
+    if (searchParams.get('courseNo')==null) {
+      let semaster = searchParams.get('semaster')
+      let year = searchParams.get('year')
+      let courseTopic = document.getElementById('courseTopic')
+      courseTopic.innerHTML = `Course ${semaster} / ${year}`
+    }
+  }
+
+  const handleAddCourse = (courseNo) => {
+    // navigate()
   } 
 
   return (
@@ -49,7 +65,7 @@ export default function Course166Container() {
             }`}
             onClick={handleSidebarClick}
           >
-            Course 1/66
+            <label id="courseTopic">Please selecte semaster / year</label>
           </div>
           <div
             className={` ${Course.datetext} ${
@@ -97,11 +113,11 @@ export default function Course166Container() {
           >
             {Array.from(
               [
-                "261207 - BASIC COMP ENGR LAB",
-                "261405 - ADV COMPUTER ENGR TECH",
-                "261494 - SEL TOPIC IN COMP ENGR",
-                "261497 - SEL TOPIC IN COMP SOFT",
-                "269497 - SEL TOPIC IN IS 2",
+                {courseNo: 261207, courseName: "BASIC COMP ENGR LAB"},
+                {courseNo: 261405, courseName: "ADV COMPUTER ENGR TECH"},
+                {courseNo: 261494, courseName: "SEL TOPIC IN COMP ENGR"},
+                {courseNo: 261497, courseName: "SEL TOPIC IN COMP SOFT"},
+                {courseNo: 269497, courseName: "SEL TOPIC IN IS 2"},
                 // Add more items here as needed
               ],
               (item, index) => (
@@ -125,7 +141,7 @@ export default function Course166Container() {
                           fill="white"
                         />
                       </svg>
-                      {item}
+                      {item.courseNo} - {item.courseName}
                     </div>
                   </div>
                 </div>

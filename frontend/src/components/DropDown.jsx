@@ -4,11 +4,16 @@ import styleDrop from "./css/dropdown.module.css";
 const DropDown = () => {
   const [isDropDown, setDropDown] = useState(false);
   const [isSelectSec, setSelectSec] = useState("Select Section");
+  const sections = ['001', '002', '003', '004', '005', '006', '007', '008', '009',
+  '701', '702', '703', '704', '705', '706', '707', '708', '709',
+  '801', '802', '803', '804', '805', '806', '807', '808', '809']
+
 
   const onClickDropDown = () => {
     setDropDown(!isDropDown);
   };
   const onClickSection = (sec) => {
+    console.log(sec)
     setSelectSec(sec);
     setDropDown(false);
   };
@@ -21,7 +26,7 @@ const DropDown = () => {
         setDropDown(false);
       }
     });
-  });
+  }, []);
   const styleArrow = {
     transform: isDropDown ? "rotate(180deg)" : "rotate(0deg)",
     transition: "transform 0.2s ease",
@@ -49,10 +54,16 @@ const DropDown = () => {
           </svg>
         </p>
       </div>
-
+      
       {isDropDown && (
         <ul className={ `${styleDrop.sec_menu} ${styleDrop.scroll}`}>
-          <li
+          {sections.map(function(data, key) {
+            return (
+              <li className={`${styleDrop.option} ${styleDrop.font}`}
+              onClick={() => onClickSection("Section 001")} key={key}>{data}</li>
+            )
+          })}
+          {/* <li
             className={`${styleDrop.option} ${styleDrop.font}`}
             onClick={() => onClickSection("Section 001")}
           >
@@ -135,7 +146,7 @@ const DropDown = () => {
             onClick={() => onClickSection("Section 801")}
           >
             Section 801
-          </li>
+          </li> */}
         </ul>
       )}
     </div>

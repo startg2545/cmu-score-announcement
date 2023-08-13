@@ -60,7 +60,7 @@ const SearchCourse = () => {
 	console.log(params)
 
 	const goToNav = () => {
-		navigate('?' + params)
+		navigate('/add-score?' + params)
 	}
 	async function axiosFetch() {
 		console.log('Fetching');
