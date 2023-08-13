@@ -47,7 +47,7 @@ export default function Course166Container() {
       let semaster = searchParams.get('semaster')
       let year = searchParams.get('year')
       let courseTopic = document.getElementById('courseTopic')
-      courseTopic.innerHTML = `Course ${semaster} / ${year}`
+      courseTopic.innerHTML = `Course ${semaster}/${year.slice(2,4)}`
     }
   }
 
@@ -79,7 +79,7 @@ export default function Course166Container() {
             }`}
             onClick={handleSidebarClick}
           >
-            <label id="courseTopic">Please selecte semaster / year</label>
+            <label id="courseTopic"></label>
           </div>
           <div
             className={` ${Course.datetext} ${
