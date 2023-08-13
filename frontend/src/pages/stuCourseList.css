@@ -1,0 +1,150 @@
+
+
+@font-face {
+    font-family: "SF PRo";
+    src: url(../font/SF-Pro.ttf) format("truetype");
+    /* You can specify other font formats (e.g., woff, woff2) as needed */
+  }
+
+.stuCouListcourseframewindow {
+    position: absolute;
+    top: calc(125px + 50%); /* Center vertically with top offset */
+    bottom: calc(10px + 50%); /* Center vertically with bottom offset */
+    left: 50%;
+    transform: translate(-50%, -3%);
+    width: 100vw;
+    max-width: 96.6%;
+    height: calc(79vh - 60px);
+    overflow-y: auto;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 25px;
+    border: 3px solid #696ca3;
+    background: #fff;
+    transition: width 0.4s ease, margin-left 0.4s ease;
+  }
+  
+  .stuCouListframewindow-container {
+    /* Your existing styles */
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  
+  .stuCouListcourseframewindow.shrink {
+    /* Your existing styles */
+    align-items: center;
+    width: calc(
+      100vw - 340px
+    ); /* Reduce the width by the width of the sssidebar */
+    margin-left: 142px; /* Move the framewindow to the right to accommodate the sssidebar */
+  }
+  
+  .stuCouListcoursetopictext {
+    color: #696ca3;
+    font-family: "SF PRo", sans-serif;
+    font-size: 52px;
+    font-style: normal;
+    font-weight: 540;
+    line-height: normal;
+    transform: translate(27px, 5px);
+    transition: transform 0.4s ease;
+  }
+  
+  .stuCouListdatetext {
+    color: #696ca3;
+    font-family: "SF PRo", sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 450;
+    line-height: normal;
+    transform: translate(30px, 2px);
+    transition: transform 0.4s ease;
+  }
+  
+  .stuCouListcoursetopictext.move-right {
+    transform: translate(305px, 5px);
+    transition: transform 0.4s ease;
+  }
+  .stuCouListdatetext.move-right {
+    transform: translate(310px, 2px);
+    transition: transform 0.4s ease;
+  }
+
+  .stuCouListframeEachCourse {
+    top: 18px;
+    width: 99vw;
+    max-width: 98%;
+    height: 80px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    background: #7579c1;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex;
+    text-indent: 40px;
+    align-items: center;
+    vertical-align: bottom;
+  }
+  
+  .stuCouListframeEachCourse:hover {
+    top: 18px;
+    width: 99vw;
+    max-width: 98%;
+    height: 80px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    background: #575986;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: flex;
+    text-indent: 40px;
+    align-items: center;
+    vertical-align: bottom;
+  }
+  
+  .stuCouListframeEachCourse:first-child {
+    margin-top: 18px;
+  }
+  
+  .stuCouListframeEachCourse:last-child {
+    margin-bottom: 18px;
+  }
+  
+  .stuCouListcourseName {
+    color: #ffffff;
+    text-align: center;
+    font-family: "SF PRo", sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    
+   
+  }
+
+  .stuCouListcourseSection {
+    color: #F7C878;
+    font-family: SF Pro;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    transform: translateY(7%);
+    display: flex;
+  }
+
+  .stuCouListintoCourse svg {
+    position: absolute;
+    right: 60px;
+    left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Prevent the icon from interfering with mouse events */
+    margin-top: 13px;
+    
+  }
