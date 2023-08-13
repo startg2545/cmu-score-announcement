@@ -20,7 +20,9 @@ import AddDatabase from "./pages/addDatabase";
 import DropDown from "./components/DropDown";
 import TableScore from "./components/TableScore";
 import CMUNavbar from "./components/CMUNavbar";
+import UploadScore from "./components/uploadScore"
 import StuCourseList from "./pages/stuCourseList";
+
 
 function App() {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -53,6 +55,7 @@ function App() {
           <Route exact path="/upload-score-page" element={<UploadScorePage />} />
           <Route exact path="/dropdown" element={<DropDown />} />
           <Route exact path="/table-score" element={<TableScore />} />
+          <Route exact path="/upload-score" element={<UploadScore />} />
           <Route exact path="/stuCourse-list" element={<StuCourseList />} />
         </Routes>
       </Router>

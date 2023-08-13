@@ -7,7 +7,7 @@
 .courseframewindow {
   position: absolute;
   top: calc(125px + 50%); /* Center vertically with top offset */
-  bottom: calc(10px + 50%); /* Center vertically with bottom offset */
+  /* Center vertically with bottom offset */
   left: 50%;
   transform: translate(-50%, -3%);
   width: 100vw;
@@ -177,23 +177,34 @@
   margin-inline: 50px;
 }
 
+.MenuNavigate{
+  margin-top: -10px;
+  display: flex;
+  flex-direction: row;
+  gap: 21px;
+}
+
 .MenuIndex {
   display: flex;
   align-items: center;
   gap: 21px;
   color: #696ca3;
   font-family: SF Pro;
-  font-size: 28px;
+  font-size: 22px;
   font-style: normal;
   font-weight: 510;
   line-height: normal;
+
 }
+
+
 
 .lineIndex {
   height: 2px;
   background-color: #8084c8;
   opacity: 0.25;
   box-shadow: 0px 10px 4px 0px rgba(0, 0, 0, 0.25) inset;
+  margin-top: -10px;
 }
 
 .TitleLayout {
@@ -268,4 +279,8 @@
   font-style: normal;
   font-weight: 510;
   line-height: normal;
+}
+
+.showUpload {
+  margin-top: 10px;
 }
