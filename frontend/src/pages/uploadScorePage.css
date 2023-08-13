@@ -19,7 +19,7 @@ body {
     transform: translateX(-50%);
     width: 100vw;
     max-width: 96.6%;
-    height: calc(69vh - 60px);
+    height: calc(89vh - 60px);
     justify-content: center;
     overflow-y: auto;
     display: flex;
