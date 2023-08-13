@@ -3,18 +3,12 @@ const mongoose = require("mongoose");
 const studentSchema = new mongoose.Schema(
   {
     studentID: Number,
-    courseScores: [
+    courseGrades: [
       {
-        courseNo: String,
-        section: String,
+        courseNo: Number,
+        grade: String,
         year: Number,
         semaster: Number,
-        details: [
-          {
-            scoreName: String,
-            point: Number,
-          }
-        ]
       },
     ],
   },

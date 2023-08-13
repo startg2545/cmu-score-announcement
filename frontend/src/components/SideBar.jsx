@@ -1,42 +1,58 @@
-import { useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import style from "./css/component.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { createSearchParams, Link, useNavigate } from "react-router-dom";
 import { signOut } from "../services/user";
 import ShowSidebarContext from "../context/showSidebarContex";
+import { getScores } from '../services/scores';
 
 const SideBar = () => {
+  const [selectedWhen, setSelectedWhen] = useState({ semaster: 1, year: 2566 })
+
   const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const navigate = useNavigate();
 
-  useEffect (()=> {
-    console.log(showSidebar);
+  // console.log(scores)
+  useEffect(()=>{
+    console.log(showSidebar)
+    console.log(selectedWhen)
+  }, [selectedWhen])
 
-  }, [showSidebar])
+  const params = createSearchParams(selectedWhen).toString()
+
+  const handleSemasterYear = (semaster, year) => {
+    let updatedObj = {};
+    updatedObj = {semaster: semaster, year: year}
+    setSelectedWhen(updatedObj)
+    handleSidebarClick()
+    navigate('?' + params)
+  }
 
   return (
     <>
       <div className={`${style.sidebar} ${showSidebar ? style.show : ""}`}>
         <div className={style.frameCourseInSideBar}>
-          <Link
+          {/* <Link
             to="/course-166"
             className={`${style.courseButton} ${ showSidebar ? style.purple_button : ""}`}
-            onClick={handleSidebarClick}
-          >
+          > */}
+          <button onClick={()=>{handleSemasterYear(1,2566)}} className={style.courseButton}>
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="11"
               height="16"
               viewBox="0 0 11 16"
               fill="none"
-            >
+              >
               <path
                 d="M9.74365 8.83008L3.10303 15.4707C2.64404 15.9297 1.90186 15.9297 1.44775 15.4707L0.344238 14.3672C-0.114746 13.9082 -0.114746 13.166 0.344238 12.7119L5.05127 8.00488L0.344238 3.29785C-0.114746 2.83887 -0.114746 2.09668 0.344238 1.64258L1.44287 0.529297C1.90186 0.0703125 2.64404 0.0703125 3.09814 0.529297L9.73877 7.16992C10.2026 7.62891 10.2026 8.37109 9.74365 8.83008Z"
                 fill="black"
-              />
+                />
             </svg>{" "}
             Course 1/66
-          </Link>
-          <div className={style.courseButton}>
+            </button>
+          {/* </Link> */}
+          <button onClick={()=>{handleSemasterYear(3,2565)}} className={style.courseButton}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="11"
@@ -50,8 +66,8 @@ const SideBar = () => {
               />
             </svg>{" "}
             Course 3/65
-          </div>
-          <div className={style.courseButton}>
+          </button>
+          <button onClick={()=>{handleSemasterYear(2,2565)}} className={style.courseButton}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="11"
@@ -65,8 +81,8 @@ const SideBar = () => {
               />
             </svg>{" "}
             Course 2/65
-          </div>
-          <div className={style.courseButton}>
+          </button>
+          <button onClick={()=>{handleSemasterYear(1,2565)}} className={style.courseButton}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="11"
@@ -80,8 +96,8 @@ const SideBar = () => {
               />
             </svg>{" "}
             Course 1/65
-          </div>
-          <div className={style.courseButton}>
+          </button>
+          <button onClick={()=>{handleSemasterYear(3,2564)}} className={style.courseButton}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="11"
@@ -95,8 +111,8 @@ const SideBar = () => {
               />
             </svg>{" "}
             Course 3/64
-          </div>
-          <div className={style.courseButton}>
+          </button>
+          <button onClick={()=>{handleSemasterYear(2,2564)}} className={style.courseButton}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="11"
@@ -110,8 +126,8 @@ const SideBar = () => {
               />
             </svg>{" "}
             Course 2/64
-          </div>
-          <div className={style.courseButton}>
+          </button>
+          <button onClick={()=>{handleSemasterYear(1,2564)}} className={style.courseButton}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="11"
@@ -125,7 +141,7 @@ const SideBar = () => {
               />
             </svg>{" "}
             Course 1/64
-          </div>
+          </button>
         </div>
         <button
           onClick={() => signOut().finally(navigate("/sign-in"))}

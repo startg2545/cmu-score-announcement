@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { getCourse } from "../services/course";
@@ -49,7 +48,6 @@ const SearchCourse = () => {
 	const [selectedSemaster, setSelectedSemaster] = useState(0);
 	
 	// Create an instance
-	const accessToken = "2d63c18e-878d-487f-b7ae-53e42f5e1ce7";
 	const controller = new AbortController();
 	const signal = controller.signal;
 	const navigate = useNavigate();
@@ -62,19 +60,8 @@ const SearchCourse = () => {
 	console.log(params)
 
 	const goToNav = () => {
-		navigate('/add-score?' + params)
+		navigate('?' + params)
 	}
-
-	// Axios Part
-	// function axiosFetch() {
-	// 	console.log('Fetching');
-	// 	axios.get('https://api.cpe.eng.cmu.ac.th/api/v1/course/detail', {
-	// 		signal: signal,
-	// 		headers: { Authorization: `Bearer ${accessToken}` }
-	// 	}).then(res => setData(res.data.courseDetails))
-	// 	  .catch(err => console.error('Error:', err))
-	// }
-	// get course detail from api server
 	async function axiosFetch() {
 		console.log('Fetching');
 		const res = await getCourse(signal);
