@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const CMUNavbar = ({ showSidebar, setShowSidebar }) => {
   const { pathname } = useLocation();
-  const withoutNavbar = ["/sign-in"];
+  const withoutNavbar = ["/sign-in"]; //can add page that would not show navbar
   const [userInfo, setUserInfo] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const CMUNavbar = ({ showSidebar, setShowSidebar }) => {
   useEffect(() => {
     const fetchData = async () => {
       const resp = await getUserInfo();
-      if (!resp.ok) navigate("/sign-in");
+      if (!resp || !resp.ok) navigate("/sign-in");
       else setUserInfo(resp.userInfo);
     };
 
