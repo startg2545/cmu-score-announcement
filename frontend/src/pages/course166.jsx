@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Course from "./css/course166.module.css";
 import SideBar from "../components/SideBar";
 import DropDown from "../components/DropDown";
+import showSidebarContext from "../context/showSidebarContex";
 
-export default function Course166Container({ showSidebar, setShowSidebar }) {
+export default function Course166Container() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isHovered, setIsHovered] = useState(false);
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isShowTableScore, setShowTableScore] = useState(null);
 
-  const handleSidebarClick = () => {
-    setShowSidebar(!showSidebar);
-  };
+  const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
 
   const onClickCourse = (item) => {
     setShowTableScore(item.substring(0, 6));
@@ -37,7 +36,7 @@ export default function Course166Container({ showSidebar, setShowSidebar }) {
 
   return (
     <>
-      <SideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+      <SideBar />
 
       {isSelectedCourse ? null : (
         <div>

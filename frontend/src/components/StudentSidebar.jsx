@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import style from "./css/componentStudent.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "../services/user";
+import showSidebarContext from "../context/showSidebarContex";
 
-const SideBar = ({ showSidebar, setShowSidebar }) => {
+const SideBar = () => {
+  const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
   const navigate = useNavigate();
-
-  const handleSidebarClick = () => {
-    setShowSidebar(!showSidebar);
-  };
 
   console.log(showSidebar);
 

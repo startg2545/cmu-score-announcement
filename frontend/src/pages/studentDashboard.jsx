@@ -1,19 +1,16 @@
 import "./studentDashboard.css";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import StudentSideBar from "../components/StudentSidebar";
+import ShowSidebarContext from "../context/showSidebarContex";
 
-const StudentDashboard = ({ showSidebar, setShowSidebar }) => {
-
+const StudentDashboard = () => {
+  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const [selectedNotification, setSelectedNotification] = useState(null);
 
   const handleNotificationClick = (notification) => {
     setSelectedNotification(notification);
   };
 
-
-  const handleSidebarClick = () => {
-    setShowSidebar(!showSidebar);
-  };
   const [currentDate] = useState(new Date());
 
   // Function to format the date as "XX Aug, 20XX"
@@ -63,7 +60,7 @@ const StudentDashboard = ({ showSidebar, setShowSidebar }) => {
 
   return (
     <>
-      <StudentSideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+      <StudentSideBar />
       <div className={`stucoursetopictext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Dashboard </div>
       <div className={`studatetext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
       <div className={`stuNotiFrame ${showSidebar ? 'shrink' : ''}`} onClick={handleSidebarClick} style={{ gap: 15 }}>
