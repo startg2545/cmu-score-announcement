@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
@@ -7,8 +5,11 @@ import SideBar from "../components/SideBar";
 import DropDown from "../components/DropDown";
 import UploadSc from "../components/uploadScore";
 import showSidebarContext from "../context/showSidebarContex";
+import { getCourse } from "../services/course";
+import { getScores } from "../services/scores";
 
 export default function Course166Container() {
+  const [course, setCourse] = useState();
   const [searchParams, setSearchParams] = useSearchParams({});
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isHovered, setIsHovered] = useState(false);
@@ -22,12 +23,13 @@ export default function Course166Container() {
   const location = useLocation();
 
   const onClickCourse = (item) => {
-    let courseNo = item.courseNo
+    let courseNo = item.courseNo;
     setShowTableScore(courseNo);
     setSelectedCourse(true);
-    searchParams.set('courseNo', courseNo)
-    setSearchParams(searchParams)
+    searchParams.set("courseNo", courseNo);
+    setSearchParams(searchParams);
   };
+
   const onClickUplioad = () => {
     setUploadScore(true);
   };
@@ -36,7 +38,30 @@ export default function Course166Container() {
   };
 
   useEffect(() => {
-    if (searchParams.get('semaster')!=null) handleRequest()
+    const fetchData = async () => {
+      const allCourse = await getCourse();
+      const resp = await getScores();
+      if (resp) {
+        const data = resp.filter(
+          (item) =>
+            item.year === parseInt(params.year) &&
+            item.semaster === parseInt(params.semaster)
+        );
+        data.forEach((e, index) => {
+          allCourse.courseDetails.forEach((all) => {
+            if (e.courseNo === all.courseNo) {
+              console.log(data[index]);
+              data[index].courseName = all.courseNameEN;
+            }
+          });
+        });
+        setCourse(data);
+      }
+    };
+
+    fetchData();
+
+    if (searchParams.get("semaster") != null) handleRequest();
 
     const interval = setInterval(() => {
       setCurrentDate(new Date());
@@ -55,29 +80,30 @@ export default function Course166Container() {
 
 
   const handleRequest = () => {
-    if (searchParams.get('courseNo')==null) {
-      let semaster = searchParams.get('semaster')
-      let year = searchParams.get('year')
-      let courseTopic = document.getElementById('courseTopic')
-      courseTopic.innerHTML = `Course ${semaster}/${year.slice(2,4)}`
+    if (searchParams.get("courseNo") == null) {
+      let semaster = searchParams.get("semaster");
+      let year = searchParams.get("year");
+      let courseTopic = document.getElementById("courseTopic");
+      courseTopic.innerHTML = `Course ${semaster}/${year.slice(2, 4)}`;
     }
-  }
+  };
 
   const params = {
-    semaster: searchParams.get('semaster'),
-    year: searchParams.get('year'),
-    courseNo: searchParams.get('courseNo'),
-    section: searchParams.get('section')
-  }
+    semaster: searchParams.get("semaster"),
+    year: searchParams.get("year"),
+    courseNo: searchParams.get("courseNo"),
+    section: searchParams.get("section"),
+  };
 
-  function goToNav () {
-    let url = `semaster=${params.semaster}&year=${params.year}&courseNo=${params.courseNo}&section=${params.section}`
-    navigate('/upload-score-page?' + url)
+  function goToNav() {
+    let url = `semaster=${params.semaster}&year=${params.year}&courseNo=${params.courseNo}&section=${params.section}`;
+    navigate("/upload-score-page?" + url);
   }
 
     const handleAddCourse = () => {
     navigate("/search-course");
   };
+
 
 
   return (
@@ -138,42 +164,35 @@ export default function Course166Container() {
             }`}
             style={{ gap: 25 }}
           >
-            {Array.from(
-              [
-                {courseNo: 261207, courseName: "BASIC COMP ENGR LAB"},
-                {courseNo: 261405, courseName: "ADV COMPUTER ENGR TECH"},
-                {courseNo: 261494, courseName: "SEL TOPIC IN COMP ENGR"},
-                {courseNo: 261497, courseName: "SEL TOPIC IN COMP SOFT"},
-                {courseNo: 269497, courseName: "SEL TOPIC IN IS 2"},
-                // Add more items here as needed
-              ],
-              (item, index) => (
-                <div
-                  key={index}
-                  className={Course.frameEachCourse}
-                  onClick={() => onClickCourse(item)}
-                >
-                  <div className={Course.courseName}>
-                    {/* SVG icon */}
-                    <div className={Course.intoCourse}>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="23"
-                        height="30"
-                        viewBox="0 0 19 30"
-                        fill="none"
-                      >
-                        <path
-                          d="M19.8367 16.6865L6.61282 29.1352C5.69882 29.9956 4.22086 29.9956 3.31659 29.1352L1.11909 27.0665C0.205094 26.2061 0.205094 24.8148 1.11909 23.9635L10.4925 15.1396L1.11909 6.31575C0.205094 5.45534 0.205094 4.06402 1.11909 3.21276L3.30686 1.12578C4.22086 0.265364 5.69882 0.265364 6.6031 1.12578L19.8269 13.5744C20.7507 14.4348 20.7507 15.8261 19.8367 16.6865Z"
-                          fill="white"
-                        />
-                      </svg>
-                      {item.courseNo} - {item.courseName}
+            {course &&
+              course.map((item) => {
+                return (
+                  <div
+                    key={item.courseNo}
+                    className={Course.frameEachCourse}
+                    onClick={() => onClickCourse(item)}
+                  >
+                    <div className={Course.courseName}>
+                      {/* SVG icon */}
+                      <div className={Course.intoCourse}>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="23"
+                          height="30"
+                          viewBox="0 0 19 30"
+                          fill="none"
+                        >
+                          <path
+                            d="M19.8367 16.6865L6.61282 29.1352C5.69882 29.9956 4.22086 29.9956 3.31659 29.1352L1.11909 27.0665C0.205094 26.2061 0.205094 24.8148 1.11909 23.9635L10.4925 15.1396L1.11909 6.31575C0.205094 5.45534 0.205094 4.06402 1.11909 3.21276L3.30686 1.12578C4.22086 0.265364 5.69882 0.265364 6.6031 1.12578L19.8269 13.5744C20.7507 14.4348 20.7507 15.8261 19.8367 16.6865Z"
+                            fill="white"
+                          />
+                        </svg>
+                        {item.courseNo} - {item.courseName}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
-            )}
+                );
+              })}
           </div>
         </div>
       )}
@@ -272,4 +291,3 @@ export default function Course166Container() {
     </>
   );
 }
-
