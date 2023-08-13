@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
@@ -106,9 +108,7 @@ export default function Course166Container() {
                 />
               </svg>
             </div>
-
             <div
-
               style={{
                 fontSize: "20px",
                 fontWeight: "600",
@@ -117,9 +117,7 @@ export default function Course166Container() {
               onClick={handleAddCourse}
             >
               Add Course
-
             </div>
-
           </div>
           <div
             className={`${Course.courseframewindow} ${
@@ -235,3 +233,4 @@ export default function Course166Container() {
     </>
   );
 }
+

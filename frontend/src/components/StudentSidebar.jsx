@@ -1,8 +1,12 @@
+
+
 import React, { useContext } from "react";
 import style from "./css/componentStudent.module.css";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "../services/user";
 import showSidebarContext from "../context/showSidebarContex";
+
+
 
 const SideBar = () => {
   const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
@@ -10,17 +14,26 @@ const SideBar = () => {
 
   console.log(showSidebar);
 
+  const pageClassMap = {
+    'student-dashboard': style.purple_button,
+    'stuCourse-list': style.purple_button,
+  };
+
+  const currentPage = 'stuCourse-list';
+
+  
+
   return (
     <>
       <div className={`${style.sidebar} ${showSidebar ? style.show : ""}`}>
         <div className={style.frameCourseInSideBar}>
-            <div className={`${style.courseButton} ${ showSidebar ? style.purple_button : ""}`}>
+            <div className={`${style.courseButton} ${pageClassMap[currentPage]}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 26 28" fill="none">
                     <path d="M24.6398 11.0957L13.7344 0.401441C13.6029 0.274238 13.4465 0.173274 13.2741 0.104374C13.1018 0.0354733 12.9169 0 12.7302 0C12.5434 0 12.3586 0.0354733 12.1862 0.104374C12.0138 0.173274 11.8574 0.274238 11.7259 0.401441L0.820541 11.1093C0.556658 11.3645 0.34825 11.6675 0.207419 12.0007C0.0665876 12.3338 -0.00386112 12.6905 0.000163176 13.05V24.4229C-0.000932769 25.1176 0.275659 25.7863 0.77298 26.2912C1.2703 26.7962 1.95049 27.0989 2.67346 27.1372H22.7869C23.5098 27.0989 24.19 26.7962 24.6873 26.2912C25.1847 25.7863 25.4613 25.1176 25.4602 24.4229V13.05C25.4613 12.3211 25.1671 11.6204 24.6398 11.0957ZM9.90127 24.4229V16.28H15.5591V24.4229H9.90127ZM22.6313 24.4229H18.3879V14.9229C18.3879 14.5629 18.2389 14.2177 17.9737 13.9632C17.7084 13.7087 17.3486 13.5657 16.9735 13.5657H8.48683C8.1117 13.5657 7.75193 13.7087 7.48667 13.9632C7.22141 14.2177 7.07239 14.5629 7.07239 14.9229V24.4229H2.82905V12.9957L12.7302 3.29215L22.6313 13.05V24.4229Z" fill="black"/>
                 </svg>
                 <p style={{textIndent: "10px" }}>Dashboard</p>
             </div>
-            <div className={style.courseButton}>
+            <div className={`${style.courseButton} ${pageClassMap['stuCourse-list']}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 26 28" fill="none">
                     <path d="M25.0032 24.9289L25.0488 25.0865L25.179 25.1864C25.3802 25.3409 25.5 25.5712 25.5 25.8125V26.6875C25.5 27.1111 25.1313 27.5 24.6071 27.5H5.57143C2.74327 27.5 0.5 25.3447 0.5 22.75V5.25C0.5 2.65528 2.74327 0.5 5.57143 0.5H24.6071C25.1313 0.5 25.5 0.888875 25.5 1.3125V19.6875C25.5 19.9297 25.3797 20.1575 25.1834 20.3048L25.0497 20.4051L25.0032 20.5657C24.8599 21.0609 24.8007 21.9343 24.8007 22.7473C24.8007 23.5602 24.8599 24.4337 25.0032 24.9289ZM22.1348 25H22.6972L22.6314 24.4414C22.5257 23.5452 22.5257 21.9548 22.6314 21.0586L22.6972 20.5H22.1348H5.57143C4.30226 20.5 3.21429 21.4838 3.21429 22.75C3.21429 24.0217 4.29646 25 5.57143 25H22.1348ZM7.77679 6.5C7.33753 6.5 6.92857 6.84394 6.92857 7.32812V8.42188C6.92857 8.90606 7.33753 9.25 7.77679 9.25H20.0804C20.5196 9.25 20.9286 8.90606 20.9286 8.42188V7.32812C20.9286 6.84394 20.5196 6.5 20.0804 6.5H7.77679ZM7.77679 10C7.33753 10 6.92857 10.3439 6.92857 10.8281V11.9219C6.92857 12.4061 7.33753 12.75 7.77679 12.75H20.0804C20.5196 12.75 20.9286 12.4061 20.9286 11.9219V10.8281C20.9286 10.3439 20.5196 10 20.0804 10H7.77679Z" fill="black" stroke="black"/>
                 </svg>
@@ -173,3 +186,4 @@ const SideBar = () => {
 };
 
 export default SideBar;
+
