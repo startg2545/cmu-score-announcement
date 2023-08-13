@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Course from "./css/course166.module.css";
 import SideBar from "../components/SideBar";
-import CMUNavbar from "../components/CMUNavbar";
 import DropDown from "../components/DropDown";
 
-export default function Course166Container() {
-  const [showSsSidebar, setShowSsSidebar] = useState(false);
+export default function Course166Container({ showSidebar, setShowSidebar }) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isHovered, setIsHovered] = useState(false);
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isShowTableScore, setShowTableScore] = useState(null);
 
   const handleSidebarClick = () => {
-    setShowSsSidebar(!showSsSidebar);
+    setShowSidebar(!showSidebar);
   };
 
   const onClickCourse = (item) => {
@@ -39,17 +37,13 @@ export default function Course166Container() {
 
   return (
     <>
-      <CMUNavbar
-        showSidebar={showSsSidebar}
-        setShowSidebar={setShowSsSidebar}
-      />
-      <SideBar showSidebar={showSsSidebar} setShowSidebar={setShowSsSidebar} />
+      <SideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
 
       {isSelectedCourse ? null : (
         <div>
           <div
             className={`${Course.coursetopictext} ${
-              showSsSidebar ? Course.moveRight : ""
+              showSidebar ? Course.moveRight : ""
             }`}
             onClick={handleSidebarClick}
           >
@@ -57,7 +51,7 @@ export default function Course166Container() {
           </div>
           <div
             className={` ${Course.datetext} ${
-              showSsSidebar ? Course.moveRight : ""
+              showSidebar ? Course.moveRight : ""
             }`}
             onClick={handleSidebarClick}
           >
@@ -94,7 +88,7 @@ export default function Course166Container() {
           </div>
           <div
             className={`${Course.courseframewindow} ${
-              showSsSidebar ? Course.shrink : ""
+              showSidebar ? Course.shrink : ""
             }`}
             style={{ gap: 25 }}
           >
@@ -164,7 +158,7 @@ export default function Course166Container() {
             <div className={Course.TitleLayout}>
               <div
                 className={`${Course.Title} ${
-                  showSsSidebar ? Course.moveRight : ""
+                  showSidebar ? Course.moveRight : ""
                 }`}
                 onClick={handleSidebarClick}
               >
@@ -172,7 +166,7 @@ export default function Course166Container() {
               </div>
               <div
                 className={` ${Course.Date} ${
-                  showSsSidebar ? Course.moveRight : ""
+                  showSidebar ? Course.moveRight : ""
                 }`}
                 onClick={handleSidebarClick}
               >

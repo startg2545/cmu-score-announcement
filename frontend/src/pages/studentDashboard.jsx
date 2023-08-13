@@ -1,11 +1,9 @@
 import "./studentDashboard.css";
 import React, { useState } from "react";
 import StudentSideBar from "../components/StudentSidebar";
-import CMUNavbar from "../components/CMUNavbar";
 
-const StudentDashboard = () => {
+const StudentDashboard = ({ showSidebar, setShowSidebar }) => {
 
-  const [showSsSidebar, setShowSsSidebar] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState(null);
 
   const handleNotificationClick = (notification) => {
@@ -14,7 +12,7 @@ const StudentDashboard = () => {
 
 
   const handleSidebarClick = () => {
-    setShowSsSidebar(!showSsSidebar);
+    setShowSidebar(!showSidebar);
   };
   const [currentDate] = useState(new Date());
 
@@ -65,11 +63,10 @@ const StudentDashboard = () => {
 
   return (
     <>
-      <CMUNavbar showSidebar={showSsSidebar} setShowSidebar={setShowSsSidebar} />
-      <StudentSideBar showSidebar={showSsSidebar} setShowSidebar={setShowSsSidebar} />
-      <div className={`stucoursetopictext ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Dashboard </div>
-      <div className={`studatetext ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
-      <div className={`stuNotiFrame ${showSsSidebar ? 'shrink' : ''}`} onClick={handleSidebarClick} style={{ gap: 15 }}>
+      <StudentSideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+      <div className={`stucoursetopictext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Dashboard </div>
+      <div className={`studatetext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
+      <div className={`stuNotiFrame ${showSidebar ? 'shrink' : ''}`} onClick={handleSidebarClick} style={{ gap: 15 }}>
         {notificationData.map((notification, index) => (
           <div className={`stuNotiBox  ${selectedNotification === notification ? 'selected' : ''}`} key={index} onClick={() => handleNotificationClick(notification)}>
             {notification.stucourseName && notification.stucourseNameDate && notification.stucourseNameDetail && (
@@ -84,7 +81,7 @@ const StudentDashboard = () => {
           </div>
         ))}
       </div>
-      <div className={`stuDaframewindow ${showSsSidebar ? 'shrink' : ''}`}>
+      <div className={`stuDaframewindow ${showSidebar ? 'shrink' : ''}`}>
         {selectedNotification ? (
           <p className="stuStartText">Score is shown</p>
         ) : (

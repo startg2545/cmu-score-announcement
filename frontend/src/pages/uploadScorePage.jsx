@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./uploadScorePage.css";
 import SideBar from "../components/SideBar";
-import CMUNavbar from "../components/CMUNavbar";
 
-export default function UploadScorePageContainer() {
-  const [showSsSidebar, setShowSsSidebar] = useState(false);
+export default function UploadScorePageContainer({ showSidebar, setShowSidebar }) {
 
   const handleSidebarClick = () => {
-    setShowSsSidebar(!showSsSidebar);
+    setShowSidebar(!showSidebar);
   };
 
   const handleFileUpload = (e) => {
@@ -64,10 +62,9 @@ export default function UploadScorePageContainer() {
 
   return (
     <>
-      <CMUNavbar showSidebar={showSsSidebar} setShowSidebar={setShowSsSidebar} />
-      <SideBar showSidebar={showSsSidebar} setShowSidebar={setShowSsSidebar} />
-      <div className={`uploadScoreTextNavigate ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Course 1/66 &nbsp; {'>'} &nbsp; 261497 &nbsp; {'>'} &nbsp; Upload Score </div>
-        <div className={`uploadScoreLine ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>
+      <SideBar showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+      <div className={`uploadScoreTextNavigate ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Course 1/66 &nbsp; {'>'} &nbsp; 261497 &nbsp; {'>'} &nbsp; Upload Score </div>
+        <div className={`uploadScoreLine ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>
               <svg width="120%" height="9">
                   <defs>
                   <filter id="filter0_i_261_1358" x="0" y="0" width="1451" height="6" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
@@ -93,18 +90,18 @@ export default function UploadScorePageContainer() {
                   />
               </svg>
           </div>
-        <div className={`uploadScorecoursetopictext ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>Upload Score 261497 </div>
-        <div className={`uploadScoredatetext ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
-        <div className={`uploadScorecourseframewindow ${showSsSidebar ? 'shrink' : ''}`}>
+        <div className={`uploadScorecoursetopictext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>Upload Score 261497 </div>
+        <div className={`uploadScoredatetext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
+        <div className={`uploadScorecourseframewindow ${showSidebar ? 'shrink' : ''}`}>
           {/* <div className="uploadScoreInlineContainer">
             <div className='uploadScoreText'>Assignment</div>
-            <input type="text" className={`uploadScoreTextBox ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} placeholder="Assignment Name"/>
+            <input type="text" className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} placeholder="Assignment Name"/>
           </div> */}
           <div className="uploadScoreInlineContainer">
             <div className='uploadScoreText'>Score File</div>
-            <input type="file" className={`uploadScoreTextBox ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} accept=".xlsx, .xls" onChange={handleFileUpload} style={{ transform: 'translateX(50px)'}}/>
+            <input type="file" className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} accept=".xlsx, .xls" onChange={handleFileUpload} style={{ transform: 'translateX(50px)'}}/>
           </div>
-          <div className={`uploadScoreDescriptionBox ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>
+          <div className={`uploadScoreDescriptionBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>
             <p className='uploadScoreFileDescription' style={{paddingTop: '4px'}}>
             Please click to open this Excel template file <span style={{ color: 'red', fontWeight: 'bold' }}>(support only this template .xlsx and .xls format)</span>  and fill student code, score (numbers only) and comments (if any).
             <span style={{ color: 'red', fontWeight: 'bold' }}> Do not change the column header name. </span>
@@ -115,12 +112,12 @@ export default function UploadScorePageContainer() {
             <div className='uploadScoreText'>Note to student in section</div>
           </div>
           <input type="text" className="uploadScoreTextBox" placeholder="" style={{ transform: 'translateX(40px)', marginTop: '-24px', width: '70%', height: '60px' }} />
-          <div className={`uploadScoreDescriptionBox ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} style={{transform: 'translateY(30px)', marginLeft: '40px', backgroundColor:'#D0CDFE'}}>
+          <div className={`uploadScoreDescriptionBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} style={{transform: 'translateY(30px)', marginLeft: '40px', backgroundColor:'#D0CDFE'}}>
             <p className='uploadScoreFileDescription' style={{paddingTop: '4px'}}>
               The system <span style={{ fontWeight: 'bold' }}>automatically calculates </span>  the statistical values, including the mean section, mean course, median, maximum value, SD, upper quartile, and lower quartile. Instructors have the option to publish these value to students or not after completing the upload.
             </p>
           </div>
-          <div className={`uploadScoreDescriptionBox ${showSsSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} style={{transform: 'translateY(38px)', marginLeft: '40px', backgroundColor:'#A8F0F4', height: '20px' }}>
+          <div className={`uploadScoreDescriptionBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} style={{transform: 'translateY(38px)', marginLeft: '40px', backgroundColor:'#A8F0F4', height: '20px' }}>
             <p className='uploadScoreFileDescription'>
             All changes to the file, including uploads, and edits, <span style={{ fontWeight: 'bold' }}> will be logged in the version history.  </span>
             </p>
