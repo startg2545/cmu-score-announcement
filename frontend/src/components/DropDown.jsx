@@ -29,7 +29,7 @@ const DropDown = () => {
 
   return (
     <div className={styleDrop.boxdrop} ref={menuRef}>
-      <div>
+      <div  onClick={onClickDropDown}>
         <p className={`${styleDrop.box_select} ${styleDrop.font}`}>
           {isSelectSec ? isSelectSec : "Select section"}
           <svg

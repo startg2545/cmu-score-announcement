@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import SideBar from "../components/SideBar";
 import DropDown from "../components/DropDown";
+import UploadSc from "../components/uploadScore";
 import showSidebarContext from "../context/showSidebarContex";
 
 export default function Course166Container() {
@@ -10,6 +11,7 @@ export default function Course166Container() {
   const [isHovered, setIsHovered] = useState(false);
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isShowTableScore, setShowTableScore] = useState(null);
+  const [isUploadScore, setUploadScore] = useState(false);
 
   const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
 
@@ -19,6 +21,13 @@ export default function Course166Container() {
     setShowTableScore(item.substring(0, 6));
     setSelectedCourse(true);
   };
+  const onClickUplioad = () => {
+    setUploadScore(true);
+  };
+  const onClickCourseNum = () => {
+    setUploadScore(false);
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentDate(new Date());
@@ -34,8 +43,8 @@ export default function Course166Container() {
   };
 
   const handleAddCourse = () => {
-    navigate('/search-course' )
-  } 
+    navigate("/search-course");
+  };
 
   return (
     <>
@@ -137,26 +146,44 @@ export default function Course166Container() {
 
       {isSelectedCourse && (
         <div className={Course.MenuIndexLayout}>
-          <div>
-            <p className={Course.MenuIndex}>
-              Course1/66
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="8"
-                height="12"
-                viewBox="0 0 8 12"
-                fill="none"
-              >
-                <path
-                  d="M7.43738 6.41702L2.36856 11.3462C2.01821 11.6869 1.4517 11.6869 1.10508 11.3462L0.262759 10.5271C-0.0875863 10.1864 -0.0875863 9.63549 0.262759 9.29842L3.85566 5.80449L0.262759 2.31056C-0.0875863 1.96987 -0.0875863 1.41896 0.262759 1.08189L1.10135 0.255521C1.4517 -0.0851736 2.01821 -0.0851736 2.36483 0.255521L7.43365 5.18472C7.78773 5.52541 7.78773 6.07632 7.43738 6.41702Z"
-                  fill="#696CA3"
-                />
-              </svg>
-              {isShowTableScore}
-            </p>
+          <>
+            <div className={Course.MenuNavigate}>
+              <p className={Course.MenuIndex}>
+                Course1/66
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="8"
+                  height="12"
+                  viewBox="0 0 8 12"
+                  fill="none"
+                >
+                  <path
+                    d="M7.43738 6.41702L2.36856 11.3462C2.01821 11.6869 1.4517 11.6869 1.10508 11.3462L0.262759 10.5271C-0.0875863 10.1864 -0.0875863 9.63549 0.262759 9.29842L3.85566 5.80449L0.262759 2.31056C-0.0875863 1.96987 -0.0875863 1.41896 0.262759 1.08189L1.10135 0.255521C1.4517 -0.0851736 2.01821 -0.0851736 2.36483 0.255521L7.43365 5.18472C7.78773 5.52541 7.78773 6.07632 7.43738 6.41702Z"
+                    fill="#696CA3"
+                  />
+                </svg>
+                {isShowTableScore}
+              </p>
+              {isUploadScore && (
+                <p className={Course.MenuIndex}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="8"
+                    height="12"
+                    viewBox="0 0 8 12"
+                    fill="none"
+                  >
+                    <path
+                      d="M7.43738 6.41702L2.36856 11.3462C2.01821 11.6869 1.4517 11.6869 1.10508 11.3462L0.262759 10.5271C-0.0875863 10.1864 -0.0875863 9.63549 0.262759 9.29842L3.85566 5.80449L0.262759 2.31056C-0.0875863 1.96987 -0.0875863 1.41896 0.262759 1.08189L1.10135 0.255521C1.4517 -0.0851736 2.01821 -0.0851736 2.36483 0.255521L7.43365 5.18472C7.78773 5.52541 7.78773 6.07632 7.43738 6.41702Z"
+                      fill="#696CA3"
+                    />
+                  </svg>
+                  Upload Score
+                </p>
+              )}
+            </div>
             <div className={Course.lineIndex}></div>
-          </div>
-
+          </>
           <div className={Course.ButtonTitleLayout}>
             <div className={Course.TitleLayout}>
               <div
@@ -165,6 +192,7 @@ export default function Course166Container() {
                 }`}
                 onClick={handleSidebarClick}
               >
+                {isUploadScore ? "Upload Score " : ""}
                 {isShowTableScore}
               </div>
               <div
@@ -177,26 +205,32 @@ export default function Course166Container() {
               </div>
             </div>
 
-            <div>
-              <div className={Course.boxdrop}>
-                <div className={`${Course.box_upload} ${Course.font}`}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                    fill="none"
+            {isUploadScore ? (<div className={Course.showUpload}><UploadSc/></div>)
+              : (
+              <div>
+                <div className={Course.boxdrop}>
+                  <div
+                    className={`${Course.box_upload} ${Course.font}`}
+                    onClick={onClickUplioad}
                   >
-                    <path
-                      d="M18.5714 11.4286H11.4286V18.5714C11.4286 18.9503 11.2781 19.3137 11.0102 19.5816C10.7422 19.8495 10.3789 20 10 20C9.62112 20 9.25776 19.8495 8.98985 19.5816C8.72194 19.3137 8.57143 18.9503 8.57143 18.5714V11.4286H1.42857C1.04969 11.4286 0.686328 11.2781 0.418419 11.0102C0.15051 10.7422 0 10.3789 0 10C0 9.62112 0.15051 9.25776 0.418419 8.98985C0.686328 8.72194 1.04969 8.57143 1.42857 8.57143H8.57143V1.42857C8.57143 1.04969 8.72194 0.686328 8.98985 0.418418C9.25776 0.150509 9.62112 0 10 0C10.3789 0 10.7422 0.150509 11.0102 0.418418C11.2781 0.686328 11.4286 1.04969 11.4286 1.42857V8.57143H18.5714C18.9503 8.57143 19.3137 8.72194 19.5816 8.98985C19.8495 9.25776 20 9.62112 20 10C20 10.3789 19.8495 10.7422 19.5816 11.0102C19.3137 11.2781 18.9503 11.4286 18.5714 11.4286Z"
-                      fill="#696CA3"
-                    />
-                  </svg>
-                  <p>Upload Score</p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                    >
+                      <path
+                        d="M18.5714 11.4286H11.4286V18.5714C11.4286 18.9503 11.2781 19.3137 11.0102 19.5816C10.7422 19.8495 10.3789 20 10 20C9.62112 20 9.25776 19.8495 8.98985 19.5816C8.72194 19.3137 8.57143 18.9503 8.57143 18.5714V11.4286H1.42857C1.04969 11.4286 0.686328 11.2781 0.418419 11.0102C0.15051 10.7422 0 10.3789 0 10C0 9.62112 0.15051 9.25776 0.418419 8.98985C0.686328 8.72194 1.04969 8.57143 1.42857 8.57143H8.57143V1.42857C8.57143 1.04969 8.72194 0.686328 8.98985 0.418418C9.25776 0.150509 9.62112 0 10 0C10.3789 0 10.7422 0.150509 11.0102 0.418418C11.2781 0.686328 11.4286 1.04969 11.4286 1.42857V8.57143H18.5714C18.9503 8.57143 19.3137 8.72194 19.5816 8.98985C19.8495 9.25776 20 9.62112 20 10C20 10.3789 19.8495 10.7422 19.5816 11.0102C19.3137 11.2781 18.9503 11.4286 18.5714 11.4286Z"
+                        fill="#696CA3"
+                      />
+                    </svg>
+                    <p>Upload Score</p>
+                  </div>
+                  <DropDown />
                 </div>
-                <DropDown />
               </div>
-            </div>
+            )}
           </div>
         </div>
       )}
