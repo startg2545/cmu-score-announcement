@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import SideBar from "../components/SideBar";
 import DropDown from "../components/DropDown";
@@ -12,14 +13,12 @@ export default function Course166Container() {
 
   const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
 
+  const navigate = useNavigate();
+
   const onClickCourse = (item) => {
     setShowTableScore(item.substring(0, 6));
     setSelectedCourse(true);
   };
-  useEffect(() => {
-    console.log(isShowTableScore);
-  }, [isShowTableScore]);
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentDate(new Date());
@@ -33,6 +32,10 @@ export default function Course166Container() {
     const options = { day: "numeric", month: "short", year: "numeric" };
     return date.toLocaleDateString("en-US", options);
   };
+
+  const handleAddCourse = () => {
+    navigate('/search-course' )
+  } 
 
   return (
     <>
@@ -75,15 +78,16 @@ export default function Course166Container() {
                 />
               </svg>
             </div>
-            <p
+            <button
               style={{
                 fontSize: "20px",
                 fontWeight: "600",
                 textIndent: "35px",
               }}
+              onClick={handleAddCourse}
             >
               Add Course
-            </p>
+            </button>
           </div>
           <div
             className={`${Course.courseframewindow} ${

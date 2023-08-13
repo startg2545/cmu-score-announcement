@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const scoreSchema = new mongoose.Schema(
   {
     courseOwner: [{ type: String }],
-    courseNo: String,
-    section: String,
+    courseNo: Number,
+    section: Number,
     year: Number,
     semaster: Number,
     details: [
@@ -14,6 +14,7 @@ const scoreSchema = new mongoose.Schema(
         fullScore: Number,
         isDisplayMean: Boolean,
         mean: Number,
+        note: String,
         results: [
           {
             student_code: Number,
