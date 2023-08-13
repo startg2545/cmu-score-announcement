@@ -106,7 +106,9 @@ export default function Course166Container() {
                 />
               </svg>
             </div>
-            <p
+
+            <div
+
               style={{
                 fontSize: "20px",
                 fontWeight: "600",
@@ -115,7 +117,9 @@ export default function Course166Container() {
               onClick={handleAddCourse}
             >
               Add Course
-            </p>
+
+            </div>
+
           </div>
           <div
             className={`${Course.courseframewindow} ${

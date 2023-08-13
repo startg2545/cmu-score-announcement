@@ -12,7 +12,7 @@ export async function getCourse(signal) {
     console.log(resp);
     return resp.data;
   } catch (err) {
-    return err.response.data;
+    return err.response;
   }
 }
 
