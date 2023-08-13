@@ -6,10 +6,35 @@ const DropDown = () => {
   const [searchParams, setSearchParams] = useSearchParams({});
   const [isDropDown, setDropDown] = useState(false);
   const [isSelectSec, setSelectSec] = useState("Select Section");
-  const sections = ['001', '002', '003', '004', '005', '006', '007', '008', '009',
-  '701', '702', '703', '704', '705', '706', '707', '708', '709',
-  '801', '802', '803', '804', '805', '806', '807', '808', '809']
-
+  const sections = [
+    "001",
+    "002",
+    "003",
+    "004",
+    "005",
+    "006",
+    "007",
+    "008",
+    "009",
+    "701",
+    "702",
+    "703",
+    "704",
+    "705",
+    "706",
+    "707",
+    "708",
+    "709",
+    "801",
+    "802",
+    "803",
+    "804",
+    "805",
+    "806",
+    "807",
+    "808",
+    "809",
+  ];
 
   const onClickDropDown = () => {
     setDropDown(!isDropDown);
@@ -17,18 +42,23 @@ const DropDown = () => {
   const onClickSection = (sec) => {
     setSelectSec(sec);
     setDropDown(false);
-    searchParams.set('section', sec)
-    setSearchParams(searchParams)
+    searchParams.set("section", sec);
+    setSearchParams(searchParams);
   };
 
   //close when click outside
   const menuRef = useRef();
   useEffect(() => {
-    document.addEventListener("mousedown", (event) => {
+    const clickOutside = (event) => {
       if (!menuRef.current.contains(event.target)) {
         setDropDown(false);
       }
-    });
+    };
+
+    document.addEventListener("mousedown", clickOutside);
+    return () => {
+      document.removeEventListener("mousedown", clickOutside);
+    };
   }, []);
   const styleArrow = {
     transform: isDropDown ? "rotate(180deg)" : "rotate(0deg)",
@@ -37,7 +67,7 @@ const DropDown = () => {
 
   return (
     <div className={styleDrop.boxdrop} ref={menuRef}>
-      <div  onClick={onClickDropDown}>
+      <div onClick={onClickDropDown}>
         <p className={`${styleDrop.box_select} ${styleDrop.font}`}>
           {isSelectSec ? isSelectSec : "Select section"}
           <svg
@@ -57,14 +87,19 @@ const DropDown = () => {
           </svg>
         </p>
       </div>
-      
+
       {isDropDown && (
-        <ul className={ `${styleDrop.sec_menu} ${styleDrop.scroll}`}>
-          {sections.map(function(data, key) {
+        <ul className={`${styleDrop.sec_menu} ${styleDrop.scroll}`}>
+          {sections.map(function (data, key) {
             return (
-              <li className={`${styleDrop.option} ${styleDrop.font}`}
-              onClick={() => onClickSection(data)} key={key}>{data}</li>
-            )
+              <li
+                className={`${styleDrop.option} ${styleDrop.font}`}
+                onClick={() => onClickSection(data)}
+                key={key}
+              >
+                {data}
+              </li>
+            );
           })}
         </ul>
       )}
