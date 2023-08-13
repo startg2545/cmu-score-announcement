@@ -1,35 +1,161 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import "./uploadScorePage.css";
 import SideBar from "../components/SideBar";
 import showSidebarContext from "../context/showSidebarContex";
+import { addCourse } from "../services/course";
+import * as XLSX from 'xlsx';
 
 export default function UploadScorePageContainer() {
+  const [details, setDetails] = useState([])
   const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
+  const [searchParams, setSearchParams] = useSearchParams({});
+  const [isDisplayMean, setIsDisplayMean] = useState(false);
+  const [courseNo, setCourseNo] = useState(0);
+  const [section, setSection] = useState(0);
+  const [year, setYear] = useState(0);
+  const [semaster, setSemaster] = useState(0);
+  const [scoreName, setScoreName] = useState('');
+  const [fullScore, setFullScore] = useState('');
+  const [note, setNote] = useState('');
 
-  const handleFileUpload = (e) => {
-    const selectedFile = e.target.files[0]; // Get the selected file
-    if (selectedFile) {
-      // Perform actions with the selected file, e.g., reading its contents
-      console.log("Selected file:", selectedFile);
+  const navigate = useNavigate()
+
+  const data = {
+    courseNo: courseNo,
+    section: section,
+    year: year,
+    semaster: semaster,
+    details: details
+  }
+
+  
+  const submitData = async () => {
+    const resp = await addCourse(data);
+    if (resp) {
+      console.log(resp);
+      navigate('/course-detail');
     }
-  };
+  }
 
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
+
+    setCourseNo(searchParams.get('courseNo'))  // get course number from Hooks
+    setSection(searchParams.get('section'))  // get section from Hooks
+    setYear(searchParams.get('year'))  // get year from Hooks
+    setSemaster(searchParams.get('semaster'))  // get semaster from Hooks
     const interval = setInterval(() => {
       setCurrentDate(new Date());
-    }, 1000);
+    });
 
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
   }, []);
+
+  // handle Microsoft Excel file (.xlsx)
+  function getResults(list, keys) {
+    // list is array of dictionary, keys is array
+    const results_list = []
+    for (let i in list) {
+      let obj = {}
+      for ( let j in keys) {
+        obj[keys[j]] = list[i][j] 
+      }
+      results_list[i] = obj
+    }
+    return results_list
+  }
+
+  function getAvg(list, keys) {
+    // list is array of dictionary, keys is array
+    var sum = 0;
+    if ( keys[0] === 'student_code' && keys[1] === 'point' && keys[2] === 'comment' ) {
+      // this is single scores
+      for (let i in list) { sum += list[i]['point'] }
+      const avg = sum / ( list.length );
+      return avg.toFixed(2)  
+    } else {
+      // this is multiple scores
+      const avg_obj = {}
+      for (let i=1; i<keys.length; i++) {
+        for (let j in list) { sum += list[j][keys[i]] }
+        const avg = sum / ( list.length )
+        avg_obj[keys[i]] = avg.toFixed(2)
+      }
+      return avg_obj
+    }
+  }
+
+  function addDetails(keys, full_score, student_number, avg, results) {
+    const arr = []
+    for(let i=0; i<keys.length-1; i++) {
+      let results_list = []
+      for(let j in results) {
+        let obj = {
+          student_code: results[j]['student_code'],
+          point: results[j][keys[i+1]]
+        }
+        results_list[j] = obj
+      }
+      let obj = {
+        scoreName: keys[i+1], 
+        fullScore: full_score[i], 
+        isDisplayMean: isDisplayMean,
+        studentNumber: student_number, 
+        note: note, 
+        mean: avg[keys[i+1]],
+        results: results_list
+      }
+      arr[i] = obj
+    }
+    setDetails(arr)
+  }
 
   // Function to format the date as "XX Aug, 20XX"
   const formatDate = (date) => {
     const options = { day: "numeric", month: "short", year: "numeric" };
     return date.toLocaleDateString("en-US", options);
   };
+
+  const handleFile = async (e) => {
+    const file = e.target.files[0];
+    const data = await file.arrayBuffer();
+    const workbook = XLSX.read(data);
+    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    const resultsData = XLSX.utils.sheet_to_json(worksheet, {
+      header: 1,
+      defval: ""
+    });
+    const keys = resultsData.shift()
+    var results = {}
+    var avg = 0
+    var student_number = 0
+    if ( keys[0] === 'student_code' && keys[1] === 'point' && keys[2] === 'comment' ) {
+      results = getResults(resultsData, keys)
+      avg = getAvg(results, keys)
+      setDetails([
+        { 
+          scoreName: scoreName,
+          fullScore: fullScore,
+          isDisplayMean: isDisplayMean,
+          studentNumber: resultsData.length,
+          note: note,
+          mean: avg,
+          results: results
+        }
+      ])
+    } else {
+      let full_score = resultsData.pop()
+      full_score.shift()
+      results = getResults(resultsData, keys)
+      avg = getAvg(results, keys)
+      student_number = resultsData.length
+      addDetails(keys, full_score, student_number, avg, results)
+    }
+  }
+
   const [showPopupCancel, setShowPopupCancel] = useState(false);
 
   const handleCancelClick = () => {
@@ -91,13 +217,17 @@ export default function UploadScorePageContainer() {
         <div className={`uploadScorecoursetopictext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>Upload Score 261497 </div>
         <div className={`uploadScoredatetext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
         <div className={`uploadScorecourseframewindow ${showSidebar ? 'shrink' : ''}`}>
-          {/* <div className="uploadScoreInlineContainer">
-            <div className='uploadScoreText'>Assignment</div>
-            <input type="text" className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} placeholder="Assignment Name"/>
-          </div> */}
+          <div className="uploadScoreInlineContainer">
+            <div className='uploadScoreText'>Score Name</div>
+            <input type="text" onChange={e=>setScoreName(e.target.value)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} placeholder="Assignment Name"/>
+          </div>
+          <div className="uploadScoreInlineContainer">
+            <div className='uploadScoreText'>Full Score</div>
+            <input type="text" onChange={e=>setFullScore(e.target.value)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} placeholder="Assignment Name"/>
+          </div>
           <div className="uploadScoreInlineContainer">
             <div className='uploadScoreText'>Score File</div>
-            <input type="file" className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} accept=".xlsx, .xls" onChange={handleFileUpload} style={{ transform: 'translateX(50px)'}}/>
+            <input type="file" onChange={e=>handleFile(e)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} accept=".xlsx, .xls" style={{ transform: 'translateX(50px)'}}/>
           </div>
           <div className={`uploadScoreDescriptionBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>
             <p className='uploadScoreFileDescription' style={{paddingTop: '4px'}}>
@@ -109,7 +239,7 @@ export default function UploadScorePageContainer() {
           <div className="uploadScoreInlineContainer">
             <div className='uploadScoreText'>Note to student in section</div>
           </div>
-          <input type="text" className="uploadScoreTextBox" placeholder="" style={{ transform: 'translateX(40px)', marginTop: '-24px', width: '70%', height: '60px' }} />
+          <input type="text" onChange={(e) => setNote(e.target.value)} className="uploadScoreTextBox" placeholder="" style={{ transform: 'translateX(40px)', marginTop: '-24px', width: '70%', height: '60px' }} />
           <div className={`uploadScoreDescriptionBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} style={{transform: 'translateY(30px)', marginLeft: '40px', backgroundColor:'#D0CDFE'}}>
             <p className='uploadScoreFileDescription' style={{paddingTop: '4px'}}>
               The system <span style={{ fontWeight: 'bold' }}>automatically calculates </span>  the statistical values, including the mean section, mean course, median, maximum value, SD, upper quartile, and lower quartile. Instructors have the option to publish these value to students or not after completing the upload.
@@ -199,7 +329,7 @@ export default function UploadScorePageContainer() {
               <button className="UploadScoreCancelPopupStayButton" onClick={ConfirmCancelhandleClosePopup}>
                 No
               </button>
-              <button className="UploadScoreCancelPopupLeaveButton" onClick={ConfirmConfirmhandleClosePopup}>
+              <button className="UploadScoreCancelPopupLeaveButton" onClick={submitData}>
                 Yes, Upload
               </button>
             </div>

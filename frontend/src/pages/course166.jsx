@@ -49,6 +49,18 @@ export default function Course166Container() {
     }
   }
 
+  const params = {
+    semaster: searchParams.get('semaster'),
+    year: searchParams.get('year'),
+    courseNo: searchParams.get('courseNo'),
+    section: searchParams.get('section')
+  }
+
+  function goToNav () {
+    let url = `semaster=${params.semaster}&year=${params.year}&courseNo=${params.courseNo}&section=${params.section}`
+    navigate('/upload-score-page?' + url)
+  }
+
   const handleAddCourse = (courseNo) => {
     // navigate()
   } 
@@ -94,7 +106,7 @@ export default function Course166Container() {
                 />
               </svg>
             </div>
-            <button
+            <p
               style={{
                 fontSize: "20px",
                 fontWeight: "600",
@@ -103,7 +115,7 @@ export default function Course166Container() {
               onClick={handleAddCourse}
             >
               Add Course
-            </button>
+            </p>
           </div>
           <div
             className={`${Course.courseframewindow} ${
@@ -208,7 +220,7 @@ export default function Course166Container() {
                       fill="#696CA3"
                     />
                   </svg>
-                  <p>Upload Score</p>
+                  <p onClick={goToNav}>Upload Score</p>
                 </div>
                 <DropDown />
               </div>

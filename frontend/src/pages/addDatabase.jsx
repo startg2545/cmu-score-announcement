@@ -15,12 +15,6 @@ const AddDatabase = () => {
       }
     };
     fetchData();
-    // axios.post('/course-detail', location.state, {
-    //   timeout: 5000
-    // })
-    //   .then((res)=>{console.log(res.data)})
-    //   .then(()=>{navigate('/course-detail')})
-    //   .catch((err)=>{console.log(err)})
   }, [location, navigate]);
   return (
     <div>
