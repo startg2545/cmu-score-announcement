@@ -26,7 +26,7 @@ const SideBar = () => {
   }
   function navToSemasterYear (semaster, year) {
     navigate({
-      pathname: '/course-166',
+      pathname: '/course',
       search: `?semaster=${semaster}&year=${year}`
     })
   }
@@ -36,7 +36,7 @@ const SideBar = () => {
       <div className={`${style.sidebar} ${showSidebar ? style.show : ""}`}>
         <div className={style.frameCourseInSideBar}>
           {/* <Link
-            to="/course-166"
+            to="/course"
             className={`${style.courseButton} ${ showSidebar ? style.purple_button : ""}`}
           > */}
           <button onClick={()=>{handleSemasterYear(1,2566)}} className={style.courseButton}>

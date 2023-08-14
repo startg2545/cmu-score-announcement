@@ -1,27 +1,31 @@
 import React, { useState, useEffect, useContext } from "react";
 import style from "./css/component.module.css";
 import cmulogo from "../image/cmulogo.png";
-import { getUserInfo } from "../services/user";
+import UserInfoContext from "../context/userInfo";
 import { useLocation, useNavigate } from "react-router-dom";
 import ShowSidebarContext from "../context/showSidebarContex";
+import { CheckPermission } from "../utility/main";
+import { signOut } from "../services";
 
 const CMUNavbar = () => {
   const { handleSidebarClick } = useContext(ShowSidebarContext);
+  const {userInfo} = useContext(UserInfoContext);
   const { pathname } = useLocation();
   const withoutNavbar = ["/sign-in"]; //can add page that would not show navbar
-  const [userInfo, setUserInfo] = useState([]);
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const resp = await getUserInfo();
-      if (!resp || !resp.ok) navigate("/sign-in");
-      else setUserInfo(resp.userInfo);
-    };
-
-    fetchData();
-  }, [navigate]);
+    if(userInfo.itAccountType) {
+      const check = async () => {
+        const isPermission = await CheckPermission(userInfo.itAccountType, pathname);
+        if (!isPermission) {
+          signOut().finally(navigate("/sign-in"));
+        }
+      };
+      check();
+    }
+  },[pathname, userInfo, navigate])
 
   if (withoutNavbar.some((path) => pathname.includes(path))) return null;
 
