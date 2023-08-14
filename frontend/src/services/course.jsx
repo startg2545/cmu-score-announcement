@@ -36,7 +36,7 @@ export async function addCourse(data) {
 export async function addCoInstructors(params, coInstructors) {
   try {
     const resp = await axios.put(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/course/owner`,
+      `${process.env.REACT_APP_BASE_URL}/api/v1/course`,
       {
         params: {
           courseNo: params.search("courseNo"),
