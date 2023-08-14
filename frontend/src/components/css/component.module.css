@@ -123,6 +123,7 @@ body {
   height: 100%; /* Set the maximum height based on the distance from the top */
   z-index: 0; /* Set z-index to 0 to place it behind the framewindow */
   display: flex;
+  font-family: "SF PRo", sans-serif;
   background-color: #ffffff; /* Set a background color */
   transition: left 0.4s ease; /* Apply a smooth transition for the left property */
   flex-direction: column; /* Arrange items vertically */
