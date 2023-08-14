@@ -10,16 +10,15 @@ body {
   position: relative;
 }
 
-.uploadScorecourseframewindow1 {
+.uploadScorecourseframewindow {
   position: absolute;
-  top: calc(150px + 50%);
+  top: calc(180px + 50%);
   bottom: calc(10px + 50%);
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
   max-width: 96.6%;
-  height: calc(69vh - 80px);
-  justify-content: center;
+  height: calc(74vh - 60px);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -27,8 +26,7 @@ body {
   border: 3px solid #696ca3;
   background: #fff;
   transition: width 0.4s ease, margin-left 0.4s ease;
-  padding-top: 30px;
-  padding-bottom: 30px;
+  padding-top: 35px;
 }
 
 .uploadScoreframewindow-container {
@@ -40,12 +38,11 @@ body {
 }
 
 .uploadScorecourseframewindow.shrink {
-  /* Your existing styles */
-  justify-content: center;
+
   width: calc(
     100vw - 340px
-  ); /* Reduce the width by the width of the sssidebar */
-  margin-left: 142px; /* Move the framewindow to the right to accommodate the sssidebar */
+  ); 
+  margin-left: 142px; 
 }
 
 .uploadScorecoursetopictext {
@@ -102,17 +99,18 @@ body {
 }
 
 .uploadScoreLine {
-  transform: translate(1px, 35px);
+  transform: translate(12px, 32px);
   transition: transform 0.3s ease; /* Add a smooth transition */
-  width: 80%;
+  width: 99%;
   position: absolute;
 }
 
 .uploadScoreLine.move-right {
   transform: translate(
-    275px,
-    35px
-  ); /* Adjust the translation value as needed */
+    280px,
+    32px
+  ); 
+  width: 81%;
   position: absolute;
 }
 
@@ -167,7 +165,7 @@ body {
 
   width: calc(57.7vw);
   height: calc(1.6vh + 60px);
-  margin-left: 220px;
+  margin-left: 189px;
   margin-top: -20px;
   margin-bottom: 20px;
   transition: width 0.3s ease;
