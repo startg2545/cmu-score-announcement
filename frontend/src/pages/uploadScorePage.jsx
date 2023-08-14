@@ -8,15 +8,13 @@ import * as XLSX from "xlsx";
 
 export default function UploadScorePageContainer() {
   const [details, setDetails] = useState([])
-  const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
+  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [isDisplayMean, setIsDisplayMean] = useState(false);
   const [courseNo, setCourseNo] = useState(0);
   const [section, setSection] = useState('');
   const [year, setYear] = useState(0);
   const [semaster, setSemaster] = useState(0);
-  const [scoreName, setScoreName] = useState("");
-  const [fullScore, setFullScore] = useState("");
   const [note, setNote] = useState("");
 
   const navigate = useNavigate();
@@ -28,7 +26,6 @@ export default function UploadScorePageContainer() {
     sections: [
       {
         section: section,
-        // instructor: ,
         details: details
       }
     ] 
@@ -78,12 +75,11 @@ export default function UploadScorePageContainer() {
     var sum = 0;
     if (
       keys[0] === "student_code" &&
-      keys[1] === "point" &&
       keys[2] === "comment"
     ) {
       // this is single scores
       for (let i in list) {
-        sum += list[i]["point"];
+        sum += list[i][keys[1]];
       }
       const avg = sum / list.length;
       return avg.toFixed(2);
@@ -147,15 +143,16 @@ export default function UploadScorePageContainer() {
     var student_number = 0;
     if (
       keys[0] === "student_code" &&
-      keys[1] === "point" &&
       keys[2] === "comment"
     ) {
       results = getResults(resultsData, keys);
       avg = getAvg(results, keys);
+      let full_score = resultsData.pop();
+      console.log(full_score)
       setDetails([
         {
-          scoreName: scoreName,
-          fullScore: fullScore,
+          scoreName: keys[1],
+          fullScore: full_score,
           isDisplayMean: isDisplayMean,
           studentNumber: resultsData.length,
           note: note,
@@ -234,14 +231,6 @@ export default function UploadScorePageContainer() {
         <div className={`uploadScorecoursetopictext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>Upload Score {courseNo} </div>
         <div className={`uploadScoredatetext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
         <div className={`uploadScorecourseframewindow ${showSidebar ? 'shrink' : ''}`}>
-          {/* <div className="uploadScoreInlineContainer">
-            <div className='uploadScoreText'>Score Name</div>
-            <input type="text" onChange={e=>setScoreName(e.target.value)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} placeholder="Assignment Name"/>
-          </div> */}
-          <div className="uploadScoreInlineContainer">
-            <div className='uploadScoreText'>Full Score</div>
-            <input type="text" onChange={e=>setFullScore(e.target.value)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} placeholder="Assignment Name"/>
-          </div>
           <div className="uploadScoreInlineContainer">
             <div className='uploadScoreText'>Score File</div>
             <input type="file" onChange={e=>handleFile(e)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} accept=".xlsx, .xls" />
