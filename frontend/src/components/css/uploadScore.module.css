@@ -10,15 +10,16 @@ body {
   position: relative;
 }
 
-.uploadScorecourseframewindow {
+.Scorecourseframewindow {
   position: absolute;
-  top: calc(180px + 50%);
+  top: calc(150px + 50%);
   bottom: calc(10px + 50%);
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
   max-width: 96.6%;
-  height: calc(74vh - 60px);
+  height: calc(60vh);
+  justify-content: center;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -26,10 +27,10 @@ body {
   border: 3px solid #696ca3;
   background: #fff;
   transition: width 0.4s ease, margin-left 0.4s ease;
-  padding-top: 35px;
+  padding-block: 20px;
 }
 
-.uploadScoreframewindow-container {
+.Scoreframewindow-container {
   /* Your existing styles */
   justify-content: center;
   position: relative;
@@ -37,7 +38,7 @@ body {
   flex-direction: row;
 }
 
-.uploadScorecourseframewindow.shrink {
+.Scorecourseframewindow.shrink {
 
   width: calc(
     100vw - 340px
@@ -45,7 +46,7 @@ body {
   margin-left: 142px; 
 }
 
-.uploadScorecoursetopictext {
+.Scorecoursetopictext {
   color: #696ca3;
   font-family: "SF PRo", sans-serif;
   font-size: 48px;
@@ -57,7 +58,7 @@ body {
   position: absolute;
 }
 
-.uploadScoredatetext {
+.Scoredatetext {
   color: #696ca3;
   font-family: "SF PRo", sans-serif;
   font-size: 24px;
@@ -69,18 +70,18 @@ body {
   position: absolute;
 }
 
-.uploadScorecoursetopictext.move-right {
+.Scorecoursetopictext.move-right {
   transform: translate(340px, 45px);
   transition: transform 0.4s ease;
   position: absolute;
 }
-.uploadScoredatetext.move-right {
+.Scoredatetext.move-right {
   transform: translate(342px, 100px);
   transition: transform 0.4s ease;
   position: absolute;
 }
 
-.uploadScoreTextNavigate {
+.ScoreTextNavigate {
   color: #696ca3;
   font-family: "SF PRo", sans-serif;
   font-size: 22px;
@@ -92,20 +93,20 @@ body {
   position: absolute;
 }
 
-.uploadScoreTextNavigate.move-right {
+.ScoreTextNavigate.move-right {
   transform: translate(305px, 9px);
   transition: transform 0.4s ease;
   position: absolute;
 }
 
-.uploadScoreLine {
+.ScoreLine {
   transform: translate(12px, 32px);
   transition: transform 0.3s ease; /* Add a smooth transition */
   width: 99%;
   position: absolute;
 }
 
-.uploadScoreLine.move-right {
+.ScoreLine.move-right {
   transform: translate(
     280px,
     32px
@@ -114,7 +115,7 @@ body {
   position: absolute;
 }
 
-.uploadScoreText {
+.ScoreText {
   color: #696ca3;
   font-family: SF Pro;
   font-size: 30px;
@@ -124,7 +125,7 @@ body {
   margin-left: 40px;
 }
 
-.uploadScoreTextBox {
+.ScoreTextBox {
   padding: 8px;
   border: 2px solid #696ca3;
   background-color: #eeecec;
@@ -137,11 +138,11 @@ body {
   transition: transform 0.3s ease;
 }
 
-.uploadScoreInlineContainer.move-right .uploadScoreTextBox {
+.ScoreInlineContainer.move-right .ScoreTextBox {
   transition: transform 0.3s ease;
 }
 
-.uploadScoreInlineContainer {
+.ScoreInlineContainer {
   display: flex; /* Use flexbox to align items in a row */
   align-items: center;
   margin-bottom: 30px;
@@ -149,7 +150,7 @@ body {
   margin-top: -15px;
 }
 
-.uploadScoreFileDescription {
+.ScoreFileDescription {
   font-size: 18px;
   color: #000000;
   font-family: SF Pro;
@@ -157,7 +158,7 @@ body {
   margin-top: 0px;
 }
 
-.uploadScoreDescriptionBox {
+.ScoreDescriptionBox {
   padding: 10px;
   border: 1px;
   background-color: #faedca;
@@ -171,13 +172,13 @@ body {
   transition: width 0.3s ease;
 }
 
-.uploadScoreDescriptionBox.move-right {
+.ScoreDescriptionBox.move-right {
   width: calc(52.5vw); /* Use viewport width */
   height: calc(1.6vh + 60px);
   transition: width 0.3s ease;
 }
 
-.uploadScoreCancelButton {
+.ScoreCancelButton {
   transform: translate(40px, 45px);
   width: 150px;
   height: 40px;
@@ -196,7 +197,7 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.uploadScoreCancelButtonInner {
+.ScoreCancelButtonInner {
   width: 45px;
   height: 40px;
   flex-shrink: 0;
@@ -213,16 +214,16 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.uploadScoreCancelButton:hover {
+.ScoreCancelButton:hover {
   background: #d13e10;
   transition: background-color 0.3s ease;
 }
 
-.uploadScoreCancelButton:hover .uploadScoreCancelText {
+.ScoreCancelButton:hover .ScoreCancelText {
   color: #ffffff;
 }
 
-.uploadScoreCancelText {
+.ScoreCancelText {
   position: absolute;
   right: 60px;
   margin: 0;
@@ -231,7 +232,7 @@ body {
   transition: color 0.3s ease;
 }
 
-.uploadScoreConfirmButton {
+.ScoreConfirmButton {
   transform: translate(60px, 45px);
   width: 150px;
   height: 40px;
@@ -250,7 +251,7 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.uploadScoreConfirmButtonInner {
+.ScoreConfirmButtonInner {
   width: 45px;
   height: 40px;
   flex-shrink: 0;
@@ -267,7 +268,7 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.uploadScoreConfirmText {
+.ScoreConfirmText {
   position: absolute;
   right: 60px;
   margin: 0;
@@ -276,16 +277,16 @@ body {
   transition: color 0.3s ease;
 }
 
-.uploadScoreConfirmButton:hover {
+.ScoreConfirmButton:hover {
   background: #23834b;
   transition: background-color 0.3s ease;
 }
 
-.uploadScoreConfirmButton:hover .uploadScoreConfirmText {
+.ScoreConfirmButton:hover .ScoreConfirmText {
   color: #ffffff;
 }
 
-.uploadScorePopup {
+.ScorePopup {
   position: fixed;
   top: 0;
   left: 0;
@@ -298,7 +299,7 @@ body {
   z-index: 1000;
 }
 
-.uploadScorePopup-Content {
+.ScorePopup-Content {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -312,7 +313,7 @@ body {
   font-size: 20px;
 }
 
-.uploadScorePopup-ContentInner {
+.ScorePopup-ContentInner {
   background-color: #8084c8;
   border-radius: 10px 10px 0px 0px;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
@@ -326,20 +327,20 @@ body {
   transform: translateY(-28px);
 }
 
-.UploadScorePopupButtons {
+.ScorePopupButtons {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-.UploadScoreCancelPopupLeaveButton,
-.UploadScoreCancelPopupStayButton {
+.ScoreCancelPopupLeaveButton,
+.ScoreCancelPopupStayButton {
   transform: translateY(-10px);
   margin: 0 10px;
   cursor: pointer;
 }
 
-.UploadScoreCancelPopupLeaveButton {
+.ScoreCancelPopupLeaveButton {
   width: 120px;
   height: 35px;
   border-radius: 10px;
@@ -351,7 +352,7 @@ body {
   font-weight: 600;
 }
 
-.UploadScoreCancelPopupStayButton {
+.ScoreCancelPopupStayButton {
   width: 120px;
   height: 35px;
   border-radius: 10px;
@@ -361,7 +362,7 @@ body {
   font-size: 18px;
 }
 
-.UploadScoreSvgInline {
+.ScoreSvgInline {
   display: flex;
   justify-content: center;
 }
