@@ -69,11 +69,7 @@ export default function Course166Container() {
       }
     };
 
-    
-
     fetchData();
-
-    if (searchParams.get("semaster") != null) handleRequest();
 
     const interval = setInterval(() => {
       setCurrentDate(new Date());
@@ -88,17 +84,6 @@ export default function Course166Container() {
     return date.toLocaleDateString("en-US", options);
   };
 
-  const handleRequest = () => {
-    if (searchParams.get("courseNo") == null) {
-      let semaster = searchParams.get("semaster");
-      let year = searchParams.get("year");
-      let courseTopic = document.getElementById("courseTopic");
-      if (courseTopic) {
-        courseTopic.innerHTML = `Course ${semaster}/${year.slice(2, 4)}`;
-      }
-    }
-  };
-
   const params = {
     semaster: searchParams.get("semaster"),
     year: searchParams.get("year"),
@@ -110,8 +95,6 @@ export default function Course166Container() {
     let url = `semaster=${params.semaster}&year=${params.year}&courseNo=${params.courseNo}&section=${params.section}`;
     navigate("?" + url);
   }
-
- 
 
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
 
@@ -139,7 +122,8 @@ export default function Course166Container() {
             }`}
             onClick={handleSidebarClick}
           >
-            <label id="courseTopic"></label>
+            <div >Course {params.semaster}/{params.year.slice(2)}</div>
+           
           </div>
           <div
             className={` ${Course.datetext} ${
