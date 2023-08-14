@@ -2,21 +2,19 @@ import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import "./uploadScorePage.css";
 import { SideBar } from "../components";
-import { ShowSidebarContext } from "../context";
+import { ShowSidebarContext, UserInfoContext } from "../context";
 import { addCourse } from "../services";
 import * as XLSX from "xlsx";
 
 export default function UploadScorePageContainer() {
-  const [details, setDetails] = useState([]);
+  const [details, setDetails] = useState([])
   const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [isDisplayMean, setIsDisplayMean] = useState(false);
   const [courseNo, setCourseNo] = useState(0);
-  const [section, setSection] = useState(0);
+  const [section, setSection] = useState('');
   const [year, setYear] = useState(0);
   const [semaster, setSemaster] = useState(0);
-  const [scoreName, setScoreName] = useState("");
-  const [fullScore, setFullScore] = useState("");
   const [note, setNote] = useState("");
 
   const navigate = useNavigate();
@@ -28,12 +26,12 @@ export default function UploadScorePageContainer() {
     sections: [
       {
         section: section,
-        // instructor: ,
-        details: details,
-      },
-    ],
-  };
+        details: details
+      }
+    ] 
+  }
 
+  
   const submitData = async () => {
     const resp = await addCourse(data);
     if (resp) {
@@ -45,17 +43,18 @@ export default function UploadScorePageContainer() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
-    setCourseNo(searchParams.get("courseNo")); // get course number from Hooks
-    setSection(searchParams.get("section")); // get section from Hooks
-    setYear(searchParams.get("year")); // get year from Hooks
-    setSemaster(searchParams.get("semaster")); // get semaster from Hooks
+
+    setCourseNo(searchParams.get('courseNo'))  // get course number from Hooks
+    setSection(searchParams.get('section'))  // get section from Hooks
+    setYear(searchParams.get('year'))  // get year from Hooks
+    setSemaster(searchParams.get('semaster'))  // get semaster from Hooks
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     });
-
+    console.log(details)
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, []);
+  }, [details]);
 
   // handle Microsoft Excel file (.xlsx)
   function getResults(list, keys) {
@@ -76,12 +75,11 @@ export default function UploadScorePageContainer() {
     var sum = 0;
     if (
       keys[0] === "student_code" &&
-      keys[1] === "point" &&
       keys[2] === "comment"
     ) {
       // this is single scores
       for (let i in list) {
-        sum += list[i]["point"];
+        sum += list[i][keys[1]];
       }
       const avg = sum / list.length;
       return avg.toFixed(2);
@@ -145,15 +143,16 @@ export default function UploadScorePageContainer() {
     var student_number = 0;
     if (
       keys[0] === "student_code" &&
-      keys[1] === "point" &&
       keys[2] === "comment"
     ) {
       results = getResults(resultsData, keys);
       avg = getAvg(results, keys);
+      let full_score = resultsData.pop();
+      console.log(full_score)
       setDetails([
         {
-          scoreName: scoreName,
-          fullScore: fullScore,
+          scoreName: keys[1],
+          fullScore: full_score,
           isDisplayMean: isDisplayMean,
           studentNumber: resultsData.length,
           note: note,
@@ -202,135 +201,44 @@ export default function UploadScorePageContainer() {
   return (
     <>
       <SideBar />
-      <div
-        className={`uploadScoreTextNavigate ${showSidebar ? "move-right" : ""}`}
-        onClick={handleSidebarClick}
-      >
-        {" "}
-        Course {semaster}/{year.toString().slice(2)} &nbsp; {">"} &nbsp;{" "}
-        {courseNo} &nbsp; {">"} &nbsp; Upload Score{" "}
-      </div>
-      <div
-        className={`uploadScoreLine ${showSidebar ? "move-right" : ""}`}
-        onClick={handleSidebarClick}
-      >
-        <svg width="80%" height="9">
-          <defs>
-            <filter
-              id="filter0_i_261_1358"
-              x="0"
-              y="0"
-              width="1451"
-              height="6"
-              filterUnits="userSpaceOnUse"
-              colorInterpolationFilters="sRGB"
-            >
-              <feFlood floodOpacity="0" result="BackgroundImageFix" />
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="BackgroundImageFix"
-                result="shape"
-              />
-              <feColorMatrix
-                in="SourceAlpha"
-                type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                result="hardAlpha"
-              />
-              <feOffset dy="4" />
-              <feGaussianBlur stdDeviation="2" />
-              <feComposite
-                in2="hardAlpha"
-                operator="arithmetic"
-                k2="-1"
-                k3="1"
-              />
-              <feColorMatrix
-                type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
-              />
-              <feBlend
-                mode="normal"
-                in2="shape"
-                result="effect1_innerShadow_261_1358"
-              />
-            </filter>
-          </defs>
-          <line
-            x1="2%"
-            y1="50%"
-            x2="90%"
-            y2="50%"
-            stroke="#8084C8"
-            strokeWidth="2"
-            opacity="0.3125"
-            filter="url(#filter0_i_261_1358)"
-          />
-        </svg>
-      </div>
-      <div
-        className={`uploadScorecoursetopictext ${
-          showSidebar ? "move-right" : ""
-        }`}
-        onClick={handleSidebarClick}
-      >
-        Upload Score {courseNo}{" "}
-      </div>
-      <div
-        className={`uploadScoredatetext ${showSidebar ? "move-right" : ""}`}
-        onClick={handleSidebarClick}
-      >
-        {" "}
-        {formatDate(currentDate)}
-      </div>
-      <div
-        className={`uploadScorecourseframewindow ${
-          showSidebar ? "shrink" : ""
-        }`}
-      >
-        {/* <div className="uploadScoreInlineContainer">
-            <div className='uploadScoreText'>Score Name</div>
-            <input type="text" onChange={e=>setScoreName(e.target.value)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} placeholder="Assignment Name"/>
-          </div> */}
-        <div className="uploadScoreInlineContainer">
-          <div className="uploadScoreText">Full Score</div>
-          <input
-            type="text"
-            onChange={(e) => setFullScore(e.target.value)}
-            className={`uploadScoreTextBox ${showSidebar ? "move-right" : ""}`}
-            placeholder="Assignment Name"
-          />
-        </div>
-        <div className="uploadScoreInlineContainer">
-          <div className="uploadScoreText">Score File</div>
-          <input
-            type="file"
-            onChange={(e) => handleFile(e)}
-            className={`uploadScoreTextBox ${showSidebar ? "move-right" : ""}`}
-            onClick={handleSidebarClick}
-            accept=".xlsx, .xls"
-          />
-        </div>
-        <div
-          className={`uploadScoreDescriptionBox ${
-            showSidebar ? "move-right" : ""
-          }`}
-          onClick={handleSidebarClick}
-        >
-          <p
-            className="uploadScoreFileDescription"
-            style={{ paddingTop: "4px" }}
-          >
-            Please click to open this Excel template file{" "}
-            <span style={{ color: "red", fontWeight: "bold" }}>
-              (support only this template .xlsx and .xls format)
-            </span>{" "}
-            and fill student code, score (numbers only) and comments (if any).
-            <span style={{ color: "red", fontWeight: "bold" }}>
-              {" "}
-              Do not change the column header name.{" "}
-            </span>
+      <div className={`uploadScoreTextNavigate ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Course {semaster}/{year.toString().slice(2)} &nbsp; {'>'} &nbsp; {courseNo} &nbsp; {'>'} &nbsp; Upload Score </div>
+        <div className={`uploadScoreLine ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>
+              <svg width="80%" height="9">
+                  <defs>
+                  <filter id="filter0_i_261_1358" x="0" y="0" width="1451" height="6" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                      <feFlood floodOpacity="0" result="BackgroundImageFix"/>
+                      <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+                      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                      <feOffset dy="4"/>
+                      <feGaussianBlur stdDeviation="2"/>
+                      <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
+                      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+                      <feBlend mode="normal" in2="shape" result="effect1_innerShadow_261_1358"/>
+                  </filter>
+                  </defs>
+                  <line
+                  x1="2%"
+                  y1="50%"
+                  x2="90%"
+                  y2="50%"
+                  stroke="#8084C8"
+                  strokeWidth="2"
+                  opacity="0.3125"
+                  filter="url(#filter0_i_261_1358)"
+                  />
+              </svg>
+          </div>
+        <div className={`uploadScorecoursetopictext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>Upload Score {courseNo} </div>
+        <div className={`uploadScoredatetext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
+        <div className={`uploadScorecourseframewindow ${showSidebar ? 'shrink' : ''}`}>
+          <div className="uploadScoreInlineContainer">
+            <div className='uploadScoreText'>Score File</div>
+            <input type="file" onChange={e=>handleFile(e)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} accept=".xlsx, .xls" />
+          </div>
+          <div className={`uploadScoreDescriptionBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>
+            <p className='uploadScoreFileDescription' style={{paddingTop: '4px'}}>
+            Please click to open this Excel template file <span style={{ color: 'red', fontWeight: 'bold' }}>(support only this template .xlsx and .xls format)</span>  and fill student code, score (numbers only) and comments (if any).
+            <span style={{ color: 'red', fontWeight: 'bold' }}> Do not change the column header name. </span>
             And attach back to this system.
           </p>
         </div>
