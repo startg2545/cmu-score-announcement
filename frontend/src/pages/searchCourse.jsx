@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
-import { getCourse } from "../services/course";
+import { getCourse } from "../services";
 import './css/main.css';
 
 const year = [

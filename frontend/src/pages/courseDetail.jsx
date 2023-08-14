@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getScores } from '../services/scores';
+import { getScores } from '../services';
 
 const CourseDetail = () => {
   const [scores, setScores] = useState([])

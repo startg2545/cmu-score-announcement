@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import "./uploadScorePage.css";
-import SideBar from "../components/SideBar";
-import showSidebarContext from "../context/showSidebarContex";
-import { addCourse } from "../services/course";
+import { SideBar } from "../components";
+import { ShowSidebarContext } from "../context";
+import { addCourse } from "../services";
 import * as XLSX from 'xlsx';
 
 export default function UploadScorePageContainer() {
   const [details, setDetails] = useState([])
-  const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
+  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [isDisplayMean, setIsDisplayMean] = useState(false);
   const [courseNo, setCourseNo] = useState(0);

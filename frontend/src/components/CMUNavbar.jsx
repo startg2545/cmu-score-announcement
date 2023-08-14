@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import style from "./css/component.module.css";
 import cmulogo from "../image/cmulogo.png";
-import UserInfoContext from "../context/userInfo";
 import { useLocation, useNavigate } from "react-router-dom";
-import ShowSidebarContext from "../context/showSidebarContex";
+import { ShowSidebarContext, UserInfoContext } from "../context";
 import { CheckPermission } from "../utility/main";
 import { signOut } from "../services";
 
 const CMUNavbar = () => {
   const { handleSidebarClick } = useContext(ShowSidebarContext);
-  const {userInfo} = useContext(UserInfoContext);
+  const { userInfo } = useContext(UserInfoContext);
   const { pathname } = useLocation();
   const withoutNavbar = ["/sign-in"]; //can add page that would not show navbar
   const [isHovered, setIsHovered] = useState(false);
@@ -25,6 +24,7 @@ const CMUNavbar = () => {
       };
       check();
     }
+    else if(!localStorage.getItem("role")) navigate("sign-in");
   },[pathname, userInfo, navigate])
 
   if (withoutNavbar.some((path) => pathname.includes(path))) return null;

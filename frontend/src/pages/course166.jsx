@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
-import SideBar from "../components/SideBar";
-import DropDown from "../components/DropDown";
-import UploadSc from "../components/uploadScore";
-import showSidebarContext from "../context/showSidebarContex";
-import { getCourse } from "../services/course";
-import { getScores } from "../services/scores";
+import { SideBar, DropDown, UploadSc } from "../components";
+import { ShowSidebarContext } from "../context";
+import { getCourse, getScores } from "../services";
 
 export default function Course166Container() {
   const [course, setCourse] = useState();
@@ -17,7 +14,7 @@ export default function Course166Container() {
   const [isShowTableScore, setShowTableScore] = useState(null);
   const [isUploadScore, setUploadScore] = useState(false);
 
-  const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
+  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
 
   const navigate = useNavigate();
   const location = useLocation();
