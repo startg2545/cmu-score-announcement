@@ -4,7 +4,7 @@ import Course from "./css/course166.module.css";
 import SideBar from "../components/SideBar";
 import DropDown from "../components/DropDown";
 import UploadSc from "../components/uploadScore";
-import showSidebarContext from "../context/showSidebarContex";
+import { ShowSidebarContext } from "../context";
 import { getCourse } from "../services/course";
 import { getScores } from "../services/scores";
 
@@ -60,7 +60,7 @@ export default function Course166Container() {
     };
 
     if (params.courseNo == null && isSelectedCourse == true) {
-      setSelectedCourse(false)
+      setSelectedCourse(false);
     }
 
     fetchData();
@@ -100,7 +100,7 @@ export default function Course166Container() {
 
   function goToNav() {
     let url = `semaster=${params.semaster}&year=${params.year}&courseNo=${params.courseNo}&section=${params.section}`;
-    navigate("/upload-score-page?" + url);
+    navigate("?" + url);
   }
 
   const handleAddCourse = () => {
@@ -203,9 +203,9 @@ export default function Course166Container() {
           <>
             <div className={Course.MenuNavigate}>
               <p className={Course.MenuIndex}>
-                <div 
-                onClick={()=>setSelectedCourse(false)}
-                >course {params.semaster}/{params.year.slice(2)}</div>
+                <div onClick={() => setSelectedCourse(false)}>
+                  course {params.semaster}/{params.year.slice(2)}
+                </div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="8"
