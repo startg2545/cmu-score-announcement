@@ -14,18 +14,18 @@ const CMUNavbar = () => {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if(userInfo.itAccountType) {
-      const check = async () => {
-        const isPermission = await CheckPermission(userInfo.itAccountType, pathname);
-        if (!isPermission) {
-          signOut().finally(navigate("/sign-in"));
-        }
-      };
-      check();
-    }
-    else if(!localStorage.getItem("role")) navigate("sign-in");
-  },[pathname, userInfo, navigate])
+  // useEffect(() => {
+  //   if(userInfo.itAccountType) {
+  //     const check = async () => {
+  //       const isPermission = await CheckPermission(userInfo.itAccountType, pathname);
+  //       if (!isPermission) {
+  //         signOut().finally(navigate("/sign-in"));
+  //       }
+  //     };
+  //     check();
+  //   }
+  //   else if(!localStorage.getItem("role")) navigate("sign-in");
+  // },[pathname, userInfo, navigate])
 
   if (withoutNavbar.some((path) => pathname.includes(path))) return null;
 
