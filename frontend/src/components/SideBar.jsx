@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import style from "./css/component.module.css";
-import { createSearchParams, Link, useNavigate, useSearchParams } from "react-router-dom";
-import { signOut } from "../services/user";
-import ShowSidebarContext from "../context/showSidebarContex";
-import { getScores } from '../services/scores';
+import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
+import { signOut } from "../services";
+import { ShowSidebarContext } from "../context";
 
 const SideBar = () => {
   const [searchParams, setSearchParams] = useSearchParams()

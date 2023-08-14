@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import UserInfoContext from "../context/userInfo";
+import { UserInfoContext } from "../context";
 
 export default function CMUOAuthCallback() {
   const { userInfo } = useContext(UserInfoContext);
@@ -55,6 +55,7 @@ export default function CMUOAuthCallback() {
       const resp = await signIn(code);
       if (resp) {
         await setUserInfo(resp);
+        localStorage.setItem("role", resp.itAccountType);
         if (resp.itAccountType === "StdAcc") {
           navigate("/student-dashboard");
         } else if (resp.itAccountType === "MISEmpAcc") {

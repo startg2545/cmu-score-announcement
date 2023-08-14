@@ -1,10 +1,8 @@
-
-
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import "./stuCourseList.css";
-import StudentSideBar from "../components/StudentSidebar.jsx";
-import ShowSidebarContext from "../context/showSidebarContex";
+import { StudentSidebar } from "../components";
+import { ShowSidebarContext } from "../context";
 
 export default function StuCourseList() {
     const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
@@ -40,7 +38,7 @@ export default function StuCourseList() {
             > 
             {formatDate(currentDate)}
             </div>
-            <StudentSideBar />
+            <StudentSidebar />
             <div
             className={`stuCouListcourseframewindow ${showSidebar ? 'shrink' : ''}`} 
             onClick={handleSidebarClick}    

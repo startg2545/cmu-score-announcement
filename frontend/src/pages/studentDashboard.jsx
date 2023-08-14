@@ -1,7 +1,7 @@
 import "./studentDashboard.css";
 import React, { useContext, useState, useEffect } from "react";
-import StudentSideBar from "../components/StudentSidebar";
-import ShowSidebarContext from "../context/showSidebarContex";
+import { StudentSidebar } from "../components";
+import { ShowSidebarContext } from "../context";
 
 const StudentDashboard = () => {
   const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
@@ -59,7 +59,7 @@ const StudentDashboard = () => {
 
   return (
     <>
-      <StudentSideBar />
+      <StudentSidebar />
       <div
         className={`stucoursetopictext ${showSidebar ? "move-right" : ""}`}
         onClick={handleSidebarClick}

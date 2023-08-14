@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
 import { getUserInfo } from "./services";
-import ShowSidebarContext from "./context/showSidebarContex";
-import UserInfoContext from "./context/userInfo";
+import { ShowSidebarContext, UserInfoContext } from "./context";
 import Home from "./pages";
 import About from "./pages/about";
 import AddScore from "./pages/addScore";
@@ -31,6 +30,7 @@ function App() {
     setShowSidebar(!showSidebar);
     fetchData();
   };
+
   const setUser = async (data) => {
     userInfo.cmuAccount = data.cmuAccount;
     userInfo.firstName = data.firstName;
