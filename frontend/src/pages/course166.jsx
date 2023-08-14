@@ -103,8 +103,20 @@ export default function Course166Container() {
     navigate("?" + url);
   }
 
+ 
+
+  const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
+
   const handleAddCourse = () => {
-    navigate("/search-course");
+    setShowPopupAddCourse(true);
+  };
+
+  const CancelhandleClosePopup = () => {
+    setShowPopupAddCourse(false);
+  };
+
+  const ConfirmhandleClosePopup = () => {
+    setShowPopupAddCourse(false);
   };
 
   return (
@@ -157,8 +169,44 @@ export default function Course166Container() {
               onClick={handleAddCourse}
             >
               Add Course
-            </div>
+            </div> 
+            
           </div>
+          {showPopupAddCourse && (
+                <div className={Course.AddScorePopup}>
+                  <div className={Course['AddScorePopup-Content']}>
+                    <div className={Course['AddScorePopup-ContentInner']}>
+                      <p style={{ color: "white", fontWeight: "600" }}>
+                        Select Course and Section
+                      </p>
+                    </div>
+                    <div className={Course.AddScoreInlineContainer}>
+                      <p style={{ marginRight: '20px', fontSize:'28px', transform: 'translateY(-5px)'}}>Course:</p>
+                      <div className={Course.DropDownContainer}>
+                        <DropDown />
+                      </div>
+                      <p style={{ marginRight: '20px', fontSize:'28px', transform: 'translateY(-5px)', marginLeft: '40px'}}>Section:</p>
+                      <div className={Course.DropDownContainer}>
+                        <DropDown />
+                      </div>
+                    </div>
+                    <div className={Course.AddScorePopupButtons}>
+                      <button
+                       className={Course.AddScoreCancelPopupStayButton}
+                        onClick={ConfirmhandleClosePopup}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className={Course.AddScoreCancelPopupLeaveButton}
+                        onClick={CancelhandleClosePopup}
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )} 
           <div
             className={`${Course.courseframewindow} ${
               showSidebar ? Course.shrink : ""
@@ -203,8 +251,8 @@ export default function Course166Container() {
           <>
             <div className={Course.MenuNavigate}>
               <p className={Course.MenuIndex}>
-                <div onClick={() => setSelectedCourse(false)}>
-                  course {params.semaster}/{params.year.slice(2)}
+                <div onClick={() => setSelectedCourse(false)} style={{cursor: 'pointer'}}>
+                  Course {params.semaster}/{params.year.slice(2)}
                 </div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -272,17 +320,19 @@ export default function Course166Container() {
                   <div
                     className={`${Course.box_upload} ${Course.font}`}
                     onClick={onClickUplioad}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 20 20"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 30 29"
                       fill="none"
                     >
                       <path
-                        d="M18.5714 11.4286H11.4286V18.5714C11.4286 18.9503 11.2781 19.3137 11.0102 19.5816C10.7422 19.8495 10.3789 20 10 20C9.62112 20 9.25776 19.8495 8.98985 19.5816C8.72194 19.3137 8.57143 18.9503 8.57143 18.5714V11.4286H1.42857C1.04969 11.4286 0.686328 11.2781 0.418419 11.0102C0.15051 10.7422 0 10.3789 0 10C0 9.62112 0.15051 9.25776 0.418419 8.98985C0.686328 8.72194 1.04969 8.57143 1.42857 8.57143H8.57143V1.42857C8.57143 1.04969 8.72194 0.686328 8.98985 0.418418C9.25776 0.150509 9.62112 0 10 0C10.3789 0 10.7422 0.150509 11.0102 0.418418C11.2781 0.686328 11.4286 1.04969 11.4286 1.42857V8.57143H18.5714C18.9503 8.57143 19.3137 8.72194 19.5816 8.98985C19.8495 9.25776 20 9.62112 20 10C20 10.3789 19.8495 10.7422 19.5816 11.0102C19.3137 11.2781 18.9503 11.4286 18.5714 11.4286Z"
-                        fill="#696CA3"
+                        d="M29.8438 14.5C29.8438 14.96 29.6561 15.4011 29.322 15.7264C28.988 16.0516 28.5349 16.2344 28.0625 16.2344H16.7812V27.2188C16.7812 27.6787 16.5936 28.1199 16.2595 28.4451C15.9255 28.7704 15.4724 28.9531 15 28.9531C14.5276 28.9531 14.0745 28.7704 13.7405 28.4451C13.4064 28.1199 13.2188 27.6787 13.2188 27.2188V16.2344H1.9375C1.46508 16.2344 1.01202 16.0516 0.677966 15.7264C0.343917 15.4011 0.15625 14.96 0.15625 14.5C0.15625 14.04 0.343917 13.5989 0.677966 13.2736C1.01202 12.9484 1.46508 12.7656 1.9375 12.7656H13.2188V1.78125C13.2188 1.32127 13.4064 0.88012 13.7405 0.554862C14.0745 0.229603 14.5276 0.046875 15 0.046875C15.4724 0.046875 15.9255 0.229603 16.2595 0.554862C16.5936 0.88012 16.7812 1.32127 16.7812 1.78125V12.7656H28.0625C28.5349 12.7656 28.988 12.9484 29.322 13.2736C29.6561 13.5989 29.8438 14.04 29.8438 14.5Z"
+                        fill={isHovered ? "white" : "#8084C8"}
                       />
                     </svg>
                     <p onClick={goToNav}>Upload Score</p>
