@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import "./uploadScorePage.css";
-import SideBar from "../components/SideBar";
-import showSidebarContext from "../context/showSidebarContex";
-import { addCourse } from "../services/course";
+import { SideBar } from "../components";
+import { ShowSidebarContext } from "../context";
+import { addCourse } from "../services";
 import * as XLSX from 'xlsx';
 
 export default function UploadScorePageContainer() {
   const [details, setDetails] = useState([])
   const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
-  const { userInfo } = useContext()
   const [searchParams, setSearchParams] = useSearchParams({});
   const [isDisplayMean, setIsDisplayMean] = useState(false);
   const [courseNo, setCourseNo] = useState(0);
@@ -195,7 +194,7 @@ export default function UploadScorePageContainer() {
       <SideBar />
       <div className={`uploadScoreTextNavigate ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Course {semaster}/{year.toString().slice(2)} &nbsp; {'>'} &nbsp; {courseNo} &nbsp; {'>'} &nbsp; Upload Score </div>
         <div className={`uploadScoreLine ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>
-              <svg width="120%" height="9">
+              <svg width="80%" height="9">
                   <defs>
                   <filter id="filter0_i_261_1358" x="0" y="0" width="1451" height="6" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                       <feFlood floodOpacity="0" result="BackgroundImageFix"/>
@@ -223,17 +222,17 @@ export default function UploadScorePageContainer() {
         <div className={`uploadScorecoursetopictext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>Upload Score {courseNo} </div>
         <div className={`uploadScoredatetext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
         <div className={`uploadScorecourseframewindow ${showSidebar ? 'shrink' : ''}`}>
-          <div className="uploadScoreInlineContainer">
+          {/* <div className="uploadScoreInlineContainer">
             <div className='uploadScoreText'>Score Name</div>
             <input type="text" onChange={e=>setScoreName(e.target.value)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} placeholder="Assignment Name"/>
-          </div>
+          </div> */}
           <div className="uploadScoreInlineContainer">
             <div className='uploadScoreText'>Full Score</div>
             <input type="text" onChange={e=>setFullScore(e.target.value)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} placeholder="Assignment Name"/>
           </div>
           <div className="uploadScoreInlineContainer">
             <div className='uploadScoreText'>Score File</div>
-            <input type="file" onChange={e=>handleFile(e)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} accept=".xlsx, .xls" style={{ transform: 'translateX(50px)'}}/>
+            <input type="file" onChange={e=>handleFile(e)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} accept=".xlsx, .xls" />
           </div>
           <div className={`uploadScoreDescriptionBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>
             <p className='uploadScoreFileDescription' style={{paddingTop: '4px'}}>

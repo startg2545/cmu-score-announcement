@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { addCourse } from "../services/course";
+import { addCourse } from "../services";
 
 const AddDatabase = () => {
   const location = useLocation();

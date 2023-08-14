@@ -1,15 +1,11 @@
-
-
 import React, { useContext } from "react";
 import style from "./css/componentStudent.module.css";
 import { useNavigate } from "react-router-dom";
-import { signOut } from "../services/user";
-import showSidebarContext from "../context/showSidebarContex";
-
-
+import { signOut } from "../services";
+import { ShowSidebarContext } from "../context";
 
 const SideBar = () => {
-  const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
+  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const navigate = useNavigate();
 
   console.log(showSidebar);
@@ -20,8 +16,6 @@ const SideBar = () => {
   };
 
   const currentPage = 'stuCourse-list';
-
-  
 
   return (
     <>

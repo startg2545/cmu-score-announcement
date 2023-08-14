@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./css/uploadScore.css";
-import SideBar from "../components/SideBar";
-import showSidebarContext from "../context/showSidebarContex";
+import { SideBar } from "../components";
+import { ShowSidebarContext } from "../context";
 
 export default function UploadScorePageContainer() {
-  const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
+  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
 
   const handleFileUpload = (e) => {
     const selectedFile = e.target.files[0]; // Get the selected file

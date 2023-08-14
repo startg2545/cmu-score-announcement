@@ -3,7 +3,6 @@ import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import SideBar from "../components/SideBar";
 import DropDown from "../components/DropDown";
-// import DropDownCourse from "../components/DropDownCourse";
 import UploadSc from "../components/uploadScore";
 import showSidebarContext from "../context/showSidebarContex";
 import { getCourse } from "../services/course";
@@ -18,7 +17,7 @@ export default function Course166Container() {
   const [isShowTableScore, setShowTableScore] = useState(null);
   const [isUploadScore, setUploadScore] = useState(false);
 
-  const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
+  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
 
   const navigate = useNavigate();
   const location = useLocation();

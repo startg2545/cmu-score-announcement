@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import "./instructorDashboard.css";
-import SideBar from "../components/SideBar";
-import ShowSidebarContext from "../context/showSidebarContex";
+import { SideBar } from "../components";
+import { ShowSidebarContext } from "../context";
 
 export default function Dashboard() {
   const { showSidebar } = useContext(ShowSidebarContext);

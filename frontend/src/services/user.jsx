@@ -22,5 +22,6 @@ export async function signOut() {
       withCredentials: true,
     }
   )
+  localStorage.clear();
   return resp.data;
 }

@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import style from "./css/component.module.css";
-import { createSearchParams, Link, useNavigate, useSearchParams } from "react-router-dom";
-import { signOut } from "../services/user";
-import ShowSidebarContext from "../context/showSidebarContex";
-import { getScores } from '../services/scores';
+import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
+import { signOut } from "../services";
+import { ShowSidebarContext } from "../context";
 
 const SideBar = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -26,7 +25,7 @@ const SideBar = () => {
   }
   function navToSemasterYear (semaster, year) {
     navigate({
-      pathname: '/course-166',
+      pathname: '/course',
       search: `?semaster=${semaster}&year=${year}`
     })
   }
@@ -36,10 +35,10 @@ const SideBar = () => {
       <div className={`${style.sidebar} ${showSidebar ? style.show : ""}`}>
         <div className={style.frameCourseInSideBar}>
           {/* <Link
-            to="/course-166"
+            to="/course"
             className={`${style.courseButton} ${ showSidebar ? style.purple_button : ""}`}
           > */}
-          <button onClick={()=>{handleSemasterYear(1,2566)}} className={style.courseButton}>
+          <div onClick={()=>{handleSemasterYear(1,2566)}} className={style.courseButton}>
 
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -54,9 +53,9 @@ const SideBar = () => {
                 />
             </svg>{" "}
             Course 1/66
-            </button>
+            </div>
           {/* </Link> */}
-          <button onClick={()=>{handleSemasterYear(3,2565)}} className={style.courseButton}>
+          <div onClick={()=>{handleSemasterYear(3,2565)}} className={style.courseButton}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="11"
@@ -70,8 +69,8 @@ const SideBar = () => {
               />
             </svg>{" "}
             Course 3/65
-          </button>
-          <button onClick={()=>{handleSemasterYear(2,2565)}} className={style.courseButton}>
+          </div>
+          <div onClick={()=>{handleSemasterYear(2,2565)}} className={style.courseButton}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="11"
@@ -85,8 +84,8 @@ const SideBar = () => {
               />
             </svg>{" "}
             Course 2/65
-          </button>
-          <button onClick={()=>{handleSemasterYear(1,2565)}} className={style.courseButton}>
+          </div>
+          <div onClick={()=>{handleSemasterYear(1,2565)}} className={style.courseButton}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="11"
@@ -100,52 +99,7 @@ const SideBar = () => {
               />
             </svg>{" "}
             Course 1/65
-          </button>
-          <button onClick={()=>{handleSemasterYear(3,2564)}} className={style.courseButton}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="11"
-              height="16"
-              viewBox="0 0 11 16"
-              fill="none"
-            >
-              <path
-                d="M9.74365 8.83008L3.10303 15.4707C2.64404 15.9297 1.90186 15.9297 1.44775 15.4707L0.344238 14.3672C-0.114746 13.9082 -0.114746 13.166 0.344238 12.7119L5.05127 8.00488L0.344238 3.29785C-0.114746 2.83887 -0.114746 2.09668 0.344238 1.64258L1.44287 0.529297C1.90186 0.0703125 2.64404 0.0703125 3.09814 0.529297L9.73877 7.16992C10.2026 7.62891 10.2026 8.37109 9.74365 8.83008Z"
-                fill="black"
-              />
-            </svg>{" "}
-            Course 3/64
-          </button>
-          <button onClick={()=>{handleSemasterYear(2,2564)}} className={style.courseButton}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="11"
-              height="16"
-              viewBox="0 0 11 16"
-              fill="none"
-            >
-              <path
-                d="M9.74365 8.83008L3.10303 15.4707C2.64404 15.9297 1.90186 15.9297 1.44775 15.4707L0.344238 14.3672C-0.114746 13.9082 -0.114746 13.166 0.344238 12.7119L5.05127 8.00488L0.344238 3.29785C-0.114746 2.83887 -0.114746 2.09668 0.344238 1.64258L1.44287 0.529297C1.90186 0.0703125 2.64404 0.0703125 3.09814 0.529297L9.73877 7.16992C10.2026 7.62891 10.2026 8.37109 9.74365 8.83008Z"
-                fill="black"
-              />
-            </svg>{" "}
-            Course 2/64
-          </button>
-          <button onClick={()=>{handleSemasterYear(1,2564)}} className={style.courseButton}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="11"
-              height="16"
-              viewBox="0 0 11 16"
-              fill="none"
-            >
-              <path
-                d="M9.74365 8.83008L3.10303 15.4707C2.64404 15.9297 1.90186 15.9297 1.44775 15.4707L0.344238 14.3672C-0.114746 13.9082 -0.114746 13.166 0.344238 12.7119L5.05127 8.00488L0.344238 3.29785C-0.114746 2.83887 -0.114746 2.09668 0.344238 1.64258L1.44287 0.529297C1.90186 0.0703125 2.64404 0.0703125 3.09814 0.529297L9.73877 7.16992C10.2026 7.62891 10.2026 8.37109 9.74365 8.83008Z"
-                fill="black"
-              />
-            </svg>{" "}
-            Course 1/64
-          </button>
+          </div>
         </div>
         <button
           onClick={() => signOut().finally(navigate("/sign-in"))}
