@@ -51,8 +51,8 @@ router.post("/add", async (req, res) => {
       courseNo: req.body.courseNo,
       year: req.body.year,
       semaster: req.body.semaster,
-      "sections.section": req.body.sections[0].section
-    })
+      "sections.section": req.body.sections[0].section,
+    });
 
     // if(req.body.courseNo.substring(0, 3) === "261" && decoded.cmuAccount === "dome.potikanond@cmu.ac.th")
 
@@ -64,9 +64,8 @@ router.post("/add", async (req, res) => {
       // return res.send(course);
 
       // add new section
-      course.sections.push(req.body.sections[0])
+      course.sections.push(req.body.sections[0]);
       await course.save();
-      console.log(course);
       return res.send(course);
     } else if (!course) {
       const newCourse = await courseModel.create({
@@ -77,7 +76,7 @@ router.post("/add", async (req, res) => {
       newCourse.save();
       return res.send(newCourse);
     }
-      
+
     return res.send({
       message: "You Cannot Add This Course..",
     });
@@ -86,8 +85,8 @@ router.post("/add", async (req, res) => {
   }
 });
 
-//add owner of course
-router.put("/owner", async (req, res) => {
+//add coInstructors of section
+router.put("/", async (req, res) => {
   try {
     const token = req.cookies.token;
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
@@ -97,16 +96,20 @@ router.put("/owner", async (req, res) => {
         return res.status(403).send({ ok: false, message: "Invalid token" });
     });
 
-    const course = await courseModel.findOne({
-      courseNo: req.query.courseNo,
-      section: req.query.section,
-      year: req.query.year,
-      semaster: req.query.semaster,
-    });
-
-    course.courseOwner.push(req.query.owner);
-    await course.save();
-    return res.send(course);
+    const section = await courseModel.findOneAndUpdate(
+      {
+        courseNo: req.query.courseNo,
+        year: req.query.year,
+        semaster: req.query.semaster,
+        "sections.section": req.query.section,
+      },
+      {
+        $push: {"sections.$.coInstructors": req.query.coInstructors},
+      },
+      { new: true }
+    );
+    await section.save();
+    return res.send(section);
   } catch (err) {
     return err;
   }
