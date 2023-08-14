@@ -52,7 +52,7 @@ function App() {
           <Route exact path="/student-dashboard" element={<StudentDashboard />} />
           <Route exact path="/instructor-dashboard" element={<InstructorDashboard />} />
           <Route path="/course-166" element={<Course166 />} />
-          <Route exact path="/upload-score-page" element={<UploadScorePage />} />
+          <Route path="/upload-score-page" element={<UploadScorePage />} />
           <Route exact path="/dropdown" element={<DropDown />} />
           <Route exact path="/table-score" element={<TableScore />} />
           <Route exact path="/upload-score" element={<UploadScore />} />
