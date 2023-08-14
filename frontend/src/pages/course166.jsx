@@ -31,7 +31,7 @@ export default function Course166Container() {
     setSelectedCourse(false)
     searchParams.delete('courseNo')
     setSearchParams(searchParams)
-    searchParams.delete('semaster')
+    searchParams.delete('semester')
     setSearchParams(searchParams)
     searchParams.delete('year')
     setSearchParams(searchParams)
@@ -52,7 +52,7 @@ export default function Course166Container() {
         const data = resp.filter(
           (item) =>
             item.year === parseInt(params.year) &&
-            item.semaster === parseInt(params.semaster)
+            item.semester === parseInt(params.semester)
         );
         data.forEach((e, index) => {
           allCourse.courseDetails.forEach((all) => {
@@ -82,14 +82,14 @@ export default function Course166Container() {
   };
 
   const params = {
-    semaster: searchParams.get("semaster"),
+    semester: searchParams.get("semester"),
     year: searchParams.get("year"),
     courseNo: searchParams.get("courseNo"),
     section: searchParams.get("section"),
   };
 
   function goToNav() {
-    let url = `semaster=${params.semaster}&year=${params.year}&courseNo=${params.courseNo}&section=${params.section}`;
+    let url = `semester=${params.semester}&year=${params.year}&courseNo=${params.courseNo}&section=${params.section}`;
     navigate("?" + url);
   }
 
@@ -119,7 +119,7 @@ export default function Course166Container() {
             }`}
             onClick={handleSidebarClick}
           >
-            <div >Course {params.semaster}/{params.year.slice(2)}</div>
+            <div >Course {params.semester}/{params.year.slice(2)}</div>
            
           </div>
           <div
@@ -242,7 +242,7 @@ export default function Course166Container() {
               <p className={Course.MenuIndex}>
 
                 <div onClick={() => setSelectedCourse(false)} style={{cursor: 'pointer'}}>
-                  Course {params.semaster}/{params.year.slice(2)}
+                  Course {params.semester}/{params.year.slice(2)}
                 </div>
 
                 <svg

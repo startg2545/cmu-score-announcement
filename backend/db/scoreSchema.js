@@ -4,7 +4,7 @@ const scoreSchema = new mongoose.Schema(
   {
     courseNo: String,
     year: Number,
-    semaster: Number,
+    semester: Number,
     sections: [
       {
         section: String,

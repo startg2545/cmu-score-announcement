@@ -44,13 +44,13 @@ router.post("/add", async (req, res) => {
     const course = await courseModel.findOne({
       courseNo: req.body.courseNo,
       year: req.body.year,
-      semaster: req.body.semaster,
+      semester: req.body.semester,
     });
 
     const section = await courseModel.findOne({
       courseNo: req.body.courseNo,
       year: req.body.year,
-      semaster: req.body.semaster,
+      semester: req.body.semester,
       "sections.section": req.body.sections[0].section,
     });
 
@@ -71,7 +71,7 @@ router.post("/add", async (req, res) => {
       const newCourse = await courseModel.create({
         courseNo: req.body.courseNo,
         year: req.body.year,
-        semaster: req.body.semaster,
+        semester: req.body.semester,
       });
       newCourse.save();
       return res.send(newCourse);
@@ -100,7 +100,7 @@ router.put("/", async (req, res) => {
       {
         courseNo: req.query.courseNo,
         year: req.query.year,
-        semaster: req.query.semaster,
+        semester: req.query.semester,
         "sections.section": req.query.section,
       },
       {

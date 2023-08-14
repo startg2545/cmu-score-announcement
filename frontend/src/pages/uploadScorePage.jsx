@@ -14,7 +14,7 @@ export default function UploadScorePageContainer() {
   const [courseNo, setCourseNo] = useState(0);
   const [section, setSection] = useState('');
   const [year, setYear] = useState(0);
-  const [semaster, setSemaster] = useState(0);
+  const [semester, setSemester] = useState(0);
   const [note, setNote] = useState("");
 
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function UploadScorePageContainer() {
   const data = {
     courseNo: courseNo,
     year: year,
-    semaster: semaster,
+    semester: semester,
     sections: [
       {
         section: section,
@@ -47,7 +47,7 @@ export default function UploadScorePageContainer() {
     setCourseNo(searchParams.get('courseNo'))  // get course number from Hooks
     setSection(searchParams.get('section'))  // get section from Hooks
     setYear(searchParams.get('year'))  // get year from Hooks
-    setSemaster(searchParams.get('semaster'))  // get semaster from Hooks
+    setsemester(searchParams.get('semester'))  // get semester from Hooks
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     });
@@ -201,7 +201,7 @@ export default function UploadScorePageContainer() {
   return (
     <>
       <SideBar />
-      <div className={`uploadScoreTextNavigate ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Course {semaster}/{year.toString().slice(2)} &nbsp; {'>'} &nbsp; {courseNo} &nbsp; {'>'} &nbsp; Upload Score </div>
+      <div className={`uploadScoreTextNavigate ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Course {semester}/{year.toString().slice(2)} &nbsp; {'>'} &nbsp; {courseNo} &nbsp; {'>'} &nbsp; Upload Score </div>
         <div className={`uploadScoreLine ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>
               <svg width="80%" height="9">
                   <defs>
