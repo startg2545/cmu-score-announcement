@@ -33,7 +33,7 @@ export async function addCourse(data) {
   }
 }
 
-export async function addOwner(params, newOwner) {
+export async function addCoInstructors(params, coInstructors) {
   try {
     const resp = await axios.put(
       `${process.env.REACT_APP_BASE_URL}/api/v1/course/owner`,
@@ -42,8 +42,8 @@ export async function addOwner(params, newOwner) {
           courseNo: params.search("courseNo"),
           section: params.search("section"),
           year: params.search("year"),
-          semaster: params.search("semaster"),
-          owner: newOwner,
+          semester: params.search("semester"),
+          coInstructors: coInstructors,
         },
         timeout: 5000,
         withCredentials: true,

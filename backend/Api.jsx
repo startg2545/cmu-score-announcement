@@ -18,16 +18,16 @@ const academicYear = [
   {value: 2553, text: '2553'},
   {value: 2552, text: '2552'},
 ]
-const semaster = [
-  {value: 0, text: 'Choose Semaster'},
-  {value: 1, text: 'Semaster 1'},
-  {value: 2, text: 'Semaster 2'},
-  {value: 3, text: 'Semaster 3'}
+const semester = [
+  {value: 0, text: 'Choose Semester'},
+  {value: 1, text: 'Semester 1'},
+  {value: 2, text: 'Semester 2'},
+  {value: 3, text: 'Semester 3'}
 ]
 
 export default function Api() {
   const [selectedYear, setSelectedYear] = useState(academicYear[0].value)
-  const [selectedSemaster, setSelectedSemaster] = useState(semaster[0].value)
+  const [selectedSemester, setSelectedSemester] = useState(semester[0].value)
   const [selectedSubject, setSelectedSubject] = useState('Choose Subject')
   const [subject, setSubject] = useState([])
   const [countSubmit, setCountSubmit] = useState(0)
@@ -37,7 +37,7 @@ export default function Api() {
       setSelectedYear(event.target.value);
       setCountSubmit(countSubmit+1)
     } else{
-      setSelectedSemaster(event.target.value);
+      setSelectedSemester(event.target.value);
       setCountSubmit(countSubmit+1)
     }
     if(event.target.value === 0 || event.target.value === 4){
@@ -86,11 +86,11 @@ export default function Api() {
           ))}
         </select>
 
-      <h2>Choose semaster</h2>
-        <select value={selectedSemaster} onChange={handleChange} style={{ width: "160px" }}>
-          {semaster.map(semaster => (
-            <option key={semaster.value} value={semaster.value}>
-              {semaster.text}
+      <h2>Choose Semester</h2>
+        <select value={selectedSemester} onChange={handleChange} style={{ width: "160px" }}>
+          {semester.map(semester => (
+            <option key={semester.value} value={semester.value}>
+              {semester.text}
             </option>
           ))}
         </select>

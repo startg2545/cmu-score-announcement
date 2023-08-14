@@ -67,22 +67,22 @@
       "text": 2552
     }
   ],
-  "semaster": [
+  "semester": [
     {
       "value": 0,
-      "text": "Choose Semaster"
+      "text": "Choose Semester"
     },
     {
       "value": 1,
-      "text": "Semaster 1"
+      "text": "Semester 1"
     },
     {
       "value": 2,
-      "text": "Semaster 2"
+      "text": "Semester 2"
     },
     {
       "value": 3,
-      "text": "Semaster 3"
+      "text": "Semester 3"
     }
   ]
 }

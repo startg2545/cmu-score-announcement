@@ -21,11 +21,11 @@ const year = [
 	{value: 2553, text: '2553'},
 	{value: 2552, text: '2552'},
 ]
-const semaster = [
-	{value: 0, text: 'Choose Semaster'},
-	{value: 1, text: 'Semaster 1'},
-	{value: 2, text: 'Semaster 2'},
-	{value: 3, text: 'Semaster 3'}
+const semester = [
+	{value: 0, text: 'Choose Semester'},
+	{value: 1, text: 'Semester 1'},
+	{value: 2, text: 'Semester 2'},
+	{value: 3, text: 'Semester 3'}
 ]
 const sections = [
 	{value: 0, text: 'Choose Section'},
@@ -45,11 +45,11 @@ const SearchCourse = () => {
 	const [selectedCourseNo, setSelectedCourseNo] = useState("");
 	const [selectedSection, setSelectedSection] = useState("");
 	const [selectedYear, setSelectedYear] = useState(0);
-	const [selectedSemaster, setSelectedSemaster] = useState(0);
+	const [selectedSemester, setSelectedSemester] = useState(0);
 	
 	const navigate = useNavigate();
 	const params = createSearchParams({
-			semaster: selectedSemaster,
+			semester: selectedSemester,
 			year: selectedYear,
 			courseNo: selectedCourseNo,
 			section: selectedSection
@@ -100,9 +100,9 @@ const SearchCourse = () => {
 						</option>
 					))}
 				</select>
-				<h3>Choose Semaster</h3>
-				<select value={selectedSemaster} onChange={e=>setSelectedSemaster(e.target.value)} style={{ width: '170px' }} required>
-					{semaster.map((res,index)=>(
+				<h3>Choose Semester</h3>
+				<select value={selectedSemester} onChange={e=>setSelectedSemester(e.target.value)} style={{ width: '170px' }} required>
+					{semester.map((res,index)=>(
 						<option key={index} value={res.value}>
 							{res.text}
 						</option>

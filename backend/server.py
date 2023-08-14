@@ -49,13 +49,13 @@ def insert_score():
         existing_scores.append(x)
     is_found = False
     for data in existing_scores:  #  find duplicated scores
-        if data['courseNo'] == myrequest['courseNo'] and data['section'] == myrequest['section'] and data['semaster'] == myrequest['semaster'] and data['year'] == myrequest['year']:  # find _id of mongodb to insert score in section
+        if data['courseNo'] == myrequest['courseNo'] and data['section'] == myrequest['section'] and data['semester'] == myrequest['semester'] and data['year'] == myrequest['year']:  # find _id of mongodb to insert score in section
             scores.update_one(
                 { '_id': ObjectId(data['_id']) },
                 { '$push': { 'details': obj } }
             )
             is_found = True  # duplicated course has been found
-    if not is_found:  # inseart score in a new course, section, semaster, year
+    if not is_found:  # inseart score in a new course, section, semester, year
         scores.insert_one(myrequest)
 
     return jsonify({"Result": "Received scores of subject " + myrequest['courseNo'] + " successfully."})

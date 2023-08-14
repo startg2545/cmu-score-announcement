@@ -9,7 +9,7 @@ function AddScore() {
   const [courseNo, setCourseNo] = useState(0);
   const [section, setSection] = useState(0);
   const [year, setYear] = useState(0);
-  const [semaster, setSemaster] = useState(0);
+  const [semester, setSemester] = useState(0);
   const [scoreName, setScoreName] = useState('');
   const [fullScore, setFullScore] = useState('');
   const [isDisplayMean, setIsDisplayMean] = useState(false);
@@ -23,7 +23,7 @@ function AddScore() {
     courseNo: courseNo,
     section: section,
     year: year,
-    semaster: semaster,
+    semester: semester,
     details: details
   }
 
@@ -38,8 +38,8 @@ function AddScore() {
     let courseNo = location.search.split('&')[0].split('=')[1]  // get course number from Hooks
     let section = location.search.split('&')[1].split('=')[1]  // get section from Hooks
     let year = location.search.split('&')[2].split('=')[1]  // get year from Hooks
-    let semaster = location.search.split('&')[3].split('=')[1]  // get semaster from Hooks
-    setCourseNo(courseNo); setSection(section); setYear(year); setSemaster(semaster);
+    let semester = location.search.split('&')[3].split('=')[1]  // get semester from Hooks
+    setCourseNo(courseNo); setSection(section); setYear(year); setSemester(semester);
   }, [location]);
 
 

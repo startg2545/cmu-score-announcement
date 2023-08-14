@@ -23,7 +23,7 @@ const CourseDetail = () => {
         <button onClick={()=>setDetails(data.details)}>
           <label>Course Code: {data.courseNo}</label>
           <label>, Section: {data.section}</label>
-          <label> ({data.semaster}/{data.year})</label>
+          <label> ({data.semester}/{data.year})</label>
         </button>
         </div>
       )

@@ -14,7 +14,7 @@ export default function UploadScorePageContainer() {
   const [courseNo, setCourseNo] = useState(0);
   const [section, setSection] = useState(0);
   const [year, setYear] = useState(0);
-  const [semaster, setSemaster] = useState(0);
+  const [semester, setSemester] = useState(0);
   const [scoreName, setScoreName] = useState("");
   const [fullScore, setFullScore] = useState("");
   const [note, setNote] = useState("");
@@ -25,7 +25,7 @@ export default function UploadScorePageContainer() {
     courseNo: courseNo,
     section: section,
     year: year,
-    semaster: semaster,
+    semester: semester,
     details: details,
   };
 
@@ -43,7 +43,7 @@ export default function UploadScorePageContainer() {
     setCourseNo(searchParams.get("courseNo")); // get course number from Hooks
     setSection(searchParams.get("section")); // get section from Hooks
     setYear(searchParams.get("year")); // get year from Hooks
-    setSemaster(searchParams.get("semaster")); // get semaster from Hooks
+    setSemester(searchParams.get("semester")); // get semester from Hooks
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     });
