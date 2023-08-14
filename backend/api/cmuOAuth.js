@@ -82,9 +82,11 @@ router.post("/", async (req, res) => {
         domain: process.env.DOMAIN,
       })
       .send({
-        itaccounttype_id: itAccountType_id,
-        accessToken: response.data,
-        token: token,
+        cmuAccount: response2.cmuitaccount,
+        firstName: response2.firstname_EN,
+        lastName: response2.lastname_EN,
+        studentId: response2.student_id ? response2.student_id : null,
+        itAccountType: itAccountType_id,
       });
   } catch (err) {
     return err;

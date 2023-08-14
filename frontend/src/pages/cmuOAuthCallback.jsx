@@ -1,8 +1,10 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import UserInfoContext from "../context/userInfo";
 
 export default function CMUOAuthCallback() {
+  const { userInfo } = useContext(UserInfoContext);
   const queryParameters = new URLSearchParams(window.location.search);
   const code = queryParameters.get("code");
   const navigate = useNavigate();
@@ -38,18 +40,27 @@ export default function CMUOAuthCallback() {
     }
   }
 
+  const setUserInfo = async (data) => {
+    userInfo.cmuAccount = data.cmuAccount;
+    userInfo.firstName = data.firstName;
+    userInfo.lastName = data.lastName;
+    userInfo.studentId = data.studentId;
+    userInfo.itAccountType = data.itAccountType;
+  }
+
   useEffect(() => {
     if (!code) return;
 
     const fetchData = async () => {
       const resp = await signIn(code);
       if (resp) {
-        if (resp.itaccounttype_id === "StdAcc") {
+        await setUserInfo(resp);
+        if (resp.itAccountType === "StdAcc") {
           navigate("/student-dashboard");
-        } else if (resp.itaccounttype_id === "MISEmpAcc") {
+        } else if (resp.itAccountType === "MISEmpAcc") {
           navigate("/instructor-dashboard");
         } else {
-          navigate("/");
+          navigate("/sign-in");
         }
       }
     };
