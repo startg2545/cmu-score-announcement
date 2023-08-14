@@ -47,54 +47,30 @@ const SearchCourse = () => {
 	const [selectedYear, setSelectedYear] = useState(0);
 	const [selectedSemaster, setSelectedSemaster] = useState(0);
 	
-	// Create an instance
-	const controller = new AbortController();
-	const signal = controller.signal;
 	const navigate = useNavigate();
 	const params = createSearchParams({
-			courseNo: selectedCourseNo,
-			section: selectedSection,
+			semaster: selectedSemaster,
 			year: selectedYear,
-			semaster: selectedSemaster
+			courseNo: selectedCourseNo,
+			section: selectedSection
 	}).toString()
 	console.log(params)
 
 	const goToNav = () => {
-		navigate('/add-score?' + params)
-	}
-	async function axiosFetch() {
-		console.log('Fetching');
-		const res = await getCourse(signal);
-		if (res.ok) setData(res.courseDetails);
-		else console.error('Error:',res.message);
-	}
-	function axiosAbort() {
-		console.log('Abort');
-		controller.abort();
+		navigate('/upload-score-page?' + params)
 	}
 
 	useEffect(() => {
-		// Get API by using axios
-		// axios.get('https://api.cpe.eng.cmu.ac.th/api/v1/course/detail',
-		// {
-		// 	headers: { Authorization: `Bearer ${accessToken}` }
-		// })
-		// .then(res => setData(res.data.courseDetails));
-
-		// get course detail from api server
 		const fetchData = async () => {
 			const res =  await getCourse();
 			setData(res.courseDetails);
 		}
 		fetchData();
-	}, [])
+	}, [getCourse])
 	console.log(data)
 	
 	return (
 		<body>
-			{/* Here is professor dashboard's location */}
-			<button onClick={axiosFetch} style={{ width: '50px' }}>Begin</button>
-			<button onClick={axiosAbort} style={{ width: '50px' }}>Abort</button>
 			<form onSubmit={()=>{
 				goToNav()
 			}}>
