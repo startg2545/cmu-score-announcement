@@ -41,33 +41,40 @@ router.post("/add", async (req, res) => {
     const decoded = jwt.decode(token);
 
     //find duplicated course
-    const course = await courseModel.findOne({
+    // const course = await courseModel.findOne({
+    //   courseNo: req.body.courseNo,
+    //   year: req.body.year,
+    //   semaster: req.body.semaster,
+    // });
+
+    const section = await courseModel.findOne({
       courseNo: req.body.courseNo,
-      section: req.body.section,
       year: req.body.year,
-      semaster: req.body.semaster,
-    });
+      semaster: req.body.semaster
+    })
 
     // if(req.body.courseNo.substring(0, 3) === "261" && decoded.cmuAccount === "dome.potikanond@cmu.ac.th")
 
     // add new course
-    if (!course) {
+    if (!section) {
       const newCourse = await courseModel.create({
-        courseOwner: decoded.cmuAccount,
         courseNo: req.body.courseNo,
-        section: req.body.section,
         year: req.body.year,
         semaster: req.body.semaster,
-        details: req.body.details,
+        sections: req.body.sections,
       });
       await newCourse.save();
       return res.send(newCourse);
-    } else if (course.courseOwner.includes(decoded.cmuAccount)) {
-      // add new score
-      course.details.push(req.body.details[0]);
-      await course.save();
-      return res.send(course);
-    }
+    } 
+    // else if (!course) {
+    //   // add new score
+    //   // course.sections.push(req.body.sections[0]);
+    //   // await course.save();
+    //   // return res.send(course);
+    //   return res.send({
+    //     message: "You Cannot Add This section",
+    //   });
+    // }
 
     return res.send({
       message: "You Cannot Add This Course",

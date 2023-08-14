@@ -8,7 +8,7 @@ import * as XLSX from 'xlsx';
 
 export default function UploadScorePageContainer() {
   const [details, setDetails] = useState([])
-  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
+  const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [isDisplayMean, setIsDisplayMean] = useState(false);
   const [courseNo, setCourseNo] = useState(0);
@@ -23,10 +23,15 @@ export default function UploadScorePageContainer() {
 
   const data = {
     courseNo: courseNo,
-    section: section,
     year: year,
     semaster: semaster,
-    details: details
+    sections: [
+      {
+        section: section,
+        // instructor: ,
+        details: details
+      }
+    ] 
   }
 
   
@@ -187,7 +192,7 @@ export default function UploadScorePageContainer() {
   return (
     <>
       <SideBar />
-      <div className={`uploadScoreTextNavigate ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Course 1/66 &nbsp; {'>'} &nbsp; 261497 &nbsp; {'>'} &nbsp; Upload Score </div>
+      <div className={`uploadScoreTextNavigate ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> Course {semaster}/{year.toString().slice(2)} &nbsp; {'>'} &nbsp; {courseNo} &nbsp; {'>'} &nbsp; Upload Score </div>
         <div className={`uploadScoreLine ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>
               <svg width="80%" height="9">
                   <defs>
@@ -214,7 +219,7 @@ export default function UploadScorePageContainer() {
                   />
               </svg>
           </div>
-        <div className={`uploadScorecoursetopictext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>Upload Score 261497 </div>
+        <div className={`uploadScorecoursetopictext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>Upload Score {courseNo} </div>
         <div className={`uploadScoredatetext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
         <div className={`uploadScorecourseframewindow ${showSidebar ? 'shrink' : ''}`}>
           {/* <div className="uploadScoreInlineContainer">
@@ -280,8 +285,8 @@ export default function UploadScorePageContainer() {
             <path d="M4.58729 22.8892C0.420621 21.175 -1.35021 16.1837 1.14979 12.5537C6.20187 5.29375 14.6394 0 25.7852 0C38.0248 0 46.4102 5.39458 50.681 12.1504C54.3269 17.9483 56.4623 28.7879 50.8373 36.8546C44.5873 45.7783 38.5977 48.5008 35.3685 54.2483C34.5873 55.6096 34.1185 56.7187 33.806 58.9875C33.3373 62.6679 30.2123 65.5417 26.3581 65.5417C21.8269 65.5417 18.129 61.7604 18.6498 57.3742C18.9623 54.8029 19.5873 52.1308 21.0456 49.61C25.056 42.6021 32.7644 38.4679 37.2435 32.2667C41.9831 25.7629 39.3269 13.6125 25.8894 13.6125C19.7956 13.6125 15.8373 16.6879 13.3894 20.3683C11.5665 23.2421 7.76437 24.1496 4.58729 22.8892ZM36.254 85.7083C36.254 91.2542 31.5665 95.7917 25.8373 95.7917C20.1081 95.7917 15.4206 91.2542 15.4206 85.7083C15.4206 80.1625 20.1081 75.625 25.8373 75.625C31.5665 75.625 36.254 80.1625 36.254 85.7083Z" fill="url(#paint0_linear_599_1105)"/>
             <defs>
               <linearGradient id="paint0_linear_599_1105" x1="27.1437" y1="0" x2="27.1437" y2="95.7917" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#8084C8" stop-opacity="0.53"/>
-                <stop offset="1" stop-color="#8084C8"/>
+                <stop stopColor="#8084C8" stopOpacity="0.53"/>
+                <stop offset="1" stopColor="#8084C8"/>
               </linearGradient>
             </defs>
           </svg>
@@ -306,11 +311,11 @@ export default function UploadScorePageContainer() {
           <div className='UploadScoreSvgInline'>
             <svg xmlns="http://www.w3.org/2000/svg" width="53" height="60" viewBox="0 0 63 76" fill="none" transform="translate(12, 0)">
               <path d="M2 2H49.529L61 13.4545V74H2.00656L2 2ZM44.6129 2V18.3636H61M31.5033 64.1818V34.7273V64.1818ZM18.3936 44.5455L31.5033 31.4545L44.6129 44.5455" fill="url(#paint0_linear_299_1209)"/>
-              <path d="M44.6129 2V18.3636H61M31.5033 64.1818V34.7273M18.3936 44.5455L31.5033 31.4545L44.6129 44.5455M2 2H49.529L61 13.4545V74H2.00656L2 2Z" stroke="#160000" stroke-width="3"/>
+              <path d="M44.6129 2V18.3636H61M31.5033 64.1818V34.7273M18.3936 44.5455L31.5033 31.4545L44.6129 44.5455M2 2H49.529L61 13.4545V74H2.00656L2 2Z" stroke="#160000" strokeWidth="3"/>
               <defs>
                 <linearGradient id="paint0_linear_299_1209" x1="31.5" y1="2" x2="31.5" y2="74" gradientUnits="userSpaceOnUse">
-                  <stop offset="0.359375" stop-color="#777DDB" stop-opacity="0.44"/>
-                  <stop offset="1" stop-color="#5960D1"/>
+                  <stop offset="0.359375" stopColor="#777DDB" stopOpacity="0.44"/>
+                  <stop offset="1" stopColor="#5960D1"/>
                 </linearGradient>
               </defs>
             </svg>
@@ -318,8 +323,8 @@ export default function UploadScorePageContainer() {
               <path d="M26.622 3.17771L26.6221 3.17796L42.8112 31.6836C44.794 35.1767 42.2528 39.5 38.192 39.5H5.81084C1.74691 39.5 -0.793947 35.1765 1.18874 31.6836L17.3778 3.17796C19.4058 -0.392872 24.5971 -0.392349 26.622 3.17771ZM24.4033 33.7694C25.0417 33.1371 25.4013 32.2785 25.4013 31.3822C25.4013 30.4859 25.0417 29.6273 24.4033 28.995C23.7651 28.3629 22.9005 28.0086 22 28.0086C21.0994 28.0086 20.2348 28.3629 19.5966 28.995C18.9582 29.6273 18.5987 30.4859 18.5987 31.3822C18.5987 32.2785 18.9582 33.1371 19.5966 33.7694C20.2348 34.4015 21.0994 34.7558 22 34.7558C22.9005 34.7558 23.7651 34.4015 24.4033 33.7694ZM22 7.89368C21.0994 7.89368 20.2348 8.24795 19.5966 8.88008C18.9582 9.51237 18.5987 10.371 18.5987 11.2672V19.8879C18.5987 20.7842 18.9582 21.6428 19.5966 22.2751C20.2348 22.9072 21.0994 23.2615 22 23.2615C22.9005 23.2615 23.7651 22.9072 24.4033 22.2751C25.0417 21.6428 25.4013 20.7842 25.4013 19.8879V11.2672C25.4013 10.371 25.0417 9.51237 24.4033 8.88008C23.7651 8.24795 22.9005 7.89368 22 7.89368Z" fill="url(#paint0_linear_299_1210)" stroke="black"/>
               <defs >
                 <linearGradient id="paint0_linear_299_1210" x1="22" y1="0" x2="22" y2="40" gradientUnits="userSpaceOnUse">
-                  <stop stop-color="#F9E5C4" stop-opacity="0.76"/>
-                  <stop offset="1" stop-color="#FFBB0C"/>
+                  <stop stopColor="#F9E5C4" stopOpacity="0.76"/>
+                  <stop offset="1" stopColor="#FFBB0C"/>
                 </linearGradient>
               </defs>
             </svg>

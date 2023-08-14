@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
-import { SideBar, DropDown, UploadSc } from "../components";
-import { ShowSidebarContext } from "../context";
-import { getCourse, getScores } from "../services";
+import SideBar from "../components/SideBar";
+import DropDown from "../components/DropDown";
+import UploadSc from "../components/uploadScore";
+import showSidebarContext from "../context/showSidebarContex";
+import { getCourse } from "../services/course";
+import { getScores } from "../services/scores";
 
 export default function Course166Container() {
   const [course, setCourse] = useState();
@@ -55,6 +58,10 @@ export default function Course166Container() {
         setCourse(data);
       }
     };
+
+    if (params.courseNo == null && isSelectedCourse == true) {
+      setSelectedCourse(false)
+    }
 
     fetchData();
 
@@ -196,7 +203,9 @@ export default function Course166Container() {
           <>
             <div className={Course.MenuNavigate}>
               <p className={Course.MenuIndex}>
-                Course1/66
+                <div 
+                onClick={()=>setSelectedCourse(false)}
+                >course {params.semaster}/{params.year.slice(2)}</div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="8"
@@ -209,7 +218,8 @@ export default function Course166Container() {
                     fill="#696CA3"
                   />
                 </svg>
-                {isShowTableScore}
+                {params.courseNo}
+                {/* {isShowTableScore} */}
               </p>
               {isUploadScore && (
                 <p className={Course.MenuIndex}>
