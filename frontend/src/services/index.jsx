@@ -1,5 +1,5 @@
-import { getCourse, addCourse, addOwner } from "./course";
+import { getCourse, addCourse, addCoInstructors } from "./course";
 import { getScores } from "./scores";
 import { getUserInfo, signOut } from "./user";
 
-export { getCourse, addCourse, addOwner, getScores, getUserInfo, signOut };
+export { getCourse, addCourse, addCoInstructors, getScores, getUserInfo, signOut };
