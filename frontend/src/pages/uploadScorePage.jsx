@@ -2,17 +2,18 @@ import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import "./uploadScorePage.css";
 import { SideBar } from "../components";
-import { ShowSidebarContext } from "../context";
+import { ShowSidebarContext, UserInfoContext } from "../context";
 import { addCourse } from "../services";
 import * as XLSX from 'xlsx';
 
 export default function UploadScorePageContainer() {
   const [details, setDetails] = useState([])
-  const { showSidebar, handleSidebarClick } = useContext(showSidebarContext);
+  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
+  const { userInfo } = useContext(UserInfoContext)
   const [searchParams, setSearchParams] = useSearchParams({});
   const [isDisplayMean, setIsDisplayMean] = useState(false);
   const [courseNo, setCourseNo] = useState(0);
-  const [section, setSection] = useState(0);
+  const [section, setSection] = useState('');
   const [year, setYear] = useState(0);
   const [semaster, setSemaster] = useState(0);
   const [scoreName, setScoreName] = useState('');
@@ -28,7 +29,7 @@ export default function UploadScorePageContainer() {
     sections: [
       {
         section: section,
-        // instructor: ,
+        instructor: userInfo.cmuAccount,
         details: details
       }
     ] 
@@ -46,7 +47,6 @@ export default function UploadScorePageContainer() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
-
     setCourseNo(searchParams.get('courseNo'))  // get course number from Hooks
     setSection(searchParams.get('section'))  // get section from Hooks
     setYear(searchParams.get('year'))  // get year from Hooks
@@ -54,10 +54,10 @@ export default function UploadScorePageContainer() {
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     });
-
+    console.log(details)
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, []);
+  }, [details]);
 
   // handle Microsoft Excel file (.xlsx)
   function getResults(list, keys) {
@@ -222,14 +222,6 @@ export default function UploadScorePageContainer() {
         <div className={`uploadScorecoursetopictext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}>Upload Score {courseNo} </div>
         <div className={`uploadScoredatetext ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick}> {formatDate(currentDate)}</div>
         <div className={`uploadScorecourseframewindow ${showSidebar ? 'shrink' : ''}`}>
-          {/* <div className="uploadScoreInlineContainer">
-            <div className='uploadScoreText'>Score Name</div>
-            <input type="text" onChange={e=>setScoreName(e.target.value)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} placeholder="Assignment Name"/>
-          </div> */}
-          <div className="uploadScoreInlineContainer">
-            <div className='uploadScoreText'>Full Score</div>
-            <input type="text" onChange={e=>setFullScore(e.target.value)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} placeholder="Assignment Name"/>
-          </div>
           <div className="uploadScoreInlineContainer">
             <div className='uploadScoreText'>Score File</div>
             <input type="file" onChange={e=>handleFile(e)} className={`uploadScoreTextBox ${showSidebar ? 'move-right' : ''}`} onClick={handleSidebarClick} accept=".xlsx, .xls" />

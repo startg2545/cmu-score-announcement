@@ -4,7 +4,7 @@ import Course from "./css/course166.module.css";
 import SideBar from "../components/SideBar";
 import DropDown from "../components/DropDown";
 import UploadSc from "../components/uploadScore";
-import showSidebarContext from "../context/showSidebarContex";
+import ShowSidebarContext from "../context/showSidebarContex";
 import { getCourse } from "../services/course";
 import { getScores } from "../services/scores";
 
