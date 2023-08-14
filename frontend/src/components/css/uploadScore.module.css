@@ -12,13 +12,13 @@ body {
 
 .Scorecourseframewindow {
   position: absolute;
-  top: calc(150px + 50%);
+  top: calc(135px + 50%);
   bottom: calc(10px + 50%);
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
   max-width: 96.6%;
-  height: calc(60vh);
+  height: calc(59vh);
   justify-content: center;
   overflow-y: auto;
   display: flex;

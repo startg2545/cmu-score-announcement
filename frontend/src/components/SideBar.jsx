@@ -101,7 +101,7 @@ const SideBar = () => {
             Course 1/65
           </div>
         </div>
-        <button
+        <div
           onClick={() => signOut().finally(navigate("/sign-in"))}
           className={style.logoutButton}
         >
@@ -119,8 +119,8 @@ const SideBar = () => {
             />
           </svg>{" "}
           Log out
-        </button>
-        <div className={style.profileButton}>
+        </div>
+        {/* <div className={style.profileButton}>
           {" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +135,7 @@ const SideBar = () => {
             />
           </svg>{" "}
           Profile
-        </div>
+        </div> */}
       </div>
     </>
   );

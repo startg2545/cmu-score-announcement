@@ -154,12 +154,13 @@
   position: fixed;
   right: 25px; 
   top: 110px; 
+  cursor: pointer;
   
 }
 
 .AddCourseButton svg {
   position: absolute;
-  left: 25px;
+  left: 20px;
   top: 10px;
 }
 
@@ -194,8 +195,8 @@
   font-style: normal;
   font-weight: 510;
   line-height: normal;
-
 }
+
 
 
 
@@ -259,28 +260,136 @@
   margin-top: 20px;
   gap: 20px;
 }
+
+
 .box_upload {
   display: flex;
   height: 15px;
+  background: #ffffff;
   gap: 20px;
   padding: 12px 13px;
   margin-top: 21px;
   border-radius: 10px;
-  border: 3px solid #696ca3;
+  border: 3px solid #7579c1;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   flex-shrink: 0;
+  cursor: pointer;
+  font-family: "SF PRo";
+  transition: background-color 0.3s ease;
+  font-size: 20px;
+  font-weight: 600;
+  color:#7579c1;
+  text-indent: -5px;
 }
 
-.boxdrop .font {
-  color: #696ca3;
-  font-family: SF Pro;
-  font-size: 21px;
-  font-style: normal;
-  font-weight: 510;
-  line-height: normal;
+.box_upload:hover{
+  background-color: #7579c1;
+  color: #ffffff;
 }
+
+.box_upload svg {
+transform: translateX(5px);
+}
+
 
 .showUpload {
   margin-top: 10px;
 }
+
+/* Styles for the overlay background */
+.AddScorePopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.AddScorePopup-Content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.8);
+  height: 200px;
+  width: 850px;
+  font-weight: 500;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  padding: 20px;
+}
+
+.AddScorePopup-ContentInner {
+  background-color: #8084c8;
+  border-radius: 10px 10px 0px 0px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+  height: 45px;
+  width: 890px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 24px;
+  transform: translateY(-20px);
+  margin-bottom: 10px;
+}
+
+.DropDownContainer {
+  transform: translateY(-40px);
+  height: 10px;
+  z-index: 1;
+}
+
+
+.AddScorePopupButtons {
+  display: flex;
+  
+  margin-top: 0px;
+}
+
+.AddScoreCancelPopupStayButton,
+.AddScoreCancelPopupLeaveButton {
+  transform: translateY(-10px);
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.AddScoreCancelPopupStayButton {
+  width: 120px;
+  height: 35px;
+  border-radius: 10px;
+  border: 1px;
+  background: #fff;
+  border: #000000 solid 2px;
+  font-size: 18px;
+}
+
+.AddScoreCancelPopupLeaveButton {
+  width: 120px;
+  height: 35px;
+  border-radius: 10px;
+  border: 1px;
+  background: linear-gradient(180deg, rgba(36, 43, 176, 0.4) 0%, #535adf 100%);
+
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.AddScoreInlineContainer {
+  display: flex; 
+  align-items: center;
+  margin-bottom: 30px;
+  transition: transform 0.3s ease;
+  margin-top: -15px;
+}
+
+
+
