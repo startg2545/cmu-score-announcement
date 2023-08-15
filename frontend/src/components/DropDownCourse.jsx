@@ -2,47 +2,18 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import styleDrop from "./css/dropdown.module.css";
 
-const DropDownCourse = () => {
+const DropDownCourse = ({parentToChild}) => {
   const [searchParams, setSearchParams] = useSearchParams({});
   const [isDropDown, setDropDown] = useState(false);
-  const [isSelectSec, setSelectSec] = useState("Select Section");
-  const sections = [
-    "001",
-    "002",
-    "003",
-    "004",
-    "005",
-    "006",
-    "007",
-    "008",
-    "009",
-    "701",
-    "702",
-    "703",
-    "704",
-    "705",
-    "706",
-    "707",
-    "708",
-    "709",
-    "801",
-    "802",
-    "803",
-    "804",
-    "805",
-    "806",
-    "807",
-    "808",
-    "809",
-  ];
+  const [isSelectSec, setSelectSec] = useState("Select Course");
 
   const onClickDropDown = () => {
     setDropDown(!isDropDown);
   };
-  const onClickSection = (sec) => {
+  const onClickCourse = (sec) => {
     setSelectSec(sec);
     setDropDown(false);
-    searchParams.set("section", sec);
+    searchParams.set("course", sec);
     setSearchParams(searchParams);
   };
 
@@ -90,14 +61,15 @@ const DropDownCourse = () => {
 
       {isDropDown && (
         <ul className={`${styleDrop.sec_menu} ${styleDrop.scroll}`}>
-          {sections.map(function (data, key) {
+          {parentToChild.courseDetails.map(function (data, key) {
+            let courseNo = data.courseNo;
             return (
               <li
                 className={`${styleDrop.option} ${styleDrop.font}`}
-                onClick={() => onClickSection(data)}
+                onClick={() => onClickCourse(courseNo)}
                 key={key}
               >
-                {data}
+                {courseNo}
               </li>
             );
           })}

@@ -2,39 +2,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import styleDrop from "./css/dropdown.module.css";
 
-const DropDownSection = () => {
+const DropDownSection = ({parentToChild}) => {
   const [searchParams, setSearchParams] = useSearchParams({});
   const [isDropDown, setDropDown] = useState(false);
   const [isSelectSec, setSelectSec] = useState("Select Section");
-  const sections = [
-    "001",
-    "002",
-    "003",
-    "004",
-    "005",
-    "006",
-    "007",
-    "008",
-    "009",
-    "701",
-    "702",
-    "703",
-    "704",
-    "705",
-    "706",
-    "707",
-    "708",
-    "709",
-    "801",
-    "802",
-    "803",
-    "804",
-    "805",
-    "806",
-    "807",
-    "808",
-    "809",
-  ];
 
   const onClickDropDown = () => {
     setDropDown(!isDropDown);
@@ -90,7 +61,7 @@ const DropDownSection = () => {
 
       {isDropDown && (
         <ul className={`${styleDrop.sec_menu} ${styleDrop.scroll}`}>
-          {sections.map(function (data, key) {
+          {parentToChild.map(function (data, key) {
             return (
               <li
                 className={`${styleDrop.option} ${styleDrop.font}`}
