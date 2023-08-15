@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import styleDrop from "./css/dropdown.module.css";
 
-const DropDown = () => {
+const DropDownSection = () => {
   const [searchParams, setSearchParams] = useSearchParams({});
   const [isDropDown, setDropDown] = useState(false);
   const [isSelectSec, setSelectSec] = useState("Select Section");
@@ -106,4 +106,4 @@ const DropDown = () => {
     </div>
   );
 };
-export default DropDown;
+export default DropDownSection;

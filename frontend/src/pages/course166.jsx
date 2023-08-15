@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
-import {SideBar, DropDown, UploadSc } from "../components";
+import {SideBar, DropDownCourse, UploadSc } from "../components";
 import {ShowSidebarContext} from "../context";
 import { getCourse, getScores } from "../services";
 
@@ -100,6 +100,9 @@ export default function Course166Container() {
   };
 
   const CancelhandleClosePopup = () => {
+    searchParams.delete('courseNo')
+    searchParams.delete('section')
+    setSearchParams(searchParams)
     setShowPopupAddCourse(false);
   };
 
@@ -172,23 +175,24 @@ export default function Course166Container() {
                     <div className={Course.AddScoreInlineContainer}>
                       <p style={{ marginRight: '20px', fontSize:'28px', transform: 'translateY(-5px)'}}>Course:</p>
                       <div className={Course.DropDownContainer}>
-                        <DropDown />
+                        <DropDownCourse />
+                        {/* <DropDownSection /> */}
                       </div>
                       <p style={{ marginRight: '20px', fontSize:'28px', transform: 'translateY(-5px)', marginLeft: '40px'}}>Section:</p>
                       <div className={Course.DropDownContainer}>
-                        <DropDown />
+                        {/* <DropDownSection /> */}
                       </div>
                     </div>
                     <div className={Course.AddScorePopupButtons}>
                       <button
                        className={Course.AddScoreCancelPopupStayButton}
-                        onClick={ConfirmhandleClosePopup}
+                        onClick={CancelhandleClosePopup}
                       >
                         Cancel
                       </button>
                       <button
                         className={Course.AddScoreCancelPopupLeaveButton}
-                        onClick={CancelhandleClosePopup}
+                        onClick={ConfirmhandleClosePopup}
                       >
                         Confirm
                       </button>
@@ -328,7 +332,7 @@ export default function Course166Container() {
                     </svg>
                     <p onClick={goToNav}>Upload Score</p>
                   </div>
-                  <DropDown />
+                  {/* <DropDownSection /> */}
                 </div>
               </div>
             )}
