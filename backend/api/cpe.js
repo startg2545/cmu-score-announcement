@@ -1,6 +1,5 @@
 const express = require("express");
 const axios = require("axios");
-const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 //get course detail from api cpe
@@ -13,7 +12,13 @@ router.get("/course", async (req, res) => {
       }
     );
 
-    res.send(response.data);
+    const course = response.data.courseDetails.filter(
+      (e) =>
+        e.courseNo.substring(0, 3) === "261" ||
+        e.courseNo.substring(0, 3) === "269"
+    );
+
+    res.send({ok: true, courseDetails: course});
   } catch (err) {
     return err;
   }
