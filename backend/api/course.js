@@ -4,30 +4,6 @@ const jwt = require("jsonwebtoken");
 const courseModel = require("../db/scoreSchema");
 const router = express.Router();
 
-//get course detail from api cpe
-router.get("/", async (req, res) => {
-  try {
-    const token = req.cookies.token;
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err)
-        return res.status(401).send({ ok: false, message: "Invalid token" });
-      else if (!user.cmuAccount)
-        return res.status(403).send({ ok: false, message: "Invalid token" });
-    });
-
-    const response = await axios.get(
-      `${process.env.URL_PATH_CPE}/course/detail`,
-      {
-        headers: { Authorization: "Bearer " + process.env.TOKEN_API_CPE },
-      }
-    );
-
-    res.send(response.data);
-  } catch (err) {
-    return err;
-  }
-});
-
 //add course & score
 router.post("/add", async (req, res) => {
   try {

@@ -1,25 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import style from "./css/component.module.css";
-import { createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { signOut } from "../services";
 import { ShowSidebarContext } from "../context";
 
 const SideBar = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const [selectedYear, setSelectedYear] = useState(0)
-  const [selectedSemester, setSelectedSemester] = useState(0)
-
   const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const navigate = useNavigate();
 
-  const params = createSearchParams({
-    year: selectedYear,
-    semester: selectedSemester
-}).toString()
-
-  const handleSemesterYear = (semester, year) => { 
-    setSelectedSemester(semester)
-    setSelectedYear(year)
+  const handleSemesterYear = (semester, year) => {
     handleSidebarClick(true)
     navToSemesterYear(semester, year)
   }
@@ -39,7 +28,6 @@ const SideBar = () => {
             className={`${style.courseButton} ${ showSidebar ? style.purple_button : ""}`}
           > */}
           <div onClick={()=>{handleSemesterYear(1,2566)}} className={style.courseButton}>
-
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="11"

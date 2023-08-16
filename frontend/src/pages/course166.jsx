@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
-import {SideBar, DropDown, UploadSc } from "../components";
+import {SideBar, UploadSc} from "../components";
 import {ShowSidebarContext} from "../context";
-import { getCourse, getScores } from "../services";
+import { getAllCourse, getSections, getScores } from "../services";
+import DropDownCourse from "../components/DropDownCourse";
+import DropDownSection from "../components/DropDownSection";
 
 export default function Course166Container() {
   const [course, setCourse] = useState();
+  const [allCourses, setAllCourses] = useState([]);
+  const [allSections, setAllSections] = useState();
   const [searchParams, setSearchParams] = useSearchParams({});
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isHovered, setIsHovered] = useState(false);
@@ -40,13 +44,23 @@ export default function Course166Container() {
   const onClickUplioad = () => {
     setUploadScore(true);
   };
-  const onClickCourseNum = () => {
-    setUploadScore(false);
+  
+  const params = {
+    semester: searchParams.get("semester"),
+    year: searchParams.get("year"),
+    courseNo: searchParams.get("courseNo"),
+    section: searchParams.get("section"),
   };
+
+  const getSection = async (params) => {
+    const allSec = await getSections(params);
+    if(allSec) setAllSections(allSec);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
-      const allCourse = await getCourse();
+      const allCourse = await getAllCourse();
+      setAllCourses(allCourse);
       const resp = await getScores();
       if (resp) {
         const data = resp.filter(
@@ -65,15 +79,18 @@ export default function Course166Container() {
         setCourse(data);
       }
     };
-
-    fetchData();
+    
+    if(!showPopupAddCourse) fetchData();
+    if(params.courseNo !== null) {
+      getSection(params);
+    }
 
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     }, 1000);
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, [location, isShowTableScore, searchParams]);
+  }, [location, isShowTableScore, searchParams, params.year, params.semester, params.courseNo]);
 
   // Function to format the date as "XX Aug, 20XX"
   const formatDate = (date) => {
@@ -81,12 +98,6 @@ export default function Course166Container() {
     return date.toLocaleDateString("en-US", options);
   };
 
-  const params = {
-    semester: searchParams.get("semester"),
-    year: searchParams.get("year"),
-    courseNo: searchParams.get("courseNo"),
-    section: searchParams.get("section"),
-  };
 
   function goToNav() {
     let url = `semester=${params.semester}&year=${params.year}&courseNo=${params.courseNo}&section=${params.section}`;
@@ -100,6 +111,9 @@ export default function Course166Container() {
   };
 
   const CancelhandleClosePopup = () => {
+    searchParams.delete('courseNo')
+    searchParams.delete('section')
+    setSearchParams(searchParams)
     setShowPopupAddCourse(false);
   };
 
@@ -172,23 +186,23 @@ export default function Course166Container() {
                     <div className={Course.AddScoreInlineContainer}>
                       <p style={{ marginRight: '20px', fontSize:'28px', transform: 'translateY(-5px)'}}>Course:</p>
                       <div className={Course.DropDownContainer}>
-                        <DropDown />
+                        <DropDownCourse parentToChild={allCourses}/>
                       </div>
                       <p style={{ marginRight: '20px', fontSize:'28px', transform: 'translateY(-5px)', marginLeft: '40px'}}>Section:</p>
                       <div className={Course.DropDownContainer}>
-                        <DropDown />
+                        <DropDownSection parentToChild={allSections}/>
                       </div>
                     </div>
                     <div className={Course.AddScorePopupButtons}>
                       <button
                        className={Course.AddScoreCancelPopupStayButton}
-                        onClick={ConfirmhandleClosePopup}
+                        onClick={CancelhandleClosePopup}
                       >
                         Cancel
                       </button>
                       <button
                         className={Course.AddScoreCancelPopupLeaveButton}
-                        onClick={CancelhandleClosePopup}
+                        onClick={ConfirmhandleClosePopup}
                       >
                         Confirm
                       </button>
@@ -241,7 +255,7 @@ export default function Course166Container() {
             <div className={Course.MenuNavigate}>
               <p className={Course.MenuIndex}>
 
-                <div onClick={() => setSelectedCourse(false)} style={{cursor: 'pointer'}}>
+                <div onClick={back} style={{cursor: 'pointer'}}>
                   Course {params.semester}/{params.year.slice(2)}
                 </div>
 
@@ -328,7 +342,7 @@ export default function Course166Container() {
                     </svg>
                     <p onClick={goToNav}>Upload Score</p>
                   </div>
-                  <DropDown />
+                  <DropDownSection />
                 </div>
               </div>
             )}

@@ -12,6 +12,7 @@ dbConnect();
 const prefix = "/api/v1";
 const user = require("./api/user");
 const cmuOAuth = require("./api/cmuOAuth");
+const cpe = require("./api/cpe");
 const course = require("./api/course");
 const student = require("./api/student");
 const scores = require("./api/scores");
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.use(`${prefix}/cmuOAuth`, cmuOAuth);
+app.use(`${prefix}/cpe`, cpe)
 app.use(`${prefix}/user`, user);
 app.use(`${prefix}/course`, course);
 app.use(`${prefix}/student`, student);

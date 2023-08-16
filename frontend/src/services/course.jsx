@@ -1,21 +1,5 @@
 import axios from "axios";
 
-export async function getCourse(signal) {
-  try {
-    const resp = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/course`,
-      {
-        signal: signal,
-        withCredentials: true,
-      }
-    );
-    console.log(resp);
-    return resp.data;
-  } catch (err) {
-    return err.response;
-  }
-}
-
 export async function addCourse(data) {
   try {
     console.log(data);
@@ -33,16 +17,16 @@ export async function addCourse(data) {
   }
 }
 
-export async function addCoInstructors(params, coInstructors) {
+export async function addCoInstructors(req, coInstructors) {
   try {
     const resp = await axios.put(
       `${process.env.REACT_APP_BASE_URL}/api/v1/course`,
       {
         params: {
-          courseNo: params.search("courseNo"),
-          section: params.search("section"),
-          year: params.search("year"),
-          semester: params.search("semester"),
+          courseNo: req.search("courseNo"),
+          section: req.search("section"),
+          year: req.search("year"),
+          semester: req.search("semester"),
           coInstructors: coInstructors,
         },
         timeout: 5000,

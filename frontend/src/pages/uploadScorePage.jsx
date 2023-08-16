@@ -47,7 +47,7 @@ export default function UploadScorePageContainer() {
     setCourseNo(searchParams.get('courseNo'))  // get course number from Hooks
     setSection(searchParams.get('section'))  // get section from Hooks
     setYear(searchParams.get('year'))  // get year from Hooks
-    setsemester(searchParams.get('semester'))  // get semester from Hooks
+    setSemester(searchParams.get('semester'))  // get semester from Hooks
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     });
