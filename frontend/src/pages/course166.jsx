@@ -3,13 +3,14 @@ import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import {SideBar, UploadSc} from "../components";
 import {ShowSidebarContext} from "../context";
-import { getCourse, getScores } from "../services";
+import { getAllCourse, getSections, getScores } from "../services";
 import DropDownCourse from "../components/DropDownCourse";
 import DropDownSection from "../components/DropDownSection";
 
 export default function Course166Container() {
   const [course, setCourse] = useState();
   const [allCourses, setAllCourses] = useState([]);
+  const [allSections, setAllSections] = useState();
   const [searchParams, setSearchParams] = useSearchParams({});
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isHovered, setIsHovered] = useState(false);
@@ -45,22 +46,27 @@ export default function Course166Container() {
   };
   
   const params = {
-    semaster: searchParams.get("semester"),
+    semester: searchParams.get("semester"),
     year: searchParams.get("year"),
     courseNo: searchParams.get("courseNo"),
     section: searchParams.get("section"),
   };
 
+  const getSection = async (params) => {
+    const allSec = await getSections(params);
+    if(allSec) setAllSections(allSec);
+  }
+
   useEffect(() => {
     const fetchData = async () => {
-      const allCourse = await getCourse();
+      const allCourse = await getAllCourse();
       setAllCourses(allCourse);
       const resp = await getScores();
       if (resp) {
         const data = resp.filter(
           (item) =>
             item.year === parseInt(params.year) &&
-            item.semester === parseInt(params.semaster)
+            item.semester === parseInt(params.semester)
         );
         data.forEach((e, index) => {
           allCourse.courseDetails.forEach((all) => {
@@ -73,15 +79,18 @@ export default function Course166Container() {
         setCourse(data);
       }
     };
-
-    fetchData();
+    
+    if(!showPopupAddCourse) fetchData();
+    if(params.courseNo !== null) {
+      getSection(params);
+    }
 
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     }, 1000);
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, [location, isShowTableScore, searchParams, params.year, params.semaster]);
+  }, [location, isShowTableScore, searchParams, params.year, params.semester, params.courseNo]);
 
   // Function to format the date as "XX Aug, 20XX"
   const formatDate = (date) => {
@@ -124,7 +133,7 @@ export default function Course166Container() {
             }`}
             onClick={handleSidebarClick}
           >
-            <div >Course {params.semaster}/{params.year.slice(2)}</div>
+            <div >Course {params.semester}/{params.year.slice(2)}</div>
            
           </div>
           <div
@@ -181,7 +190,7 @@ export default function Course166Container() {
                       </div>
                       <p style={{ marginRight: '20px', fontSize:'28px', transform: 'translateY(-5px)', marginLeft: '40px'}}>Section:</p>
                       <div className={Course.DropDownContainer}>
-                        <DropDownSection parentToChild={['001','002','003','701']}/>
+                        <DropDownSection parentToChild={allSections}/>
                       </div>
                     </div>
                     <div className={Course.AddScorePopupButtons}>

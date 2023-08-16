@@ -13,7 +13,7 @@ const DropDownCourse = ({parentToChild}) => {
   const onClickCourse = (sec) => {
     setSelectSec(sec);
     setDropDown(false);
-    searchParams.set("course", sec);
+    searchParams.set("courseNo", sec);
     setSearchParams(searchParams);
   };
 

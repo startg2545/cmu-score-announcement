@@ -61,14 +61,15 @@ const DropDownSection = ({parentToChild}) => {
 
       {isDropDown && (
         <ul className={`${styleDrop.sec_menu} ${styleDrop.scroll}`}>
-          {parentToChild.map(function (data, key) {
+          {parentToChild && parentToChild.sections.map(function (data, key) {
+            let section = data.section;
             return (
               <li
                 className={`${styleDrop.option} ${styleDrop.font}`}
-                onClick={() => onClickSection(data)}
+                onClick={() => onClickSection(section)}
                 key={key}
               >
-                {data}
+                {section}
               </li>
             );
           })}
