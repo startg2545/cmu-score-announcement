@@ -35,10 +35,10 @@ export default function Course166Container() {
     setSelectedCourse(false)
     searchParams.delete('courseNo')
     setSearchParams(searchParams)
-    searchParams.delete('semester')
-    setSearchParams(searchParams)
-    searchParams.delete('year')
-    setSearchParams(searchParams)
+    // searchParams.delete('semester')
+    // setSearchParams(searchParams)
+    // searchParams.delete('year')
+    // setSearchParams(searchParams)
   }
 
   const onClickUplioad = () => {
