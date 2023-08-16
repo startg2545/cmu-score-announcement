@@ -23,10 +23,10 @@ export async function addCoInstructors(req, coInstructors) {
       `${process.env.REACT_APP_BASE_URL}/api/v1/course`,
       {
         params: {
-          courseNo: req.search("courseNo"),
-          section: req.search("section"),
-          year: req.search("year"),
-          semester: req.search("semester"),
+          courseNo: req.courseNo,
+          section: req.section,
+          year: req.year,
+          semester: req.semester,
           coInstructors: coInstructors,
         },
         timeout: 5000,
