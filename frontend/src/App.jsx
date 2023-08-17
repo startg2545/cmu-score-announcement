@@ -50,7 +50,7 @@ function App() {
       }
     };
     fetchData();
-  }, [userCT]);
+  }, [userCT, showSidebar]);
 
   return (
     <ShowSidebarContext.Provider
