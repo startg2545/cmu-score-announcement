@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function getAllCourse() {
+export async function getAllCourses() {
   try {
     const resp = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/api/v1/cpe/course`,
@@ -14,7 +14,7 @@ export async function getAllCourse() {
   }
 }
 
-export async function getSections(req) {
+export async function getAllSections(req) {
   try {
     const resp = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/api/v1/cpe/sections`,

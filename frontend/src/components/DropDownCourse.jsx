@@ -5,13 +5,13 @@ import styleDrop from "./css/dropdown.module.css";
 const DropDownCourse = ({parentToChild}) => {
   const [searchParams, setSearchParams] = useSearchParams({});
   const [isDropDown, setDropDown] = useState(false);
-  const [isSelectSec, setSelectSec] = useState("Select Course");
+  const [selectedCourse, setSelectedCourse] = useState("Select Course");
 
   const onClickDropDown = () => {
     setDropDown(!isDropDown);
   };
   const onClickCourse = (sec) => {
-    setSelectSec(sec);
+    setSelectedCourse(sec);
     setDropDown(false);
     searchParams.set("courseNo", sec);
     setSearchParams(searchParams);
@@ -40,7 +40,7 @@ const DropDownCourse = ({parentToChild}) => {
     <div className={styleDrop.boxdrop} ref={menuRef}>
       <div onClick={onClickDropDown}>
         <p className={`${styleDrop.box_select} ${styleDrop.font}`}>
-          {isSelectSec ? isSelectSec : "Select section"}
+          {selectedCourse ? selectedCourse : "Select Course"}
           <svg
             onClick={onClickDropDown}
             style={styleArrow}
