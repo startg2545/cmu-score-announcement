@@ -58,7 +58,7 @@ export default function Course166Container() {
 
   const getSection = async (params) => {
     const allSec = await getAllSections(params);
-    console.log(allSec)
+    console.log(getAllSections(params))
     if(allSec) {
       setAllSections(allSec);
     }
@@ -124,6 +124,7 @@ export default function Course166Container() {
   };
 
   const ConfirmhandleClosePopup = () => {
+    document.getElementById('tab-manu').style.cursor = 'pointer';
     console.log(`
     year: ${params.year},
     semester: ${params.semester},
@@ -340,7 +341,7 @@ export default function Course166Container() {
                     className={`${Course.box_upload} ${Course.font}`}
                     onClick={() => {
                       setUploadScore(true);
-                      document.getElementById('tab-manu').style.cursor = 'pointer';   
+                      document.getElementById('tab-manu').style.cursor = 'pointer';
                     }}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
