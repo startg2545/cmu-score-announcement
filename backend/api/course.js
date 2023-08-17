@@ -15,7 +15,8 @@ router.post("/add", async (req, res) => {
         return res.status(403).send({ ok: false, message: "Invalid token" });
     });
     const decoded = jwt.decode(token);
-
+    
+    console.log(req.body)
     // find duplicated course
     const course = await courseModel.findOne({
       courseNo: req.body.courseNo,
@@ -29,28 +30,20 @@ router.post("/add", async (req, res) => {
       semester: req.body.semester,
       "sections.section": req.body.sections[0].section,
     });
-
-    // if(req.body.courseNo.substring(0, 3) === "261" && decoded.cmuAccount === "dome.potikanond@cmu.ac.th")
-
     // add new course
-    if (!section) {
-      // add new score
-      // course.sections.push(req.body.sections[0]);
-      // await course.save();
-      // return res.send(course);
-
-      // add new section
-      course.sections.push(req.body.sections[0]);
-      await course.save();
-      return res.send(course);
-    } else if (!course) {
+    if (!course) {
       const newCourse = await courseModel.create({
         courseNo: req.body.courseNo,
         year: req.body.year,
         semester: req.body.semester,
+        sections: req.body.sections[0]
       });
       newCourse.save();
       return res.send(newCourse);
+    } else if (!section) {
+      course.sections.push(req.body.sections[0])
+      await course.save();
+      return res.send(course)
     }
 
     return res.send({

@@ -44,6 +44,7 @@ export default function Course166Container() {
   };
 
   const backToDashboard = () => {
+    setUploadScore(false)
     setSelectedCourse(false)
     searchParams.delete('courseNo')
     searchParams.delete('section')
@@ -67,6 +68,9 @@ export default function Course166Container() {
   }
 
   useEffect(() => {
+    if ( isUploadScore === true ) {
+      document.getElementById('tab-menu').style.cursor = 'pointer'
+    }
     const fetchData = async () => {
       const allCourse = await getAllCourses();
       setAllCourses(allCourse);
@@ -84,7 +88,6 @@ export default function Course166Container() {
             }
           });
         });
-        console.log(data)
         setCourse(data);
       }
     };
@@ -99,7 +102,7 @@ export default function Course166Container() {
     }, 1000);
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, [location, isShowTableScore, searchParams, showPopupAddCourse, getParams, params]);
+  }, [location, isShowTableScore, searchParams, showPopupAddCourse, getParams, params, setSearchParams, isUploadScore]);
 
   // Function to format the date as "XX Aug, 20XX"
   const formatDate = (date) => {
@@ -115,6 +118,9 @@ export default function Course166Container() {
 
 
   const handleAddCourse = () => {
+    searchParams.delete('section');
+    searchParams.delete('courseNo');
+    setSearchParams(searchParams);
     setShowPopupAddCourse(true);
   };
 
@@ -126,7 +132,6 @@ export default function Course166Container() {
   };
 
   const ConfirmhandleClosePopup = () => {
-    document.getElementById('tab-manu').style.cursor = 'pointer';
     console.log(`
     year: ${params.year},
     semester: ${params.semester},
@@ -150,8 +155,7 @@ export default function Course166Container() {
             }`}
             onClick={handleSidebarClick}
           >
-            <div >Course {params.semester}/{params.year.slice(2)}</div>
-           
+            <div >Course {params.semester}/{params.year ? params.year.slice(2) : params.year}</div>
           </div>
           <div
             className={` ${Course.datetext} ${
@@ -226,7 +230,7 @@ export default function Course166Container() {
                     </div>
                   </div>
                 </div>
-              )} 
+              )}
           <div
             className={`${Course.courseframewindow} ${
               showSidebar ? Course.shrink : ""
@@ -287,7 +291,7 @@ export default function Course166Container() {
                     fill="#696CA3"
                   />
                 </svg>
-                <label onClick={backToCourse} id="tab-manu">
+                <label onClick={backToCourse} id="tab-menu">
                   {params.courseNo}
                 </label>
               </p>
@@ -306,6 +310,7 @@ export default function Course166Container() {
                     />
                   </svg>
                   <label>Upload Score</label>
+                  {/* {document.getElementById('tab-menu').cursor = 'pointer'} */}
                 </p>
               )}
             </div>

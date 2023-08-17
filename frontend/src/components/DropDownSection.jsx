@@ -8,7 +8,13 @@ const DropDownSection = ({parentToChild}) => {
   const [selectedSection, setSelectedSection] = useState("Select Section");
 
   const onClickDropDown = () => {
-    setDropDown(!isDropDown);
+    if ( searchParams.get('courseNo') == null ) {
+      document.getElementById('notice').innerHTML = 'Please choose course.';
+      document.getElementById('notice').style.color = 'red';
+    } else {
+      document.getElementById('notice').style.display = 'none';
+      setDropDown(!isDropDown);
+    }
   };
   const onClickSection = (sec) => {
     setSelectedSection(sec);
@@ -58,7 +64,7 @@ const DropDownSection = ({parentToChild}) => {
           </svg>
         </p>
       </div>
-
+      <label id="notice"></label>
       {isDropDown && (
         <ul className={`${styleDrop.sec_menu} ${styleDrop.scroll}`}>
           {parentToChild.ok ? parentToChild.sections.map(function (data, key) {

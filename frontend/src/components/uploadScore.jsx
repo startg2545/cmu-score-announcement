@@ -2,31 +2,36 @@ import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import upStyle from "./css/uploadScore.module.css";
 import { SideBar } from "../components";
-import { ShowSidebarContext } from "../context";
+import { ShowSidebarContext, UserInfoContext, userInfo } from "../context";
 import { addCourse } from "../services";
 import * as XLSX from "xlsx";
+
 
 export default function UploadScorePageContainer() {
   const [details, setDetails] = useState([]);
   const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const [searchParams, setSearchParams] = useSearchParams({});
+  const { userInfo } = useContext(UserInfoContext);
   const [isDisplayMean, setIsDisplayMean] = useState(false);
   const [courseNo, setCourseNo] = useState(0);
   const [section, setSection] = useState(0);
   const [year, setYear] = useState(0);
   const [semester, setSemester] = useState(0);
-  const [scoreName, setScoreName] = useState("");
-  const [fullScore, setFullScore] = useState("");
   const [note, setNote] = useState("");
 
   const navigate = useNavigate();
 
   const data = {
     courseNo: courseNo,
-    section: section,
     year: year,
     semester: semester,
-    details: details,
+    sections: [
+      {
+        section: section,
+        instructor: userInfo.cmuAccount,
+        details: details,
+      }
+    ],
   };
 
   const submitData = async () => {
@@ -42,8 +47,8 @@ export default function UploadScorePageContainer() {
   useEffect(() => {
     setCourseNo(searchParams.get("courseNo")); // get course number from Hooks
     setSection(searchParams.get("section")); // get section from Hooks
-    setYear(searchParams.get("year")); // get year from Hooks
-    setSemester(searchParams.get("semester")); // get semester from Hooks
+    setYear(parseInt(searchParams.get("year"))); // get year from Hooks
+    setSemester(parseInt(searchParams.get("semester"))); // get semester from Hooks
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     });
@@ -59,7 +64,7 @@ export default function UploadScorePageContainer() {
     for (let i in list) {
       let obj = {};
       for (let j in keys) {
-        if ( j === 1 ) obj['point'] = list[i][j]
+        if ( j == 1 && keys[0] === "student_code" && keys[2] === "comment") obj['point'] = list[i][j]
         else obj[keys[j]] = list[i][j];
       }
       results_list[i] = obj;
@@ -101,7 +106,7 @@ export default function UploadScorePageContainer() {
       for (let j in results) {
         let obj = {
           student_code: results[j]["student_code"],
-          point: results[j][keys[i + 1]],
+          point: results[j][keys[i+1]],
         };
         results_list[j] = obj;
       }
@@ -111,11 +116,12 @@ export default function UploadScorePageContainer() {
         isDisplayMean: isDisplayMean,
         studentNumber: student_number,
         note: note,
-        mean: avg[keys[i + 1]],
+        mean: parseFloat(avg[keys[i + 1]]),
         results: results_list,
       };
       arr[i] = obj;
     }
+    console.log(arr)
     setDetails(arr);
   }
 
@@ -152,7 +158,7 @@ export default function UploadScorePageContainer() {
         isDisplayMean: isDisplayMean,
         studentNumber: resultsData.length,
         note: note,
-        mean: avg,
+        mean: parseFloat(avg),
         results: results,
       }
       setDetails([obj]);
@@ -203,14 +209,6 @@ export default function UploadScorePageContainer() {
           showSidebar ? upStyle.shrink : ""
         }`}
       >
-        {/* <div className="uploadScoreInlineContainer">
-            <div className='uploadScoreText'>Score Name</div>
-            <input type="text" onChange={e=>setScoreName(e.target.value)} className={`uploadScoreTextBox ${showSidebar ? upStyle["move-right"]  : ''}`} placeholder="Assignment Name"/>
-          </div> */}
-        {/* <div className={upStyle.ScoreInlineContainer}>
-            <div className={upStyle.ScoreText}>Full Score</div>
-            <input type="text" onChange={e=>setFullScore(e.target.value)} className={` ${upStyle.ScoreTextBox} ${showSidebar ? upStyle["move-right"]  : ''}`} placeholder="Assignment Name"/>
-          </div> */}
         <div className={upStyle.ScoreInlineContainer}>
           <div className={upStyle.ScoreText}>Score File</div>
           <input
