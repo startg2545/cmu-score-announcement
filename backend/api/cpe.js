@@ -20,7 +20,7 @@ router.get("/course", async (req, res) => {
 
     res.send({ok: true, courseDetails: course});
   } catch (err) {
-    return err;
+    return res.send(err.response.data);
   }
 });
 
@@ -41,7 +41,7 @@ router.get("/sections", async (req, res) => {
 
     res.send(response.data);
   } catch (err) {
-    return err;
+    return res.send(err.response.data);
   }
 });
 
@@ -54,7 +54,7 @@ router.get("/teacher", async (req, res) => {
 
     res.send(response.data);
   } catch (err) {
-    return err;
+    return res.send(err.response.data);
   }
 });
 

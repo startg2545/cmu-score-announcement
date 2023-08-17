@@ -67,7 +67,7 @@ const DropDownSection = ({parentToChild}) => {
       <label id="notice"></label>
       {isDropDown && (
         <ul className={`${styleDrop.sec_menu} ${styleDrop.scroll}`}>
-          {parentToChild && parentToChild.sections.map(function (data, key) {
+          {parentToChild.ok ? parentToChild.sections.map(function (data, key) {
             let section = data.section;
             return (
               <li
@@ -78,7 +78,7 @@ const DropDownSection = ({parentToChild}) => {
                 {section}
               </li>
             );
-          })}
+          }) : parentToChild}
         </ul>
       )}
     </div>

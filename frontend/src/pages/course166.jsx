@@ -58,8 +58,12 @@ export default function Course166Container() {
 
   const getSection = async (params) => {
     const allSec = await getAllSections(params);
-    if(allSec) {
+    console.log(getAllSections(params))
+    if(allSec.ok) {
       setAllSections(allSec);
+    }
+    else {
+      setAllSections("This Course is not Open.");
     }
   }
 
