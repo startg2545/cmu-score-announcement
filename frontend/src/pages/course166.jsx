@@ -124,6 +124,7 @@ export default function Course166Container() {
   };
 
   const ConfirmhandleClosePopup = () => {
+    document.getElementById('tab-manu').style.cursor = 'pointer';
     console.log(`
     year: ${params.year},
     semester: ${params.semester},
