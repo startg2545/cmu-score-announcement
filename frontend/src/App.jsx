@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate,
 } from "react-router-dom";
 import { getUserInfo } from "./services";
 import { ShowSidebarContext, UserInfoContext } from "./context";
@@ -67,7 +68,16 @@ function App() {
         <Router>
           <CMUNavbar />
           <Routes>
-            <Route exact path="/" element={<Home />} />
+            <Route
+              path="/"
+              element={
+                userInfo.itAccountType === "" ? (
+                  <Navigate to="/sign-in" /> 
+                ) : (
+                  <Home />
+                )
+              }
+            />
             <Route exact path="/about" element={<About />} />
             <Route exact path="/contact" element={<Contact />} />
             <Route exact path="/add-database" element={<AddDatabase />} />
