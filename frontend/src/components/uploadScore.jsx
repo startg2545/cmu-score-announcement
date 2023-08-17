@@ -59,7 +59,7 @@ export default function UploadScorePageContainer() {
     for (let i in list) {
       let obj = {};
       for (let j in keys) {
-        if ( j == 1 ) obj['point'] = list[i][j]
+        if ( j === 1 ) obj['point'] = list[i][j]
         else obj[keys[j]] = list[i][j];
       }
       results_list[i] = obj;
