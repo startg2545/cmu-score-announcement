@@ -1,65 +1,72 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import {SideBar, UploadSc} from "../components";
 import {ShowSidebarContext} from "../context";
-import { getAllCourse, getSections, getScores } from "../services";
+import { getAllCourses, getAllSections, getScores } from "../services";
 import DropDownCourse from "../components/DropDownCourse";
 import DropDownSection from "../components/DropDownSection";
 
 export default function Course166Container() {
   const [course, setCourse] = useState();
   const [allCourses, setAllCourses] = useState([]);
-  const [allSections, setAllSections] = useState();
+  const [allSections, setAllSections] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isHovered, setIsHovered] = useState(false);
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isShowTableScore, setShowTableScore] = useState(null);
   const [isUploadScore, setUploadScore] = useState(false);
-
+  const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
+  const [params, setParams] = useState({})
+  
   const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
 
   const navigate = useNavigate();
   const location = useLocation();
+  
+  const getParams = useMemo(() => {
+    setParams({
+      semester: searchParams.get("semester"),
+      year: searchParams.get("year"),
+      courseNo: searchParams.get("courseNo"),
+      section: searchParams.get("section"),
+    })
+  }, [searchParams])
 
   const onClickCourse = (item) => {
     let courseNo = item.courseNo;
+    setUploadScore(false)
     setShowTableScore(courseNo);
     setSelectedCourse(true);
     searchParams.set("courseNo", courseNo);
     setSearchParams(searchParams);
   };
 
-  const back = () => {
+  const backToDashboard = () => {
     setSelectedCourse(false)
     searchParams.delete('courseNo')
+    searchParams.delete('section')
     setSearchParams(searchParams)
-    // searchParams.delete('semester')
-    // setSearchParams(searchParams)
-    // searchParams.delete('year')
-    // setSearchParams(searchParams)
+  }
+  
+  const backToCourse = () => {
+    searchParams.delete('section')
+    setSearchParams(searchParams)
+    setUploadScore(false)
   }
 
-  const onClickUplioad = () => {
-    setUploadScore(true);
-  };
-  
-  const params = {
-    semester: searchParams.get("semester"),
-    year: searchParams.get("year"),
-    courseNo: searchParams.get("courseNo"),
-    section: searchParams.get("section"),
-  };
-
   const getSection = async (params) => {
-    const allSec = await getSections(params);
-    if(allSec) setAllSections(allSec);
+    const allSec = await getAllSections(params);
+    console.log(allSec)
+    if(allSec) {
+      setAllSections(allSec);
+    }
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      const allCourse = await getAllCourse();
+      const allCourse = await getAllCourses();
       setAllCourses(allCourse);
       const resp = await getScores();
       if (resp) {
@@ -71,11 +78,11 @@ export default function Course166Container() {
         data.forEach((e, index) => {
           allCourse.courseDetails.forEach((all) => {
             if (e.courseNo === all.courseNo) {
-              console.log(data[index]);
               data[index].courseName = all.courseNameEN;
             }
           });
         });
+        console.log(data)
         setCourse(data);
       }
     };
@@ -90,7 +97,7 @@ export default function Course166Container() {
     }, 1000);
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, [location, isShowTableScore, searchParams, params.year, params.semester, params.courseNo]);
+  }, [location, isShowTableScore, searchParams, showPopupAddCourse, getParams, params]);
 
   // Function to format the date as "XX Aug, 20XX"
   const formatDate = (date) => {
@@ -104,7 +111,6 @@ export default function Course166Container() {
     navigate("?" + url);
   }
 
-  const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
 
   const handleAddCourse = () => {
     setShowPopupAddCourse(true);
@@ -118,7 +124,15 @@ export default function Course166Container() {
   };
 
   const ConfirmhandleClosePopup = () => {
+    console.log(`
+    year: ${params.year},
+    semester: ${params.semester},
+    Course Number: ${params.courseNo},
+    Section: ${params.section}
+    `)
     setShowPopupAddCourse(false);
+    setSelectedCourse(true);
+    setUploadScore(true)
   };
 
   return (
@@ -133,7 +147,7 @@ export default function Course166Container() {
             }`}
             onClick={handleSidebarClick}
           >
-            <div >Course {params.semester}/{params.year.slice(2)}</div>
+            <div >Course {params.semester}/{params.year}</div>
            
           </div>
           <div
@@ -217,15 +231,14 @@ export default function Course166Container() {
             style={{ gap: 25 }}
           >
             {course &&
-              course.map((item) => {
+              course.map((item, key) => {
                 return (
                   <div
-                    key={item.courseNo}
+                    key={key}
                     className={Course.frameEachCourse}
                     onClick={() => onClickCourse(item)}
                   >
                     <div className={Course.courseName}>
-                      {/* SVG icon */}
                       <div className={Course.intoCourse}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -255,9 +268,9 @@ export default function Course166Container() {
             <div className={Course.MenuNavigate}>
               <p className={Course.MenuIndex}>
 
-                <div onClick={back} style={{cursor: 'pointer'}}>
+                <label onClick={backToDashboard} style={{cursor: 'pointer'}}>
                   Course {params.semester}/{params.year.slice(2)}
-                </div>
+                </label>
 
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -271,8 +284,9 @@ export default function Course166Container() {
                     fill="#696CA3"
                   />
                 </svg>
-                {params.courseNo}
-                {/* {isShowTableScore} */}
+                <label onClick={backToCourse} id="tab-manu">
+                  {params.courseNo}
+                </label>
               </p>
               {isUploadScore && (
                 <p className={Course.MenuIndex}>
@@ -288,7 +302,7 @@ export default function Course166Container() {
                       fill="#696CA3"
                     />
                   </svg>
-                  Upload Score
+                  <label>Upload Score</label>
                 </p>
               )}
             </div>
@@ -324,7 +338,10 @@ export default function Course166Container() {
                 <div className={Course.boxdrop}>
                   <div
                     className={`${Course.box_upload} ${Course.font}`}
-                    onClick={onClickUplioad}
+                    onClick={() => {
+                      setUploadScore(true);
+                      document.getElementById('tab-manu').style.cursor = 'pointer';   
+                    }}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                   >

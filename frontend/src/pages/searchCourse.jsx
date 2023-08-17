@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
-import { getAllCourse } from "../services";
+import { getAllCourses } from "../services";
 import './css/main.css';
 
 const year = [
@@ -62,11 +62,11 @@ const SearchCourse = () => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const res =  await getAllCourse();
+			const res =  await getAllCourses();
 			setData(res.courseDetails);
 		}
 		fetchData();
-	}, [getAllCourse])
+	}, [getAllCourses])
 	console.log(data)
 	
 	return (

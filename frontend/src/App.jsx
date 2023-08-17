@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useNavigate,
 } from "react-router-dom";
 import { getUserInfo } from "./services";
 import { ShowSidebarContext, UserInfoContext } from "./context";
@@ -19,7 +18,6 @@ import InstructorDashboard from "./pages/instructorDashboard";
 import CourseDetail from "./pages/courseDetail";
 import CMUOAuthCallback from "./pages/cmuOAuthCallback";
 import Course166 from "./pages/course166";
-import UploadScorePage from "./pages/uploadScorePage";
 import AddDatabase from "./pages/addDatabase";
 import TableScore from "./components/TableScore";
 import CMUNavbar from "./components/CMUNavbar";
@@ -31,7 +29,6 @@ function App() {
   const [showSidebar, setShowSidebar] = useState(false);
   const handleSidebarClick = () => {
     setShowSidebar(!showSidebar);
-    fetchData();
   };
 
   const setUser = async (data) => {
@@ -41,17 +38,17 @@ function App() {
     userInfo.studentId = data.studentId;
     userInfo.itAccountType = data.itAccountType;
   };
-  const fetchData = async () => {
-    if (userInfo.itAccountType === "") {
-      const resp = await getUserInfo();
-      if (resp.ok) {
-        await setUser(resp.userInfo);
-        setUserCT(resp.userInfo);
-      }
-    }
-  };
 
   useEffect(() => {
+    const fetchData = async () => {
+      if (userInfo.itAccountType === "") {
+        const resp = await getUserInfo();
+        if (resp.ok) {
+          await setUser(resp.userInfo);
+          setUserCT(resp.userInfo);
+        }
+      }
+    };
     fetchData();
   }, [userCT]);
 
