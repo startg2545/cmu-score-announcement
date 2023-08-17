@@ -50,7 +50,7 @@ export default function UploadScorePageContainer() {
 
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, []);
+  }, [searchParams]);
 
   // handle Microsoft Excel file (.xlsx)
   function getResults(list, keys) {
@@ -140,7 +140,6 @@ export default function UploadScorePageContainer() {
     var student_number = 0;
     if (
       keys[0] === "student_code" &&
-      keys[1] === "point" &&
       keys[2] === "comment"
     ) {
       results = getResults(resultsData, keys);
@@ -375,8 +374,8 @@ export default function UploadScorePageContainer() {
                   y2="95.7917"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stop-color="#8084C8" stop-opacity="0.53" />
-                  <stop offset="1" stop-color="#8084C8" />
+                  <stop stopColor="#8084C8" stopOpacity="0.53" />
+                  <stop offset="1" stopColor="#8084C8" />
                 </linearGradient>
               </defs>
             </svg>
@@ -422,7 +421,7 @@ export default function UploadScorePageContainer() {
                 <path
                   d="M44.6129 2V18.3636H61M31.5033 64.1818V34.7273M18.3936 44.5455L31.5033 31.4545L44.6129 44.5455M2 2H49.529L61 13.4545V74H2.00656L2 2Z"
                   stroke="#160000"
-                  stroke-width="3"
+                  strokeWidth="3"
                 />
                 <defs>
                   <linearGradient
@@ -435,10 +434,10 @@ export default function UploadScorePageContainer() {
                   >
                     <stop
                       offset="0.359375"
-                      stop-color="#777DDB"
-                      stop-opacity="0.44"
+                      stopColor="#777DDB"
+                      stopOpacity="0.44"
                     />
-                    <stop offset="1" stop-color="#5960D1" />
+                    <stop offset="1" stopColor="#5960D1" />
                   </linearGradient>
                 </defs>
               </svg>
@@ -464,8 +463,8 @@ export default function UploadScorePageContainer() {
                     y2="40"
                     gradientUnits="userSpaceOnUse"
                   >
-                    <stop stop-color="#F9E5C4" stop-opacity="0.76" />
-                    <stop offset="1" stop-color="#FFBB0C" />
+                    <stop stopColor="#F9E5C4" stopOpacity="0.76" />
+                    <stop offset="1" stopColor="#FFBB0C" />
                   </linearGradient>
                 </defs>
               </svg>

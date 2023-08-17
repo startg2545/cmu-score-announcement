@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import {SideBar, UploadSc} from "../components";
@@ -17,11 +17,22 @@ export default function Course166Container() {
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isShowTableScore, setShowTableScore] = useState(null);
   const [isUploadScore, setUploadScore] = useState(false);
-
+  const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
+  const [params, setParams] = useState({})
+  
   const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
 
   const navigate = useNavigate();
   const location = useLocation();
+  
+  const getParams = useMemo(() => {
+    setParams({
+      semester: searchParams.get("semester"),
+      year: searchParams.get("year"),
+      courseNo: searchParams.get("courseNo"),
+      section: searchParams.get("section"),
+    })
+  }, [searchParams])
 
   const onClickCourse = (item) => {
     let courseNo = item.courseNo;
@@ -43,13 +54,6 @@ export default function Course166Container() {
 
   const onClickUplioad = () => {
     setUploadScore(true);
-  };
-  
-  const params = {
-    semester: searchParams.get("semester"),
-    year: searchParams.get("year"),
-    courseNo: searchParams.get("courseNo"),
-    section: searchParams.get("section"),
   };
 
   const getSection = async (params) => {
@@ -90,7 +94,7 @@ export default function Course166Container() {
     }, 1000);
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, [location, isShowTableScore, searchParams, params.year, params.semester, params.courseNo]);
+  }, [location, isShowTableScore, searchParams, showPopupAddCourse, getParams, params]);
 
   // Function to format the date as "XX Aug, 20XX"
   const formatDate = (date) => {
@@ -104,7 +108,6 @@ export default function Course166Container() {
     navigate("?" + url);
   }
 
-  const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
 
   const handleAddCourse = () => {
     setShowPopupAddCourse(true);
@@ -133,7 +136,7 @@ export default function Course166Container() {
             }`}
             onClick={handleSidebarClick}
           >
-            <div >Course {params.semester}/{params.year.slice(2)}</div>
+            <div >Course {params.semester}/{params.year}</div>
            
           </div>
           <div
@@ -255,9 +258,9 @@ export default function Course166Container() {
             <div className={Course.MenuNavigate}>
               <p className={Course.MenuIndex}>
 
-                <div onClick={back} style={{cursor: 'pointer'}}>
+                <label onClick={back} style={{cursor: 'pointer'}}>
                   Course {params.semester}/{params.year.slice(2)}
-                </div>
+                </label>
 
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
