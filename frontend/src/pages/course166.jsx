@@ -58,7 +58,6 @@ export default function Course166Container() {
 
   const getSection = async (params) => {
     const allSec = await getAllSections(params);
-    console.log(getAllSections(params))
     if(allSec) {
       setAllSections(allSec);
     }
@@ -97,7 +96,7 @@ export default function Course166Container() {
     }, 1000);
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, [location, isShowTableScore, searchParams, showPopupAddCourse, getParams, params]);
+  }, [location, isShowTableScore, searchParams, showPopupAddCourse, getParams, params, setSearchParams]);
 
   // Function to format the date as "XX Aug, 20XX"
   const formatDate = (date) => {
@@ -113,6 +112,9 @@ export default function Course166Container() {
 
 
   const handleAddCourse = () => {
+    searchParams.delete('section');
+    searchParams.delete('courseNo');
+    setSearchParams(searchParams);
     setShowPopupAddCourse(true);
   };
 

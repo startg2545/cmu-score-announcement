@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -27,17 +27,19 @@ function App() {
   const { userInfo } = useContext(UserInfoContext);
   const [userCT, setUserCT] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [isLogin, setIsLogin] = useState(Boolean);
+
   const handleSidebarClick = () => {
     setShowSidebar(!showSidebar);
   };
-
-  const setUser = async (data) => {
+  
+  const setUser = useCallback((data) => {
     userInfo.cmuAccount = data.cmuAccount;
     userInfo.firstName = data.firstName;
     userInfo.lastName = data.lastName;
     userInfo.studentId = data.studentId;
     userInfo.itAccountType = data.itAccountType;
-  };
+  }, [userInfo])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,7 +52,7 @@ function App() {
       }
     };
     fetchData();
-  }, [userCT, showSidebar]);
+  }, [userCT, showSidebar, setIsLogin, setUser, userInfo.itAccountType]);
 
   return (
     <ShowSidebarContext.Provider
@@ -67,7 +69,7 @@ function App() {
         <Router>
           <CMUNavbar />
           <Routes>
-            <Route exact path="/" element={<Home />} />
+            <Route exact path="/" element={<Home parentToChild={isLogin}/>} />
             <Route exact path="/about" element={<About />} />
             <Route exact path="/contact" element={<Contact />} />
             <Route exact path="/add-database" element={<AddDatabase />} />
