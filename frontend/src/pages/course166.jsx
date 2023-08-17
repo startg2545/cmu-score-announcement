@@ -155,8 +155,7 @@ export default function Course166Container() {
             }`}
             onClick={handleSidebarClick}
           >
-            <div >Course {params.semester}/{params.year}</div>
-           
+            <div >Course {params.semester}/{params.year ? params.year.slice(2) : params.year}</div>
           </div>
           <div
             className={` ${Course.datetext} ${
