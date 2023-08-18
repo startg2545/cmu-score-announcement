@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import upStyle from "./css/uploadScore.module.css";
-import { SideBar } from "../components";
-import { ShowSidebarContext, UserInfoContext, userInfo } from "../context";
-import { addCourse } from "../services";
+import { ShowSidebarContext, UserInfoContext } from "../context";
+import { addCourse} from "../services";
 import * as XLSX from "xlsx";
 
 
@@ -21,7 +20,7 @@ export default function UploadScorePageContainer() {
 
   const navigate = useNavigate();
 
-  const data = {
+  const scores = {
     courseNo: courseNo,
     year: year,
     semester: semester,
@@ -34,10 +33,22 @@ export default function UploadScorePageContainer() {
     ],
   };
 
+  const getGrade = (point) => {
+    let grade = '';
+    if ( grade > 80 ) return 'A';
+    if ( grade > 75 ) return 'B+';
+    if ( grade > 70 ) return 'B';
+    if ( grade > 65 ) return 'C+';
+    if ( grade > 60 ) return 'C';
+    if ( grade > 55 ) return 'D+';
+    if ( grade > 50 ) return 'D';
+    return 'F';
+  }
+
   const submitData = async () => {
-    const resp = await addCourse(data);
-    if (resp) {
-      console.log(resp);
+    let resp_course = await addCourse(scores);
+    if (resp_course) {
+      console.log(resp_course);
       navigate("/course-detail");
     }
   };
@@ -121,7 +132,6 @@ export default function UploadScorePageContainer() {
       };
       arr[i] = obj;
     }
-    console.log(arr)
     setDetails(arr);
   }
 
@@ -162,7 +172,6 @@ export default function UploadScorePageContainer() {
         results: results,
       }
       setDetails([obj]);
-      console.log(obj)
     } else {
       console.log('you added a multiple file.')
       let full_score = resultsData.pop();

@@ -6,6 +6,7 @@ import {ShowSidebarContext} from "../context";
 import { getAllCourses, getAllSections, getScores } from "../services";
 import DropDownCourse from "../components/DropDownCourse";
 import DropDownSection from "../components/DropDownSection";
+import CourseDetail from "./courseDetail";
 
 export default function Course166Container() {
   const [course, setCourse] = useState();
@@ -310,7 +311,6 @@ export default function Course166Container() {
                     />
                   </svg>
                   <label>Upload Score</label>
-                  {/* {document.getElementById('tab-menu').cursor = 'pointer'} */}
                 </p>
               )}
             </div>
@@ -367,11 +367,12 @@ export default function Course166Container() {
                     </svg>
                     <p onClick={goToNav}>Upload Score</p>
                   </div>
-                  <DropDownSection />
+                  <DropDownSection parentToChild={allSections}/>
                 </div>
               </div>
             )}
           </div>
+          <CourseDetail/>
         </div>
       )}
     </>

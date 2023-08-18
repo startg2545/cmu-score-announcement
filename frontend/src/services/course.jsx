@@ -8,7 +8,7 @@ export async function addCourse(data) {
       data,
       {
         timeout: 5000,
-        withCredentials: true,
+        withCredentials: true
       }
     );
     return resp.data;
