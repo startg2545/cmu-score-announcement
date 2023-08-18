@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const courseModel = require("../db/scoreSchema");
 const router = express.Router();
 
-//add course & score
+// add course & score
 router.post("/add", async (req, res) => {
   try {
     const token = req.cookies.token;
