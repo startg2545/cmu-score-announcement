@@ -1,11 +1,6 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { getUserInfo } from "./services";
 import { ShowSidebarContext, UserInfoContext } from "./context";
 import Home from "./pages";
@@ -23,6 +18,7 @@ import AddDatabase from "./pages/addDatabase";
 import TableScore from "./components/TableScore";
 import CMUNavbar from "./components/CMUNavbar";
 import StuCourseList from "./pages/stuCourseList";
+import { MantineProvider } from "@mantine/core";
 
 function App() {
   const { userInfo } = useContext(UserInfoContext);
@@ -33,14 +29,17 @@ function App() {
   const handleSidebarClick = () => {
     setShowSidebar(!showSidebar);
   };
-  
-  const setUser = useCallback((data) => {
-    userInfo.cmuAccount = data.cmuAccount;
-    userInfo.firstName = data.firstName;
-    userInfo.lastName = data.lastName;
-    userInfo.studentId = data.studentId;
-    userInfo.itAccountType = data.itAccountType;
-  }, [userInfo])
+
+  const setUser = useCallback(
+    (data) => {
+      userInfo.cmuAccount = data.cmuAccount;
+      userInfo.firstName = data.firstName;
+      userInfo.lastName = data.lastName;
+      userInfo.studentId = data.studentId;
+      userInfo.itAccountType = data.itAccountType;
+    },
+    [userInfo]
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,30 +55,31 @@ function App() {
   }, [userCT, showSidebar, setIsLogin, setUser, userInfo.itAccountType]);
 
   return (
-    <ShowSidebarContext.Provider
-      value={{
-        showSidebar: showSidebar,
-        handleSidebarClick: handleSidebarClick,
-      }}
-    >
-      <UserInfoContext.Provider
+    <MantineProvider>
+      <ShowSidebarContext.Provider
         value={{
-          userInfo: { ...userCT },
+          showSidebar: showSidebar,
+          handleSidebarClick: handleSidebarClick,
         }}
       >
-        <Router>
-          <CMUNavbar />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                userInfo.itAccountType === "" ? (
-                  <Navigate to="/sign-in" /> 
-                ) : (
-                  <Home />
-                )
-              }
-            />
+        <UserInfoContext.Provider
+          value={{
+            userInfo: { ...userCT },
+          }}
+        >
+          <Router>
+            <CMUNavbar />
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  userInfo.itAccountType === "" ? (
+                    <Navigate to="/sign-in" />
+                  ) : (
+                    <Home />
+                  )
+                }
+              />
             <Route exact path="/about" element={<About />} />
             <Route exact path="/contact" element={<Contact />} />
             <Route exact path="/add-database" element={<AddDatabase />} />
@@ -106,10 +106,11 @@ function App() {
             {/* <Route exact path="/upload-score-page" element={<UploadScorePage />} /> */}
             <Route exact path="/table-score" element={<TableScore />} />
             <Route exact path="/stuCourse-list" element={<StuCourseList />} />
-          </Routes>
-        </Router>
-      </UserInfoContext.Provider>
-    </ShowSidebarContext.Provider>
+            </Routes>
+          </Router>
+        </UserInfoContext.Provider>
+      </ShowSidebarContext.Provider>
+    </MantineProvider>
   );
 }
 

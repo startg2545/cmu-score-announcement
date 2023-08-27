@@ -1,13 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom'; // Import from the main react-dom package
 import './index.css';
 import App from './App';
+import { MantineProvider } from '@mantine/core';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <>
-    <App />
-    </>
+    <MantineProvider>
+        <App />
+    </MantineProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

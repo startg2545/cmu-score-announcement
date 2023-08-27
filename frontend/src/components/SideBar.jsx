@@ -1,22 +1,30 @@
 import React, { useContext } from "react";
-import style from "./css/component.module.css";
+import {
+  Button,
+  Paper,
+  Text,
+} from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "../services";
 import { ShowSidebarContext } from "../context";
+import courseIcon from "../icon/courseIcon.js";
+import style from "./css/component.module.css"; // Import your CSS module
 
 const SideBar = () => {
   const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const navigate = useNavigate();
 
   const handleSemesterYear = (semester, year) => {
-    handleSidebarClick(true)
-    navToSemesterYear(semester, year)
-  }
-  function navToSemesterYear (semester, year) {
+    handleSidebarClick(true);
+    navToSemesterYear(semester, year);
+  };
+  
+
+  function navToSemesterYear(semester, year) {
     navigate({
-      pathname: '/course',
-      search: `?semester=${semester}&year=${year}`
-    })
+      pathname: "/course",
+      search: `?semester=${semester}&year=${year}`,
+    });
   }
 
   return (
