@@ -100,11 +100,6 @@
       font-size: 35px; /* Adjust font size for tablets */
       margin-top: -45px;
     }
-  
-    .topictext2 {
-      font-size: 20px; /* Adjust font size for tablets */
-      margin-top: 12px;
-    }
     
     .logintext {
       font-size: 26px; /* Adjust font size for tablets */
@@ -119,7 +114,7 @@
   }
   
   
-  @media screen and (max-width: 1500px) {
+  @media screen and (max-width: 1600px) {
   
     .logincmulogo {
       width: 420px;
@@ -133,12 +128,7 @@
     
     .topictext {
       font-size: 28px; /* Adjust font size for tablets */
-      margin-top: -45px;
-    }
-  
-    .topictext2 {
-      font-size: 16px; /* Adjust font size for tablets */
-      margin-top: -4px;
+      margin-top: -35px;
     }
     
     .logintext {
