@@ -2,12 +2,13 @@ import { createContext } from "react";
 
 const UserInfoContext = createContext({
   userInfo: {
-    cmuAccount: "",
-    firstName: "",
-    lastName: "",
-    studentId: "",
-    itAccountType: "",
+    cmuAccount: null,
+    firstName: null,
+    lastName: null,
+    studentId: null,
+    itAccountType: null,
   },
+  setUserInfo: () => {},
 });
 
 export default UserInfoContext;

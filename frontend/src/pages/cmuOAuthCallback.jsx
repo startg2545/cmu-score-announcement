@@ -2,9 +2,10 @@ import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserInfoContext } from "../context";
+import { Center, Title, Button, Divider } from "@mantine/core";
 
 export default function CMUOAuthCallback() {
-  const { userInfo } = useContext(UserInfoContext);
+  const { setUserInfo } = useContext(UserInfoContext);
   const queryParameters = new URLSearchParams(window.location.search);
   const code = queryParameters.get("code");
   const navigate = useNavigate();
@@ -40,22 +41,23 @@ export default function CMUOAuthCallback() {
     }
   }
 
-  const setUserInfo = async (data) => {
-    userInfo.cmuAccount = data.cmuAccount;
-    userInfo.firstName = data.firstName;
-    userInfo.lastName = data.lastName;
-    userInfo.studentId = data.studentId;
-    userInfo.itAccountType = data.itAccountType;
-  }
-
   useEffect(() => {
     if (!code) return;
+
+    const setUser = async (data) => {
+      setUserInfo({
+        cmuAccount: data.cmuAccount,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        studentId: data.studentId,
+        itAccountType: data.itAccountType,
+      });
+    };
 
     const fetchData = async () => {
       const resp = await signIn(code);
       if (resp) {
-        await setUserInfo(resp);
-        localStorage.setItem("role", resp.itAccountType);
+        await setUser(resp);
         if (resp.itAccountType === "StdAcc") {
           navigate("/student-dashboard");
         } else if (resp.itAccountType === "MISEmpAcc") {
@@ -67,12 +69,12 @@ export default function CMUOAuthCallback() {
     };
 
     fetchData();
-  }, [code, navigate]);
+  }, [code, navigate, setUserInfo]);
 
   return (
-    <div>
-      <h3 style={{ color: "red" }}>{message || "Redirecting ..."}</h3>
-      <button onClick={() => navigate('/sign-in')}>Go Back</button>
-    </div>
+    <Center>
+        <Title order={1}>{message || "Redirecting ..."}</Title>
+        <Button onClick={() => navigate("/sign-in")}>Go Back</Button>
+    </Center>
   );
 }

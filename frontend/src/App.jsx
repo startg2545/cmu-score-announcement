@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { getUserInfo } from "./services";
 import { ShowSidebarContext, UserInfoContext } from "./context";
 import Home from "./pages";
@@ -21,38 +21,44 @@ import StuCourseList from "./pages/stuCourseList";
 import { MantineProvider } from "@mantine/core";
 
 function App() {
-  const { userInfo } = useContext(UserInfoContext);
-  const [userCT, setUserCT] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
-  const [isLogin, setIsLogin] = useState(Boolean);
+  const pathname = window.location.pathname;
+  const notFetchUser = ["/sign-in", "/cmuOAuthCallback"];
 
   const handleSidebarClick = () => {
     setShowSidebar(!showSidebar);
   };
 
-  const setUser = useCallback(
-    (data) => {
-      userInfo.cmuAccount = data.cmuAccount;
-      userInfo.firstName = data.firstName;
-      userInfo.lastName = data.lastName;
-      userInfo.studentId = data.studentId;
-      userInfo.itAccountType = data.itAccountType;
-    },
-    [userInfo]
-  );
+  const setUser = async (data) => {
+    setUserInfo({
+      cmuAccount: data.cmuAccount,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      studentId: data.studentId,
+      itAccountType: data.itAccountType,
+    });
+  };
 
   useEffect(() => {
+    console.log({...userInfo});
     const fetchData = async () => {
-      if (userInfo.itAccountType === "") {
+      if (!userInfo) {
         const resp = await getUserInfo();
         if (resp.ok) {
-          await setUser(resp.userInfo);
-          setUserCT(resp.userInfo);
+          setUser(resp.userInfo);
+          setUserInfo(resp.userInfo);
+        }
+        else {
+          window.location.replace("/sign-in");
         }
       }
     };
-    fetchData();
-  }, [userCT, showSidebar, setIsLogin, setUser, userInfo.itAccountType]);
+
+    if(!notFetchUser.includes(pathname)) {
+      fetchData();
+    }
+  }, [userInfo, showSidebar, setUser]);
 
   return (
     <MantineProvider>
@@ -61,25 +67,17 @@ function App() {
           showSidebar: showSidebar,
           handleSidebarClick: handleSidebarClick,
         }}
-      >
+>
         <UserInfoContext.Provider
           value={{
-            userInfo: { ...userCT },
+            userInfo: { ...userInfo },
+            setUserInfo: setUserInfo,
           }}
-        >
-          <Router>
-            <CMUNavbar />
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  userInfo.itAccountType === "" ? (
-                    <Navigate to="/sign-in" />
-                  ) : (
-                    <Home />
-                  )
-                }
-              />
+      >
+        <Router>
+          <CMUNavbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
             <Route exact path="/about" element={<About />} />
             <Route exact path="/contact" element={<Contact />} />
             <Route exact path="/add-database" element={<AddDatabase />} />
@@ -106,9 +104,9 @@ function App() {
             {/* <Route exact path="/upload-score-page" element={<UploadScorePage />} /> */}
             <Route exact path="/table-score" element={<TableScore />} />
             <Route exact path="/stuCourse-list" element={<StuCourseList />} />
-            </Routes>
-          </Router>
-        </UserInfoContext.Provider>
+          </Routes>
+        </Router>
+</UserInfoContext.Provider>
       </ShowSidebarContext.Provider>
     </MantineProvider>
   );
