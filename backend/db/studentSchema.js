@@ -2,13 +2,20 @@ const mongoose = require("mongoose");
 
 const studentSchema = new mongoose.Schema(
   {
-    studentID: Number,
+    studentId: Number,
+    firstName: String,
+    lastName: String,
     courseGrades: [
       {
         courseNo: Number,
-        grade: String,
         year: Number,
         semester: Number,
+        scores: [
+          {
+            scoreName: String,
+            point: Number,
+          },
+        ]
       },
     ],
   },
