@@ -348,7 +348,7 @@ export default function Course166Container() {
                     className={`${Course.box_upload} ${Course.font}`}
                     onClick={() => {
                       setUploadScore(true);
-                      document.getElementById('tab-manu').style.cursor = 'pointer';
+                      document.getElementById('tab-menu').style.cursor = 'pointer';
                     }}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
