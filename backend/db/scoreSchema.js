@@ -15,14 +15,13 @@ const scoreSchema = new mongoose.Schema(
             scoreName: String,
             studentNumber: Number,
             fullScore: Number,
-            isDisplayMean: Boolean,
-            mean: Number,
             note: String,
             results: [
               {
-                student_code: Number,
+                studentId: Number,
+                firstName: String,
+                lastName: String,
                 point: Number,
-                comment: String
               }
             ]
           }
