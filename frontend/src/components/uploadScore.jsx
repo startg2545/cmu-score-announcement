@@ -39,7 +39,6 @@ export default function UploadScorePageContainer() {
   const submitData = async () => {
     let resp_course = await addCourse(scores);
     if (resp_course) {
-      console.log(resp_course);
       let url = `semester=${semester}&year=${year}&courseNo=${courseNo}`;
       navigate(`/course?${url}`);
     }
@@ -101,8 +100,10 @@ export default function UploadScorePageContainer() {
     const arr = [];
     let details_list = [];
     let countSec = 0;
+    let countStudentEachSection = [];
     for (let i = 0; i < keys.length - 1; i++) {
       let results_list = [];
+      let countStudent = 0;
       for (let j in results) {
         let obj = {
           studentId: results[j]["studentId"],
@@ -118,7 +119,6 @@ export default function UploadScorePageContainer() {
             instructor: userInfo.cmuAccount,
             details: null,
           }
-          console.log(arr[countSec]);
           countSec++;
         }
         else if (!arr.some(e => e.section === results[j]["section"])) {
@@ -127,14 +127,20 @@ export default function UploadScorePageContainer() {
             instructor: userInfo.cmuAccount,
             details: null,
           }
+          countStudentEachSection.push(countStudent);
+          countStudent = 0;
           countSec++;
+        }
+        countStudent++;
+        if(parseInt(j) === results.length - 1 && countStudentEachSection.length !== arr.length) {
+          countStudentEachSection.push(countStudent);
         }
       }
       if (keys[i + 4]) {
         let obj = {
           scoreName: keys[i + 4],
           fullScore: full_score[i + 4],
-          studentNumber: results.length,
+          studentNumber: null,
           note: note,
           results: results_list,
         };
@@ -142,6 +148,7 @@ export default function UploadScorePageContainer() {
       }
     }
     arr.map(e => e.details = details_list);
+    arr.map((e, i) => e.details.map(item => item.studentNumber = countStudentEachSection[i]));
     setSections(arr);
   }
 
