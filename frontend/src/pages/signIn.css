@@ -27,7 +27,6 @@
     overflow-y: auto;
     justify-content: center;
     display: flex;
-    border: #696CA3 solid 2px;
     border-radius: 25px;
     background: #FFF;
     filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.25)); /* Adjust the values to control the shadow spread and blur */
@@ -87,18 +86,18 @@
 @media screen and (max-width: 2600px) {
 
     .logincmulogo {
-      width: 580px;
-      height: 100px;
+      width: 520px;
+      height: 90px;
       margin-top: -15px;
     }
   
     .popuplogin {
-      width: 90%; /* Adjust the width for tablets */
-      height: 70%; /* Allow content to determine the height */
+      width: 55%; /* Adjust the width for tablets */
+      height: 63%; /* Allow content to determine the height */
     }
     
     .topictext {
-      font-size: 44px; /* Adjust font size for tablets */
+      font-size: 35px; /* Adjust font size for tablets */
       margin-top: -45px;
     }
   
@@ -108,14 +107,14 @@
     }
     
     .logintext {
-      font-size: 30px; /* Adjust font size for tablets */
+      font-size: 26px; /* Adjust font size for tablets */
       margin-top: -5px;
     }
     
     .loginbutton {
-      width: 28%; /* Adjust button width for tablets */
-      height: 12%;
-      font-size: 26px; /* Adjust font size for tablets */
+      width: 45%; /* Adjust button width for tablets */
+      height: 11%;
+      font-size: 24px; /* Adjust font size for tablets */
     }
   }
   
@@ -128,12 +127,12 @@
     }
   
     .popuplogin {
-      width: 90%; /* Adjust the width for tablets */
-      height: 70%; /* Allow content to determine the height */
+      width: 60%; /* Adjust the width for tablets */
+      height: 60%; /* Allow content to determine the height */
     }
     
     .topictext {
-      font-size: 30px; /* Adjust font size for tablets */
+      font-size: 28px; /* Adjust font size for tablets */
       margin-top: -45px;
     }
   
@@ -148,7 +147,7 @@
     }
     
     .loginbutton {
-      width: 45%; /* Adjust button width for tablets */
+      width: 50%; /* Adjust button width for tablets */
       height: 12%;
       font-size: 22px; /* Adjust font size for tablets */
     }
@@ -213,7 +212,7 @@
       }
       
       .loginbutton {
-        width: 42%; /* Adjust button width for tablets */
+        width: 48%; /* Adjust button width for tablets */
         height: 13%;
         font-size: 15px; /* Adjust font size for tablets */
       }
