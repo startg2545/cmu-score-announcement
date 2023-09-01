@@ -146,6 +146,34 @@
       font-size: 22px; /* Adjust font size for tablets */
     }
   }
+
+  @media screen and (max-width: 1400px) {
+    .logincmulogo {
+      width: 420px;
+      height: 70px;
+      margin-top: 10px;
+    }
+  
+    .popuplogin {
+      width: 60%; /* Adjust the width for tablets */
+      height: 60%; /* Allow content to determine the height */
+    }
+    
+    .topictext {
+      font-size: 25px; /* Adjust font size for tablets */
+      margin-top: -5px;
+    }
+    
+    .logintext {
+      font-size: 20px; /* Adjust font size for tablets */
+    }
+    
+    .loginbutton {
+      width: 60%; /* Adjust button width for tablets */
+      height: 13%;
+      font-size: 20px; /* Adjust font size for tablets */
+    }
+  }
   
   @media screen and (max-width: 1100px) {
   
@@ -182,7 +210,7 @@
   }
   
   
-  @media screen and (max-width: 820px) {
+  @media screen and (max-width: 850px) {
   
     .logincmulogo {
   
@@ -191,7 +219,7 @@
     }
   
       .popuplogin {
-        width: 90%; /* Adjust the width for tablets */
+        width: 70%; /* Adjust the width for tablets */
         height: 40%; /* Allow content to determine the height */
       }
       
@@ -299,7 +327,7 @@
       
       .topictext {
         font-size: 13px; /* Adjust font size for smartphones */
-        margin-top: -25px;
+        margin-top: -10px;
       }
   
       
