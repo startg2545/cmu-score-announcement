@@ -27,7 +27,6 @@
     overflow-y: auto;
     justify-content: center;
     display: flex;
-    flex-shrink: 0;
     border: #696CA3 solid 2px;
     border-radius: 25px;
     background: #FFF;
@@ -84,6 +83,259 @@
     height: 30px;
     transform: translateX(-10px);
 }
+
+@media screen and (max-width: 2600px) {
+
+    .logincmulogo {
+      width: 580px;
+      height: 100px;
+      margin-top: -15px;
+    }
+  
+    .popuplogin {
+      width: 90%; /* Adjust the width for tablets */
+      height: 70%; /* Allow content to determine the height */
+    }
+    
+    .topictext {
+      font-size: 44px; /* Adjust font size for tablets */
+      margin-top: -45px;
+    }
+  
+    .topictext2 {
+      font-size: 20px; /* Adjust font size for tablets */
+      margin-top: 12px;
+    }
+    
+    .logintext {
+      font-size: 30px; /* Adjust font size for tablets */
+      margin-top: -5px;
+    }
+    
+    .loginbutton {
+      width: 28%; /* Adjust button width for tablets */
+      height: 12%;
+      font-size: 26px; /* Adjust font size for tablets */
+    }
+  }
+  
+  
+  @media screen and (max-width: 1500px) {
+  
+    .logincmulogo {
+      width: 480px;
+      height: 90px;
+    }
+  
+    .popuplogin {
+      width: 90%; /* Adjust the width for tablets */
+      height: 70%; /* Allow content to determine the height */
+    }
+    
+    .topictext {
+      font-size: 38px; /* Adjust font size for tablets */
+      margin-top: -45px;
+    }
+  
+    .topictext2 {
+      font-size: 16px; /* Adjust font size for tablets */
+      margin-top: -4px;
+    }
+    
+    .logintext {
+      font-size: 26px; /* Adjust font size for tablets */
+      margin-top: 5px;
+    }
+    
+    .loginbutton {
+      width: 30%; /* Adjust button width for tablets */
+      height: 12%;
+      font-size: 24px; /* Adjust font size for tablets */
+    }
+  }
+  
+  @media screen and (max-width: 1100px) {
+  
+    .logincmulogo {
+  
+      width: 400px;
+      height: 65px;
+    }
+  
+    .popuplogin {
+      width: 90%; /* Adjust the width for tablets */
+      height: 60%; /* Allow content to determine the height */
+    }
+    
+    .topictext {
+      font-size: 30px; /* Adjust font size for tablets */
+    }
+  
+    .topictext2 {
+      font-size: 14px; /* Adjust font size for tablets */
+      margin-top: 32px;
+    }
+    
+    .logintext {
+      font-size: 20px; /* Adjust font size for tablets */
+      margin-top: 5px;
+    }
+    
+    .loginbutton {
+      width: 38%; /* Adjust button width for tablets */
+      height: 12%;
+      font-size: 20px; /* Adjust font size for tablets */
+    }
+  }
+  
+  
+  @media screen and (max-width: 820px) {
+  
+    .logincmulogo {
+  
+      width: 330px;
+      height: 53px;
+    }
+  
+      .popuplogin {
+        width: 90%; /* Adjust the width for tablets */
+        height: 60%; /* Allow content to determine the height */
+      }
+      
+      .topictext {
+        font-size: 24px; /* Adjust font size for tablets */
+        margin-top: -55px;
+      }
+  
+      .topictext2 {
+        font-size: 14px; /* Adjust font size for tablets */
+        margin-top: 28px;
+      }
+      
+      .logintext {
+        font-size: 20px; /* Adjust font size for tablets */
+      }
+      
+      .loginbutton {
+        width: 45%; /* Adjust button width for tablets */
+        height: 11%;
+        font-size: 18px; /* Adjust font size for tablets */
+      }
+    }
+    
+    /* Media query for smartphones */
+    @media screen and (max-width: 540px) {
+  
+      .logincmulogo {
+        width: 220px;
+        height: 38px;
+      }
+  
+      .popuplogin {
+        width: 90%; /* Adjust the width for smartphones */
+        height: 50%; /* Allow content to determine the height */
+      }
+      
+      .topictext {
+        font-size: 15px; /* Adjust font size for smartphones */
+        margin-top: -55px;
+      }
+  
+      .topictext2 {
+        font-size: 9px; /* Adjust font size for smartphones */
+        margin-top: 22px;
+      }
+      
+      .logintext {
+        font-size: 16px; /* Adjust font size for smartphones */
+      }
+      
+      .loginbutton {
+        width: 70%; /* Adjust button width for smartphones */
+        height: 12%;
+        font-size: 14px; /* Adjust font size for smartphones */
+      }
+    }
+  
+    @media screen and (max-width: 375px) {
+  
+      .logincmulogo {
+  
+        width: 210px;
+        height: 35px;
+      }
+  
+      .popuplogin {
+        width: 90%; /* Adjust the width for smartphones */
+        height: 50%; /* Allow content to determine the height */
+      }
+      
+      .topictext {
+        font-size: 14px; /* Adjust font size for smartphones */
+        margin-top: -60px;
+      }
+  
+      .topictext2
+      {
+        font-size: 8px;
+        margin-top: 20px;
+      }
+      
+      .logintext {
+        font-size: 15px; /* Adjust font size for smartphones */
+      }
+      
+      .loginbutton {
+        width: 68%; /* Adjust button width for smartphones */
+        height: 11%;
+        font-size: 13px; /* Adjust font size for smartphones */
+      }
+    }
+  
+    @media screen and (max-width: 320px) {
+  
+      .logincmulogo {
+  
+        width: 170px;
+        height: 30px;
+      }
+  
+      .popuplogin {
+        width: 90%; /* Adjust the width for smartphones */
+        height: 50%; /* Allow content to determine the height */
+      }
+      
+      .topictext {
+        font-size: 12px; /* Adjust font size for smartphones */
+        margin-top: -65px;
+      }
+  
+      .topictext2
+      {
+        font-size: 7px;
+        margin-top: 15px;
+      }
+      
+      .logintext {
+        font-size: 14px; /* Adjust font size for smartphones */
+      }
+      
+      .loginbutton {
+        width: 65%; /* Adjust button width for smartphones */
+        height: 10%;
+        font-size: 10px; /* Adjust font size for smartphones */
+      }
+  
+      .emblem
+      {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+
+
+
   
   
   

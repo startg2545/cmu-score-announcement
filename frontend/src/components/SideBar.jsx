@@ -7,7 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { signOut } from "../services";
 import { ShowSidebarContext } from "../context";
-import courseIcon from "../icon/courseIcon.js";
+
 import style from "./css/component.module.css"; // Import your CSS module
 
 const SideBar = () => {
