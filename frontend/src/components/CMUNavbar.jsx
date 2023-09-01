@@ -12,7 +12,7 @@ const CMUNavbar = () => {
   const { handleSidebarClick } = useContext(ShowSidebarContext);
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const { pathname } = useLocation();
-  const withoutNavbar = ["/sign-in", "/cmuOAuthCallback"];
+  const withoutNavbar = ["/sign-in", "/cmuOAuthCallback", "/errorView"];
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
   const isMobileOrTablet = useMediaQuery("(max-width: 1024px) and (max-height: 1400px)");

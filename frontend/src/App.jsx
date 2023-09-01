@@ -7,7 +7,6 @@ import Home from "./pages";
 import About from "./pages/about";
 import AddScore from "./pages/addScore";
 import SignIn from "./pages/signIn";
-import Contact from "./pages/contact";
 import SearchCourse from "./pages/searchCourse";
 import StudentDashboard from "./pages/studentDashboard";
 import InstructorDashboard from "./pages/instructorDashboard";
@@ -19,12 +18,14 @@ import TableScore from "./components/TableScore";
 import CMUNavbar from "./components/CMUNavbar";
 import StuCourseList from "./pages/stuCourseList";
 import { MantineProvider } from "@mantine/core";
+import ErrorView from "./pages/errorView";
 
 function App() {
   const [userInfo, setUserInfo] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
   const pathname = window.location.pathname;
-  const notFetchUser = ["/sign-in", "/cmuOAuthCallback"];
+  const notFetchUser = ["/sign-in", "/cmuOAuthCallback", "/errorView"];
+  
 
   const handleSidebarClick = () => {
     setShowSidebar(!showSidebar);
@@ -40,8 +41,16 @@ function App() {
     });
   };
 
+  const getCurrentDimension = () => {
+    return {
+        width: window.innerWidth,
+        height: window.innerHeight
+    }
+  }
+  const [screenSize, setScreenSize] = useState(getCurrentDimension());
+
   useEffect(() => {
-    console.log({...userInfo});
+    
     const fetchData = async () => {
       if (!userInfo) {
         const resp = await getUserInfo();
@@ -58,7 +67,31 @@ function App() {
     if(!notFetchUser.includes(pathname)) {
       fetchData();
     }
-  }, [userInfo, showSidebar, setUser]);
+
+    const updateDimension = () => {
+      setScreenSize(getCurrentDimension())
+    }
+    window.addEventListener('resize', updateDimension);
+    
+
+    return(() => {
+        window.removeEventListener('resize', updateDimension);
+    })
+
+  }, [userInfo, showSidebar, setUser ]);
+
+  useEffect (() => {
+    if(
+      (screenSize.width < 1200 && screenSize.height < 900) ||
+      (screenSize.width < 900 && screenSize.height < 1200)
+    ) 
+    {
+      //window.location.replace("/errorView");
+
+    }
+  },[screenSize]);
+
+
 
   return (
     <MantineProvider>
@@ -79,7 +112,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route exact path="/about" element={<About />} />
-            <Route exact path="/contact" element={<Contact />} />
+            <Route exact path="/errorView" element={<ErrorView />} />
             <Route exact path="/add-database" element={<AddDatabase />} />
             <Route path="/course-detail" element={<CourseDetail />} />
             <Route path="/add-score" element={<AddScore />} />
