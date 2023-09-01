@@ -119,7 +119,7 @@
   }
   
   
-  @media screen and (max-width: 1500px) {
+  @media screen and (max-width: 1650px) {
   
     .logincmulogo {
       width: 420px;
@@ -132,22 +132,16 @@
     }
     
     .topictext {
-      font-size: 28px; /* Adjust font size for tablets */
-      margin-top: -45px;
-    }
-  
-    .topictext2 {
-      font-size: 16px; /* Adjust font size for tablets */
-      margin-top: -4px;
+      font-size: 25px; /* Adjust font size for tablets */
+      margin-top: -35px;
     }
     
     .logintext {
-      font-size: 24px; /* Adjust font size for tablets */
-      margin-top: 5px;
+      font-size: 22px; /* Adjust font size for tablets */
     }
     
     .loginbutton {
-      width: 50%; /* Adjust button width for tablets */
+      width: 60%; /* Adjust button width for tablets */
       height: 12%;
       font-size: 22px; /* Adjust font size for tablets */
     }
@@ -167,7 +161,7 @@
     }
     
     .topictext {
-      font-size: 30px; /* Adjust font size for tablets */
+      font-size: 28px; /* Adjust font size for tablets */
     }
   
     .topictext2 {
@@ -181,8 +175,8 @@
     }
     
     .loginbutton {
-      width: 40%; /* Adjust button width for tablets */
-      height: 12%;
+      width: 70%; /* Adjust button width for tablets */
+      height: 10%;
       font-size: 20px; /* Adjust font size for tablets */
     }
   }
@@ -294,8 +288,8 @@
     @media screen and (max-width: 540px) {
   
       .logincmulogo {
-        width: 220px;
-        height: 38px;
+        width: 200px;
+        height: 34px;
       }
   
       .popuplogin {
@@ -304,8 +298,8 @@
       }
       
       .topictext {
-        font-size: 14px; /* Adjust font size for smartphones */
-        margin-top: -35px;
+        font-size: 13px; /* Adjust font size for smartphones */
+        margin-top: -25px;
       }
   
       
@@ -334,8 +328,8 @@
       }
       
       .topictext {
-        font-size: 13px; /* Adjust font size for smartphones */
-        margin-top: -35px;
+        font-size: 12px; /* Adjust font size for smartphones */
+        margin-top: -30px;
       }
       
       .logintext {
@@ -400,8 +394,4 @@
 
 
 
-  
-  
-  
-
-  
+ 
