@@ -2,18 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import upStyle from "./css/uploadScore.module.css";
 import { ShowSidebarContext, UserInfoContext } from "../context";
-import { addCourse} from "../services";
+import { addCourse } from "../services";
 import * as XLSX from "xlsx";
 
-
 export default function UploadScorePageContainer() {
-  const [details, setDetails] = useState([]);
+  const [sections, setSections] = useState([]);
   const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const [searchParams, setSearchParams] = useSearchParams({});
   const { userInfo } = useContext(UserInfoContext);
-  const [isDisplayMean, setIsDisplayMean] = useState(false);
   const [courseNo, setCourseNo] = useState(0);
-  const [section, setSection] = useState(0);
   const [year, setYear] = useState(0);
   const [semester, setSemester] = useState(0);
   const [note, setNote] = useState("");
@@ -24,32 +21,27 @@ export default function UploadScorePageContainer() {
     courseNo: courseNo,
     year: year,
     semester: semester,
-    sections: [
-      {
-        section: section,
-        instructor: userInfo.cmuAccount,
-        details: details,
-      }
-    ],
+    sections: sections,
   };
 
   const getGrade = (point) => {
-    let grade = '';
-    if ( grade > 80 ) return 'A';
-    if ( grade > 75 ) return 'B+';
-    if ( grade > 70 ) return 'B';
-    if ( grade > 65 ) return 'C+';
-    if ( grade > 60 ) return 'C';
-    if ( grade > 55 ) return 'D+';
-    if ( grade > 50 ) return 'D';
-    return 'F';
-  }
+    let grade = "";
+    if (grade > 80) return "A";
+    if (grade > 75) return "B+";
+    if (grade > 70) return "B";
+    if (grade > 65) return "C+";
+    if (grade > 60) return "C";
+    if (grade > 55) return "D+";
+    if (grade > 50) return "D";
+    return "F";
+  };
 
   const submitData = async () => {
     let resp_course = await addCourse(scores);
     if (resp_course) {
       console.log(resp_course);
-      navigate("/course-detail");
+      let url = `semester=${semester}&year=${year}&courseNo=${courseNo}`;
+      navigate(`/course?${url}`);
     }
   };
 
@@ -57,7 +49,6 @@ export default function UploadScorePageContainer() {
 
   useEffect(() => {
     setCourseNo(searchParams.get("courseNo")); // get course number from Hooks
-    setSection(searchParams.get("section")); // get section from Hooks
     setYear(parseInt(searchParams.get("year"))); // get year from Hooks
     setSemester(parseInt(searchParams.get("semester"))); // get semester from Hooks
     const interval = setInterval(() => {
@@ -75,10 +66,9 @@ export default function UploadScorePageContainer() {
     for (let i in list) {
       let obj = {};
       for (let j in keys) {
-        if ( j == 1 && keys[0] === "student_code" && keys[2] === "comment") obj['point'] = list[i][j]
-        else obj[keys[j]] = list[i][j];
+        obj[keys[j]] = list[i][j];
       }
-      results_list[i] = obj;
+      if (list[i][0] !== "") results_list[i] = obj;
     }
     return results_list;
   }
@@ -86,13 +76,10 @@ export default function UploadScorePageContainer() {
   function getAvg(list, keys) {
     // list is array of dictionary, keys is array
     var sum = 0;
-    if (
-      keys[0] === "student_code" &&
-      keys[2] === "comment"
-    ) {
+    if (keys[0] === "student_code" && keys[2] === "comment") {
       // this is single scores
       for (let i in list) {
-        sum += list[i]['point'];
+        sum += list[i]["point"];
       }
       let avg = sum / list.length;
       return avg.toFixed(2);
@@ -110,29 +97,52 @@ export default function UploadScorePageContainer() {
     }
   }
 
-  function addDetails(keys, full_score, student_number, avg, results) {
+  function addSections(keys, full_score, results) {
     const arr = [];
+    let details_list = [];
+    let countSec = 0;
     for (let i = 0; i < keys.length - 1; i++) {
       let results_list = [];
       for (let j in results) {
         let obj = {
-          student_code: results[j]["student_code"],
-          point: results[j][keys[i+1]],
+          studentId: results[j]["studentId"],
+          firstName: results[j]["firstName"],
+          lastName: results[j]["lastName"],
+          point: results[j][keys[i + 4]],
         };
         results_list[j] = obj;
+
+        if(countSec === 0) {
+          arr[countSec] = {
+            section: results[j]["section"],
+            instructor: userInfo.cmuAccount,
+            details: null,
+          }
+          console.log(arr[countSec]);
+          countSec++;
+        }
+        else if (!arr.some(e => e.section === results[j]["section"])) {
+          arr[countSec] = {
+            section: results[j]["section"],
+            instructor: userInfo.cmuAccount,
+            details: null,
+          }
+          countSec++;
+        }
       }
-      let obj = {
-        scoreName: keys[i + 1],
-        fullScore: full_score[i],
-        isDisplayMean: isDisplayMean,
-        studentNumber: student_number,
-        note: note,
-        mean: parseFloat(avg[keys[i + 1]]),
-        results: results_list,
-      };
-      arr[i] = obj;
+      if (keys[i + 4]) {
+        let obj = {
+          scoreName: keys[i + 4],
+          fullScore: full_score[i + 4],
+          studentNumber: results.length,
+          note: note,
+          results: results_list,
+        };
+        details_list[i] = obj;
+      }
     }
-    setDetails(arr);
+    arr.map(e => e.details = details_list);
+    setSections(arr);
   }
 
   // Function to format the date as "XX Aug, 20XX"
@@ -145,42 +155,16 @@ export default function UploadScorePageContainer() {
     const file = e.target.files[0];
     const data = await file.arrayBuffer();
     const workbook = XLSX.read(data);
-    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+    const worksheet = workbook.Sheets["Scores"];
     const resultsData = XLSX.utils.sheet_to_json(worksheet, {
       header: 1,
       defval: "",
     });
+    let full_score = resultsData.shift();
     const keys = resultsData.shift();
     var results = {};
-    var avg = 0;
-    var student_number = 0;
-    if (
-      keys[0] === "student_code" &&
-      keys[2] === "comment"
-    ) {
-      console.log('you added a single file.')
-      let full_score = resultsData.pop();
-      results = getResults(resultsData, keys);
-      avg = getAvg(results, keys);
-      let obj = {
-        scoreName: keys[1],
-        fullScore: full_score[1],
-        isDisplayMean: isDisplayMean,
-        studentNumber: resultsData.length,
-        note: note,
-        mean: parseFloat(avg),
-        results: results,
-      }
-      setDetails([obj]);
-    } else {
-      console.log('you added a multiple file.')
-      let full_score = resultsData.pop();
-      full_score.shift();
-      results = getResults(resultsData, keys);
-      avg = getAvg(results, keys);
-      student_number = resultsData.length;
-      addDetails(keys, full_score, student_number, avg, results);
-    }
+    results = getResults(resultsData, keys);
+    addSections(keys, full_score, results);
   };
 
   const [showPopupCancel, setShowPopupCancel] = useState(false);
