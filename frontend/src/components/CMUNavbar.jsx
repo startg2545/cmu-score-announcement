@@ -12,24 +12,24 @@ const CMUNavbar = () => {
   const { handleSidebarClick } = useContext(ShowSidebarContext);
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const { pathname } = useLocation();
-  const withoutNavbar = ["/sign-in", "/cmuOAuthCallback"];
+  const withoutNavbar = ["/sign-in", "/cmuOAuthCallback", "/errorView"];
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
   const isMobileOrTablet = useMediaQuery("(max-width: 1024px) and (max-height: 1400px)");
   const svgWidth = isMobileOrTablet ? "32px" : "48px";
 
-  useEffect(() => {
-    if(userInfo.itAccountType) {
-      const check = async () => {
-        const isPermission = await CheckPermission(userInfo.itAccountType, pathname);
-        if (!isPermission) {
-          setUserInfo(null);
-          await signOut().finally(navigate("/sign-in"));
-        };
-      };
-      check();
-    }
-  },[pathname, userInfo, navigate])
+  // useEffect(() => {
+  //   if(userInfo.itAccountType) {
+  //     const check = async () => {
+  //       const isPermission = await CheckPermission(userInfo.itAccountType, pathname);
+  //       if (!isPermission) {
+  //         setUserInfo(null);
+  //         await signOut().finally(navigate("/sign-in"));
+  //       };
+  //     };
+  //     check();
+  //   }
+  // },[pathname, userInfo, navigate])
 
   if (withoutNavbar.some((path) => pathname.includes(path))) return null;
 
