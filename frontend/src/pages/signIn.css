@@ -195,7 +195,7 @@
   }
 
   .loginbutton {
-    width: 70%; /* Adjust button width for tablets */
+    width: 40%; /* Adjust button width for tablets */
     height: 10%;
     font-size: 20px; /* Adjust font size for tablets */
   }
@@ -214,7 +214,7 @@
 
   .topictext {
     font-size: 20px; /* Adjust font size for tablets */
-    margin-top: -30px;
+    margin-top: -5px;
   }
 
   .logintext {
@@ -237,7 +237,7 @@
 
   .popuplogin {
     width: 90%; /* Adjust the width for tablets */
-    height: 35%; /* Allow content to determine the height */
+    height: 50%; /* Allow content to determine the height */
   }
 
   .topictext {
@@ -270,7 +270,7 @@
 
   .popuplogin {
     width: 90%; /* Adjust the width for tablets */
-    height: 35%; /* Allow content to determine the height */
+    height: 50%; /* Allow content to determine the height */
   }
 
   .topictext {
@@ -331,7 +331,7 @@
 
   .popuplogin {
     width: 90%; /* Adjust the width for smartphones */
-    height: 40%; /* Allow content to determine the height */
+    height: 50%; /* Allow content to determine the height */
   }
 
   .topictext {

@@ -19,6 +19,7 @@ import CMUNavbar from "./components/CMUNavbar";
 import StuCourseList from "./pages/stuCourseList";
 import { MantineProvider } from "@mantine/core";
 import ErrorView from "./pages/errorView";
+import CourseDash from "./pages/courseDash"
 
 function App() {
   const [userInfo, setUserInfo] = useState(null);
@@ -50,7 +51,7 @@ function App() {
   const [screenSize, setScreenSize] = useState(getCurrentDimension());
 
   useEffect(() => {
-    
+    console.log({...userInfo});
     const fetchData = async () => {
       if (!userInfo) {
         const resp = await getUserInfo();
@@ -80,16 +81,16 @@ function App() {
 
   }, [userInfo, showSidebar, setUser ]);
 
-  useEffect (() => {
-    if(
-      (screenSize.width < 1200 && screenSize.height < 900) ||
-      (screenSize.width < 900 && screenSize.height < 1200)
-    ) 
-    {
-      //window.location.replace("/errorView");
+  // useEffect (() => {
+  //   if(
+  //     (screenSize.width < 1200 && screenSize.height < 900) ||
+  //     (screenSize.width < 900 && screenSize.height < 1200)
+  //   ) 
+  //   {
+  //   window.location.replace("/errorView");
 
-    }
-  },[screenSize]);
+  //   }
+  // },[screenSize]);
 
 
 
@@ -134,12 +135,12 @@ function App() {
               element={<InstructorDashboard />}
             />
             <Route path="/course" element={<Course166 />} />
-            {/* <Route exact path="/upload-score-page" element={<UploadScorePage />} /> */}
             <Route exact path="/table-score" element={<TableScore />} />
             <Route exact path="/stuCourse-list" element={<StuCourseList />} />
+            <Route exact path="/courseDash" element={<CourseDash />} />
           </Routes>
         </Router>
-</UserInfoContext.Provider>
+        </UserInfoContext.Provider>
       </ShowSidebarContext.Provider>
     </MantineProvider>
   );
