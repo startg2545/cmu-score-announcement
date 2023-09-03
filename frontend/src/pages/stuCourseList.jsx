@@ -5,7 +5,7 @@ import { StudentSidebar } from "../components";
 import { ShowSidebarContext } from "../context";
 
 export default function StuCourseList() {
-    const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
+    const { showSidebar } = useContext(ShowSidebarContext);
     const [currentDate, setCurrentDate] = useState(new Date());
 
     useEffect(() => {
@@ -28,20 +28,17 @@ export default function StuCourseList() {
             
             <div
                 className={`stuCouListcoursetopictext ${showSidebar ? 'move-right' : ''}`} 
-                onClick={handleSidebarClick}
             >
             Courses
             </div>
                 <div 
                 className={`stuCouListdatetext ${showSidebar ? 'move-right' : ''}`} 
-                onClick={handleSidebarClick}    
             > 
             {formatDate(currentDate)}
             </div>
             <StudentSidebar />
             <div
-            className={`stuCouListcourseframewindow ${showSidebar ? 'shrink' : ''}`} 
-            onClick={handleSidebarClick}    
+            className={`stuCouListcourseframewindow ${showSidebar ? 'shrink' : ''}`}   
             style={{ gap: 25 }}
             >
             {Array.from(

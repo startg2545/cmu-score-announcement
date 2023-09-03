@@ -3,15 +3,12 @@ import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import {SideBar, UploadSc} from "../components";
 import {ShowSidebarContext} from "../context";
-import { getAllCourses, getAllSections, getScores } from "../services";
+import { getAllCourses, getScores } from "../services";
 import DropDownCourse from "../components/DropDownCourse";
-import DropDownSection from "../components/DropDownSection";
-import CourseDetail from "./courseDetail";
 
 export default function Course166Container() {
   const [course, setCourse] = useState();
   const [allCourses, setAllCourses] = useState([]);
-  const [allSections, setAllSections] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isHovered, setIsHovered] = useState(false);
@@ -23,7 +20,7 @@ export default function Course166Container() {
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({})
   
-  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
+  const { showSidebar } = useContext(ShowSidebarContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,7 +30,6 @@ export default function Course166Container() {
       semester: searchParams.get("semester"),
       year: searchParams.get("year"),
       courseNo: searchParams.get("courseNo"),
-      section: searchParams.get("section"),
     })
   }, [searchParams])
 
@@ -50,24 +46,11 @@ export default function Course166Container() {
     setUploadScore(false)
     setSelectedCourse(false)
     searchParams.delete('courseNo')
-    searchParams.delete('section')
     setSearchParams(searchParams)
   }
   
   const backToCourse = () => {
-    searchParams.delete('section')
-    setSearchParams(searchParams)
     setUploadScore(false)
-  }
-
-  const getSection = async (params) => {
-    const allSec = await getAllSections(params);
-    if(allSec.ok) {
-      setAllSections(allSec);
-    }
-    else {
-      setAllSections("This Course is not Open.");
-    }
   }
 
   useEffect(() => {
@@ -96,9 +79,6 @@ export default function Course166Container() {
     };
     
     if(!showPopupAddCourse) fetchData();
-    if(params.courseNo !== null) {
-      getSection(params);
-    }
 
     const interval = setInterval(() => {
       setCurrentDate(new Date());
@@ -114,14 +94,12 @@ export default function Course166Container() {
   };
 
 
-  function goToNav() {
-    let url = `semester=${params.semester}&year=${params.year}&courseNo=${params.courseNo}&section=${params.section}`;
-    navigate("?" + url);
+  function goToUpload() {
+    setUploadScore(true);
   }
 
 
   const handleAddCourse = () => {
-    searchParams.delete('section');
     searchParams.delete('courseNo');
     setSearchParams(searchParams);
     setShowPopupAddCourse(true);
@@ -129,7 +107,6 @@ export default function Course166Container() {
 
   const CancelhandleClosePopup = () => {
     searchParams.delete('courseNo')
-    searchParams.delete('section')
     setSearchParams(searchParams)
     setShowPopupAddCourse(false);
   };
@@ -139,11 +116,10 @@ export default function Course166Container() {
     year: ${params.year},
     semester: ${params.semester},
     Course Number: ${params.courseNo},
-    Section: ${params.section}
     `)
     setShowPopupAddCourse(false);
     setSelectedCourse(true);
-    setUploadScore(true)
+    setUploadScore(true);
   };
 
   return (
@@ -156,7 +132,6 @@ export default function Course166Container() {
             className={`${Course.coursetopictext} ${
               showSidebar ? Course.moveRight : ""
             }`}
-            onClick={handleSidebarClick}
           >
             <div>Course {params.semester}/{params.year ? params.year.slice(2) : params.year}</div>
           </div>
@@ -164,12 +139,12 @@ export default function Course166Container() {
             className={` ${Course.datetext} ${
               showSidebar ? Course.moveRight : ""
             }`}
-            onClick={handleSidebarClick}
           >
             {formatDate(currentDate)}
           </div>
           <div
             className={Course.AddCourseButton}
+            onClick={handleAddCourse}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
@@ -193,7 +168,6 @@ export default function Course166Container() {
                 fontWeight: "600",
                 textIndent: "35px",
               }}
-              onClick={handleAddCourse}
             >
               Add Course
             </div> 
@@ -204,17 +178,13 @@ export default function Course166Container() {
                   <div className={Course['AddScorePopup-Content']}>
                     <div className={Course['AddScorePopup-ContentInner']}>
                       <p style={{ color: "white", fontWeight: "600" }}>
-                        Select Course and Section
+                        Select Course
                       </p>
                     </div>
                     <div className={Course.AddScoreInlineContainer}>
                       <p style={{ marginRight: '20px', fontSize:'28px', transform: 'translateY(-5px)'}}>Course:</p>
                       <div className={Course.DropDownContainer}>
                         <DropDownCourse parentToChild={allCourses}/>
-                      </div>
-                      <p style={{ marginRight: '20px', fontSize:'28px', transform: 'translateY(-5px)', marginLeft: '40px'}}>Section:</p>
-                      <div className={Course.DropDownContainer}>
-                        <DropDownSection parentToChild={allSections}/>
                       </div>
                     </div>
                     <div className={Course.AddScorePopupButtons}>
@@ -304,7 +274,6 @@ export default function Course166Container() {
                   className={`${Course.Title} ${
                     showSidebar ? Course.moveRight : ""
                   }`}
-                  onClick={handleSidebarClick}
                 >
                   {isUploadScore ? "Upload Score " : ""}
                   {isShowTableScore}
@@ -313,7 +282,6 @@ export default function Course166Container() {
                   className={` ${Course.Date} ${
                     showSidebar ? Course.moveRight : ""
                   }`}
-                  onClick={handleSidebarClick}
                 >
                   {formatDate(currentDate)}
                 </div>
@@ -358,7 +326,7 @@ export default function Course166Container() {
                         fill={isHovered ? "black" : "#ffffff"}
                       />
                     </svg>
-                    <p onClick={goToNav}>Upload Score</p>
+                    <p onClick={goToUpload}>Upload Score</p>
                   </div>
                   <div
                     className={` ${Course.manageButton} ${
@@ -406,7 +374,7 @@ export default function Course166Container() {
           </>
           <div className={Course.ButtonTitleLayout}>
             <div className={Course.TitleLayout}>
-              
+              {isUploadScore && <UploadSc/>}
             </div>
 
              

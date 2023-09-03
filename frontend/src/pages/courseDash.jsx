@@ -21,7 +21,7 @@ export default function Course166Container() {
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({})
   
-  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
+  const { showSidebar } = useContext(ShowSidebarContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -154,7 +154,6 @@ export default function Course166Container() {
             className={`${Course.coursetopictext} ${
               showSidebar ? Course.moveRight : ""
             }`}
-            onClick={handleSidebarClick}
           >
             <div className="courseName" >Course {params.semester}/{params.year ? params.year.slice(2) : params.year}</div>
           </div>
@@ -162,7 +161,6 @@ export default function Course166Container() {
             className={` ${Course.datetext} ${
               showSidebar ? Course.moveRight : ""
             }`}
-            onClick={handleSidebarClick}
           >
             {formatDate(currentDate)}
           </div>
@@ -310,7 +308,6 @@ export default function Course166Container() {
                 className={`${Course.Title} ${
                   showSidebar ? Course.moveRight : ""
                 }`}
-                onClick={handleSidebarClick}
               >
                 {isUploadScore ? "Upload Score " : ""}
                 {isShowTableScore}
@@ -319,7 +316,6 @@ export default function Course166Container() {
                 className={` ${Course.Date} ${
                   showSidebar ? Course.moveRight : ""
                 }`}
-                onClick={handleSidebarClick}
               >
                 {formatDate(currentDate)}
               </div>

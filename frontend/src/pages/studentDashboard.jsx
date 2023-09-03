@@ -62,21 +62,18 @@ const StudentDashboard = () => {
       <StudentSidebar />
       <div
         className={`stucoursetopictext ${showSidebar ? "move-right" : ""}`}
-        onClick={handleSidebarClick}
       >
         {" "}
         Dashboard{" "}
       </div>
       <div
         className={`studatetext ${showSidebar ? "move-right" : ""}`}
-        onClick={handleSidebarClick}
       >
         {" "}
         {formatDate(currentDate)}
       </div>
       <div
         className={`stuNotiFrame ${showSidebar ? "shrink" : ""}`}
-        onClick={handleSidebarClick}
         style={{ gap: 15 }}
       >
         {notificationData.map((notification, index) => (
