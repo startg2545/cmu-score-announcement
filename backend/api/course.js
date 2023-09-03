@@ -16,7 +16,6 @@ router.post("/add", async (req, res) => {
     });
     const decoded = jwt.decode(token);
     
-    console.log(req.body)
     // find duplicated course
     const course = await courseModel.findOne({
       courseNo: req.body.courseNo,

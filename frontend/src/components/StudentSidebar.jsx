@@ -5,7 +5,7 @@ import { signOut } from "../services";
 import { ShowSidebarContext } from "../context";
 
 const SideBar = () => {
-  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
+  const { showSidebar } = useContext(ShowSidebarContext);
   const navigate = useNavigate();
 
   console.log(showSidebar);

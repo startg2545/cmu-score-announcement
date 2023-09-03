@@ -7,7 +7,7 @@ import * as XLSX from "xlsx";
 
 export default function UploadScorePageContainer() {
   const [sections, setSections] = useState([]);
-  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
+  const { showSidebar } = useContext(ShowSidebarContext);
   const [searchParams, setSearchParams] = useSearchParams({});
   const { userInfo } = useContext(UserInfoContext);
   const [courseNo, setCourseNo] = useState(0);
@@ -217,7 +217,6 @@ export default function UploadScorePageContainer() {
             className={` ${upStyle.ScoreTextBox} ${
               showSidebar ? upStyle["move-right"] : ""
             }`}
-            onClick={handleSidebarClick}
             accept=".xlsx, .xls"
           />
         </div>
@@ -225,7 +224,6 @@ export default function UploadScorePageContainer() {
           className={` ${upStyle.ScoreDescriptionBox} ${
             showSidebar ? upStyle["move-right"] : ""
           }`}
-          onClick={handleSidebarClick}
         >
           <p
             className={upStyle.ScoreFileDescription}
@@ -244,7 +242,7 @@ export default function UploadScorePageContainer() {
           </p>
         </div>
         <div className={upStyle.ScoreInlineContainer}>
-          <div className={upStyle.ScoreText}>Note to student in section</div>
+          <div className={upStyle.ScoreText}>Note to student</div>
         </div>
         <input
           type="text"
@@ -262,7 +260,6 @@ export default function UploadScorePageContainer() {
           className={`${upStyle.ScoreDescriptionBox} ${
             showSidebar ? upStyle["move-right"] : ""
           }`}
-          onClick={handleSidebarClick}
           style={{
             transform: "translateY(30px)",
             marginLeft: "40px",
@@ -287,7 +284,6 @@ export default function UploadScorePageContainer() {
           className={` ${upStyle.ScoreDescriptionBox} ${
             showSidebar ? upStyle["move-right"] : ""
           }`}
-          onClick={handleSidebarClick}
           style={{
             transform: "translateY(38px)",
             marginLeft: "40px",
