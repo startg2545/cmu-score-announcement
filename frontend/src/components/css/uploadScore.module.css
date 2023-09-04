@@ -12,22 +12,21 @@ body {
 
 .Scorecourseframewindow {
   position: absolute;
-  top: calc(135px + 50%);
+  top: calc(150px + 50%);
   bottom: calc(10px + 50%);
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
   max-width: 96.6%;
-  height: calc(59vh);
+  height: calc(61vh);
   justify-content: center;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  border-radius: 25px;
-  border: 3px solid #696ca3;
-  background: #fff;
+
   transition: width 0.4s ease, margin-left 0.4s ease;
   padding-block: 20px;
+  border-bottom: 25px;
 }
 
 .Scoreframewindow-container {
@@ -181,9 +180,9 @@ body {
 .ScoreCancelButton {
   transform: translate(40px, 45px);
   width: 150px;
-  height: 40px;
+  height: 35px;
   flex-shrink: 0;
-  border-radius: 15px;
+  border-radius: 10px;
   border: #cd5340 solid 2px;
   background: #ffffff;
   bottom: 110px;
@@ -199,9 +198,9 @@ body {
 
 .ScoreCancelButtonInner {
   width: 45px;
-  height: 40px;
+  height: 35px;
   flex-shrink: 0;
-  border-radius: 0px 10px 10px 0px;
+  border-radius: 0px 5px 5px 0px;
   background: #d13e10;
   bottom: 110px;
   cursor: pointer;
@@ -225,9 +224,10 @@ body {
 
 .ScoreCancelText {
   position: absolute;
-  right: 60px;
+  right:65px;
   margin: 0;
   font-weight: 700;
+  font-size: 14px;
   color: #cd5340;
   transition: color 0.3s ease;
 }
@@ -235,9 +235,9 @@ body {
 .ScoreConfirmButton {
   transform: translate(60px, 45px);
   width: 150px;
-  height: 40px;
+  height: 35px;
   flex-shrink: 0;
-  border-radius: 15px;
+  border-radius: 10px;
   border: #1b7744 solid 2px;
   background: #ffffff;
   bottom: 110px;
@@ -253,9 +253,9 @@ body {
 
 .ScoreConfirmButtonInner {
   width: 45px;
-  height: 40px;
+  height: 35px;
   flex-shrink: 0;
-  border-radius: 0px 10px 10px 0px;
+  border-radius: 0px 5px 5px 0px;
   background: #23834b;
   bottom: 110px;
   cursor: pointer;
@@ -270,9 +270,10 @@ body {
 
 .ScoreConfirmText {
   position: absolute;
-  right: 60px;
+  right: 65px;
   margin: 0;
   font-weight: 700;
+  font-size: 14px;
   color: #23834b;
   transition: color 0.3s ease;
 }
