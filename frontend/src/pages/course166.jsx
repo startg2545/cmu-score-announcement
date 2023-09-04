@@ -83,11 +83,10 @@ export default function Course166Container() {
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     }, 1000);
-    // Clear the interval when the component unmounts
+    
     return () => clearInterval(interval);
   }, [location, isShowTableScore, searchParams, showPopupAddCourse, getParams, params, setSearchParams, isUploadScore]);
 
-  // Function to format the date as "XX Aug, 20XX"
   const formatDate = (date) => {
     const options = { day: "numeric", month: "short", year: "numeric" };
     return date.toLocaleDateString("en-US", options);
@@ -303,6 +302,7 @@ export default function Course166Container() {
                   </svg>
                     <p>Instructor</p>
                   </div>
+       
                   <div
                     className={` ${Course.box_upload} ${
                       showSidebar ? Course.moveLeft : ""
@@ -313,6 +313,8 @@ export default function Course166Container() {
                     }}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
+                    style={{ boxShadow: isUploadScore ? '0px 4px 4px 0px rgba(0, 0, 0, 0.55) inset' : '', backgroundColor: isUploadScore ? 'white' : ''  }}
+                    
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -323,11 +325,13 @@ export default function Course166Container() {
                     >
                       <path
                         d="M29.8438 14.5C29.8438 14.96 29.6561 15.4011 29.322 15.7264C28.988 16.0516 28.5349 16.2344 28.0625 16.2344H16.7812V27.2188C16.7812 27.6787 16.5936 28.1199 16.2595 28.4451C15.9255 28.7704 15.4724 28.9531 15 28.9531C14.5276 28.9531 14.0745 28.7704 13.7405 28.4451C13.4064 28.1199 13.2188 27.6787 13.2188 27.2188V16.2344H1.9375C1.46508 16.2344 1.01202 16.0516 0.677966 15.7264C0.343917 15.4011 0.15625 14.96 0.15625 14.5C0.15625 14.04 0.343917 13.5989 0.677966 13.2736C1.01202 12.9484 1.46508 12.7656 1.9375 12.7656H13.2188V1.78125C13.2188 1.32127 13.4064 0.88012 13.7405 0.554862C14.0745 0.229603 14.5276 0.046875 15 0.046875C15.4724 0.046875 15.9255 0.229603 16.2595 0.554862C16.5936 0.88012 16.7812 1.32127 16.7812 1.78125V12.7656H28.0625C28.5349 12.7656 28.988 12.9484 29.322 13.2736C29.6561 13.5989 29.8438 14.04 29.8438 14.5Z"
-                        fill={isHovered ? "black" : "#ffffff"}
+                        fill={isHovered ? "black" : (isUploadScore ? "black" : "#ffffff")}
                       />
                     </svg>
-                    <p onClick={goToUpload}>Upload Score</p>
+                    <p onClick={goToUpload}
+                    style={{ color: isUploadScore ? 'black' : ''}}>Upload Score</p>
                   </div>
+           
                   <div
                     className={` ${Course.manageButton} ${
                       showSidebar ? Course.moveLeft : ""
@@ -347,10 +351,11 @@ export default function Course166Container() {
             
               </div>
               <div style={{  height: "calc(87vh - 60px)", width: "100vw", justifyContent: "center", alignItems: "center", display: "flex"}}>
-              <p style={{fontSize: "34px", textAlign: "center", alignItems: "center", fontStyle:"normal", color:'#696CA3', fontWeight: "590"}}>Please select menu in the navigation bar.</p>
+              <p style={{fontSize: "30px", textAlign: "center", alignItems: "center", fontStyle:"normal", color:'#696CA3', fontWeight: "590"}}>Please select menu in the navigation bar</p>
               </div>
             </div>
               {isUploadScore && (
+                
                 <p className={Course.MenuIndex}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -367,11 +372,13 @@ export default function Course166Container() {
                   <label className={Course.date}>Upload Score</label>
                 </p>
               )}
+              
               </div>
             <div className={` ${Course.lineIndex} ${
               showSidebar ? Course.moveRight : ""
             }`}> </div>
           </>
+          
           <div className={Course.ButtonTitleLayout}>
             <div className={Course.TitleLayout}>
               {isUploadScore && <UploadSc/>}
