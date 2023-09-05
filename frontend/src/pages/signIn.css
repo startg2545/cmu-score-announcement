@@ -236,8 +236,8 @@
   }
 
   .popuplogin {
-    width: 90%; /* Adjust the width for tablets */
-    height: 50%; /* Allow content to determine the height */
+    width: 70%; /* Adjust the width for tablets */
+    height: 45%; /* Allow content to determine the height */
   }
 
   .topictext {

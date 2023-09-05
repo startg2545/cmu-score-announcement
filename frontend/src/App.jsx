@@ -16,7 +16,7 @@ import Course166 from "./pages/course166";
 import AddDatabase from "./pages/addDatabase";
 import TableScore from "./components/TableScore";
 import CMUNavbar from "./components/CMUNavbar";
-import StuCourseList from "./pages/stuCourseList";
+
 import { MantineProvider } from "@mantine/core";
 import ErrorView from "./pages/errorView";
 import CourseDash from "./pages/courseDash"
@@ -136,7 +136,7 @@ function App() {
             />
             <Route path="/course" element={<Course166 />} />
             <Route exact path="/table-score" element={<TableScore />} />
-            <Route exact path="/stuCourse-list" element={<StuCourseList />} />
+          
             <Route exact path="/courseDash" element={<CourseDash />} />
           </Routes>
         </Router>
