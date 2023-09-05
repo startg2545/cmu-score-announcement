@@ -363,13 +363,18 @@ export default function Course166Container() {
                     height="12"
                     viewBox="0 0 8 12"
                     fill="none"
+                    className={` ${Course.date} ${
+                      showSidebar ? Course.moveRight : ""
+                    }`}
                   >
                     <path
                       d="M7.43738 6.41702L2.36856 11.3462C2.01821 11.6869 1.4517 11.6869 1.10508 11.3462L0.262759 10.5271C-0.0875863 10.1864 -0.0875863 9.63549 0.262759 9.29842L3.85566 5.80449L0.262759 2.31056C-0.0875863 1.96987 -0.0875863 1.41896 0.262759 1.08189L1.10135 0.255521C1.4517 -0.0851736 2.01821 -0.0851736 2.36483 0.255521L7.43365 5.18472C7.78773 5.52541 7.78773 6.07632 7.43738 6.41702Z"
                       fill="#696CA3"
                     />
                   </svg>
-                  <label className={Course.date}>Upload Score</label>
+                  <label className={` ${Course.date} ${
+                        showSidebar ? Course.moveRight : ""
+                      }`} >Upload Score</label>
                 </p>
               )}
               
