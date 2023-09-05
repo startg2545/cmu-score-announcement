@@ -1,0 +1,65 @@
+.sizeTa {
+  width: 1200px;
+  height: 200px;
+  font-family: "SF PRo";
+}
+
+.colBig {
+  width: 180px;
+  text-align: center;
+  background-color: #d0cdfe;
+  font-family: "SF PRo";
+  
+}
+.colBig.front {
+  border-top-left-radius: 30px;
+}
+.colBig.back {
+  border-top-right-radius: 30px;
+}
+
+.colSml {
+  width: 50px;
+  text-align: center;
+  background-color: #d0cdfe;
+}
+
+.publicBT {
+  width: 30px;
+  height: 18px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background-color: #6fbf77;
+
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+.manageBtDisplay{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 10px
+}
+
+.manageBT{
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    width: 23px;
+    height: 23px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.manageBT.logBT{
+    background-color: #A5A2A2;
+}
+
+.manageBT.editBT{
+    background-color: #FAAE49;
+}
+
+.manageBT.deleteBT{
+    background-color: #E65F56;
+}
