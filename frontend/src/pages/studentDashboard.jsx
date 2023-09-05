@@ -1,118 +1,75 @@
+import React, { useState, useEffect, useContext } from "react";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import "./studentDashboard.css";
-import React, { useContext, useState, useEffect } from "react";
 import { StudentSidebar } from "../components";
 import { ShowSidebarContext } from "../context";
 
-const StudentDashboard = () => {
-  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
-  const [selectedNotification, setSelectedNotification] = useState(null);
+export default function StudentDashboard() {
+    const { showSidebar } = useContext(ShowSidebarContext);
+    const [currentDate, setCurrentDate] = useState(new Date());
 
-  const handleNotificationClick = (notification) => {
-    setSelectedNotification(notification);
-  };
+    useEffect(() => {
+        const interval = setInterval(() => {
+        setCurrentDate(new Date());
+        }, 1000);
 
-  const [currentDate] = useState(new Date());
+        // Clear the interval when the component unmounts
+        return () => clearInterval(interval);
+    }, []);
 
-  // Function to format the date as "XX Aug, 20XX"
-  const formatDate = (date) => {
-    const options = { day: "numeric", month: "short", year: "numeric" };
-    return date.toLocaleDateString("en-US", options);
-  };
+    // Function to format the date as "XX Aug, 20XX"
+    const formatDate = (date) => {
+        const options = { day: "numeric", month: "short", year: "numeric" };
+        return date.toLocaleDateString("en-US", options);
+    };
 
-  const notificationData = [
-    {
-      stucourseName: "261497",
-      stucourseNameDate: "1 Jul",
-      stucourseNameDetail: "Frontend design has been graded",
-    },
-    {
-      stucourseName: "261216",
-      stucourseNameDate: "27 Jun",
-      stucourseNameDetail: "Frontend design has been graded",
-    },
-    {
-      stucourseName: "261336",
-      stucourseNameDate: "22 Jun",
-      stucourseNameDetail: "Lab2 has been graded",
-    },
-    {
-      stucourseName: "261217",
-      stucourseNameDate: "19 Jun",
-      stucourseNameDetail: "HW1 has been graded",
-    },
-    {
-      stucourseName: "261498",
-      stucourseNameDate: "14 Jun",
-      stucourseNameDetail: "HW1 has been graded",
-    },
-    {
-      stucourseName: "261497",
-      stucourseNameDate: "6 Jun",
-      stucourseNameDetail: "HW1 has been graded",
-    },
-    {
-      stucourseName: "261200",
-      stucourseNameDate: "3 Jun",
-      stucourseNameDetail: "HW1 has been graded",
-    },
-  ];
-
-  return (
-    <>
-      <StudentSidebar />
-      <div
-        className={`stucoursetopictext ${showSidebar ? "move-right" : ""}`}
-      >
-        {" "}
-        Dashboard{" "}
-      </div>
-      <div
-        className={`studatetext ${showSidebar ? "move-right" : ""}`}
-      >
-        {" "}
-        {formatDate(currentDate)}
-      </div>
-      <div
-        className={`stuNotiFrame ${showSidebar ? "shrink" : ""}`}
-        style={{ gap: 15 }}
-      >
-        {notificationData.map((notification, index) => (
-          <div
-            className={`stuNotiBox  ${
-              selectedNotification === notification ? "selected" : ""
-            }`}
-            key={index}
-            onClick={() => handleNotificationClick(notification)}
-          >
-            {notification.stucourseName &&
-              notification.stucourseNameDate &&
-              notification.stucourseNameDetail && (
-                <div>
-                  <div className="stucourseName">
-                    {notification.stucourseName}
-                  </div>
-                  <div className="stucourseNameDate">
-                    {notification.stucourseNameDate}
-                  </div>
-                </div>
-              )}
-            {notification.stucourseNameDetail && (
-              <div className="stucourseNameDetail">
-                {notification.stucourseNameDetail}
+    return (
+        <>
+        <div className="boxTop">
+            <div className="containerTitleDate">
+            <div
+                className={`stuCouListcoursetopictext ${showSidebar ? 'move-right' : ''}`} 
+            >
+            Dashboard
+            </div>
+                <div 
+                className={`stuCouListdatetext ${showSidebar ? 'move-right' : ''}`} 
+            > 
+            {formatDate(currentDate)}
+            </div>
+            </div>
               </div>
+            <div
+            className={`stuCouListcourseframewindow ${showSidebar ? 'shrink' : ''}`}   
+            >
+            
+              
+            {Array.from(
+                [
+                { courseNo: 261304, courseName: "COMPUTER ARCHITECTURE", section: "001" },
+                { courseNo: 261335, courseName: "COMPUTER NETWORK", section: "001" },
+                { courseNo: 261336, courseName: "COMPUTER NETWORK LABORATORY", section: "001" },
+                { courseNo: 261342, courseName: "FUND OF DATABASE SYSTEMS", section: "001" },
+                { courseNo: 261343, courseName: "DATABASE SYSTEM LABORATORY ", section: "001" },
+                { courseNo: 261497, courseName: "SEL TOPIC IN COMP SPFT ", section: "003" },
+                // Add more items here as needed
+                ],
+                (item, index) => (
+                <div
+                    key={index}
+                    className={`stuCouListframeEachCourse`}
+                >
+                    <div className={`stuCouListcourseName`}>
+                    <div className={`stuCouListintoCourse`}>
+                        
+                        {item.courseNo} - {item.courseName}  
+                        <div className="stuCouListcourseSection">Section: {item.section}</div>
+                    </div>
+                    </div>
+                </div>
+                )
             )}
-          </div>
-        ))}
-      </div>
-      <div className={`stuDaframewindow ${showSidebar ? "shrink" : ""}`}>
-        {selectedNotification ? (
-          <p className="stuStartText">Score is shown</p>
-        ) : (
-          <p className="stuStartText">No Notification Selected</p>
-        )}
-      </div>
-    </>
-  );
-};
-
-export default StudentDashboard;
+            </div>
+        </>
+    );
+}
