@@ -99,15 +99,18 @@ const CMUNavbar = () => {
       {(userInfo &&
         userInfo.firstName &&
         userInfo.itAccountType === ROLE.STUDENT && (
-          <div
+          <Flex
+            gap="5px"
+            align="flex-end"
+            direction="column"
             style={{
               backgroundColor: "#D0CDFE",
               position: "absolute",
-              height: "70px",
-              width: "200px",
-              marginTop: "4px",
-              display: "flex",
-              right: "40px",
+              height: "fit-content",
+              width: "fit-content",
+              padding: 8,
+              marginTop: isMobileOrTablet ? "8px" : "4px",
+              right: "20px",
               borderRadius: "10px",
               cursor: "pointer",
               boxShadow: "0px 7px 7px 0px rgba(0, 0, 0, 0.55) inset",
@@ -115,17 +118,12 @@ const CMUNavbar = () => {
           >
             <Text
               style={{
-                position: "absolute",
-                top: "20px",
-                left: 15, // Adjust left position as needed
-                color:"black" ,
-                textAlign: "left", // Change to "right" if you want it on the right
+                color: "black",
                 textShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
                 fontFamily: "'SF PRo', sans-serif",
                 fontSize: isMobileOrTablet ? "18px" : "24px",
                 fontWeight: 780,
                 lineHeight: "normal",
-                transform: "translateY(-40%)",
               }}
             >
               Hello, {userInfo.firstName.charAt(0).toUpperCase()}
@@ -134,22 +132,17 @@ const CMUNavbar = () => {
             </Text>
             <Text
               style={{
-                position: "absolute",
-                top: "15px",
-                left: 55, // Adjust left position as needed
                 color: "#696CA3",
-                textAlign: "left",
                 fontFamily: "'SF PRo', sans-serif",
                 fontSize: isMobileOrTablet ? "14px" : "18px",
                 fontWeight: 610,
                 lineHeight: "normal",
-                transform: "translateY(120%)",
               }}
             >
               1/66,{" "}
               {userInfo.itAccountType === "StdAcc" ? "Student" : "Instructor"}
             </Text>
-          </div>
+          </Flex>
         )) ||
         (userInfo.itAccountType === ROLE.INSTRUCTOR && (
           <>
