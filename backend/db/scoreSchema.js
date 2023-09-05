@@ -10,7 +10,7 @@ const scoreSchema = new mongoose.Schema(
         section: String,
         instructor: String,
         coInstructors: [{ type: String }],
-        details: [
+        scores: [
           {
             scoreName: String,
             studentNumber: Number,
