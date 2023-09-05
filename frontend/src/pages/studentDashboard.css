@@ -359,35 +359,35 @@
 }
 
 @media screen and (max-width: 628px) {
-  .logincmulogo {
-    width: 280px;
-    height: 50px;
+  .stuCouListcourseframewindow {
+    width: 92%;
+    height: calc(79vh - 60px);
+    top: 180px;
+    gap: 15px
   }
 
   .stuCouListcoursetopictext {
-    width: 90%; /* Adjust the width for tablets */
-    height: 50%; /* Allow content to determine the height */
+    font-size: 32px;
+    margin-top: 2px;
   }
 
-  .topictext {
-    font-size: 19px; /* Adjust font size for tablets */
-    margin-top: -20px;
+  .stuCouListdatetext {
+    font-size: 22px;
+    margin-top: -6px;
   }
 
-  .logintext {
-    font-size: 16px; /* Adjust font size for tablets */
-    margin-top: -10px;
+  .stuCouListframeEachCourse {
+    width: 88vw;
+    height: 58px;
+    text-indent: 12px;
   }
 
-  .loginbutton {
-    width: 50%; /* Adjust button width for tablets */
-    height: 13%;
-    font-size: 14px; /* Adjust font size for tablets */
+  .stuCouListcourseName {
+    font-size: 14px; /* Adjust font size for smartphones */
   }
 
-  .emblem {
-    height: 22px;
-    width: 22px;
+  .stuCouListcourseSection {
+    font-size: 13px; /* Adjust font size for smartphones */
   }
 }
 
@@ -407,7 +407,7 @@
 
   .stuCouListdatetext {
     font-size: 22px;
-    margin-top: 0px;
+    margin-top: -4px;
   }
 
   .stuCouListframeEachCourse {
