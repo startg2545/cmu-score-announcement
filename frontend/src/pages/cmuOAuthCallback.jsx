@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserInfoContext } from "../context";
-import { Center, Title, Button, Divider } from "@mantine/core";
+import { Title, Button, Flex } from "@mantine/core";
 
 export default function CMUOAuthCallback() {
   const { setUserInfo } = useContext(UserInfoContext);
@@ -72,9 +72,11 @@ export default function CMUOAuthCallback() {
   }, [code, navigate, setUserInfo]);
 
   return (
-    <Center>
-        <Title order={1}>{message || "Redirecting ..."}</Title>
-        <Button onClick={() => navigate("/sign-in")}>Go Back</Button>
-    </Center>
+    <Flex justify="center" align="center" direction="column" gap={50}>
+      <Title maw={500} order={1}>{message || "Redirecting ..."}</Title>
+      <Button maw={125} onClick={() => navigate("/sign-in")}>
+        Go Back
+      </Button>
+    </Flex>
   );
 }
