@@ -309,7 +309,7 @@ export default function Course166Container() {
                     }`}
                     onClick={() => {
                       setUploadScore(true);
-                      document.getElementById('tab-manu').style.cursor = 'pointer';
+                      document.getElementById('tab-menu').style.cursor = 'pointer';
                     }}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
