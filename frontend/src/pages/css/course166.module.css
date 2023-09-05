@@ -517,5 +517,195 @@ transform: scale(1.1);
   line-height: normal;
 }
 
+.ScoreCancelButton {
+  transform: translate(40px, 45px);
+  width: 150px;
+  height: 35px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: #cd5340 solid 2px;
+  background: #ffffff;
+  bottom: 110px;
+  cursor: pointer;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  text-indent: -35px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.ScoreCancelButtonInner {
+  width: 45px;
+  height: 35px;
+  flex-shrink: 0;
+  border-radius: 0px 5px 5px 0px;
+  background: #d13e10;
+  bottom: 110px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  text-indent: -15px;
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.ScoreCancelButton:hover {
+  background: #d13e10;
+  transition: background-color 0.3s ease;
+}
+
+.ScoreCancelButton:hover .ScoreCancelText {
+  color: #ffffff;
+}
+
+.ScoreCancelText {
+  position: absolute;
+  right:65px;
+  margin: 0;
+  font-weight: 700;
+  font-size: 14px;
+  color: #cd5340;
+  transition: color 0.3s ease;
+}
+
+.ScoreConfirmButton {
+  transform: translate(60px, 45px);
+  width: 150px;
+  height: 35px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: #1b7744 solid 2px;
+  background: #ffffff;
+  bottom: 110px;
+  cursor: pointer;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  text-indent: -35px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.ScoreConfirmButtonInner {
+  width: 45px;
+  height: 35px;
+  flex-shrink: 0;
+  border-radius: 0px 5px 5px 0px;
+  background: #23834b;
+  bottom: 110px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  text-indent: -15px;
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.ScoreConfirmText {
+  position: absolute;
+  right: 65px;
+  margin: 0;
+  font-weight: 700;
+  font-size: 14px;
+  color: #23834b;
+  transition: color 0.3s ease;
+}
+
+.ScoreConfirmButton:hover {
+  background: #23834b;
+  transition: background-color 0.3s ease;
+}
+
+.ScoreConfirmButton:hover .ScoreConfirmText {
+  color: #ffffff;
+}
+
+.ScorePopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.ScorePopup-Content {
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.8);
+  height: 250px;
+  width: 450px;
+  font-weight: 500;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+}
+
+.ScorePopup-ContentInner {
+  background-color: #8084c8;
+  border-radius: 10px 10px 0px 0px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+  height: 45px;
+  width: 530px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 24px;
+  transform: translateY(-40px);
+}
+
+.instructorPopupButtons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.AddPopupButton {
+  width: 120px;
+  height: 35px;
+  border-radius: 10px;
+  border: 1px;
+  background: linear-gradient(180deg, rgba(36, 43, 176, 0.4) 0%, #535adf 100%);
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 10px;
+  cursor: pointer;
+  transform: translateY(10px);
+}
+
+.CancelPopupButton {
+  width: 120px;
+  height: 35px;
+  border-radius: 10px;
+  border: 1px;
+  background: #fff;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.15);
+  font-size: 18px;
+  margin: 0 10px;
+  cursor: pointer;
+  transform: translateY(10px);
+}
+
+.ScoreSvgInline {
+  display: flex;
+  justify-content: center;
+}
+
 
 

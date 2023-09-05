@@ -113,26 +113,28 @@ export default function UploadScorePageContainer() {
         };
         results_list[j] = obj;
 
-        if(countSec === 0) {
+        if (countSec === 0) {
           arr[countSec] = {
             section: results[j]["section"],
             instructor: userInfo.cmuAccount,
             details: null,
-          }
+          };
           countSec++;
-        }
-        else if (!arr.some(e => e.section === results[j]["section"])) {
+        } else if (!arr.some((e) => e.section === results[j]["section"])) {
           arr[countSec] = {
             section: results[j]["section"],
             instructor: userInfo.cmuAccount,
             details: null,
-          }
+          };
           countStudentEachSection.push(countStudent);
           countStudent = 0;
           countSec++;
         }
         countStudent++;
-        if(parseInt(j) === results.length - 1 && countStudentEachSection.length !== arr.length) {
+        if (
+          parseInt(j) === results.length - 1 &&
+          countStudentEachSection.length !== arr.length
+        ) {
           countStudentEachSection.push(countStudent);
         }
       }
@@ -147,8 +149,10 @@ export default function UploadScorePageContainer() {
         details_list[i] = obj;
       }
     }
-    arr.map(e => e.details = details_list);
-    arr.map((e, i) => e.details.map(item => item.studentNumber = countStudentEachSection[i]));
+    arr.map((e) => (e.details = details_list));
+    arr.map((e, i) =>
+      e.details.map((item) => (item.studentNumber = countStudentEachSection[i]))
+    );
     setSections(arr);
   }
 
