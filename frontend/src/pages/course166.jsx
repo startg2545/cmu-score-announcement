@@ -3,7 +3,7 @@ import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import { SideBar, UploadSc } from "../components";
 import { ShowSidebarContext } from "../context";
-import { getAllCourses, getScores } from "../services";
+import { addCourse, getAllCourses, getScores } from "../services";
 import DropDownCourse from "../components/DropDownCourse";
 import { TextInput, Button, Flex } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -48,6 +48,7 @@ export default function Course166Container() {
           ? null
           : "Please enter a valid email address ending with @cmu.ac.th",
     },
+    // validateInputOnChange: true,
     validateInputOnBlur: true,
   });
 
@@ -79,30 +80,31 @@ export default function Course166Container() {
     setUploadScore(false);
   };
 
+  const fetchData = async () => {
+    const allCourse = await getAllCourses();
+    setAllCourses(allCourse);
+    const resp = await getScores();
+    if (resp) {
+      const data = resp.filter(
+        (item) =>
+          item.year === parseInt(params.year) &&
+          item.semester === parseInt(params.semester)
+      );
+      data.forEach((e, index) => {
+        allCourse.courseDetails.forEach((all) => {
+          if (e.courseNo === all.courseNo) {
+            data[index].courseName = all.courseNameEN;
+          }
+        });
+      });
+      setCourse(data);
+    }
+  };
+
   useEffect(() => {
     if (isUploadScore === true) {
       document.getElementById("tab-menu").style.cursor = "pointer";
     }
-    const fetchData = async () => {
-      const allCourse = await getAllCourses();
-      setAllCourses(allCourse);
-      const resp = await getScores();
-      if (resp) {
-        const data = resp.filter(
-          (item) =>
-            item.year === parseInt(params.year) &&
-            item.semester === parseInt(params.semester)
-        );
-        data.forEach((e, index) => {
-          allCourse.courseDetails.forEach((all) => {
-            if (e.courseNo === all.courseNo) {
-              data[index].courseName = all.courseNameEN;
-            }
-          });
-        });
-        setCourse(data);
-      }
-    };
 
     if (!showPopupAddCourse) fetchData();
 
@@ -143,15 +145,19 @@ export default function Course166Container() {
     setShowPopupAddCourse(false);
   };
 
-  const ConfirmhandleClosePopup = () => {
+  const ConfirmhandleClosePopup = async () => {
     console.log(`
     year: ${params.year},
     semester: ${params.semester},
     Course Number: ${params.courseNo},
     `);
     setShowPopupAddCourse(false);
-    setSelectedCourse(true);
-    setUploadScore(true);
+    await addCourse({
+      year: parseInt(params.year),
+      semester: parseInt(params.semester),
+      courseNo: params.courseNo,
+    });
+    fetchData();
   };
 
   return (
@@ -208,14 +214,14 @@ export default function Course166Container() {
             </div>
           </div>
           {showPopupAddCourse && (
-            <div className={Course.AddScorePopup}>
-              <div className={Course["AddScorePopup-Content"]}>
-                <div className={Course["AddScorePopup-ContentInner"]}>
+            <div className={Course.AddCoursePopup}>
+              <div className={Course["AddCoursePopup-Content"]}>
+                <div className={Course["AddCoursePopup-ContentInner"]}>
                   <p style={{ color: "white", fontWeight: "600" }}>
                     Select Course
                   </p>
                 </div>
-                <div className={Course.AddScoreInlineContainer}>
+                <div className={Course.AddCourseInlineContainer}>
                   <p
                     style={{
                       marginRight: "20px",
@@ -229,19 +235,25 @@ export default function Course166Container() {
                     <DropDownCourse parentToChild={allCourses} />
                   </div>
                 </div>
-                <div className={Course.AddScorePopupButtons}>
-                  <button
-                    className={Course.AddScoreCancelPopupStayButton}
+                <div className={Course.AddCoursePopupButtons}>
+                  <Button
+                    className={Course.AddCourseCancelButton}
                     onClick={CancelhandleClosePopup}
+                    sx={{
+                      color: "black",
+                      "&:hover": {
+                        backgroundColor: "#F0EAEA",
+                      },
+                    }}
                   >
                     Cancel
-                  </button>
-                  <button
-                    className={Course.AddScoreCancelPopupLeaveButton}
+                  </Button>
+                  <Button
+                    className={Course.AddCourseConfirmButton}
                     onClick={ConfirmhandleClosePopup}
                   >
                     Confirm
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -279,7 +291,14 @@ export default function Course166Container() {
                 Add Co-Instructor
               </p>
             </div>
-            <p style={{ marginTop: "-10px", fontSize: "18px" }}>
+            <p
+              style={{
+                marginTop: "-10px",
+                fontSize: "15px",
+                color: "#676666",
+                fontFamily: "SF Pro",
+              }}
+            >
               Co-Instructors have full access to edit and change scores in all
               documents. Input an email with the domain cmu.ac.th to invite.
             </p>
@@ -292,9 +311,9 @@ export default function Course166Container() {
               <TextInput
                 placeholder="Type email to add co-instructor"
                 className={Course.instructorNameInput}
-                fs={18}
-                w={350}
-                mt={10}
+                fs={20}
+                w={450}
+                mt={5}
                 ta="center"
                 {...emailform.getInputProps("email")}
               />
@@ -305,7 +324,7 @@ export default function Course166Container() {
                   sx={{
                     color: "black",
                     "&:hover": {
-                      backgroundColor: "#e25050",
+                      backgroundColor: "#F0EAEA",
                     },
                   }}
                 >
@@ -508,6 +527,7 @@ export default function Course166Container() {
                         fontStyle: "normal",
                         color: "#696CA3",
                         fontWeight: "590",
+                        fontFamily: "SF Pro",
                       }}
                     >
                       Please select menu in the navigation bar
