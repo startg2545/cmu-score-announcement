@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Box, Flex, Text, Group } from "@mantine/core"; // Removed Paper
+import { Box, Flex, Text, Group, Menu } from "@mantine/core"; // Removed Paper
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROLE, ShowSidebarContext, UserInfoContext } from "../context";
 import { CheckPermission } from "../utility/main";
 import { signOut } from "../services";
 import { useMediaQuery } from "@mantine/hooks";
-
 import cmulogo from "../image/cmulogo.png";
+import style from "./css/component.module.css";
+import { FaSignOutAlt } from "react-icons/fa";
 
 const CMUNavbar = () => {
   const { handleSidebarClick } = useContext(ShowSidebarContext);
@@ -99,50 +100,77 @@ const CMUNavbar = () => {
       {(userInfo &&
         userInfo.firstName &&
         userInfo.itAccountType === ROLE.STUDENT && (
-          <Flex
-            gap="5px"
-            align="flex-end"
-            direction="column"
-            style={{
-              backgroundColor: "#D0CDFE",
-              position: "absolute",
-              height: "fit-content",
-              width: "fit-content",
-              padding: 8,
-              marginTop: isMobileOrTablet ? "8px" : "4px",
-              right: "20px",
-              borderRadius: "10px",
-              cursor: "pointer",
-              boxShadow: "0px 7px 7px 0px rgba(0, 0, 0, 0.55) inset",
-            }}
-          >
-            <Text
-              style={{
-                color: "black",
-                textShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-                fontFamily: "'SF PRo', sans-serif",
-                fontSize: isMobileOrTablet ? "18px" : "24px",
-                fontWeight: 780,
-                lineHeight: "normal",
-              }}
-            >
-              Hello, {userInfo.firstName.charAt(0).toUpperCase()}
-              {userInfo.firstName.slice(1).toLowerCase()}{" "}
-              {userInfo.lastName && userInfo.lastName.charAt(0).toUpperCase()}.
-            </Text>
-            <Text
-              style={{
-                color: "#696CA3",
-                fontFamily: "'SF PRo', sans-serif",
-                fontSize: isMobileOrTablet ? "14px" : "18px",
-                fontWeight: 610,
-                lineHeight: "normal",
-              }}
-            >
-              1/66,{" "}
-              {userInfo.itAccountType === "StdAcc" ? "Student" : "Instructor"}
-            </Text>
-          </Flex>
+          <Menu position="top-end" width="fit-content">
+            <Menu.Target>
+              <Flex
+                gap="5px"
+                align="flex-end"
+                direction="column"
+                style={{
+                  backgroundColor: "#D0CDFE",
+                  position: "absolute",
+                  height: "fit-content",
+                  width: "fit-content",
+                  padding: 8,
+                  marginTop: isMobileOrTablet ? "8px" : "4px",
+                  right: "20px",
+                  borderRadius: "10px",
+                  cursor: "pointer",
+                  boxShadow: "0px 7px 7px 0px rgba(0, 0, 0, 0.55) inset",
+                }}
+              >
+                <Text
+                  style={{
+                    color: "black",
+                    textShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
+                    fontFamily: "'SF PRo', sans-serif",
+                    fontSize: isMobileOrTablet ? "18px" : "24px",
+                    fontWeight: 780,
+                    lineHeight: "normal",
+                  }}
+                >
+                  Hello, {userInfo.firstName.charAt(0).toUpperCase()}
+                  {userInfo.firstName.slice(1).toLowerCase()}{" "}
+                  {userInfo.lastName &&
+                    userInfo.lastName.charAt(0).toUpperCase()}
+                  .
+                </Text>
+                <Text
+                  style={{
+                    color: "#696CA3",
+                    fontFamily: "'SF PRo', sans-serif",
+                    fontSize: isMobileOrTablet ? "14px" : "18px",
+                    fontWeight: 610,
+                    lineHeight: "normal",
+                  }}
+                >
+                  1/66,{" "}
+                  {userInfo.itAccountType === "StdAcc"
+                    ? "Student"
+                    : "Instructor"}
+                </Text>
+              </Flex>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item
+                bg="#f52a2a"
+                ta="center"
+                color="white"
+                ff={"SF PRo, sans-serif"}
+                fw={750}
+                fz={isMobileOrTablet ? "md" : "lg"}
+                icon={<FaSignOutAlt size={isMobileOrTablet ? 20 : 24} />}
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "#f56464",
+                  },
+                }}
+                onClick={() => signOut().finally(navigate("/sign-in"))}
+              >
+                Log out
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         )) ||
         (userInfo.itAccountType === ROLE.INSTRUCTOR && (
           <>
