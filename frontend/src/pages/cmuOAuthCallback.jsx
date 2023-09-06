@@ -5,7 +5,7 @@ import { UserInfoContext } from "../context";
 import { Title, Button, Flex } from "@mantine/core";
 
 export default function CMUOAuthCallback() {
-  const { setUserInfo } = useContext(UserInfoContext);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const queryParameters = new URLSearchParams(window.location.search);
   const code = queryParameters.get("code");
   const navigate = useNavigate();
@@ -72,11 +72,11 @@ export default function CMUOAuthCallback() {
   }, [code, navigate, setUserInfo]);
 
   return (
-    <Flex justify="center" align="center" direction="column" gap={50}>
+    <Flex m={50} justify="center" align="center" direction="column" gap={50}>
       <Title maw={500} order={1}>{message || "Redirecting ..."}</Title>
-      <Button maw={125} onClick={() => navigate("/sign-in")}>
+      {!userInfo && <Button maw={125} onClick={() => navigate("/sign-in")}>
         Go Back
-      </Button>
+      </Button>}
     </Flex>
   );
 }
