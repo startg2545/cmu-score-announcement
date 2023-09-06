@@ -686,7 +686,7 @@ transform: scale(1.1);
   font-weight: 600;
   margin: 0 10px;
   cursor: pointer;
-  transform: translateY(10px);
+  /* transform: translateY(10px); */
 }
 
 .CancelPopupButton {
@@ -699,7 +699,7 @@ transform: scale(1.1);
   font-size: 18px;
   margin: 0 10px;
   cursor: pointer;
-  transform: translateY(10px);
+  /* transform: translateY(10px); */
 }
 
 .ScoreSvgInline {

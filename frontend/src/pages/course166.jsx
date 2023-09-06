@@ -5,7 +5,7 @@ import { SideBar, UploadSc } from "../components";
 import { ShowSidebarContext } from "../context";
 import { getAllCourses, getScores } from "../services";
 import DropDownCourse from "../components/DropDownCourse";
-import { TextInput, Button } from "@mantine/core";
+import { TextInput, Button, Flex } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 export default function Course166Container() {
@@ -33,32 +33,22 @@ export default function Course166Container() {
     setShowPopup(true);
   };
 
-  const instructorCancelhandleClosePopup = () => {
+  const instructorClosePopup = () => {
     setShowPopup(false);
+    emailform.reset();
   };
 
-  // const handleEmailChange = (e) => {
-  //   const inputValue = e.target.value;
-  //   setEmail(inputValue);
-  // };
-
-  // const handleAddClick = () => {
-  //   if (isValidEmail) {
-  //     setShowPopup(false);
-  //   }
-  // };
-
-  const uuform = useForm({
+  const emailform = useForm({
     initialValues: {
       email: "",
     },
-
     validate: {
       email: (value) =>
-        /^[a-zA-Z0-9._%+-]+@cmu\.ac\.th$/i.test(value)
+        /^\S+@cmu\.ac\.th$/i.test(value)
           ? null
           : "Please enter a valid email address ending with @cmu.ac.th",
     },
+    validateInputOnBlur: true,
   });
 
   const getParams = useMemo(() => {
@@ -293,34 +283,46 @@ export default function Course166Container() {
               Co-Instructors have full access to edit and change scores in all
               documents. Input an email with the domain cmu.ac.th to invite.
             </p>
-            <form onSubmit={uuform.onSubmit((values) => console.log(values))}>
+            <form
+              onSubmit={emailform.onSubmit((data) => {
+                console.log(data);
+                instructorClosePopup();
+              })}
+            >
               <TextInput
                 placeholder="Type email to add co-instructor"
                 className={Course.instructorNameInput}
-                style={{
-                  
-                  fontSize: "18px",
-                  marginTop: "0px",
-                  width: "100%",
-                  height: "40px",
-                  textIndent: "10px",
-                }}
-                {...uuform.getInputProps("email")}
+                fs={18}
+                w={350}
+                mt={10}
+                ta="center"
+                {...emailform.getInputProps("email")}
               />
-              <div className={Course.instructorPopupButtons}>
+              <Flex className={Course.instructorPopupButtons}>
                 <Button
-              
                   className={Course.CancelPopupButton}
-                  onClick={instructorCancelhandleClosePopup}
-                  type=""
-                  style={{color: 'black'}}
+                  onClick={instructorClosePopup}
+                  sx={{
+                    color: "black",
+                    "&:hover": {
+                      backgroundColor: "#e25050",
+                    },
+                  }}
                 >
                   Cancel
                 </Button>
-                <Button className={Course.AddPopupButton} type="submit">
+                <Button
+                  className={Course.AddPopupButton}
+                  type="submit"
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "#d499ff",
+                    },
+                  }}
+                >
                   Add
                 </Button>
-              </div>
+              </Flex>
             </form>
           </div>
         </div>
