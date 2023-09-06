@@ -76,17 +76,17 @@ function App() {
     };
   }, [userInfo, showSidebar, setUser]);
 
-  // useEffect(() => {
-  //   if (
-  //     userInfo &&
-  //     userInfo.itAccountType === ROLE.INSTRUCTOR &&
-  //     pathname !== "/errorView" &&
-  //     ((screenSize.width < 1200 && screenSize.height < 900) ||
-  //       (screenSize.width < 900 && screenSize.height < 1200))
-  //   ) {
-  //     window.location.replace("/errorView");
-  //   }
-  // }, [screenSize]);
+  useEffect(() => {
+    if (
+      userInfo &&
+      userInfo.itAccountType === ROLE.INSTRUCTOR &&
+      pathname !== "/errorView" &&
+      ((screenSize.width < 1200 && screenSize.height < 900) ||
+        (screenSize.width < 900 && screenSize.height < 1200))
+    ) {
+      window.location.replace("/errorView");
+    }
+  }, [screenSize]);
 
   return (
     <MantineProvider>
