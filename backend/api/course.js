@@ -35,7 +35,7 @@ router.post("/add", async (req, res) => {
         courseNo: req.body.courseNo,
         year: req.body.year,
         semester: req.body.semester,
-        sections: req.body.sections
+        // sections: req.body.sections
       });
       newCourse.save();
       return res.send(newCourse);
