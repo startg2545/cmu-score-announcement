@@ -1,20 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getScores } from '../services';
-import { useSearchParams } from 'react-router-dom';
 
 const CourseDetail = () => {
   const [details, setDetails] = useState([])
-  const [searchParams, setSearchParams] = useSearchParams({});
   const [params, setParams] = useState({})
-
-  const getParams = useMemo(() => {
-    setParams({
-      section: searchParams.get("section"),
-      semester: searchParams.get("semester"),
-      year: searchParams.get("year"),
-      courseNo: searchParams.get("courseNo"),
-    })
-  }, [searchParams])
+  
   useEffect(()=>{
     const fetchData = async () => {
       const resp = await getScores();
@@ -35,30 +25,6 @@ const CourseDetail = () => {
   }, [params])
   return (
     <div>
-    {/* {scores.map(function(score, i){
-      return (
-      <div key={i} >
-        {score.sections.map(function(section, j){
-        return (
-        <div key={j}>
-          <button onClick={()=>{
-            setselected({
-              section: section.section,
-              instructor: section.instructor,
-              coInstructor: section.coInstructor,
-            })
-            setDetails(section.details)
-          }}>
-            <label>Course Number: {score.courseNo}</label>
-            <label>, Section: {section.section}</label>
-            <label>, ({score.semester}/{score.year})</label>
-          </button>
-        </div>
-        )
-        })}
-      </div>
-      )
-    })} */}
     <table id='table'>
       <tbody>
       <tr>
