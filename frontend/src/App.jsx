@@ -84,7 +84,7 @@ function App() {
       ((screenSize.width < 1200 && screenSize.height < 900) ||
         (screenSize.width < 900 && screenSize.height < 1200))
     ) {
-      window.location.replace("/errorView");
+      // window.location.replace("/errorView");
     }
   }, [userInfo, screenSize]);
 
