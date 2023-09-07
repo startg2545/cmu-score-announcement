@@ -277,7 +277,7 @@ export default function Course166Container() {
                   >
                     <div className={Course.courseName}>
                       <div className={Course.intoCourse}>
-                        {item.courseNo} - {item.courseName}
+                        {item.courseNo}{item.courseName ?` - ${item.courseName}`: null}
                       </div>
                     </div>
                   </div>
