@@ -1,5 +1,5 @@
 @font-face {
-  font-family: "SF PRo";
+  font-family: "SF Pro";
   src: url(../font/SF-Pro.ttf) format("truetype");
   /* You can specify other font formats (e.g., woff, woff2) as needed */
 }
@@ -42,7 +42,7 @@
 
 .coursetopictext {
   color: #696ca3;
-  font-family: "SF PRo", sans-serif;
+  font-family: "SF Pro", sans-serif;
   font-size: 52px;
   font-style: normal;
   font-weight: 540;
@@ -53,7 +53,7 @@
 
 .datetext {
   color: #696ca3;
-  font-family: "SF PRo", sans-serif;
+  font-family: "SF Pro", sans-serif;
   font-size: 28px;
   font-style: normal;
   font-weight: 450;
@@ -114,7 +114,7 @@
 .courseName {
   color: #ffffff;
   text-align: center;
-  font-family: "SF PRo", sans-serif;
+  font-family: "SF Pro", sans-serif;
   font-size: 28px;
   font-style: normal;
   font-weight: 500;
@@ -142,7 +142,7 @@
   align-self: center;
   bottom: 110px;
   cursor: pointer;
-  font-family: "SF PRo";
+  font-family: "SF Pro", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -200,7 +200,7 @@
   align-items: center;
   gap: 21px;
   color: #696ca3;
-  font-family: SF Pro;
+  font-family: "SF Pro", sans-serif;
   font-size: 22px;
   font-style: normal;
   font-weight: 510;
@@ -241,7 +241,7 @@
 
 .Title {
   color: #ffffff;
-  font-family: SF Pro;
+  font-family: "SF Pro", sans-serif;
   font-size: 38px;
   font-style: normal;
   font-weight: 590;
@@ -252,7 +252,7 @@
 
 .Date {
   color: #ffffff;
-  font-family: "SF PRo", sans-serif;
+  font-family: "SF Pro", sans-serif;
   font-size: 20px;
   font-style: normal;
   font-weight: 450;
@@ -299,7 +299,7 @@
   border-radius: 20px;
   border: 3px solid #8584c5;
   cursor: pointer;
-  font-family: "SF Pro";
+  font-family: "SF Pro", sans-serif;
   transition: background-color 0.3s ease;
   font-size: 18px;
   font-weight: 600;
@@ -361,12 +361,12 @@ transform: scale(1.1);
   margin-top: 10px;
 }
 
-/* Styles for the overlay background */
-.AddScorePopup {
+.AddCoursePopup {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
+  font-family: "SF Pro", sans-serif;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
@@ -375,15 +375,16 @@ transform: scale(1.1);
   z-index: 1000;
 }
 
-.AddScorePopup-Content {
+.AddCoursePopup-Content {
 
   background-color: white;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.8);
   height: 200px;
-  width: 850px;
+  width: 550px;
   font-weight: 500;
+  font-family: "SF Pro", sans-serif;
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -391,12 +392,12 @@ transform: scale(1.1);
   padding: 20px;
 }
 
-.AddScorePopup-ContentInner {
+.AddCoursePopup-ContentInner {
   background-color: #8084c8;
   border-radius: 10px 10px 0px 0px;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
   height: 45px;
-  width: 890px;
+  width: 590px;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -410,54 +411,66 @@ transform: scale(1.1);
   transform: translateY(-40px);
   height: 10px;
   z-index: 1;
+  font-family: "SF Pro", sans-serif;
 }
 
 
-.AddScorePopupButtons {
+.AddCoursePopupButtons {
   display: flex;
+  font-family: "SF Pro", sans-serif;
   margin-top: 0px;
 }
 
-.AddScoreCancelPopupStayButton,
-.AddScoreCancelPopupLeaveButton {
-  transform: translateY(-10px);
+.AddCourseCancelButton,
+.AddCourseConfirmButton {
+
   margin: 0 10px;
   cursor: pointer;
+  font-family: "SF Pro", sans-serif;
 }
 
-.AddScoreCancelPopupStayButton {
+.AddCourseCancelButton {
   width: 120px;
   height: 35px;
   border-radius: 10px;
   border: 1px;
   background: #fff;
-  border: #000000 solid 2px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.15);
   font-size: 18px;
+  margin: 0 10px;
+  cursor: pointer;
+  font-family: "SF Pro", sans-serif;
 }
 
-.AddScoreCancelPopupLeaveButton {
+.AddCourseConfirmButton {
   width: 120px;
   height: 35px;
   border-radius: 10px;
   border: 1px;
   background: linear-gradient(180deg, rgba(36, 43, 176, 0.4) 0%, #535adf 100%);
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.15);
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
+  margin: 0 10px;
+  cursor: pointer;
+  font-family: "SF Pro", sans-serif;
 }
 
-.AddScoreInlineContainer {
+.AddCourseInlineContainer {
   display: flex; 
   align-items: center;
   margin-bottom: 30px;
   transition: transform 0.3s ease;
   margin-top: -15px;
+  font-family: "SF Pro", sans-serif;
 }
 
 
 
 
 .frameCourseDash {
+  font-family: "SF Pro", sans-serif;
   position: absolute;
   top: calc(62px + 50%);
   left: 50%;
@@ -510,7 +523,7 @@ transform: scale(1.1);
 {
   color: #696CA3;
   text-align: center;
-  font-family: SF Pro;
+  font-family: "SF Pro", sans-serif;
   font-size: 36px;
   font-style: normal;
   font-weight: 590;
@@ -645,8 +658,9 @@ transform: scale(1.1);
   padding: 40px;
   border-radius: 10px;
   box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.8);
-  height: 250px;
+  height: 200px;
   width: 450px;
+  font-family: "SF Pro", sans-serif;
   font-weight: 500;
   align-items: center;
   display: flex;
@@ -666,12 +680,14 @@ transform: scale(1.1);
   flex-direction: column;
   font-size: 24px;
   transform: translateY(-40px);
+  font-family: "SF Pro", sans-serif;
 }
 
 .instructorPopupButtons {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  font-family: "SF Pro", sans-serif;
 }
 
 .AddPopupButton {
@@ -686,6 +702,7 @@ transform: scale(1.1);
   font-weight: 600;
   margin: 0 10px;
   cursor: pointer;
+  font-family: "SF Pro", sans-serif;
   /* transform: translateY(10px); */
 }
 
@@ -699,6 +716,7 @@ transform: scale(1.1);
   font-size: 18px;
   margin: 0 10px;
   cursor: pointer;
+  font-family: "SF Pro", sans-serif;
   /* transform: translateY(10px); */
 }
 

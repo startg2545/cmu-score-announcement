@@ -100,14 +100,23 @@ const CMUNavbar = () => {
       {(userInfo &&
         userInfo.firstName &&
         userInfo.itAccountType === ROLE.STUDENT && (
-          <Menu position="top-end" width="fit-content">
+          <Menu
+            position="top-end"
+            width="fit-content"
+            sx={{
+              backgroundColor: "#D0CDFE",
+              "&:hover": {
+                backgroundColor: "#ffffff",
+              },
+              cursor: "pointer",
+            }}
+          >
             <Menu.Target>
               <Flex
                 gap="5px"
                 align="flex-end"
                 direction="column"
                 style={{
-                  backgroundColor: "#D0CDFE",
                   position: "absolute",
                   height: "fit-content",
                   width: "fit-content",
@@ -115,7 +124,6 @@ const CMUNavbar = () => {
                   marginTop: isMobileOrTablet ? "8px" : "4px",
                   right: "20px",
                   borderRadius: "10px",
-                  cursor: "pointer",
                   boxShadow: "0px 7px 7px 0px rgba(0, 0, 0, 0.55) inset",
                 }}
               >

@@ -74,7 +74,7 @@ export default function CMUOAuthCallback() {
   return (
     <Flex m={50} justify="center" align="center" direction="column" gap={50}>
       <Title maw={500} order={1}>{message || "Redirecting ..."}</Title>
-      {!userInfo && <Button maw={125} onClick={() => navigate("/sign-in")}>
+      {!userInfo.itAccountType && <Button maw={125} onClick={() => navigate("/sign-in")}>
         Go Back
       </Button>}
     </Flex>
