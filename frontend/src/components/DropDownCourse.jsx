@@ -8,7 +8,9 @@ const DropDownCourse = ({parentToChild}) => {
   const [selectedCourse, setSelectedCourse] = useState("Select Course");
 
   const onClickDropDown = () => {
-    setDropDown(!isDropDown);
+    if(parentToChild.courseDetails) {
+      setDropDown(!isDropDown);
+    }
   };
   const onClickCourse = (sec) => {
     setSelectedCourse(sec);
@@ -58,7 +60,6 @@ const DropDownCourse = ({parentToChild}) => {
           </svg>
         </p>
       </div>
-
       {isDropDown && (
         <ul className={`${styleDrop.sec_menu} ${styleDrop.scroll}`}>
           {parentToChild.courseDetails.map(function (data, key) {
