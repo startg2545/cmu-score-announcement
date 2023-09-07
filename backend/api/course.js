@@ -2,6 +2,7 @@ const express = require("express");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
 const courseModel = require("../db/scoreSchema");
+const e = require("express");
 const router = express.Router();
 
 // add course & score
@@ -15,7 +16,7 @@ router.post("/add", async (req, res) => {
         return res.status(403).send({ ok: false, message: "Invalid token" });
     });
     const decoded = jwt.decode(token);
-    
+
     // find duplicated course
     const course = await courseModel.findOne({
       courseNo: req.body.courseNo,
@@ -27,7 +28,7 @@ router.post("/add", async (req, res) => {
       courseNo: req.body.courseNo,
       year: req.body.year,
       semester: req.body.semester,
-      "sections.section": req.body.sections[0].section,
+      sections: req.body.sections,
     });
     // add new course
     if (!course) {
@@ -40,9 +41,11 @@ router.post("/add", async (req, res) => {
       newCourse.save();
       return res.send(newCourse);
     } else if (!section) {
-      course.sections.push(req.body.sections[0])
+      req.body.sections.forEach((e) => {
+        course.sections.push(e);
+      });
       await course.save();
-      return res.send(course)
+      return res.send(course);
     }
 
     return res.send({
@@ -72,7 +75,7 @@ router.put("/", async (req, res) => {
         "sections.section": req.query.section,
       },
       {
-        $push: {"sections.$.coInstructors": req.query.coInstructors},
+        $push: { "sections.$.coInstructors": req.query.coInstructors },
       },
       { new: true }
     );
