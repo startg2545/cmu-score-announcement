@@ -102,6 +102,7 @@ const CMUNavbar = () => {
         userInfo.itAccountType === ROLE.STUDENT && (
           <Menu
             position="top-end"
+            radius={20}
             width="fit-content"
             sx={{
               backgroundColor: "#D0CDFE",
@@ -109,6 +110,12 @@ const CMUNavbar = () => {
                 backgroundColor: "#ffffff",
               },
               cursor: "pointer",
+              position: "absolute",
+              padding: 8,
+              marginTop: isMobileOrTablet ? "8px" : "4px",
+              right: "20px",
+              borderRadius: "10px",
+              
             }}
           >
             <Menu.Target>
@@ -116,16 +123,6 @@ const CMUNavbar = () => {
                 gap="5px"
                 align="flex-end"
                 direction="column"
-                style={{
-                  position: "absolute",
-                  height: "fit-content",
-                  width: "fit-content",
-                  padding: 8,
-                  marginTop: isMobileOrTablet ? "8px" : "4px",
-                  right: "20px",
-                  borderRadius: "10px",
-                  boxShadow: "0px 7px 7px 0px rgba(0, 0, 0, 0.55) inset",
-                }}
               >
                 <Text
                   style={{
