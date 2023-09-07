@@ -1,8 +1,44 @@
 import React from "react";
+import { useState , useEffect , useMemo} from "react";
 import { Center, Table } from "@mantine/core";
 import tabStyle from "./css/tableScore.module.css";
 
 const TableScore = () => {
+  const [isPublic, setIsPublic] = useState(false);
+  const [islog, setlog] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [details, setDetails] = useState([]);
+  // const [searchParams, setSearchParams] = useSearchParams({});
+  const [params, setParams] = useState({});
+
+  // const getParams = useMemo(() => {
+  //   setParams({
+  //     section: searchParams.get("section"),
+  //     semester: searchParams.get("semester"),
+  //     year: searchParams.get("year"),
+  //     courseNo: searchParams.get("courseNo"),
+  //   })
+  // }, [searchParams])
+  // useEffect(()=>{
+  //   const fetchData = async () => {
+  //     const resp = await getScores();
+  //     if (resp) {
+  //       resp.map(data=>{
+  //         if (data.courseNo === params.courseNo && data.sections[0].section === params.section) {
+  //           let section_detail = data.sections[0].details
+  //           setDetails(section_detail)
+  //         };
+  //       })
+  //     }
+  //     console.log('courseNo', params.courseNo)
+  //     console.log('section', params.section)
+  //     console.log('year', params.year)
+  //     console.log('semaster', params.semester)
+  //   };
+  //   fetchData();
+  // }, [params])
+  
   //example of table
   const elements = [
     {
@@ -45,6 +81,12 @@ const TableScore = () => {
       id: 3,
     },
   ];
+
+
+
+
+
+
   const rows = elements.map((element) => (
     <tr key={element.id}>
       <td>{element.name}</td>
