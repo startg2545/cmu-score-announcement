@@ -126,7 +126,7 @@ body {
 
 .ScoreTextBox {
   padding: 8px;
-  border: 2px solid #696ca3;
+  border: 2px solid #6e71ae;
   background-color: #eeecec;
   border-radius: 3px;
   font-family: SF Pro;
@@ -137,9 +137,7 @@ body {
   transition: transform 0.3s ease;
 }
 
-.ScoreInlineContainer.move-right .ScoreTextBox {
-  transition: transform 0.3s ease;
-}
+
 
 .ScoreInlineContainer {
   display: flex; /* Use flexbox to align items in a row */
@@ -157,24 +155,25 @@ body {
   margin-top: 0px;
 }
 
+
 .ScoreDescriptionBox {
   padding: 10px;
   border: 1px;
   background-color: #faedca;
   border-radius: 5px;
-
-  width: calc(57.7vw);
+  width: calc(61vw);
   height: calc(1.6vh + 60px);
   margin-left: 189px;
   margin-top: -20px;
   margin-bottom: 20px;
-  transition: width 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .ScoreDescriptionBox.move-right {
-  width: calc(52.5vw); /* Use viewport width */
+  width: calc(58vw); 
   height: calc(1.6vh + 60px);
-  transition: width 0.3s ease;
+  transition: transform 0.3s ease;
+  transform: translateX(75px);
 }
 
 .ScoreCancelButton {
@@ -202,6 +201,7 @@ body {
   flex-shrink: 0;
   border-radius: 0px 5px 5px 0px;
   background: #d13e10;
+  transform: translateX(1px);
   bottom: 110px;
   cursor: pointer;
   display: flex;
@@ -260,6 +260,7 @@ body {
   bottom: 110px;
   cursor: pointer;
   display: flex;
+  transform: translateX(1px);
   justify-content: center;
   align-items: center;
   color: rgb(0, 0, 0);
