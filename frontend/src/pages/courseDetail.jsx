@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { getScores } from '../services';
+import { getScores, addStudentGrade } from '../services';
 import { useSearchParams } from 'react-router-dom';
 
 const CourseDetail = () => {
@@ -42,18 +42,27 @@ const CourseDetail = () => {
     return Math.round( avg * 100 ) / 100
   }
 
+  const publish = async (score) => {
+    console.log('before submit')
+    let resp_student = await addStudentGrade(score)
+    console.log('after submit')
+    if (resp_student) {
+      console.log('response: ', resp_student)
+    }
+  }
+
   return (
     <div>
       <label><b>Course No</b>: {params.courseNo}</label>
-      {sections.map((data,index)=>{
+      {sections.map((section,index_section)=>{
           return (
-            <div key={index}>
+            <div key={index_section}>
               <label onClick={()=>{
-                setScores(data.scores) 
-                setSelectedSection(index)
+                setScores(section.scores) 
+                setSelectedSection(index_section)
                 }}
-              ><button><b>Section</b>: {data.section}</button></label>
-              { index == selectedSection ? 
+              ><button><b>Section</b>: {section.section}</button></label>
+              { index_section === selectedSection ? 
               <table>
                 <tbody>
                   <tr>
@@ -65,15 +74,21 @@ const CourseDetail = () => {
                     <th>Publish</th>
                     <th>Management</th>
                   </tr>
-                  {scores.map((data,index)=>{
+                  {scores.map((score,index_score)=>{
                     return (
-                      <tr key={index}>
-                        <td>{index+1}</td>
-                        <td>{data.scoreName}</td>
-                        <td>{data.studentNumber}</td>
-                        <td>{data.fullScore}</td>
-                        <td>{getAverage(data.results)}</td>
-                        <td><button>[open]</button></td>
+                      <tr key={index_score}>
+                        <td>{index_score+1}</td>
+                        <td>{score.scoreName}</td>
+                        <td>{score.studentNumber}</td>
+                        <td>{score.fullScore}</td>
+                        <td>{getAverage(score.results)}</td>
+                        <td><button onClick={()=>publish({
+                          courseNo: params.courseNo,
+                          year: params.year,
+                          semester: params.semester,
+                          score: score,
+                        })}
+                        >[open]</button></td>
                         <td>
                           <button>[add]</button>
                           <button>[edit]</button>
