@@ -5,7 +5,7 @@ import { SideBar, UploadSc } from "../components";
 import { ShowSidebarContext } from "../context";
 import { addCourse, getAllCourses, getScores } from "../services";
 import DropDownCourse from "../components/DropDownCourse";
-import { TextInput, Button, Flex } from "@mantine/core";
+import { TextInput, Button, Flex, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 export default function Course166Container() {
@@ -52,6 +52,17 @@ export default function Course166Container() {
     validateInputOnBlur: true,
   });
 
+  const courseForm = useForm({
+    initialValues: {
+      courseNo: "",
+    },
+    validate: {
+      courseNo: (value) =>
+        /^\d{6}$/.test(value) ? null : "Please enter a valid course no",
+    },
+    validateInputOnBlur: true,
+  });
+
   const getParams = useMemo(() => {
     setParams({
       semester: searchParams.get("semester"),
@@ -84,7 +95,6 @@ export default function Course166Container() {
     const allCourse = await getAllCourses();
     setAllCourses(allCourse);
     const resp = await getScores();
-    console.log(allCourse);
     if (resp) {
       const data = resp.filter(
         (item) =>
@@ -146,20 +156,17 @@ export default function Course166Container() {
     searchParams.delete("courseNo");
     setSearchParams(searchParams);
     setShowPopupAddCourse(false);
+    courseForm.reset();
   };
 
   const ConfirmhandleClosePopup = async () => {
-    console.log(`
-    year: ${params.year},
-    semester: ${params.semester},
-    Course Number: ${params.courseNo},
-    `);
     setShowPopupAddCourse(false);
     await addCourse({
       year: parseInt(params.year),
       semester: parseInt(params.semester),
-      courseNo: params.courseNo,
+      courseNo: params.courseNo ? params.courseNo : courseForm.getInputProps("courseNo").value,
     });
+    courseForm.reset();
     fetchData();
   };
 
@@ -238,6 +245,13 @@ export default function Course166Container() {
                     <DropDownCourse parentToChild={allCourses} />
                   </div>
                 </div>
+                <Flex mt={-40} mb={20} direction="column" ta="center">
+                  <Text>Or</Text>
+                  <TextInput
+                    placeholder="Type Course No"
+                    {...courseForm.getInputProps("courseNo")}
+                  />
+                </Flex>
                 <div className={Course.AddCoursePopupButtons}>
                   <Button
                     className={Course.AddCourseCancelButton}
@@ -277,7 +291,8 @@ export default function Course166Container() {
                   >
                     <div className={Course.courseName}>
                       <div className={Course.intoCourse}>
-                        {item.courseNo}{item.courseName ?` - ${item.courseName}`: null}
+                        {item.courseNo}
+                        {item.courseName ? ` - ${item.courseName}` : null}
                       </div>
                     </div>
                   </div>
