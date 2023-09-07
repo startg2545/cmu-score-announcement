@@ -24,18 +24,6 @@ export default function UploadScorePageContainer() {
     sections: sections,
   };
 
-  const getGrade = (point) => {
-    let grade = "";
-    if (grade > 80) return "A";
-    if (grade > 75) return "B+";
-    if (grade > 70) return "B";
-    if (grade > 65) return "C+";
-    if (grade > 60) return "C";
-    if (grade > 55) return "D+";
-    if (grade > 50) return "D";
-    return "F";
-  };
-
   const submitData = async () => {
     let resp_course = await addCourse(scores);
     if (resp_course) {
@@ -72,33 +60,9 @@ export default function UploadScorePageContainer() {
     return results_list;
   }
 
-  function getAvg(list, keys) {
-    // list is array of dictionary, keys is array
-    var sum = 0;
-    if (keys[0] === "student_code" && keys[2] === "comment") {
-      // this is single scores
-      for (let i in list) {
-        sum += list[i]["point"];
-      }
-      let avg = sum / list.length;
-      return avg.toFixed(2);
-    } else {
-      // this is multiple scores
-      let avg_obj = {};
-      for (let i = 1; i < keys.length; i++) {
-        for (let j in list) {
-          sum += list[j][keys[i]];
-        }
-        const avg = sum / list.length;
-        avg_obj[keys[i]] = avg.toFixed(2);
-      }
-      return avg_obj;
-    }
-  }
-
   function addSections(keys, full_score, results) {
     const arr = [];
-    let details_list = [];
+    let scores_list = [];
     let countSec = 0;
     let countStudentEachSection = [];
     for (let i = 0; i < keys.length - 1; i++) {
@@ -117,14 +81,14 @@ export default function UploadScorePageContainer() {
           arr[countSec] = {
             section: results[j]["section"],
             instructor: userInfo.cmuAccount,
-            details: null,
+            scores: null,
           };
           countSec++;
         } else if (!arr.some((e) => e.section === results[j]["section"])) {
           arr[countSec] = {
             section: results[j]["section"],
             instructor: userInfo.cmuAccount,
-            details: null,
+            scores: null,
           };
           countStudentEachSection.push(countStudent);
           countStudent = 0;
@@ -146,21 +110,15 @@ export default function UploadScorePageContainer() {
           note: note,
           results: results_list,
         };
-        details_list[i] = obj;
+        scores_list[i] = obj;
       }
     }
-    arr.map((e) => (e.details = details_list));
+    arr.map((e) => (e.scores = scores_list));
     arr.map((e, i) =>
-      e.details.map((item) => (item.studentNumber = countStudentEachSection[i]))
+      e.scores.map((item) => (item.studentNumber = countStudentEachSection[i]))
     );
     setSections(arr);
   }
-
-  // Function to format the date as "XX Aug, 20XX"
-  const formatDate = (date) => {
-    const options = { day: "numeric", month: "short", year: "numeric" };
-    return date.toLocaleDateString("en-US", options);
-  };
 
   const handleFile = async (e) => {
     const file = e.target.files[0];
@@ -196,10 +154,6 @@ export default function UploadScorePageContainer() {
 
   const handleConfirmClick = () => {
     setShowPopupConfirm(true);
-  };
-
-  const ConfirmConfirmhandleClosePopup = () => {
-    setShowPopupConfirm(false);
   };
 
   const ConfirmCancelhandleClosePopup = () => {
