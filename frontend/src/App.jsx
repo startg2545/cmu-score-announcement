@@ -86,7 +86,7 @@ function App() {
     ) {
       window.location.replace("/errorView");
     }
-  }, [screenSize]);
+  }, [userInfo, screenSize]);
 
   return (
     <MantineProvider>

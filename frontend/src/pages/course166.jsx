@@ -84,19 +84,22 @@ export default function Course166Container() {
     const allCourse = await getAllCourses();
     setAllCourses(allCourse);
     const resp = await getScores();
+    console.log(allCourse);
     if (resp) {
       const data = resp.filter(
         (item) =>
           item.year === parseInt(params.year) &&
           item.semester === parseInt(params.semester)
       );
-      data.forEach((e, index) => {
-        allCourse.courseDetails.forEach((all) => {
-          if (e.courseNo === all.courseNo) {
-            data[index].courseName = all.courseNameEN;
-          }
+      if (allCourse.ok) {
+        data.forEach((e, index) => {
+          allCourse.courseDetails.forEach((all) => {
+            if (e.courseNo === all.courseNo) {
+              data[index].courseName = all.courseNameEN;
+            }
+          });
         });
-      });
+      }
       setCourse(data);
     }
   };

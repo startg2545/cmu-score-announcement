@@ -53,7 +53,13 @@ const ErrorView = () => {
               />
             </svg>
           </div>
-          <div style={{ marginTop: "40px", justifyContent: "center", alignContent: 'center' }}>
+          <div
+            style={{
+              marginTop: "40px",
+              justifyContent: "center",
+              alignContent: "center",
+            }}
+          >
             This website is not support your screen.
           </div>
         </div>
