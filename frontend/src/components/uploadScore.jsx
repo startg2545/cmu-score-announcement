@@ -98,7 +98,7 @@ export default function UploadScorePageContainer() {
 
   function addSections(keys, full_score, results) {
     const arr = [];
-    let details_list = [];
+    let scores_list = [];
     let countSec = 0;
     let countStudentEachSection = [];
     for (let i = 0; i < keys.length - 1; i++) {
@@ -117,7 +117,7 @@ export default function UploadScorePageContainer() {
           arr[countSec] = {
             section: results[j]["section"],
             instructor: userInfo.cmuAccount,
-            details: null,
+            scores: null,
           }
           countSec++;
         }
@@ -125,7 +125,7 @@ export default function UploadScorePageContainer() {
           arr[countSec] = {
             section: results[j]["section"],
             instructor: userInfo.cmuAccount,
-            details: null,
+            scores: null,
           }
           countStudentEachSection.push(countStudent);
           countStudent = 0;
@@ -144,11 +144,11 @@ export default function UploadScorePageContainer() {
           note: note,
           results: results_list,
         };
-        details_list[i] = obj;
+        scores_list[i] = obj;
       }
     }
-    arr.map(e => e.details = details_list);
-    arr.map((e, i) => e.details.map(item => item.studentNumber = countStudentEachSection[i]));
+    arr.map(e => e.scores = scores_list);
+    arr.map((e, i) => e.scores.map(item => item.studentNumber = countStudentEachSection[i]));
     setSections(arr);
   }
 
