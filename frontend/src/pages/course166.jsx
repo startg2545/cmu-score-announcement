@@ -208,8 +208,6 @@ export default function Course166Container() {
   };
 
   const ConfirmhandleClosePopup = async (data) => {
-    console.log("confirm ", data);
-
     await addCourse({
       year: parseInt(params.year),
       semester: parseInt(params.semester),

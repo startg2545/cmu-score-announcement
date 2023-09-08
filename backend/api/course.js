@@ -24,12 +24,6 @@ router.post("/add", async (req, res) => {
       semester: req.body.semester,
     });
 
-    const section = await courseModel.findOne({
-      courseNo: req.body.courseNo,
-      year: req.body.year,
-      semester: req.body.semester,
-      sections: req.body.sections,
-    });
     // add new course
     if (!course) {
       const newCourse = await courseModel.create({
@@ -40,12 +34,29 @@ router.post("/add", async (req, res) => {
       });
       newCourse.save();
       return res.send(newCourse);
-    } else if (!section) {
-      req.body.sections.forEach((e) => {
-        course.sections.push(e);
-      });
-      await course.save();
-      return res.send(course);
+    } else {      
+      var req_sections = req.body.sections
+
+      for (let key in req_sections) {
+        const section = await courseModel.findOne({
+          courseNo: req.body.courseNo.toString(),
+          year: req.body.year,
+          semester: req.body.semester,
+          'sections.section': req_sections[key].section.toString()
+        })
+        if (section !== null) {
+          // update scores on this existing section here
+          
+        } else {
+          // new section is added here
+          req.body.sections.forEach((e) => {
+            course.sections.push(e);
+          });
+          await course.save();
+        }
+      }
+
+      return res.send('The sections have been added.')
     }
 
     return res.send({
