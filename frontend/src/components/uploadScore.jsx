@@ -61,87 +61,85 @@ export default function UploadScorePageContainer() {
     return results_list;
   }
 
-  function addSections(keys, full_score, results) {
-    const arr = [];
-    let results_list = [[]];
-    let scores_list = [];
-    let countSec = 0;
-    let countStudentEachSection = [];
-    for (let i = 0; i < keys.length - 1; i++) {
-      let countStudent = 0;
-      for (let j in results) {
-        let obj = {
-          studentId: results[j]["studentId"],
-          firstName: results[j]["firstName"],
-          lastName: results[j]["lastName"],
-          point: results[j][keys[i + 4]],
-        };
-        console.log(countSec, countStudent, obj);
-
-        if (countSec === 0) {
-          arr[countSec] = {
-            section: results[j]["section"],
-            instructor: userInfo.cmuAccount,
-            scores: null,
-          };
-          countSec++;
-        } else if (!arr.some((e) => e.section === results[j]["section"])) {
-          arr[countSec] = {
-            section: results[j]["section"],
-            instructor: userInfo.cmuAccount,
-            scores: null,
-          };
-          countStudentEachSection.push(countStudent);
-          countStudent = 0;
-          countSec++;
+  function getSec(list) {
+    const sec_list = [];
+    const countStudent = [];
+    let num = 0;
+    for (let i in list) {
+      if (list[i][0] !== "" && !sec_list.includes(list[i][0])) {
+        sec_list.push(list[i][0]);
+        if (sec_list.length !== 1) {
+          countStudent.push(num);
         }
-        results_list[countSec-1][countStudent] = obj;
-        countStudent++;
-        if (
-          parseInt(j) === results.length - 1 &&
-          countStudentEachSection.length !== arr.length
-        ) {
-          countStudentEachSection.push(countStudent);
-        }
+        num = 0;
       }
-      if (keys[i + 4]) {
-        let obj = {
-          scoreName: keys[i + 4],
-          fullScore: full_score[i + 4],
-          studentNumber: null,
-          note: note,
-        };
-        scores_list[i] = obj;
-      }
+      num++;
     }
-    arr.map((e) => (e.scores = scores_list));
-    arr.map((e, i) =>
-      e.scores.map((item) => {
-        item.studentNumber = countStudentEachSection[i];
-        item.results = results_list[i];
-      })
-    );
+    countStudent.push(num);
+    return { sec_list, countStudent };
+  }
+
+  function addSections(sec, countStudent, keys, full_score, results) {
+    const arr = [];
+    for (let i = 0; i < sec.length; i++) {
+      let scores_list = [];
+      for (let j = 0; j < keys.length - 1; j++) {
+        let results_list = [];
+        let num = 0;
+        for (let k in results) {
+          let obj = {
+            studentId: results[k]["studentId"],
+            firstName: results[k]["firstName"],
+            lastName: results[k]["lastName"],
+            point: results[k][keys[j + 4]],
+          };
+          if (results[k]["section"] === sec[i]) {
+            results_list[num] = obj;
+            num++;
+          }
+        }
+        if (keys[j + 4]) {
+          let obj = {
+            scoreName: keys[j + 4],
+            fullScore: full_score[j + 4],
+            studentNumber: countStudent[i],
+            note: note,
+            results: results_list,
+          };
+          scores_list[j] = obj;
+        }
+      }
+      arr[i] = {
+        section: sec[i],
+        instructor: userInfo.cmuAccount,
+        scores: scores_list,
+      };
+    }
     setSections(arr);
   }
 
   const handleFile = async (e) => {
     const file = e.target.files[0];
-    const data = await file.arrayBuffer();
-    const workbook = XLSX.read(data);
-    const worksheet = workbook.Sheets["Scores"];
-    const resultsData = XLSX.utils.sheet_to_json(worksheet, {
-      header: 1,
-      defval: "",
-    });
-    let full_score = resultsData.shift();
-    const keys = resultsData.shift();
-    var results = {};
-    results = getResults(resultsData, keys);
-    addSections(keys, full_score, results);
     if (file) {
-      setIsFileUploaded(true);
-    } else {
-      setIsFileUploaded(false);
+      const data = await file.arrayBuffer();
+      const workbook = XLSX.read(data);
+      const worksheet = workbook.Sheets["Scores"];
+      const resultsData = XLSX.utils.sheet_to_json(worksheet, {
+        header: 1,
+        defval: "",
+      });
+      let full_score = resultsData.shift();
+      const keys = resultsData.shift();
+      var results = getResults(resultsData, keys);
+      const secNcount = getSec(resultsData);
+      const sec = secNcount.sec_list;
+      const count = secNcount.countStudent;
+      addSections(sec, count, keys, full_score, results);
+      if (file) {
+        setIsFileUploaded(true);
+      } else {
+        setIsFileUploaded(false);
+      }
     }
   };
 
