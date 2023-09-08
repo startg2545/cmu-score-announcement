@@ -37,24 +37,17 @@ export default function Course166Container() {
   const [showPopup, setShowPopup] = useState(false);
 
   const showSection = () => {
+    const dataTable = course
+      .filter((e) => e.courseNo === searchParams.get("courseNo"))[0]
+      .sections.filter((e) => e.section === "1")[0].scores;
     const data = course
         .filter((e) => e.courseNo === searchParams.get("courseNo"))[0]
         .sections;
     setSections(data)
+    setTableData(dataTable);
     setManage(true)
     setShowTableScore(false);
     setUploadScore(false);
-  };
-
-  const showTable = () => {
-    const data = course
-      .filter((e) => e.courseNo === searchParams.get("courseNo"))[0]
-      .sections.filter((e) => e.section === "1")[0].scores;
-
-    setTableData(data);
-    setShowTableScore(true);
-    setUploadScore(false);
-    setManage(false);
   };
 
   const handleClickInstructor = () => {
@@ -199,6 +192,7 @@ export default function Course166Container() {
     setManage(false);
     setShowTableScore(false);
   };
+
 
   const goToManage = () => {
     setManage(true);
@@ -665,7 +659,7 @@ export default function Course166Container() {
                   )}
                 </div>
                 {/* show Upload/Section/TableScore */}
-                {isManage && <Management  data={section}/>}
+                {isManage && <Management  data={section} dataTable={tableData}/>}
               </div>
 
               {isUploadScore && !isManage && (
@@ -715,6 +709,8 @@ export default function Course166Container() {
                     className={` ${Course.date} ${
                       showSidebar ? Course.moveRight : ""
                     }`}
+                    onClick={showSection}
+                    style={{ cursor: "pointer" }}
                   >
                     Management
                   </label>
