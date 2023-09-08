@@ -27,6 +27,7 @@ export default function UploadScorePageContainer() {
 
   const submitData = async () => {
     let resp_course = await addCourse(scores);
+    console.log(resp_course)
     if (resp_course) {
       let url = `semester=${semester}&year=${year}&courseNo=${courseNo}`;
       navigate(`/course?${url}`);
@@ -76,7 +77,6 @@ export default function UploadScorePageContainer() {
           lastName: results[j]["lastName"],
           point: results[j][keys[i + 4]],
         };
-        console.log(countSec, countStudent, obj);
 
         if (countSec === 0) {
           arr[countSec] = {
