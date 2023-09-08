@@ -37,21 +37,50 @@ router.post("/add", async (req, res) => {
     } else {      
       var req_sections = req.body.sections
 
-      for (let key in req_sections) {
+      for (let i in req_sections) {
         const section = await courseModel.findOne({
           courseNo: req.body.courseNo.toString(),
           year: req.body.year,
           semester: req.body.semester,
-          'sections.section': req_sections[key].section.toString()
+          'sections.section': req_sections[i].section.toString()
         })
-        if (section !== null) {
-          // update scores on this existing section here
-          
+
+        if (section) {
+          // push or replace scores on this existing section here
+          for (let j in req_sections[i].scores) {
+            const score = await courseModel.findOne({
+              courseNo: req.body.courseNo.toString(),
+              year: req.body.year.toString(),
+              semester: req.body.semester.toString(),
+              'sections.section': req_sections[i].section.toString(),
+              'sections.scores.scoreName': req_sections[i].scores[j].scoreName
+            })
+            if(score) {
+              // replace request score on this existing score
+              for (let x in score.sections[i].scores) {
+                if (score.sections[i].scores[x].scoreName==req_sections[i].scores[j].scoreName) 
+                  score.sections[i].scores[x] = req_sections[i].scores[j]
+              }
+              await score.save()
+            } else {
+              // push new request score append to section
+              
+              section.sections[i].scores.push(req_sections[i].scores[j])
+              await section.save()
+              return res.send(section.sections[i].scores)
+
+            }
+          }
+
+
         } else {
           // new section is added here
-          req.body.sections.forEach((e) => {
-            course.sections.push(e);
-          });
+
+          // req_sections.forEach((e) => {
+          //   course.sections.push(e);
+          // });
+
+          course.sections.push(req_sections[i].section.toString())
           await course.save();
         }
       }
