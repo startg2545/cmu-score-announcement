@@ -11,6 +11,7 @@ const Management = (data) => {
         <h1 className={secMan.secBox}>Section 004</h1>
         <h1 className={secMan.secBox}>Section 005</h1>
         <h1 className={secMan.secBox}>Section 006</h1>
+        
       </div>
     </div>
   );
