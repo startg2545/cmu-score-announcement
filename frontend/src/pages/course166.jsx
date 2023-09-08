@@ -24,7 +24,8 @@ export default function Course166Container() {
   const [isManage, setManage] = useState(false);
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
-  const [section, setSections] = useState();
+  const [section, setSections] = useState([]); 
+  const [tableData, setTableData] = useState();
   const [isCourseNoValid, setIsCourseNoValid] = useState(true);
   const [isEmailValid, setIsEmailNoValid] = useState(true);
 
@@ -35,12 +36,22 @@ export default function Course166Container() {
 
   const [showPopup, setShowPopup] = useState(false);
 
+  const showSection = () => {
+    const data = course
+        .filter((e) => e.courseNo === searchParams.get("courseNo"))[0]
+        .sections;
+    setSections(data)
+    setManage(true)
+    setShowTableScore(false);
+    setUploadScore(false);
+  };
+
   const showTable = () => {
     const data = course
       .filter((e) => e.courseNo === searchParams.get("courseNo"))[0]
       .sections.filter((e) => e.section === "1")[0].scores;
 
-    setSections(data);
+    setTableData(data);
     setShowTableScore(true);
     setUploadScore(false);
     setManage(false);
@@ -492,7 +503,7 @@ export default function Course166Container() {
                         !isManage &&
                         `Upload Score ${params.courseNo}`}
                       {isManage && `Management ${params.courseNo}`}
-                      {/* {isShowTableScore && <TableScore data={section} />} */}
+                      {/* {isShowTableScore && <TableScore data={tableData} />} */}
                     </div>
                     <div
                       className={` ${Course.Date} ${
@@ -593,12 +604,13 @@ export default function Course166Container() {
                           : "",
                         backgroundColor: isManage ? "white" : "",
                       }}
-                      // onClick={showTable}
+
                       onClick={() => {
                         setManage(true);
                         document.getElementById("tab-menu").style.cursor =
                           "pointer";
                         goToManage();
+                        showSection();
                       }}
                     >
                       <svg
@@ -626,7 +638,7 @@ export default function Course166Container() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div
                   style={{
                     height: "calc(87vh - 60px)",
@@ -652,14 +664,9 @@ export default function Course166Container() {
                     </p>
                   )}
                 </div>
-                 {/* show Upload/Section/TableScore */}
-                {isManage && <Management/>}
+                {/* show Upload/Section/TableScore */}
+                {isManage && <Management  data={section}/>}
               </div>
-
-
-
-
-
 
               {isUploadScore && !isManage && (
                 <p className={Course.MenuIndex}>
