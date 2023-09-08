@@ -1,0 +1,12 @@
+.layOut {
+    margin: auto;
+}
+.secBox {
+  width: 973px;
+  height: 84px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  border: 3px solid rgba(255, 255, 255, 0);
+  background: rgba(209, 203, 203, 0.19);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15);
+}
