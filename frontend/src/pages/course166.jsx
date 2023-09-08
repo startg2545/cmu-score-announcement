@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
-import { SideBar, UploadSc } from "../components";
+import { SideBar, TableScore, UploadSc } from "../components";
 import { ShowSidebarContext } from "../context";
 import { addCourse, getAllCourses, getScores } from "../services";
 import DropDownCourse from "../components/DropDownCourse";
@@ -9,7 +9,7 @@ import { TextInput, Button, Flex, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
 export default function Course166Container() {
-  const [course, setCourse] = useState();
+  const [course, setCourse] = useState([]);
   const [allCourses, setAllCourses] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -17,10 +17,11 @@ export default function Course166Container() {
   const [isHovered2, setIsHovered2] = useState(false);
   const [isHovered3, setIsHovered3] = useState(false);
   const [isSelectedCourse, setSelectedCourse] = useState(false);
-  const [isShowTableScore, setShowTableScore] = useState(null);
+  const [isShowTableScore, setShowTableScore] = useState(false);
   const [isUploadScore, setUploadScore] = useState(false);
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
+  const [section, setSections] = useState();
 
   const { showSidebar } = useContext(ShowSidebarContext);
 
@@ -28,6 +29,17 @@ export default function Course166Container() {
   const location = useLocation();
 
   const [showPopup, setShowPopup] = useState(false);
+
+  const showTable = () => {
+    const data = course
+      .filter((e) => e.courseNo === searchParams.get("courseNo"))[0]
+      .sections.filter((e) => e.section === "1")[0]
+      .scores
+
+    setSections(data);
+    setShowTableScore(true);
+    setUploadScore(false);
+  };
 
   const handleClickInstructor = () => {
     setShowPopup(true);
@@ -74,7 +86,6 @@ export default function Course166Container() {
   const onClickCourse = (item) => {
     let courseNo = item.courseNo;
     setUploadScore(false);
-    setShowTableScore(courseNo);
     setSelectedCourse(true);
     searchParams.set("courseNo", courseNo);
     setSearchParams(searchParams);
@@ -144,6 +155,7 @@ export default function Course166Container() {
 
   function goToUpload() {
     setUploadScore(true);
+    setShowTableScore(false);
   }
 
   const handleAddCourse = () => {
@@ -164,7 +176,9 @@ export default function Course166Container() {
     await addCourse({
       year: parseInt(params.year),
       semester: parseInt(params.semester),
-      courseNo: params.courseNo ? params.courseNo : courseForm.getInputProps("courseNo").value,
+      courseNo: params.courseNo
+        ? params.courseNo
+        : courseForm.getInputProps("courseNo").value,
     });
     courseForm.reset();
     fetchData();
@@ -422,7 +436,7 @@ export default function Course166Container() {
                       }`}
                     >
                       {isUploadScore ? "Upload Score " : ""}
-                      {isShowTableScore}
+                      {isShowTableScore && <TableScore data={section} />}
                     </div>
                     <div
                       className={` ${Course.Date} ${
@@ -465,6 +479,7 @@ export default function Course166Container() {
                       }`}
                       onClick={() => {
                         setUploadScore(true);
+                        setShowTableScore(false);
                         document.getElementById("tab-menu").style.cursor =
                           "pointer";
                       }}
@@ -509,6 +524,7 @@ export default function Course166Container() {
                       }`}
                       onMouseEnter={() => setIsHovered2(true)}
                       onMouseLeave={() => setIsHovered2(false)}
+                      onClick={showTable}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"

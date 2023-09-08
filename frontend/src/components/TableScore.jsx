@@ -1,100 +1,31 @@
 import React from "react";
-import { useState , useEffect , useMemo} from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Center, Table } from "@mantine/core";
 import tabStyle from "./css/tableScore.module.css";
 
-const TableScore = () => {
+const TableScore = ({ data }) => {
   const [isPublic, setIsPublic] = useState(false);
   const [islog, setlog] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
-  const [details, setDetails] = useState([]);
-  // const [searchParams, setSearchParams] = useSearchParams({});
-  const [params, setParams] = useState({});
 
-  // const getParams = useMemo(() => {
-  //   setParams({
-  //     section: searchParams.get("section"),
-  //     semester: searchParams.get("semester"),
-  //     year: searchParams.get("year"),
-  //     courseNo: searchParams.get("courseNo"),
-  //   })
-  // }, [searchParams])
-  // useEffect(()=>{
-  //   const fetchData = async () => {
-  //     const resp = await getScores();
-  //     if (resp) {
-  //       resp.map(data=>{
-  //         if (data.courseNo === params.courseNo && data.sections[0].section === params.section) {
-  //           let section_detail = data.sections[0].details
-  //           setDetails(section_detail)
-  //         };
-  //       })
-  //     }
-  //     console.log('courseNo', params.courseNo)
-  //     console.log('section', params.section)
-  //     console.log('year', params.year)
-  //     console.log('semaster', params.semester)
-  //   };
-  //   fetchData();
-  // }, [params])
-  
-  //example of table
-  const elements = [
-    {
-      name: "Frontend design",
-      numofStu: 18,
-      fullSc: 20,
-      meanSec: 14.0,
-      meanCou: 14.5,
-      Median: 14,
-      Max: 15,
-      SD: 4.81,
-      UpperQu: 17,
-      LowerQu: 12,
-      id: 1,
-    },
-    {
-      name: "API design",
-      numofStu: 20,
-      fullSc: 15,
-      meanSec: 14.0,
-      meanCou: 14.5,
-      Median: 14,
-      Max: 15,
-      SD: 4.81,
-      UpperQu: 17,
-      LowerQu: 12,
-      id: 2,
-    },
-    {
-      name: "Database design",
-      numofStu: 20,
-      fullSc: 20,
-      meanSec: 14.0,
-      meanCou: 14.5,
-      Median: 14,
-      Max: 15,
-      SD: 4.81,
-      UpperQu: 17,
-      LowerQu: 12,
-      id: 3,
-    },
-  ];
+  useEffect(() => {
+    let total = 0;
+    data.map((e,i) => {
+      e.results.map((e) => (total += e.point));
+      data[i].meanSec = (total/e.studentNumber).toFixed(2);
+      total = 0;
+    });
+  }, []);
 
-
-
-
-
-
-  const rows = elements.map((element) => (
-    <tr key={element.id}>
-      <td>{element.name}</td>
+  const rows = data.map((element, key) => (
+    <tr key={key}>
+      <td>{element.scoreName}</td>
       <td>
-        <center>{element.numofStu}</center>
+        <center>{element.studentNumber}</center>
       </td>
       <td>
-        <center>{element.fullSc}</center>
+        <center>{element.fullScore}</center>
       </td>
       <td>
         <center>{element.meanSec}</center>
