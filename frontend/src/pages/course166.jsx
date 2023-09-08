@@ -184,18 +184,17 @@ export default function Course166Container() {
     courseForm.reset();
   };
 
-  const ConfirmhandleClosePopup = async () => {
-    if (!isCourseNoValid) {
-      return;
-    }
-    setShowPopupAddCourse(false);
+  const ConfirmhandleClosePopup = async (data) => {
+    console.log("confirm ", data);
+
     await addCourse({
       year: parseInt(params.year),
       semester: parseInt(params.semester),
       courseNo: params.courseNo
         ? params.courseNo
-        : courseForm.getInputProps("courseNo").value,
+        : data.courseNo,
     });
+    setShowPopupAddCourse(false);
     courseForm.reset();
     fetchData();
   };
@@ -254,63 +253,67 @@ export default function Course166Container() {
             </div>
           </div>
           {showPopupAddCourse && (
-            <div className={Course.AddCoursePopup}>
-              <div className={Course["AddCoursePopup-Content"]}>
-                <div className={Course["AddCoursePopup-ContentInner"]}>
-                  <p style={{ color: "white", fontWeight: "600" }}>
-                    Add Course
-                  </p>
-                </div>
-                <div className={Course.AddCourseInlineContainer}>
-                  <p
-                    style={{
-                      marginRight: "20px",
-                      fontSize: "28px",
-                      transform: "translateY(-5px)",
-                    }}
-                  >
-                    Course:
-                  </p>
-                  <div className={Course.DropDownContainer}>
-                    <DropDownCourse parentToChild={allCourses} />
+            <form onSubmit={courseForm.onSubmit((data) => {
+              console.log(data);
+              ConfirmhandleClosePopup(data);
+            })} >
+              <div className={Course.AddCoursePopup}>
+                <div className={Course["AddCoursePopup-Content"]}>
+                  <div className={Course["AddCoursePopup-ContentInner"]}>
+                    <p style={{ color: "white", fontWeight: "600" }}>
+                      Add Course
+                    </p>
+                  </div>
+                  <div className={Course.AddCourseInlineContainer}>
+                    <p
+                      style={{
+                        marginRight: "20px",
+                        fontSize: "28px",
+                        transform: "translateY(-5px)",
+                      }}
+                    >
+                      Course:
+                    </p>
+                    <div className={Course.DropDownContainer}>
+                      <DropDownCourse parentToChild={allCourses} />
+                    </div>
+                  </div>
+                  <div className={Course.AddCourseInlineContainer}>
+                    <Flex mt={-20}>
+                      <Text fz={28}>or</Text>
+                      <TextInput
+                        placeholder="Type Course No"
+                        {...courseForm.getInputProps("courseNo")}
+                        mt={5}
+                        size="md"
+                        ml={90}
+                        radius="md"
+                      />
+                    </Flex>
+                  </div>
+                  <div className={Course.AddCoursePopupButtons}>
+                    <Button
+                      className={Course.AddCourseCancelButton}
+                      onClick={CancelhandleClosePopup}
+                      sx={{
+                        color: "black",
+                        "&:hover": {
+                          backgroundColor: "#F0EAEA",
+                        },
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      className={Course.AddCourseConfirmButton}
+                      type="submit"
+                    >
+                      Confirm
+                    </Button>
                   </div>
                 </div>
-                <div className={Course.AddCourseInlineContainer}>
-                  <Flex mt={-20}>
-                    <Text fz={28}>or</Text>
-                    <TextInput
-                      placeholder="Type Course No"
-                      {...courseForm.getInputProps("courseNo")}
-                      mt={5}
-                      size="md"
-                      ml={90}
-                      radius="md"
-                    />
-                  </Flex>
-                </div>
-                <div className={Course.AddCoursePopupButtons}>
-                  <Button
-                    className={Course.AddCourseCancelButton}
-                    onClick={CancelhandleClosePopup}
-                    sx={{
-                      color: "black",
-                      "&:hover": {
-                        backgroundColor: "#F0EAEA",
-                      },
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className={Course.AddCourseConfirmButton}
-                    onClick={ConfirmhandleClosePopup}
-                    disabled={!isCourseNoValid}
-                  >
-                    Confirm
-                  </Button>
-                </div>
               </div>
-            </div>
+            </form>
           )}
           <div
             className={`${Course.courseframewindow} ${
@@ -395,7 +398,7 @@ export default function Course166Container() {
                       backgroundColor: "#d499ff",
                     },
                   }}
-                  disabled={!isEmailValid}
+              
                 >
                   Add
                 </Button>
