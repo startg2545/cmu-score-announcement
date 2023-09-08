@@ -63,11 +63,11 @@ export default function UploadScorePageContainer() {
 
   function addSections(keys, full_score, results) {
     const arr = [];
+    let results_list = [[]];
     let scores_list = [];
     let countSec = 0;
     let countStudentEachSection = [];
     for (let i = 0; i < keys.length - 1; i++) {
-      let results_list = [];
       let countStudent = 0;
       for (let j in results) {
         let obj = {
@@ -76,7 +76,7 @@ export default function UploadScorePageContainer() {
           lastName: results[j]["lastName"],
           point: results[j][keys[i + 4]],
         };
-        results_list[j] = obj;
+        console.log(countSec, countStudent, obj);
 
         if (countSec === 0) {
           arr[countSec] = {
@@ -95,6 +95,7 @@ export default function UploadScorePageContainer() {
           countStudent = 0;
           countSec++;
         }
+        results_list[countSec-1][countStudent] = obj;
         countStudent++;
         if (
           parseInt(j) === results.length - 1 &&
@@ -109,14 +110,16 @@ export default function UploadScorePageContainer() {
           fullScore: full_score[i + 4],
           studentNumber: null,
           note: note,
-          results: results_list,
         };
         scores_list[i] = obj;
       }
     }
     arr.map((e) => (e.scores = scores_list));
     arr.map((e, i) =>
-      e.scores.map((item) => (item.studentNumber = countStudentEachSection[i]))
+      e.scores.map((item) => {
+        item.studentNumber = countStudentEachSection[i];
+        item.results = results_list[i];
+      })
     );
     setSections(arr);
   }
