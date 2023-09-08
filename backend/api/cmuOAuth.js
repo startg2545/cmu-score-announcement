@@ -51,10 +51,11 @@ router.post("/", async (req, res) => {
         .status(400)
         .send({ ok: false, message: "Cannot get cmu basic info" });
 
-        const itAccountType_id =
-        response2.cmuitaccount === "sawit_cha@cmu.ac.th"
-          ? "MISEmpAcc"
-          : response2.itaccounttype_id;
+    const itAccountType_id =
+      response2.cmuitaccount === "worapitcha_muangyot@cmu.ac.th"
+        ? "MISEmpAcc"
+        : response2.itaccounttype_id;
+
 
     //create session
     const token = jwt.sign(
