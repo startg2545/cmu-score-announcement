@@ -14,6 +14,7 @@ export default function UploadScorePageContainer() {
   const [year, setYear] = useState(0);
   const [semester, setSemester] = useState(0);
   const [note, setNote] = useState("");
+  const [isFileUploaded, setIsFileUploaded] = useState(false);
 
   const navigate = useNavigate();
 
@@ -134,6 +135,11 @@ export default function UploadScorePageContainer() {
     var results = {};
     results = getResults(resultsData, keys);
     addSections(keys, full_score, results);
+    if (file) {
+      setIsFileUploaded(true);
+    } else {
+      setIsFileUploaded(false);
+    }
   };
 
   const [showPopupCancel, setShowPopupCancel] = useState(false);
@@ -250,7 +256,7 @@ export default function UploadScorePageContainer() {
           }}
         >
           <p className={upStyle.ScoreFileDescription}>
-            All changes to the file, including uploads, and edits,{" "}
+            All changes to the file, including uploads,{" "}
             <span style={{ fontWeight: "bold" }}>
               {" "}
               will be logged in the version history.{" "}

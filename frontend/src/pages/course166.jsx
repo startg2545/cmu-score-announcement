@@ -7,6 +7,7 @@ import { addCourse, getAllCourses, getScores } from "../services";
 import DropDownCourse from "../components/DropDownCourse";
 import { TextInput, Button, Flex, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { IconAt } from "@tabler/icons-react";
 
 export default function Course166Container() {
   const [course, setCourse] = useState([]);
@@ -22,6 +23,8 @@ export default function Course166Container() {
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
   const [section, setSections] = useState();
+  const [isCourseNoValid, setIsCourseNoValid] = useState(true);
+  const [isEmailValid, setIsEmailNoValid] = useState(true);
 
   const { showSidebar } = useContext(ShowSidebarContext);
 
@@ -46,6 +49,14 @@ export default function Course166Container() {
   };
 
   const instructorClosePopup = () => {
+    if (!isEmailValid) {
+      return;
+    }
+    setShowPopup(false);
+    emailform.reset();
+  };
+
+  const instructorCancelClosePopup = () => {
     setShowPopup(false);
     emailform.reset();
   };
@@ -55,10 +66,17 @@ export default function Course166Container() {
       email: "",
     },
     validate: {
-      email: (value) =>
-        /^\S+@cmu\.ac\.th$/i.test(value)
+      email: (value) => {
+        if (!value) {
+          setIsEmailNoValid(false);
+          return "Email is required";
+        }
+        const isValid = /^\S+@cmu\.ac\.th$/i.test(value);
+        setIsEmailNoValid(isValid);
+        return isValid
           ? null
-          : "Please enter a valid email address ending with @cmu.ac.th",
+          : "Please enter a valid email address ending with @cmu.ac.th";
+      },
     },
     // validateInputOnChange: true,
     validateInputOnBlur: true,
@@ -69,8 +87,15 @@ export default function Course166Container() {
       courseNo: "",
     },
     validate: {
-      courseNo: (value) =>
-        /^\d{6}$/.test(value) ? null : "Please enter a valid course no",
+      courseNo: (value) => {
+        if (!value) {
+          setIsCourseNoValid(false);
+          return "Course no is required";
+        }
+        const isValid = /^\d{6}$/.test(value);
+        setIsCourseNoValid(isValid);
+        return isValid ? null : "Please enter a valid course no";
+      },
     },
     validateInputOnBlur: true,
   });
@@ -171,15 +196,17 @@ export default function Course166Container() {
     courseForm.reset();
   };
 
-  const ConfirmhandleClosePopup = async () => {
-    setShowPopupAddCourse(false);
+  const ConfirmhandleClosePopup = async (data) => {
+    console.log("confirm ", data);
+
     await addCourse({
       year: parseInt(params.year),
       semester: parseInt(params.semester),
       courseNo: params.courseNo
         ? params.courseNo
-        : courseForm.getInputProps("courseNo").value,
+        : data.courseNo,
     });
+    setShowPopupAddCourse(false);
     courseForm.reset();
     fetchData();
   };
@@ -238,56 +265,67 @@ export default function Course166Container() {
             </div>
           </div>
           {showPopupAddCourse && (
-            <div className={Course.AddCoursePopup}>
-              <div className={Course["AddCoursePopup-Content"]}>
-                <div className={Course["AddCoursePopup-ContentInner"]}>
-                  <p style={{ color: "white", fontWeight: "600" }}>
-                    Select Course
-                  </p>
-                </div>
-                <div className={Course.AddCourseInlineContainer}>
-                  <p
-                    style={{
-                      marginRight: "20px",
-                      fontSize: "28px",
-                      transform: "translateY(-5px)",
-                    }}
-                  >
-                    Course:
-                  </p>
-                  <div className={Course.DropDownContainer}>
-                    <DropDownCourse parentToChild={allCourses} />
+            <form onSubmit={courseForm.onSubmit((data) => {
+              console.log(data);
+              ConfirmhandleClosePopup(data);
+            })} >
+              <div className={Course.AddCoursePopup}>
+                <div className={Course["AddCoursePopup-Content"]}>
+                  <div className={Course["AddCoursePopup-ContentInner"]}>
+                    <p style={{ color: "white", fontWeight: "600" }}>
+                      Add Course
+                    </p>
+                  </div>
+                  <div className={Course.AddCourseInlineContainer}>
+                    <p
+                      style={{
+                        marginRight: "20px",
+                        fontSize: "28px",
+                        transform: "translateY(-5px)",
+                      }}
+                    >
+                      Course:
+                    </p>
+                    <div className={Course.DropDownContainer}>
+                      <DropDownCourse parentToChild={allCourses} />
+                    </div>
+                  </div>
+                  <div className={Course.AddCourseInlineContainer}>
+                    <Flex mt={-20}>
+                      <Text fz={28}>or</Text>
+                      <TextInput
+                        placeholder="Type Course No"
+                        {...courseForm.getInputProps("courseNo")}
+                        mt={5}
+                        size="md"
+                        ml={90}
+                        radius="md"
+                      />
+                    </Flex>
+                  </div>
+                  <div className={Course.AddCoursePopupButtons}>
+                    <Button
+                      className={Course.AddCourseCancelButton}
+                      onClick={CancelhandleClosePopup}
+                      sx={{
+                        color: "black",
+                        "&:hover": {
+                          backgroundColor: "#F0EAEA",
+                        },
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      className={Course.AddCourseConfirmButton}
+                      type="submit"
+                    >
+                      Confirm
+                    </Button>
                   </div>
                 </div>
-                <Flex mt={-40} mb={20} direction="column" ta="center">
-                  <Text>Or</Text>
-                  <TextInput
-                    placeholder="Type Course No"
-                    {...courseForm.getInputProps("courseNo")}
-                  />
-                </Flex>
-                <div className={Course.AddCoursePopupButtons}>
-                  <Button
-                    className={Course.AddCourseCancelButton}
-                    onClick={CancelhandleClosePopup}
-                    sx={{
-                      color: "black",
-                      "&:hover": {
-                        backgroundColor: "#F0EAEA",
-                      },
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className={Course.AddCourseConfirmButton}
-                    onClick={ConfirmhandleClosePopup}
-                  >
-                    Confirm
-                  </Button>
-                </div>
               </div>
-            </div>
+            </form>
           )}
           <div
             className={`${Course.courseframewindow} ${
@@ -346,13 +384,15 @@ export default function Course166Container() {
                 fs={20}
                 w={450}
                 mt={5}
+                radius="md"
                 ta="center"
+                icon={<IconAt size="1.1rem" />}
                 {...emailform.getInputProps("email")}
               />
               <Flex className={Course.instructorPopupButtons}>
                 <Button
                   className={Course.CancelPopupButton}
-                  onClick={instructorClosePopup}
+                  onClick={instructorCancelClosePopup}
                   sx={{
                     color: "black",
                     "&:hover": {
@@ -370,6 +410,7 @@ export default function Course166Container() {
                       backgroundColor: "#d499ff",
                     },
                   }}
+              
                 >
                   Add
                 </Button>

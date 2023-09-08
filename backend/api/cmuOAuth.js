@@ -56,6 +56,7 @@ router.post("/", async (req, res) => {
         ? "MISEmpAcc"
         : response2.itaccounttype_id;
 
+
     //create session
     const token = jwt.sign(
       {
