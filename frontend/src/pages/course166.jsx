@@ -8,6 +8,7 @@ import DropDownCourse from "../components/DropDownCourse";
 import { TextInput, Button, Flex, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconAt } from "@tabler/icons-react";
+import Management from "../components/management";
 
 export default function Course166Container() {
   const [course, setCourse] = useState([]);
@@ -20,6 +21,7 @@ export default function Course166Container() {
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isShowTableScore, setShowTableScore] = useState(false);
   const [isUploadScore, setUploadScore] = useState(false);
+  const [isManage, setManage] = useState(false);
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
   const [section, setSections] = useState();
@@ -36,12 +38,12 @@ export default function Course166Container() {
   const showTable = () => {
     const data = course
       .filter((e) => e.courseNo === searchParams.get("courseNo"))[0]
-      .sections.filter((e) => e.section === "1")[0]
-      .scores
+      .sections.filter((e) => e.section === "1")[0].scores;
 
     setSections(data);
     setShowTableScore(true);
     setUploadScore(false);
+    setManage(false);
   };
 
   const handleClickInstructor = () => {
@@ -111,6 +113,7 @@ export default function Course166Container() {
   const onClickCourse = (item) => {
     let courseNo = item.courseNo;
     setUploadScore(false);
+    setManage(false);
     setSelectedCourse(true);
     searchParams.set("courseNo", courseNo);
     setSearchParams(searchParams);
@@ -118,6 +121,7 @@ export default function Course166Container() {
 
   const backToDashboard = () => {
     setUploadScore(false);
+    setManage(false);
     setSelectedCourse(false);
     searchParams.delete("courseNo");
     setSearchParams(searchParams);
@@ -125,6 +129,7 @@ export default function Course166Container() {
 
   const backToCourse = () => {
     setUploadScore(false);
+    setManage(false);
   };
 
   const fetchData = async () => {
@@ -178,9 +183,15 @@ export default function Course166Container() {
     return date.toLocaleDateString("en-US", options);
   };
 
-  function goToUpload() {
+  const goToUpload = () => {
     setUploadScore(true);
+    setManage(false);
     setShowTableScore(false);
+  }
+
+  const goToManage = () => {
+    setManage(true);
+    setUploadScore(false)
   }
 
   const handleAddCourse = () => {
@@ -197,14 +208,10 @@ export default function Course166Container() {
   };
 
   const ConfirmhandleClosePopup = async (data) => {
-    console.log("confirm ", data);
-
     await addCourse({
       year: parseInt(params.year),
       semester: parseInt(params.semester),
-      courseNo: params.courseNo
-        ? params.courseNo
-        : data.courseNo,
+      courseNo: params.courseNo ? params.courseNo : data.courseNo,
     });
     setShowPopupAddCourse(false);
     courseForm.reset();
@@ -265,10 +272,12 @@ export default function Course166Container() {
             </div>
           </div>
           {showPopupAddCourse && (
-            <form onSubmit={courseForm.onSubmit((data) => {
-              console.log(data);
-              ConfirmhandleClosePopup(data);
-            })} >
+            <form
+              onSubmit={courseForm.onSubmit((data) => {
+                console.log(data);
+                ConfirmhandleClosePopup(data);
+              })}
+            >
               <div className={Course.AddCoursePopup}>
                 <div className={Course["AddCoursePopup-Content"]}>
                   <div className={Course["AddCoursePopup-ContentInner"]}>
@@ -410,7 +419,6 @@ export default function Course166Container() {
                       backgroundColor: "#d499ff",
                     },
                   }}
-              
                 >
                   Add
                 </Button>
@@ -476,8 +484,12 @@ export default function Course166Container() {
                         showSidebar ? Course.moveRight : ""
                       }`}
                     >
-                      {isUploadScore ? "Upload Score " : ""}
-                      {isShowTableScore && <TableScore data={section} />}
+                      {
+                        isSelectedCourse && !isManage && !isUploadScore && params.courseNo
+                      }
+                      {isUploadScore && !isManage && `Upload Score ${params.courseNo}`  }
+                      {isManage  && `Management ${params.courseNo}`  }
+                      {/* {isShowTableScore && <TableScore data={section} />} */}
                     </div>
                     <div
                       className={` ${Course.Date} ${
@@ -523,14 +535,15 @@ export default function Course166Container() {
                         setShowTableScore(false);
                         document.getElementById("tab-menu").style.cursor =
                           "pointer";
+                        goToUpload();
                       }}
                       onMouseEnter={() => setIsHovered(true)}
                       onMouseLeave={() => setIsHovered(false)}
                       style={{
-                        boxShadow: isUploadScore
+                        boxShadow: isUploadScore && !isManage
                           ? "0px 4px 4px 0px rgba(0, 0, 0, 0.55) inset"
                           : "",
-                        backgroundColor: isUploadScore ? "white" : "",
+                        backgroundColor: isUploadScore && !isManage ? "white" : "",
                       }}
                     >
                       <svg
@@ -543,17 +556,17 @@ export default function Course166Container() {
                         <path
                           d="M29.8438 14.5C29.8438 14.96 29.6561 15.4011 29.322 15.7264C28.988 16.0516 28.5349 16.2344 28.0625 16.2344H16.7812V27.2188C16.7812 27.6787 16.5936 28.1199 16.2595 28.4451C15.9255 28.7704 15.4724 28.9531 15 28.9531C14.5276 28.9531 14.0745 28.7704 13.7405 28.4451C13.4064 28.1199 13.2188 27.6787 13.2188 27.2188V16.2344H1.9375C1.46508 16.2344 1.01202 16.0516 0.677966 15.7264C0.343917 15.4011 0.15625 14.96 0.15625 14.5C0.15625 14.04 0.343917 13.5989 0.677966 13.2736C1.01202 12.9484 1.46508 12.7656 1.9375 12.7656H13.2188V1.78125C13.2188 1.32127 13.4064 0.88012 13.7405 0.554862C14.0745 0.229603 14.5276 0.046875 15 0.046875C15.4724 0.046875 15.9255 0.229603 16.2595 0.554862C16.5936 0.88012 16.7812 1.32127 16.7812 1.78125V12.7656H28.0625C28.5349 12.7656 28.988 12.9484 29.322 13.2736C29.6561 13.5989 29.8438 14.04 29.8438 14.5Z"
                           fill={
-                            isHovered
+                            isHovered 
                               ? "black"
-                              : isUploadScore
+                              : isUploadScore && !isManage
                               ? "black"
                               : "#ffffff"
                           }
                         />
                       </svg>
                       <p
-                        onClick={goToUpload}
-                        style={{ color: isUploadScore ? "black" : "" }}
+                      
+                        style={{ color: isUploadScore && !isManage ? "black" : "" }}
                       >
                         Upload Score
                       </p>
@@ -565,7 +578,20 @@ export default function Course166Container() {
                       }`}
                       onMouseEnter={() => setIsHovered2(true)}
                       onMouseLeave={() => setIsHovered2(false)}
-                      onClick={showTable}
+                      
+                      style={{
+                        boxShadow: isManage
+                          ? "0px 4px 4px 0px rgba(0, 0, 0, 0.55) inset"
+                          : "",
+                        backgroundColor: isManage ? "white" : "",
+                      }}
+                      // onClick={showTable}
+                      onClick={() => {
+                        setManage(true);
+                        document.getElementById("tab-menu").style.cursor =
+                          "pointer";
+                        goToManage();
+                      }}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -577,10 +603,21 @@ export default function Course166Container() {
                         <path
                           d="M19.8999 12.6604C19.7396 12.4779 19.6512 12.2433 19.6512 12.0004C19.6512 11.7575 19.7396 11.5229 19.8999 11.3404L21.1799 9.90038C21.3209 9.74305 21.4085 9.54509 21.4301 9.33489C21.4516 9.12469 21.4061 8.91307 21.2999 8.73038L19.2999 5.27038C19.1948 5.0879 19.0348 4.94326 18.8426 4.85707C18.6505 4.77088 18.4361 4.74754 18.2299 4.79038L16.3499 5.17038C16.1107 5.21981 15.8616 5.17997 15.6498 5.05838C15.4379 4.93679 15.2779 4.74187 15.1999 4.51038L14.5899 2.68038C14.5228 2.48176 14.395 2.30925 14.2245 2.18723C14.0541 2.0652 13.8495 1.99984 13.6399 2.00038H9.6399C9.42183 1.989 9.20603 2.04931 9.02546 2.1721C8.84489 2.29489 8.70948 2.4734 8.6399 2.68038L8.0799 4.51038C8.0019 4.74187 7.84187 4.93679 7.63001 5.05838C7.41815 5.17997 7.16911 5.21981 6.9299 5.17038L4.9999 4.79038C4.80445 4.76276 4.6052 4.79361 4.42724 4.87902C4.24929 4.96444 4.1006 5.10061 3.9999 5.27038L1.9999 8.73038C1.89106 8.91103 1.84212 9.12147 1.86008 9.33161C1.87804 9.54174 1.96198 9.74082 2.0999 9.90038L3.3699 11.3404C3.53022 11.5229 3.61863 11.7575 3.61863 12.0004C3.61863 12.2433 3.53022 12.4779 3.3699 12.6604L2.0999 14.1004C1.96198 14.2599 1.87804 14.459 1.86008 14.6692C1.84212 14.8793 1.89106 15.0897 1.9999 15.2704L3.9999 18.7304C4.10499 18.9129 4.26502 19.0575 4.45715 19.1437C4.64928 19.2299 4.86372 19.2532 5.0699 19.2104L6.9499 18.8304C7.18911 18.781 7.43815 18.8208 7.65001 18.9424C7.86187 19.064 8.0219 19.2589 8.0999 19.4904L8.7099 21.3204C8.77948 21.5274 8.91489 21.7059 9.09546 21.8287C9.27603 21.9515 9.49183 22.0118 9.7099 22.0004H13.7099C13.9195 22.0009 14.1241 21.9356 14.2945 21.8135C14.465 21.6915 14.5928 21.519 14.6599 21.3204L15.2699 19.4904C15.3479 19.2589 15.5079 19.064 15.7198 18.9424C15.9316 18.8208 16.1807 18.781 16.4199 18.8304L18.2999 19.2104C18.5061 19.2532 18.7205 19.2299 18.9126 19.1437C19.1048 19.0575 19.2648 18.9129 19.3699 18.7304L21.3699 15.2704C21.4761 15.0877 21.5216 14.8761 21.5001 14.6659C21.4785 14.4557 21.3909 14.2577 21.2499 14.1004L19.8999 12.6604ZM18.4099 14.0004L19.2099 14.9004L17.9299 17.1204L16.7499 16.8804C16.0297 16.7332 15.2805 16.8555 14.6445 17.2242C14.0085 17.5929 13.53 18.1822 13.2999 18.8804L12.9199 20.0004H10.3599L9.9999 18.8604C9.76975 18.1622 9.29128 17.5729 8.6553 17.2042C8.01932 16.8355 7.27012 16.7132 6.5499 16.8604L5.3699 17.1004L4.0699 14.8904L4.8699 13.9904C5.36185 13.4404 5.63383 
                       12.7283 5.63383 11.9904C5.63383 11.2525 5.36185 10.5404 4.8699 9.99038L4.0699 9.09038L5.3499 6.89038L6.5299 7.13038C7.25012 7.27761 7.99932 7.15526 8.6353 6.78658C9.27128 6.4179 9.74975 5.82854 9.9799 5.13038L10.3599 4.00038H12.9199L13.2999 5.14038C13.53 5.83854 14.0085 6.4279 14.6445 6.79658C15.2805 7.16526 16.0297 7.28761 16.7499 7.14038L17.9299 6.90038L19.2099 9.12038L18.4099 10.0204C17.9235 10.5691 17.6549 11.2771 17.6549 12.0104C17.6549 12.7437 17.9235 13.4516 18.4099 14.0004ZM11.6399 8.00038C10.8488 8.00038 10.0754 8.23498 9.41761 8.67451C8.75982 9.11403 8.24713 9.73874 7.94438 10.4696C7.64163 11.2006 7.56241 12.0048 7.71675 12.7807C7.8711 13.5567 8.25206 14.2694 8.81147 14.8288C9.37088 15.3882 10.0836 15.7692 10.8595 15.9235C11.6355 16.0779 12.4397 15.9987 13.1706 15.6959C13.9015 15.3932 14.5262 14.8805 14.9658 14.2227C15.4053 13.5649 15.6399 12.7915 15.6399 12.0004C15.6399 10.9395 15.2185 9.9221 14.4683 9.17196C13.7182 8.42181 12.7008 8.00038 11.6399 8.00038ZM11.6399 14.0004C11.2443 14.0004 10.8577 13.8831 10.5288 13.6633C10.1999 13.4436 9.94351 13.1312 9.79214 12.7657C9.64076 12.4003 9.60116 11.9982 9.67833 11.6102C9.7555 11.2222 9.94598 10.8659 10.2257 10.5862C10.5054 10.3065 10.8618 10.116 11.2497 10.0388C11.6377 9.96164 12.0398 10.0012 12.4053 10.1526C12.7707 10.304 13.0831 10.5603 13.3028 10.8892C13.5226 11.2181 13.6399 11.6048 13.6399 12.0004C13.6399 12.5308 13.4292 13.0395 13.0541 13.4146C12.679 13.7897 12.1703 14.0004 11.6399 14.0004Z"
-                          fill={isHovered2 ? "black" : "#ffffff"}
+                          fill={
+                            isHovered2 
+                              ? "black"
+                              : isManage
+                              ? "black"
+                              : "#ffffff"
+                          }
                         />
                       </svg>
-                      <p>Management</p>
+                      <p
+                       
+                        style={{ color: isManage ? "black" : "" }}
+                      >
+                        Management
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -610,7 +647,7 @@ export default function Course166Container() {
                   )}
                 </div>
               </div>
-              {isUploadScore && (
+              {isUploadScore && !isManage && (
                 <p className={Course.MenuIndex}>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -636,6 +673,32 @@ export default function Course166Container() {
                   </label>
                 </p>
               )}
+              {isManage  && (
+                <p className={Course.MenuIndex}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="8"
+                    height="12"
+                    viewBox="0 0 8 12"
+                    fill="none"
+                    className={` ${Course.date} ${
+                      showSidebar ? Course.moveRight : ""
+                    }`}
+                  >
+                    <path
+                      d="M7.43738 6.41702L2.36856 11.3462C2.01821 11.6869 1.4517 11.6869 1.10508 11.3462L0.262759 10.5271C-0.0875863 10.1864 -0.0875863 9.63549 0.262759 9.29842L3.85566 5.80449L0.262759 2.31056C-0.0875863 1.96987 -0.0875863 1.41896 0.262759 1.08189L1.10135 0.255521C1.4517 -0.0851736 2.01821 -0.0851736 2.36483 0.255521L7.43365 5.18472C7.78773 5.52541 7.78773 6.07632 7.43738 6.41702Z"
+                      fill="#696CA3"
+                    />
+                  </svg>
+                  <label
+                    className={` ${Course.date} ${
+                      showSidebar ? Course.moveRight : ""
+                    }`}
+                  >
+                    Management
+                  </label>
+                </p>
+              )}
             </div>
             <div
               className={` ${Course.lineIndex} ${
@@ -645,12 +708,8 @@ export default function Course166Container() {
               {" "}
             </div>
           </>
-
-          <div className={Course.ButtonTitleLayout}>
-            <div className={Course.TitleLayout}>
               {isUploadScore && <UploadSc />}
-            </div>
-          </div>
+              {isManage && <Management />}
         </div>
       )}
     </>
