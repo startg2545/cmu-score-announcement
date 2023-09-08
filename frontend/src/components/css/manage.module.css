@@ -1,5 +1,22 @@
+@font-face {
+  font-family: "SF PRO";
+  src: url(../../font//SF-Pro.ttf) format("truetype");
+  /* You can specify other font formats (e.g., woff, woff2) as needed */
+}
+
+body {
+  margin: 0; /* Reset default body margin */
+  padding: 0; /* Reset default body padding */
+  position: relative;
+}
+
+
 .layOut {
-    margin: auto;
+  margin: auto;
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start; 
+  justify-content: flex-start;
 }
 .secBox {
   width: 973px;
