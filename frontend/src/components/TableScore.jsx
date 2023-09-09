@@ -26,7 +26,7 @@ const TableScore = ({ data }) => {
       let MD = 0;
       if (e.studentNumber % 2 === 0) {
         const lwMid = sortPoint[Math.floor(middle) - 1].point;
-        const upMid = +sortPoint[Math.ceil(middle) - 1].point;
+        const upMid = sortPoint[Math.ceil(middle) - 1].point;
         MD = (lwMid + upMid) / 2;
       } else {
         MD = data[i].Median = sortPoint[middle - 1].point;
@@ -39,12 +39,17 @@ const TableScore = ({ data }) => {
       //calculate SD
       let x = 0;
       e.results.map((e) => (x += Math.pow(e.point - meanS, 2)));
-      data[i].SD = Math.sqrt(x / (e.studentNumber - 1)).toFixed(2);
+      data[i].SD = Math.sqrt(x / (e.studentNumber)).toFixed(2);
 
-      //calculate Upper Quartile Q1 (3(N+1)/4)
-      data[i].UpperQu = ((3 * (e.studentNumber + 1)) / 4).toFixed(2);
-      //calculate Lower Quartile Q3 (1(N+1)/4)
-      data[i].LowerQu = ((e.studentNumber + 1) / 4).toFixed(2);
+      
+      const Q1 = (e.studentNumber + 1) / 4;
+      const Q3 = (3 * (e.studentNumber + 1)) / 4;
+      const baseQ1 = Math.floor(Q1);
+      const baseQ3 = Math.floor(Q3);
+      //calculate Upper Quartile Q3 
+      data[i].UpperQu = (sortPoint[baseQ3-1].point + (Q3-baseQ3)*(sortPoint[baseQ3].point - sortPoint[baseQ3-1].point)).toFixed(2);
+      //calculate Lower Quartile Q1
+      data[i].LowerQu = (sortPoint[baseQ1-1].point + (Q1-baseQ1)*(sortPoint[baseQ1].point - sortPoint[baseQ1-1].point)).toFixed(2);
     });
   }, []);
 
