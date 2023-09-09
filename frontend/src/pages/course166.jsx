@@ -5,7 +5,7 @@ import { SideBar, TableScore, UploadSc } from "../components";
 import { ShowSidebarContext } from "../context";
 import { addCourse, getAllCourses, getScores } from "../services";
 import DropDownCourse from "../components/DropDownCourse";
-import { TextInput, Button, Flex, Text } from "@mantine/core";
+import { TextInput, Button, Flex, Text, Center } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconAt } from "@tabler/icons-react";
 import Management from "../components/management";
@@ -24,7 +24,7 @@ export default function Course166Container() {
   const [isManage, setManage] = useState(false);
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
-  const [section, setSections] = useState([]); 
+  const [section, setSections] = useState([]);
   const [tableData, setTableData] = useState();
   const [isCourseNoValid, setIsCourseNoValid] = useState(true);
   const [isEmailValid, setIsEmailNoValid] = useState(true);
@@ -37,11 +37,11 @@ export default function Course166Container() {
   const [showPopup, setShowPopup] = useState(false);
 
   const showSection = () => {
-    const data = course
-        .filter((e) => e.courseNo === searchParams.get("courseNo"))[0]
-        .sections;
-    setSections(data)
-    setManage(true)
+    const data = course.filter(
+      (e) => e.courseNo === searchParams.get("courseNo")
+    )[0].sections;
+    setSections(data);
+    setManage(true);
     setShowTableScore(false);
     setUploadScore(false);
   };
@@ -188,7 +188,6 @@ export default function Course166Container() {
     setManage(false);
     setShowTableScore(false);
   };
-
 
   const goToManage = () => {
     setManage(true);
@@ -504,7 +503,6 @@ export default function Course166Container() {
                     </div>
                   </div>
 
-                  {/*button choice addCo/Upload/Manage */}
                   <div className="button-container">
                     <div
                       className={` ${Course.instructorButton} ${
@@ -594,7 +592,6 @@ export default function Course166Container() {
                           : "",
                         backgroundColor: isManage ? "white" : "",
                       }}
-
                       onClick={() => {
                         setManage(true);
                         document.getElementById("tab-menu").style.cursor =
@@ -629,33 +626,24 @@ export default function Course166Container() {
                   </div>
                 </div>
 
-                <div
-                  style={{
-                    height: "calc(87vh - 60px)",
-                    width: "100vw",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    display: "flex",
-                  }}
-                >
-                  {!isUploadScore && !isManage && (
-                    <p
-                      style={{
-                        fontSize: "30px",
-                        textAlign: "center",
-                        alignItems: "center",
-                        fontStyle: "normal",
-                        color: "#696CA3",
-                        fontWeight: "590",
-                        fontFamily: "SF Pro",
-                      }}
-                    >
-                      Please select menu in the navigation bar
-                    </p>
-                  )}
-                </div>
+                {!isUploadScore && !isManage && (
+                  <Center
+                    mx="auto"
+                    mt={100}
+                    style={{
+                      fontSize: "30px",
+                      fontStyle: "normal",
+                      color: "#696CA3",
+                      fontWeight: "590",
+                      fontFamily: "SF Pro",
+                    }}
+                  >
+                    Please select menu in the navigation bar
+                  </Center>
+                )}
+
                 {/* show Upload/Section/TableScore */}
-                {isManage && <Management  data={section}/>}
+                {isManage && <Management data={section} />}
               </div>
 
               {isUploadScore && !isManage && (
