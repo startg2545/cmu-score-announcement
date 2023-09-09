@@ -26,8 +26,8 @@ export default function StudentDashboard() {
     "Mean",
     "Max",
     "Median",
-    "Upper Quartile",
     "Lower Quartile",
+    "Upper Quartile",
   ];
   const colorProgress = [
     "#696CA3",
@@ -153,7 +153,7 @@ export default function StudentDashboard() {
       setSD(Math.sqrt(x / num).toFixed(2));
     }
 
-    setStat([scorePS, mean, max, median, q3, q1]);
+    setStat([scorePS, mean, max, median, q1, q3]);
   };
 
   const backToDashboard = () => {
@@ -223,7 +223,7 @@ export default function StudentDashboard() {
         className={Course.coursetopictext}
         w="fit-content"
         fz={20}
-        style={{ marginTop: isSelectedCourse ? -5 : 0 }}
+        style={{ marginTop: isSelectedCourse ? -8 : 0 }}
       >
         {!isSelectedCourse && "Dashboard"}
         {isSelectedCourse && !isSelectedScore && params.courseNo}
@@ -232,13 +232,13 @@ export default function StudentDashboard() {
       <Text
         className={Course.datetext}
         w="fit-content"
-        style={{ marginTop: isSelectedCourse ? -5 : 0 }}
+        style={{ marginTop: isSelectedCourse ? 0 : 0 }}
       >
         {formatDate(currentDate)}
       </Text>
       <div
         className={Course.courseframewindow}
-        style={{ gap: 10, marginTop: isSelectedCourse ? 8 : 0 }}
+        style={{ gap: 10, marginTop: isSelectedCourse ? 4 : 0 }}
       >
         {!isSelectedCourse &&
           courseList &&
@@ -284,18 +284,28 @@ export default function StudentDashboard() {
             );
           })}
         {isSelectedScore && (
-          <Flex direction="column" mt={20} gap={25}>
+          <Flex direction="column" mt={15} gap={25}>
+            <Title
+              ta="right"
+              order={3}
+              color="#696CA3"
+              ff={"SF PRo, sans-serif"}
+              fz={isMobileOrTablet ? 20 : 25}
+            >
+              Full Score: {fullScore}
+            </Title>
             {scoreList && stat && (
               <>
                 {stat.map((e, i) => (
                   <Flex key={i} direction="column" gap={12}>
                     <Title
+                      mt={i === 0 ? -20 : 0}
                       order={3}
                       color={colorProgress[i]}
                       ff={"SF PRo, sans-serif"}
                       fz={isMobileOrTablet ? 20 : 25}
                     >
-                      {title[i]}: {i === 0 ? `${e}/${fullScore}` : e}
+                      {title[i]}: {e}
                     </Title>
                     <Progress
                       mt={-10}
