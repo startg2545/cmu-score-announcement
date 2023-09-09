@@ -27,10 +27,13 @@ export default function UploadScorePageContainer() {
 
   const submitData = async () => {
     let resp_course = await addCourse(scores);
-    console.log(resp_course)
+    console.log(resp_course);
     if (resp_course) {
-      let url = `semester=${semester}&year=${year}&courseNo=${courseNo}`;
-      navigate(`/course?${url}`);
+      // let url = `semester=${semester}&year=${year}&courseNo=${courseNo}`;
+      // navigate(`/course?${url}`);
+      // window.location.reload();
+      setShowPopupConfirm(false);
+      localStorage.setItem("Upload", true);
     }
   };
 
@@ -152,6 +155,7 @@ export default function UploadScorePageContainer() {
 
   const CancelConfirmhandleClosePopup = () => {
     setShowPopupCancel(false);
+    localStorage.setItem("Upload", true);
   };
 
   const CancelCancelhandleClosePopup = () => {

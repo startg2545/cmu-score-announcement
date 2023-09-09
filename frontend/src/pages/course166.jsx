@@ -155,9 +155,29 @@ export default function Course166Container() {
     }
   };
 
+  // useEffect(() => {
+  //   if (localStorage.getItem("Upload")) {
+  //     console.log("====================================");
+  //     console.log(localStorage.getItem("Upload"));
+  //     console.log("====================================");
+  //     setUploadScore(false);
+  //     localStorage.removeItem("Upload");
+  //     // localStorage.setItem("Upload", false);
+  //   }
+  // }, [localStorage]);
+
   useEffect(() => {
     if (isUploadScore === true) {
       document.getElementById("tab-menu").style.cursor = "pointer";
+    }
+
+    console.log("====================================");
+    console.log(localStorage.getItem("Upload"));
+    console.log("====================================");
+    if (localStorage.getItem("Upload") !== null) {
+      setUploadScore(false);
+      localStorage.removeItem("Upload");
+      // localStorage.setItem("Upload", false);
     }
 
     if (!showPopupAddCourse) fetchData();
@@ -168,6 +188,7 @@ export default function Course166Container() {
 
     return () => clearInterval(interval);
   }, [
+    localStorage.getItem("Upload"),
     location,
     isShowTableScore,
     searchParams,
@@ -654,6 +675,7 @@ export default function Course166Container() {
                 </div>
                 {/* show Upload/Section/TableScore */}
                 {isManage && <Management data={section} />}
+
                 {/* {isManage &&
                      <div
                      className={`${Course.publishSec} ${
@@ -669,6 +691,7 @@ export default function Course166Container() {
                    </div>
                 } */}
                
+
               </div>
 
               {isUploadScore && !isManage && (
