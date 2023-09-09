@@ -30,20 +30,19 @@ router.post("/add", async (req, res) => {
         courseNo: req.body.courseNo,
         year: req.body.year,
         semester: req.body.semester,
-        // sections: req.body.sections
       });
       newCourse.save();
       return res.send(newCourse);
-    } else {      
-      var req_sections = req.body.sections
+    } else {
+      var req_sections = req.body.sections;
 
       for (let i in req_sections) {
         const section = await courseModel.findOne({
           courseNo: req.body.courseNo.toString(),
           year: req.body.year,
           semester: req.body.semester,
-          'sections.section': req_sections[i].section.toString()
-        })
+          "sections.section": req_sections[i].section.toString(),
+        });
 
         if (section) {
           // push or replace scores on this existing section here
@@ -52,40 +51,40 @@ router.post("/add", async (req, res) => {
               courseNo: req.body.courseNo.toString(),
               year: req.body.year.toString(),
               semester: req.body.semester.toString(),
-              'sections.section': req_sections[i].section.toString(),
-              'sections.scores.scoreName': req_sections[i].scores[j].scoreName
-            })
-            if(score) {
+              "sections.section": req_sections[i].section.toString(),
+              "sections.scores.scoreName": req_sections[i].scores[j].scoreName,
+            });
+            if (score) {
               // replace request score on this existing score
               for (let x in score.sections[i].scores) {
-                if (score.sections[i].scores[x].scoreName==req_sections[i].scores[j].scoreName) 
-                  score.sections[i].scores[x] = req_sections[i].scores[j]
+                if (
+                  score.sections[i].scores[x].scoreName ==
+                  req_sections[i].scores[j].scoreName
+                )
+                  score.sections[i].scores[x] = req_sections[i].scores[j];
               }
-              await score.save()
+              await score.save();
             } else {
               // push new request score append to section
-              
-              section.sections[i].scores.push(req_sections[i].scores[j])
-              await section.save()
-              return res.send(section.sections[i].scores)
 
+              section.sections[i].scores.push(req_sections[i].scores[j]);
+              await section.save();
+              return res.send(section.sections[i].scores);
             }
           }
-
-
         } else {
           // new section is added here
 
           // req_sections.forEach((e) => {
           //   course.sections.push(e);
           // });
+          course.sections.push(req_sections[i]);
 
-          course.sections.push(req_sections[i].section.toString())
           await course.save();
         }
       }
 
-      return res.send('The sections have been added.')
+      return res.send("The sections have been added.");
     }
 
     return res.send({
