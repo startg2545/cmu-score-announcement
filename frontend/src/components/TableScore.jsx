@@ -10,6 +10,7 @@ const TableScore = ({ data }) => {
   const [isDelete, setIsDelete] = useState(false);
 
   useEffect(() => {
+    console.log(data);
     let total = 0;
     data.map((e,i) => {
       e.results.map((e) => (total += e.point));
