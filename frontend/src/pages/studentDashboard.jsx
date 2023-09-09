@@ -21,7 +21,24 @@ export default function StudentDashboard() {
   const isMobileOrTablet = useMediaQuery(
     "(max-width: 1024px) and (max-height: 1400px)"
   );
-  // const 
+  const title = [
+    "Your Score",
+    "Mean",
+    "Max",
+    "Median",
+    "Upper Quartile",
+    "Lower Quartile",
+  ];
+  const colorProgress = [
+    "#696CA3",
+    "#FF7A00",
+    "#429195",
+    "#B05F99",
+    "#318A5F",
+    "#4868DB",
+  ];
+  const [stat, setStat] = useState([0, 0, 0, 0, 0, 0]);
+  const [SD, setSD] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -86,8 +103,14 @@ export default function StudentDashboard() {
     setSearchParams(searchParams);
   };
 
+  const calStat = () => {
+    let mean, max, median, uq, lq = 0;
+    setStat([score.point, mean, max, median, uq, lq]);
+  }
+
   const onClickScore = (e) => {
     setScore(scoreList.filter((s) => s.scoreName === e)[0]);
+    calStat();
     setSelectedScore(true);
     searchParams.set("scoreName", e);
     setSearchParams(searchParams);
@@ -174,75 +197,28 @@ export default function StudentDashboard() {
             );
           })}
         {isSelectedScore && (
-          <Flex direction="column" mt={10} ff={"SF PRo, sans-serif"} gap={25}>
-            <Title order={3} color="#696CA3">
-              Your Score: {score.point}/
-            </Title>
-            <Progress
-              mt={-10}
-              value={score.point}
-              size={12}
-              w={650}
-              color="#696CA3"
-              bg="#D9D9D9"
-            />
-            <Title order={3} color="#FF7A00">
-              Mean: {}
-            </Title>
-            <Progress
-              mt={-10}
-              value={50}
-              size={12}
-              w={650}
-              color="#FF7A00"
-              bg="#D9D9D9"
-            />
-            <Title order={3} color="#429195">
-              Max: {}
-            </Title>
-            <Progress
-              mt={-10}
-              value={50}
-              size={12}
-              w={650}
-              color="#429195"
-              bg="#D9D9D9"
-            />
-            <Title order={3} color="#B05F99">
-              Median: {}
-            </Title>
-            <Progress
-              mt={-10}
-              value={50}
-              size={12}
-              w={650}
-              color="#B05F99"
-              bg="#D9D9D9"
-            />
-            <Title order={3} color="#318A5F">
-              Upper quartile: {}
-            </Title>
-            <Progress
-              mt={-10}
-              value={50}
-              size={12}
-              w={650}
-              color="#318A5F"
-              bg="#D9D9D9"
-            />
-            <Title order={3} color="#4868DB">
-              Lower quartile: {}
-            </Title>
-            <Progress
-              mt={-10}
-              value={50}
-              size={12}
-              w={650}
-              color="#4868DB"
-              bg="#D9D9D9"
-            />
-            <Title order={3} color="#696CA3">
-              SD: {}
+          <Flex direction="column" mt={10} gap={25}>
+            {stat.map((e, i) => (
+              <Flex key={i} direction="column" gap={10}>
+                <Title
+                  order={3}
+                  color={colorProgress[i]}
+                  ff={"SF PRo, sans-serif"}
+                >
+                  {title[i]}: {e}
+                </Title>
+                <Progress
+                  mt={-10}
+                  value={e}
+                  size={12}
+                  w={650}
+                  color={colorProgress[i]}
+                  bg="#D9D9D9"
+                />
+              </Flex>
+            ))}
+            <Title order={3} color="#696CA3" ff={"SF PRo, sans-serif"}>
+              SD: {SD}
             </Title>
           </Flex>
         )}
