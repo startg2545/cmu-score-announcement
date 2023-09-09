@@ -37,14 +37,10 @@ export default function Course166Container() {
   const [showPopup, setShowPopup] = useState(false);
 
   const showSection = () => {
-    const dataTable = course
-      .filter((e) => e.courseNo === searchParams.get("courseNo"))[0]
-      .sections.filter((e) => e.section === "1")[0].scores;
     const data = course
         .filter((e) => e.courseNo === searchParams.get("courseNo"))[0]
         .sections;
     setSections(data)
-    setTableData(dataTable);
     setManage(true)
     setShowTableScore(false);
     setUploadScore(false);
@@ -659,7 +655,7 @@ export default function Course166Container() {
                   )}
                 </div>
                 {/* show Upload/Section/TableScore */}
-                {isManage && <Management  data={section} dataTable={tableData}/>}
+                {isManage && <Management  data={section}/>}
               </div>
 
               {isUploadScore && !isManage && (

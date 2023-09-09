@@ -3,13 +3,19 @@ import secMan from "./css/manage.module.css";
 
 import TableScore from "./TableScore";
 
-const Management = ({ data , dataTable}) => {
+const Management = ({data}) => {
  const [isShowTable , setIsShowTable] = useState(false);
-//  const [isSelectSec , setIsSelectSec] = useState(false);
+ const [dataTable ,setDataTable] = useState();
 
- const showTable = () => {
+ const showTable = (sec) => {
     setIsShowTable(true);
+    setDataTable(data.filter((e) => e.section === sec)[0].scores);
  };
+
+ useEffect(() => {
+  data.sort((a, b) => a.section - b.section);
+ },[]) 
+
  
   return (
     <div>
@@ -18,9 +24,9 @@ const Management = ({ data , dataTable}) => {
            {data.map((e, key) => (
                <p className={secMan.secBox} key={key}
                onClick={() => {
-                 showTable()
+                 showTable(e.section)
                }}>
-                 Section
+                 Section{" "}
                  {e.section < 10
                    ? `00${e.section}`
                    : e.section < 100
