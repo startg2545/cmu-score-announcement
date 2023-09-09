@@ -675,6 +675,23 @@ export default function Course166Container() {
                 </div>
                 {/* show Upload/Section/TableScore */}
                 {isManage && <Management data={section} />}
+
+                {/* {isManage &&
+                     <div
+                     className={`${Course.publishSec} ${
+                       showSidebar ? Course.shrink : ""
+                     }`}
+                   >
+                     <div className={Course.publishlAll}>
+                       <p>Publish All Sections</p>
+                     </div>
+                     <div className={Course.publishlEach}>
+                       <p>Publish Each Section</p>
+                     </div>
+                   </div>
+                } */}
+               
+
               </div>
 
               {isUploadScore && !isManage && (
