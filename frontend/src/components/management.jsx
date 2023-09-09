@@ -80,6 +80,7 @@ const Management = ({ data }) => {
         )}
         {isShowTable && <TableScore data={dataTable} />}
       </div>
+
     </div>
   );
 };

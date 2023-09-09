@@ -2,6 +2,7 @@
   width: 1200px;
   height: 200px;
   font-family: "SF PRo";
+  
 }
 
 .colBig {
@@ -9,47 +10,46 @@
   text-align: center;
   background-color: #d0cdfe;
   font-family: "SF PRo";
-  
-}
-.colBig.front {
-  border-top-left-radius: 30px;
-}
-.colBig.back {
-  border-top-right-radius: 30px;
+  height: 100px;
 }
 
+
+
+
 .colSml {
-  width: 50px;
+  width: 45px;
   text-align: center;
   background-color: #d0cdfe;
+
 }
 
 .publicBT {
-  width: 30px;
-  height: 18px;
-  border-radius: 10px;
+  width: 50px;
+  height: 35px;
+  border-radius: 15px;
   flex-shrink: 0;
   background-color: #6fbf77;
-
   display: flex;
   justify-content: center; 
   align-items: center;
+  cursor: pointer;
 }
 
 .manageBtDisplay{
     display: flex;
     justify-content: center;
     align-content: center;
-    gap: 10px
+    gap: 10px;
+    cursor: pointer;
 }
 
 .manageBT{
     display: flex;
     justify-content: center; 
     align-items: center;
-    width: 23px;
-    height: 23px;
-    border-radius: 50%;
+    width: 50px;
+    height: 35px;
+    border-radius: 15px;
     flex-shrink: 0;
 }
 .manageBT.logBT{
@@ -63,3 +63,11 @@
 .manageBT.deleteBT{
     background-color: #E65F56;
 }
+
+.fontGlobal
+{
+  font-size: 28px;
+}
+
+
+

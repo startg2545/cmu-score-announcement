@@ -83,8 +83,8 @@ const TableScore = ({ data }) => {
           <div className={tabStyle.publicBT}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
+              width="30"
+              height="30"
               viewBox="0 0 20 20"
               fill="none"
             >
@@ -106,10 +106,11 @@ const TableScore = ({ data }) => {
         <center>
           <div className={tabStyle.manageBtDisplay}>
             <div className={`${tabStyle.manageBT} ${tabStyle.logBT}`}>
+              
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
+                width="20"
+                height="20"
                 viewBox="0 0 16 16"
                 fill="none"
               >
@@ -128,12 +129,13 @@ const TableScore = ({ data }) => {
                   stroke-linejoin="round"
                 />
               </svg>
+              
             </div>
             <div className={`${tabStyle.manageBT} ${tabStyle.editBT}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="13"
-                height="13"
+                width="20"
+                height="20"
                 viewBox="0 0 15 15"
                 fill="none"
               >
@@ -156,8 +158,8 @@ const TableScore = ({ data }) => {
             <div className={`${tabStyle.manageBT} ${tabStyle.deleteBT}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="12"
-                height="14"
+                width="18"
+                height="20"
                 viewBox="0 0 16 18"
                 fill="none"
               >
@@ -174,57 +176,56 @@ const TableScore = ({ data }) => {
   ));
 
   return (
-    <div>
-      <Table withBorder withColumnBorders className={tabStyle.sizeTa}>
-        <thead>
-          <tr>
-            <th className={`${tabStyle.colBig} ${tabStyle.front}`}>
-              <center>Assignment</center>
+    <div >
+      <Table withBorder  withColumnBorders verticalSpacing="md" striped fontSize={22} fw={500} style={{border: "1px solid", transform: "translateX(0px)"}} >
+        <thead >
+            <th className={`${tabStyle.colBig} ${tabStyle.front}`} style={{border: "1px solid"}} >
+              <center style={{fontSize: "18px"}} >Assignment</center>
             </th>
-            <th className={tabStyle.colSml}>
-              <center>
-                Number<br></br>of<br></br>Student
+            <th className={tabStyle.colSml} style={{border: "1px solid"}}>
+              <center style={{fontSize: "18px"}} >
+               Student
               </center>
             </th>
-            <th className={tabStyle.colSml}>
-              <center>Full Score</center>
+            <th className={tabStyle.colSml} style={{border: "1px solid"}}>
+              <center style={{fontSize: "18px"}}>Full Score</center>
             </th>
-            <th className={tabStyle.colSml}>
-              <center>
+            <th className={tabStyle.colSml} style={{border: "1px solid"}}>
+              <center style={{fontSize: "18px"}} >
                 Mean<br></br>Section
               </center>
             </th>
-            <th className={tabStyle.colSml}>
-              <center>
+            <th className={tabStyle.colSml} style={{border: "1px solid"}}>
+              <center style={{fontSize: "18px"}}>
                 Mean<br></br>Course
               </center>
             </th>
-            <th className={tabStyle.colSml}>
-              <center>Median</center>
+            <th className={tabStyle.colSml} style={{border: "1px solid"}}>
+              <center style={{fontSize: "18px"}}>Median</center>
             </th>
-            <th className={tabStyle.colSml}>
-              <center>Max</center>
+            <th className={tabStyle.colSml}style={{border: "1px solid"}}>
+              <center style={{fontSize: "18px"}} >Max</center>
             </th>
-            <th className={tabStyle.colSml}>
-              <center>SD</center>
+            <th className={tabStyle.colSml}style={{border: "1px solid"}}>
+              <center style={{fontSize: "18px"}}>SD</center>
             </th>
-            <th className={tabStyle.colSml}>
-              <center>
+            <th className={tabStyle.colSml}style={{border: "1px solid"}}>
+              <center style={{fontSize: "18px"}}>
                 Upper<br></br>Quartile
               </center>
             </th>
-            <th className={tabStyle.colSml}>
-              <center>
+            <th className={tabStyle.colSml}style={{border: "1px solid"}}>
+              <center style={{fontSize: "18px"}}>
                 Lower<br></br>Quartile
               </center>
             </th>
-            <th className={tabStyle.colSml}>
-              <center>Publish</center>
+            <th className={tabStyle.colSml } style={{border: "1px solid"}}>
+              <center style={{fontSize: "18px"}}>Publish</center>
             </th>
-            <th className={`${tabStyle.colBig} ${tabStyle.back}`}>
-              <center>Management</center>
+            <th className={`${tabStyle.colBig} ${tabStyle.back}`} style={{border: "1px solid"}}>
+              <center style={{fontSize: "18px"}}>Management</center>
             </th>
-          </tr>
+        
         </thead>
         <tbody>{rows}</tbody>
       </Table>

@@ -368,7 +368,7 @@ export default function Course166Container() {
           <div className={Course["ScorePopup-Content"]}>
             <div className={Course["ScorePopup-ContentInner"]}>
               <p style={{ color: "white", fontWeight: "600" }}>
-                Add Co-Instructor
+                {`Add Co-Instructor ${params.courseNo}`}
               </p>
             </div>
             <p

@@ -119,7 +119,7 @@ body {
   position: fixed;
   top: 80px; /* Position the sidebar below the navbar with 80px distance from the top */
   left: -300px; /* Initially hide the sidebar off the left side of the screen */
-  width: 280px; /* Adjust the width as needed */
+  width: 240px; /* Adjust the width as needed */
   height: 100%; /* Set the maximum height based on the distance from the top */
   z-index: 0; /* Set z-index to 0 to place it behind the framewindow */
   display: flex;
@@ -135,49 +135,13 @@ body {
   box-shadow: 5px 0 5px rgba(0, 0, 0, 0.25); /* Apply the drop shadow */
 }
 
-.profileButton {
-  width: 220px;
-  height: 50px;
-  flex-shrink: 0;
-  border-radius: 25px;
-  background: #000000;
-  align-self: center;
-  position: absolute;
-  bottom: 175px;
-  font-family: "SF PRo", sans-serif;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  text-indent: -15px;
-  font-size: 18px;
-  filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
-  transition: background-color 0.3s ease;
-}
-
-.profileButton:hover {
-  background: #ffffff; /* Change background color to white on hover */
-  color: #000000; /* Change text color to black on hover */
-  box-shadow: inset 0 0 0 2px #000000;
-}
-
-.profileButton svg {
-  position: absolute;
-  left: 30px;
-}
-
-.profileButton:hover svg {
-  filter: invert(100%) sepia(0) saturate(0) hue-rotate(0) brightness(0)
-    contrast(100); /* Set the filter to turn the SVG black */
-}
 
 .logoutButton {
-  width: 220px;
-  height: 50px;
+  width: 190px;
+  height: 45px;
   flex-shrink: 0;
   border-radius: 25px;
-  background: #ed4040;
+  background: #ffffff;
   align-self: center;
   position: absolute;
   bottom: 110px;
@@ -186,11 +150,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
-  text-indent: -5px;
+  color: #ed4040;
+  text-indent: 10px;
   font-size: 18px;
   filter: drop-shadow(5px 4px 4px rgba(0, 0, 0, 0.25));
   transition: background-color 0.3s ease;
+  box-shadow: inset 0 0 0 2px #ed4040
 }
 
 .logoutButton svg {
@@ -199,8 +164,8 @@ body {
 }
 
 .logoutButton:hover {
-  background: #ffffff;
-  color: #ed4040;
+  background: #ed4040;
+  color: #ffffff;
   box-shadow: inset 0 0 0 2px #ed4040;
 }
 
@@ -223,7 +188,7 @@ body {
 }
 
 .courseButton {
-  width: 200px;
+  width: 180px;
   height: 40px;
   flex-shrink: 0;
   border-radius: 15px;
@@ -234,10 +199,11 @@ body {
   justify-content: center;
   align-items: center;
   color: rgb(0, 0, 0);
-  text-indent: -15px;
+  text-indent: 15px;
   font-size: 20px;
   transition: background-color 0.3s ease;
   margin: 3px;
+  transform: translateX(10px);
 }
 
 .courseButton svg {
