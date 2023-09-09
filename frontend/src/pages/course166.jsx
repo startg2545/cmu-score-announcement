@@ -24,7 +24,7 @@ export default function Course166Container() {
   const [isManage, setManage] = useState(false);
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
-  const [section, setSections] = useState([]); 
+  const [section, setSections] = useState([]);
   const [tableData, setTableData] = useState();
   const [isCourseNoValid, setIsCourseNoValid] = useState(true);
   const [isEmailValid, setIsEmailNoValid] = useState(true);
@@ -37,11 +37,11 @@ export default function Course166Container() {
   const [showPopup, setShowPopup] = useState(false);
 
   const showSection = () => {
-    const data = course
-        .filter((e) => e.courseNo === searchParams.get("courseNo"))[0]
-        .sections;
-    setSections(data)
-    setManage(true)
+    const data = course.filter(
+      (e) => e.courseNo === searchParams.get("courseNo")
+    )[0].sections;
+    setSections(data);
+    setManage(true);
     setShowTableScore(false);
     setUploadScore(false);
   };
@@ -188,7 +188,6 @@ export default function Course166Container() {
     setManage(false);
     setShowTableScore(false);
   };
-
 
   const goToManage = () => {
     setManage(true);
@@ -594,7 +593,6 @@ export default function Course166Container() {
                           : "",
                         backgroundColor: isManage ? "white" : "",
                       }}
-
                       onClick={() => {
                         setManage(true);
                         document.getElementById("tab-menu").style.cursor =
@@ -655,7 +653,22 @@ export default function Course166Container() {
                   )}
                 </div>
                 {/* show Upload/Section/TableScore */}
-                {isManage && <Management  data={section}/>}
+                {isManage && <Management data={section} />}
+                {/* {isManage &&
+                     <div
+                     className={`${Course.publishSec} ${
+                       showSidebar ? Course.shrink : ""
+                     }`}
+                   >
+                     <div className={Course.publishlAll}>
+                       <p>Publish All Sections</p>
+                     </div>
+                     <div className={Course.publishlEach}>
+                       <p>Publish Each Section</p>
+                     </div>
+                   </div>
+                } */}
+               
               </div>
 
               {isUploadScore && !isManage && (
