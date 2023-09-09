@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
-import "./studentDashboard.css";
-import { getStudentScores, getAllCourses, getScores, getScoresCourse } from "../services";
+import { getStudentScores, getAllCourses, getScoresCourse } from "../services";
 import UserInfoContext from "../context/userInfo";
 import { HiChevronRight } from "react-icons/hi";
 import { useMediaQuery } from "@mantine/hooks";
@@ -10,10 +9,10 @@ import { Flex, Title, Text, Progress } from "@mantine/core";
 
 export default function StudentDashboard() {
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [courseList, setCourseList] = useState(null);
-  const [section, setSection] = useState(null);
-  const [scoreList, setScoreList] = useState(null);
-  const [score, setScore] = useState(null);
+  const [courseList, setCourseList] = useState();
+  const [section, setSection] = useState();
+  const [scoreList, setScoreList] = useState();
+  const [scores, setScores] = useState();
   const { userInfo } = useContext(UserInfoContext);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [params, setParams] = useState({});
@@ -38,7 +37,7 @@ export default function StudentDashboard() {
     "#318A5F",
     "#4868DB",
   ];
-  const [stat, setStat] = useState(null);
+  const [stat, setStat] = useState([]);
   const [SD, setSD] = useState(0);
   const [fullScore, setFullScore] = useState();
 
@@ -65,21 +64,96 @@ export default function StudentDashboard() {
         }
       }
     };
-    if (!courseList) fetchData();
-    if (isSelectedScore && !stat) calStat();
+
+    if (userInfo.studentId) {
+      if (!courseList) fetchData();
+      if (params.courseNo) {
+        setCourse(params.courseNo);
+        setSelectedCourse(true);
+      }
+      if (params.scoreName) {
+        calStat(params.scoreName);
+        setSelectedScore(true);
+      }
+    }
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, [userInfo, courseList, section, scores]);
+
+  useEffect(() => {
     setParams({
       courseNo: searchParams.get("courseNo"),
       scoreName: searchParams.get("scoreName"),
     });
-
-    // Clear the interval when the component unmounts
-    return () => clearInterval(interval);
-  }, [userInfo, score, searchParams, isSelectedCourse]);
+    if (!params.scoreName) {
+      setScores(null);
+    }
+  }, [searchParams]);
 
   // Function to format the date as "XX Aug, 20XX"
   const formatDate = (date) => {
     const options = { day: "numeric", month: "short", year: "numeric" };
     return date.toLocaleDateString("en-US", options);
+  };
+
+  const setCourse = (data) => {
+    const course = courseList?.filter((c) => c.courseNo === data)[0];
+    setSection(course?.section);
+    setScoreList(course?.scores);
+  };
+
+  const calStat = async (data) => {
+    let mean = 0,
+      max = 0,
+      median = 0,
+      q1 = 0,
+      q3 = 0,
+      num = 0;
+    const scorePS = scoreList?.filter((s) => s.scoreName === data)[0]?.point;
+    if (section && data && !scores) {
+      const resp = await getScoresCourse({
+        section: section,
+        courseNo: params.courseNo,
+        scoreName: data,
+      });
+      if (resp) {
+        setScores(resp.results);
+        setFullScore(resp.fullScore);
+      }
+    }
+    if (scores) {
+      num = scores.length;
+      scores.sort((a, b) => a.point - b.point);
+      scores.map((e) => (mean += e.point));
+      mean = (mean / num).toFixed(2);
+      max = scores[num - 1].point;
+      median =
+        num % 2 === 0
+          ? (
+              (scores[parseInt(num / 2) - 1].point +
+                scores[parseInt(num / 2)].point) /
+              2
+            ).toFixed(2)
+          : scores[parseInt(num / 2)].point.toFixed(2);
+      const posQ1 = (num + 1) * (1 / 4);
+      const posQ3 = (num + 1) * (3 / 4);
+      const baseQ1 = Math.floor(posQ1);
+      const baseQ3 = Math.floor(posQ3);
+      q1 = (
+        scores[baseQ1 - 1].point +
+        (posQ1 - baseQ1) * (scores[baseQ1].point - scores[baseQ1 - 1].point)
+      ).toFixed(2);
+      q3 = (
+        scores[baseQ3 - 1].point +
+        (posQ3 - baseQ3) * (scores[baseQ3].point - scores[baseQ3 - 1].point)
+      ).toFixed(2);
+      let x = 0;
+      scores.map((e) => (x += Math.pow(e.point - mean, 2)));
+      setSD(Math.sqrt(x / num).toFixed(2));
+    }
+
+    setStat([scorePS, mean, max, median, q3, q1]);
   };
 
   const backToDashboard = () => {
@@ -91,9 +165,7 @@ export default function StudentDashboard() {
   };
 
   const onClickCourse = (e) => {
-    const course = courseList.filter((c) => c.courseNo === e)[0];
-    setSection(course.section);
-    setScoreList(course.scores);
+    setCourse(e);
     setSelectedCourse(true);
     setSelectedScore(false);
     searchParams.set("courseNo", e);
@@ -107,20 +179,9 @@ export default function StudentDashboard() {
     setSearchParams(searchParams);
   };
 
-  const calStat = () => {
-    let mean = 0,
-      max = 0,
-      median = 0,
-      uq = 0,
-      lq = 0;
-
-    setStat([score.point, mean, max, median, uq, lq]);
-  };
-
   const onClickScore = async (e) => {
-    const resp = await getScoresCourse({section: section, courseNo: params.courseNo, scoreName: params.scoreName});
-    setScore(scoreList.filter((s) => s.scoreName === e)[0]);
-    if (score) calStat();
+    setScores(null);
+    calStat(e);
     setSelectedScore(true);
     searchParams.set("scoreName", e);
     setSearchParams(searchParams);
@@ -129,7 +190,7 @@ export default function StudentDashboard() {
   return (
     <>
       {isSelectedCourse && (
-        <div className={Course.MenuIndexLayout}>
+        <div className={Course.MenuIndexLayout} style={{ marginInline: 25 }}>
           <div className={Course.MenuNavigate}>
             <p className={Course.MenuIndex}>
               <label
@@ -155,20 +216,29 @@ export default function StudentDashboard() {
               )}
             </p>
           </div>
-          <div className={Course.lineIndex}></div>
+          <div className={Course.lineIndex} style={{ marginTop: -15 }}></div>
         </div>
       )}
-      <Text className={Course.coursetopictext} w="fit-content">
+      <Text
+        className={Course.coursetopictext}
+        w="fit-content"
+        fz={20}
+        style={{ marginTop: isSelectedCourse ? -5 : 0 }}
+      >
         {!isSelectedCourse && "Dashboard"}
         {isSelectedCourse && !isSelectedScore && params.courseNo}
         {isSelectedScore && params.scoreName}
       </Text>
-      <Text className={Course.datetext} w="fit-content">
+      <Text
+        className={Course.datetext}
+        w="fit-content"
+        style={{ marginTop: isSelectedCourse ? -5 : 0 }}
+      >
         {formatDate(currentDate)}
       </Text>
       <div
         className={Course.courseframewindow}
-        style={{ gap: 10, marginTop: isSelectedCourse ? 12 : 0 }}
+        style={{ gap: 10, marginTop: isSelectedCourse ? 8 : 0 }}
       >
         {!isSelectedCourse &&
           courseList &&
@@ -183,9 +253,15 @@ export default function StudentDashboard() {
                   <div className={Course.intoCourse}>
                     {item.courseNo}
                     {item.courseName ? ` - ${item.courseName}` : null}
-                    {/* <div className="stuCouListcourseSection">
+                    <Text
+                      color="#F7C878"
+                      ff="SF Pro"
+                      fz={isMobileOrTablet ? 16 : 20}
+                      ta="left"
+                      lh="normal"
+                    >
                       Section: {item.section}
-                    </div> */}
+                    </Text>
                   </div>
                 </div>
               </div>
@@ -193,6 +269,7 @@ export default function StudentDashboard() {
           })}
         {isSelectedCourse &&
           !isSelectedScore &&
+          scoreList &&
           scoreList.map((item, key) => {
             return (
               <div
@@ -207,29 +284,40 @@ export default function StudentDashboard() {
             );
           })}
         {isSelectedScore && (
-          <Flex direction="column" mt={10} gap={25}>
-            {stat && stat.map((e, i) => (
-              <Flex key={i} direction="column" gap={10}>
+          <Flex direction="column" mt={20} gap={25}>
+            {scoreList && stat && (
+              <>
+                {stat.map((e, i) => (
+                  <Flex key={i} direction="column" gap={12}>
+                    <Title
+                      order={3}
+                      color={colorProgress[i]}
+                      ff={"SF PRo, sans-serif"}
+                      fz={isMobileOrTablet ? 20 : 25}
+                    >
+                      {title[i]}: {i === 0 ? `${e}/${fullScore}` : e}
+                    </Title>
+                    <Progress
+                      mt={-10}
+                      value={(e * 100) / fullScore}
+                      size={isMobileOrTablet ? 12 : 14}
+                      w={isMobileOrTablet ? 650 : 1430}
+                      radius={10}
+                      color={colorProgress[i]}
+                      bg="#D9D9D9"
+                    />
+                  </Flex>
+                ))}
                 <Title
                   order={3}
-                  color={colorProgress[i]}
+                  color="#696CA3"
                   ff={"SF PRo, sans-serif"}
+                  fz={isMobileOrTablet ? 20 : 25}
                 >
-                  {title[i]}: {i === 0 ? `${e}/` : e}
+                  SD: {SD}
                 </Title>
-                <Progress
-                  mt={-10}
-                  value={e}
-                  size={12}
-                  w={650}
-                  color={colorProgress[i]}
-                  bg="#D9D9D9"
-                />
-              </Flex>
-            ))}
-            <Title order={3} color="#696CA3" ff={"SF PRo, sans-serif"}>
-              SD: {SD}
-            </Title>
+              </>
+            )}
           </Flex>
         )}
       </div>
