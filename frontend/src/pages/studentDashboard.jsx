@@ -180,7 +180,6 @@ export default function StudentDashboard() {
   };
 
   const onClickScore = async (e) => {
-    setScores(null);
     calStat(e);
     setSelectedScore(true);
     searchParams.set("scoreName", e);
