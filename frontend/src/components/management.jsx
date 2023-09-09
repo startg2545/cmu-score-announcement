@@ -33,7 +33,7 @@ const Management = ({data}) => {
                 className={secMan.secBox}
                 key={key}
                 onClick={() => {
-                  showTable();
+                  showTable(e.section);
                 }}
               >
                 Section
