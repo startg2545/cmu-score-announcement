@@ -5,7 +5,7 @@ import { SideBar, TableScore, UploadSc } from "../components";
 import { ShowSidebarContext } from "../context";
 import { addCourse, getAllCourses, getScores } from "../services";
 import DropDownCourse from "../components/DropDownCourse";
-import { TextInput, Button, Flex, Text } from "@mantine/core";
+import { TextInput, Button, Flex, Text, Center } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconAt } from "@tabler/icons-react";
 import Management from "../components/management";
@@ -524,7 +524,6 @@ export default function Course166Container() {
                     </div>
                   </div>
 
-                  {/*button choice addCo/Upload/Manage */}
                   <div className="button-container">
                     <div
                       className={` ${Course.instructorButton} ${
@@ -648,33 +647,25 @@ export default function Course166Container() {
                   </div>
                 </div>
 
-                <div
-                  style={{
-                    height: "calc(87vh - 60px)",
-                    width: "100vw",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    display: "flex",
-                  }}
-                >
-                  {!isUploadScore && !isManage && (
-                    <p
-                      style={{
-                        fontSize: "30px",
-                        textAlign: "center",
-                        alignItems: "center",
-                        fontStyle: "normal",
-                        color: "#696CA3",
-                        fontWeight: "590",
-                        fontFamily: "SF Pro",
-                      }}
-                    >
-                      Please select menu in the navigation bar
-                    </p>
-                  )}
-                </div>
+                {!isUploadScore && !isManage && (
+                  <Center
+                    mx="auto"
+                    mt={100}
+                    style={{
+                      fontSize: "30px",
+                      fontStyle: "normal",
+                      color: "#696CA3",
+                      fontWeight: "590",
+                      fontFamily: "SF Pro",
+                    }}
+                  >
+                    Please select menu in the navigation bar
+                  </Center>
+                )}
+
                 {/* show Upload/Section/TableScore */}
                 {isManage && <Management data={section} />}
+
 
                 {/* {isManage &&
                      <div
@@ -691,6 +682,7 @@ export default function Course166Container() {
                    </div>
                 } */}
                
+
 
               </div>
 
