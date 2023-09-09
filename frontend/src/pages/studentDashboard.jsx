@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import "./studentDashboard.css";
-import { getStudentScores, getAllCourses } from "../services";
+import { getStudentScores, getAllCourses, getScores, getScoresCourse } from "../services";
 import UserInfoContext from "../context/userInfo";
 import { HiChevronRight } from "react-icons/hi";
 import { useMediaQuery } from "@mantine/hooks";
@@ -11,6 +11,7 @@ import { Flex, Title, Text, Progress } from "@mantine/core";
 export default function StudentDashboard() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [courseList, setCourseList] = useState(null);
+  const [section, setSection] = useState(null);
   const [scoreList, setScoreList] = useState(null);
   const [score, setScore] = useState(null);
   const { userInfo } = useContext(UserInfoContext);
@@ -37,8 +38,9 @@ export default function StudentDashboard() {
     "#318A5F",
     "#4868DB",
   ];
-  const [stat, setStat] = useState([0, 0, 0, 0, 0, 0]);
+  const [stat, setStat] = useState(null);
   const [SD, setSD] = useState(0);
+  const [fullScore, setFullScore] = useState();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -64,7 +66,7 @@ export default function StudentDashboard() {
       }
     };
     if (!courseList) fetchData();
-
+    if (isSelectedScore && !stat) calStat();
     setParams({
       courseNo: searchParams.get("courseNo"),
       scoreName: searchParams.get("scoreName"),
@@ -72,7 +74,7 @@ export default function StudentDashboard() {
 
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, [userInfo, searchParams, isSelectedCourse]);
+  }, [userInfo, score, searchParams, isSelectedCourse]);
 
   // Function to format the date as "XX Aug, 20XX"
   const formatDate = (date) => {
@@ -89,7 +91,9 @@ export default function StudentDashboard() {
   };
 
   const onClickCourse = (e) => {
-    setScoreList(courseList.filter((c) => c.courseNo === e)[0].scores);
+    const course = courseList.filter((c) => c.courseNo === e)[0];
+    setSection(course.section);
+    setScoreList(course.scores);
     setSelectedCourse(true);
     setSelectedScore(false);
     searchParams.set("courseNo", e);
@@ -104,13 +108,19 @@ export default function StudentDashboard() {
   };
 
   const calStat = () => {
-    let mean, max, median, uq, lq = 0;
-    setStat([score.point, mean, max, median, uq, lq]);
-  }
+    let mean = 0,
+      max = 0,
+      median = 0,
+      uq = 0,
+      lq = 0;
 
-  const onClickScore = (e) => {
+    setStat([score.point, mean, max, median, uq, lq]);
+  };
+
+  const onClickScore = async (e) => {
+    const resp = await getScoresCourse({section: section, courseNo: params.courseNo, scoreName: params.scoreName});
     setScore(scoreList.filter((s) => s.scoreName === e)[0]);
-    calStat();
+    if (score) calStat();
     setSelectedScore(true);
     searchParams.set("scoreName", e);
     setSearchParams(searchParams);
@@ -198,14 +208,14 @@ export default function StudentDashboard() {
           })}
         {isSelectedScore && (
           <Flex direction="column" mt={10} gap={25}>
-            {stat.map((e, i) => (
+            {stat && stat.map((e, i) => (
               <Flex key={i} direction="column" gap={10}>
                 <Title
                   order={3}
                   color={colorProgress[i]}
                   ff={"SF PRo, sans-serif"}
                 >
-                  {title[i]}: {e}
+                  {title[i]}: {i === 0 ? `${e}/` : e}
                 </Title>
                 <Progress
                   mt={-10}

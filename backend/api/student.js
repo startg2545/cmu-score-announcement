@@ -24,6 +24,7 @@ router.post("/add", async (req, res) => {
     if (!student) {
       let courseNo = req.body.courseNo
       let semester = req.body.semester
+      let section = req.body.section
       let year = req.body.year
       let score = req.body.score
 
@@ -35,6 +36,7 @@ router.post("/add", async (req, res) => {
           courseGrades: [
             {
               courseNo: courseNo,
+              section: section,
               year: year,
               semester: semester,
               scores: [
