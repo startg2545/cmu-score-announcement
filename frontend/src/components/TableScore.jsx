@@ -10,12 +10,41 @@ const TableScore = ({ data }) => {
   const [isDelete, setIsDelete] = useState(false);
 
   useEffect(() => {
-    console.log(data);
     let total = 0;
-    data.map((e,i) => {
+    let meanS = 0;
+    let sd = 0;
+    data.map((e, i) => {
+      //mean section
       e.results.map((e) => (total += e.point));
-      data[i].meanSec = (total/e.studentNumber).toFixed(2);
+      meanS = total / e.studentNumber;
+      data[i].meanSec = meanS.toFixed(2);
       total = 0;
+
+      //calculate Median
+      const sortPoint = e.results.sort((a, b) => a.point - b.point);
+      const middle = (e.studentNumber + 1) / 2;
+      let MD = 0;
+      if (e.studentNumber % 2 === 0) {
+        const lwMid = sortPoint[Math.floor(middle) - 1].point;
+        const upMid = +sortPoint[Math.ceil(middle) - 1].point;
+        MD = (lwMid + upMid) / 2;
+      } else {
+        MD = data[i].Median = sortPoint[middle - 1].point;
+      }
+      data[i].Median = MD.toFixed(2);
+
+      //calculate Max
+      data[i].Max = sortPoint[e.studentNumber - 1].point;
+
+      //calculate SD
+      let x = 0;
+      e.results.map((e) => (x += Math.pow(e.point - meanS, 2)));
+      data[i].SD = Math.sqrt(x / (e.studentNumber - 1)).toFixed(2);
+
+      //calculate Upper Quartile Q1 (3(N+1)/4)
+      data[i].UpperQu = ((3 * (e.studentNumber + 1)) / 4).toFixed(2);
+      //calculate Lower Quartile Q3 (1(N+1)/4)
+      data[i].LowerQu = ((e.studentNumber + 1) / 4).toFixed(2);
     });
   }, []);
 

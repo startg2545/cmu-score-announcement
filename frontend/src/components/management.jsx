@@ -4,18 +4,18 @@ import secMan from "./css/manage.module.css";
 
 import TableScore from "./TableScore";
 
-const Management = ({data}) => {
- const [isShowTable , setIsShowTable] = useState(false);
- const [dataTable ,setDataTable] = useState();
+const Management = ({ data }) => {
+  const [isShowTable, setIsShowTable] = useState(false);
+  const [dataTable, setDataTable] = useState();
 
- const showTable = (sec) => {
+  const showTable = (sec) => {
     setIsShowTable(true);
     setDataTable(data.filter((e) => e.section === sec)[0].scores);
- };
+  };
 
- useEffect(() => {
-  data.sort((a, b) => a.section - b.section);
- },[])
+  useEffect(() => {
+    data.sort((a, b) => a.section - b.section);
+  }, []);
 
   const { showSidebar } = useContext(ShowSidebarContext);
 
@@ -27,7 +27,7 @@ const Management = ({data}) => {
         }`}
       >
         {!isShowTable && (
-          <div >
+          <div>
             {data.map((e, key) => (
               <p
                 className={secMan.secBox}
@@ -76,14 +76,11 @@ const Management = ({data}) => {
                   : e.section}
               </p>
             ))}
-
-            
           </div>
         )}
         {isShowTable && <TableScore data={dataTable} />}
       </div>
 
-      
     </div>
   );
 };
