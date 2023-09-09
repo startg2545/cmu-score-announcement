@@ -155,9 +155,29 @@ export default function Course166Container() {
     }
   };
 
+  // useEffect(() => {
+  //   if (localStorage.getItem("Upload")) {
+  //     console.log("====================================");
+  //     console.log(localStorage.getItem("Upload"));
+  //     console.log("====================================");
+  //     setUploadScore(false);
+  //     localStorage.removeItem("Upload");
+  //     // localStorage.setItem("Upload", false);
+  //   }
+  // }, [localStorage]);
+
   useEffect(() => {
     if (isUploadScore === true) {
       document.getElementById("tab-menu").style.cursor = "pointer";
+    }
+
+    console.log("====================================");
+    console.log(localStorage.getItem("Upload"));
+    console.log("====================================");
+    if (localStorage.getItem("Upload") !== null) {
+      setUploadScore(false);
+      localStorage.removeItem("Upload");
+      // localStorage.setItem("Upload", false);
     }
 
     if (!showPopupAddCourse) fetchData();
@@ -168,6 +188,7 @@ export default function Course166Container() {
 
     return () => clearInterval(interval);
   }, [
+    localStorage.getItem("Upload"),
     location,
     isShowTableScore,
     searchParams,
@@ -644,6 +665,25 @@ export default function Course166Container() {
 
                 {/* show Upload/Section/TableScore */}
                 {isManage && <Management data={section} />}
+
+
+                {/* {isManage &&
+                     <div
+                     className={`${Course.publishSec} ${
+                       showSidebar ? Course.shrink : ""
+                     }`}
+                   >
+                     <div className={Course.publishlAll}>
+                       <p>Publish All Sections</p>
+                     </div>
+                     <div className={Course.publishlEach}>
+                       <p>Publish Each Section</p>
+                     </div>
+                   </div>
+                } */}
+               
+
+
               </div>
 
               {isUploadScore && !isManage && (

@@ -41,8 +41,11 @@ router.get("/sections", async (req, res) => {
 
     res.send(response.data);
   } catch (err) {
+    if(error.response.data)
     return res.send(err.response.data);
+    return res.send({ok: false, message: "Cannot connect to CPE API Server. Please try again later."});
   }
+
 });
 
 //get teacher from api cpe
