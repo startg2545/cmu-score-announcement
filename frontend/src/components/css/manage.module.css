@@ -4,29 +4,60 @@
   /* You can specify other font formats (e.g., woff, woff2) as needed */
 }
 
-body {
-  margin: 0; /* Reset default body margin */
-  padding: 0; /* Reset default body padding */
-  position: relative;
-}
-
-.layOut {
-  margin-top: -500px;
+.Managecourseframewindow {
+  position: absolute;
+  top: calc(60px );
+  left: 50%;
+  transform: translate(-49.5%,2.5%);
+  width: 100vw;
+  max-width: 98%;
+  height: calc(63vh - 60px);
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  transition: width 0.4s ease, margin-left 0.4s ease;
+  padding-block: 20px;
+  border-bottom: 25px;
 }
+
+
+.Managecourseframewindow.shrink {
+  width: calc(
+    100vw - 340px
+  ); 
+  margin-left: 2px; 
+}
+
+
 .secBox {
+  top: 18px;
+  width: 95vw;
+  max-width: 98%;
+  height: 70px;
+  flex-shrink: 0;
   font-size: 24px;
-  width: 973px;
-  height: 84px;
   flex-shrink: 0;
   display: flex;
+  text-indent: 40px;
   align-items: center;
-  padding-left: 20px;
+  vertical-align: bottom;
   border-radius: 15px;
-  border: 3px solid rgba(255, 255, 255, 0);
-  background: rgba(209, 203, 203, 0.19);
+  border: 3px solid rgba(204, 172, 172, 0);
+  background: rgba(190, 184, 184, 0.19);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
+
+
+.secBox:hover {
+  background: #cfcfd2;
+}
+
+.secBox:first-child {
+  margin-top: 5px;
+}
+
+.secBox:last-child {
+  margin-bottom: 3px;
+}
+

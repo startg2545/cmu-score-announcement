@@ -29,20 +29,13 @@ body {
   border-bottom: 25px;
 }
 
-.Scoreframewindow-container {
-  /* Your existing styles */
-  justify-content: center;
-  position: relative;
-  display: flex;
-  flex-direction: row;
-}
 
 .Scorecourseframewindow.shrink {
 
   width: calc(
     100vw - 340px
   ); 
-  margin-left: 142px; 
+  margin-left: 179px; 
 }
 
 .Scorecoursetopictext {
@@ -169,12 +162,7 @@ body {
   transition: transform 0.3s ease;
 }
 
-.ScoreDescriptionBox.move-right {
-  width: calc(58vw); 
-  height: calc(1.6vh + 60px);
-  transition: transform 0.3s ease;
-  transform: translateX(75px);
-}
+
 
 .ScoreCancelButton {
   transform: translate(40px, 45px);
