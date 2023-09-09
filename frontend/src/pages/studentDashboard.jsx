@@ -131,11 +131,11 @@ export default function StudentDashboard() {
       median =
         num % 2 === 0
           ? (
-              (scores[parseInt(num / 2)].point +
-                scores[parseInt(num / 2) + 1].point) /
+              (scores[parseInt(num / 2) - 1].point +
+                scores[parseInt(num / 2)].point) /
               2
             ).toFixed(2)
-          : scores[parseInt(num / 2) + 1].point.toFixed(2);
+          : scores[parseInt(num / 2)].point.toFixed(2);
       const posQ1 = (num + 1) * (1 / 4);
       const posQ3 = (num + 1) * (3 / 4);
       const baseQ1 = Math.floor(posQ1);
