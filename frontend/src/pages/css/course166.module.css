@@ -473,7 +473,7 @@ transform: scale(1.1);
 .frameCourseDash {
   font-family: "SF Pro", sans-serif;
   position: absolute;
-  top: calc(62px + 50%);
+  top: calc(75px + 50%);
   left: 50%;
   transform: translate(-50%, 0%);
   width: 100vw;
