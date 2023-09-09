@@ -35,9 +35,9 @@
   /* Your existing styles */
   align-items: center;
   width: calc(
-    100vw - 340px
+    100vw - 300px
   ); /* Reduce the width by the width of the sssidebar */
-  margin-left: 142px; /* Move the framewindow to the right to accommodate the sssidebar */
+  margin-left: 12px; /* Move the framewindow to the right to accommodate the sssidebar */
 }
 
 .coursetopictext {
@@ -492,9 +492,9 @@ transform: scale(1.1);
 .frameCourseDash.shrink {
   align-items: center;
   width: calc(
-    76vw 
+    79vw 
   ); 
-  margin-left: 142px; 
+  margin-left: 122px; 
 }
 
 .navbarCourseDash {
@@ -516,7 +516,7 @@ transform: scale(1.1);
 
 .navbarCourseDash.shrink {
   width: calc(
-    76.3vw 
+    79.3vw 
   ); 
 }
 
@@ -725,6 +725,7 @@ transform: scale(1.1);
   display: flex;
   justify-content: center;
 }
+
 
 
 

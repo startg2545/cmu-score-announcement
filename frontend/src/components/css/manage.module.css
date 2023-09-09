@@ -8,7 +8,7 @@
   position: absolute;
   top: calc(60px );
   left: 50%;
-  transform: translate(-49.5%,2.5%);
+  transform: translate(-50%,2.5%);
   width: 100vw;
   max-width: 98%;
   height: calc(63vh - 60px);
@@ -23,16 +23,18 @@
 
 .Managecourseframewindow.shrink {
   width: calc(
-    100vw - 340px
+    100vw - 30px
   ); 
   margin-left: 2px; 
 }
 
 
+
+
 .secBox {
   top: 18px;
-  width: 95vw;
-  max-width: 98%;
+  width: 99vw;
+  max-width: 99%;
   height: 70px;
   flex-shrink: 0;
   font-size: 24px;
@@ -46,6 +48,7 @@
   background: rgba(190, 184, 184, 0.19);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15);
   cursor: pointer;
+  transform: translateX(5px);
 }
 
 
