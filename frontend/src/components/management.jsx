@@ -50,18 +50,20 @@ const Management = ({ data }) => {
         {isShowTable && <TableScore data={dataTable} />}
       </div>
       {!isSelectedSec && (
+        
         <div
           className={`${Course.publishSec} ${showSidebar ? Course.shrink : ""}`}
         >
           {/**Publish All Sections */}
           <div className={Course.publishlAll}>
-            <p>Publish All Sections</p>
+            <p style={{fontWeight: "600"}}>Publish All Sections</p>
           </div>
           {/**Publish Each Sections */}
           <div className={Course.publishlEach}>
-            <p>Publish Each Section</p>
+            <p style={{fontWeight: "600"}}>Publish Each Section</p>
           </div>
         </div>
+        
       )}
     </div>
   );
