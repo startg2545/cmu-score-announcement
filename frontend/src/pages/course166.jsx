@@ -160,6 +160,11 @@ export default function Course166Container() {
       document.getElementById("tab-menu").style.cursor = "pointer";
     }
 
+    if (localStorage.getItem("Upload") !== null) {
+      setUploadScore(false);
+      localStorage.removeItem("Upload");
+    }
+
     if (!showPopupAddCourse) fetchData();
 
     const interval = setInterval(() => {
@@ -168,6 +173,7 @@ export default function Course166Container() {
 
     return () => clearInterval(interval);
   }, [
+    localStorage.getItem("Upload"),
     location,
     isShowTableScore,
     searchParams,
