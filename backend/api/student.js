@@ -16,46 +16,61 @@ router.post("/add", async (req, res) => {
     });
     const decoded = jwt.decode(token);
     
-    // find duplicated student
-    const student = await studentModel.findOne({
-      studentId: req.body.studentId
-    })
-    
-    if (!student) {
-      let courseNo = req.body.courseNo
-      let semester = req.body.semester
-      let section = req.body.section
-      let year = req.body.year
-      let score = req.body.score
+    let courseNo = req.body.courseNo
+    let semester = req.body.semester
+    let section = req.body.section
+    let year = req.body.year
+    let results = req.body.results
+    let scoreName = req.body.scoreName
 
-      for (let i in score.results) {
-        const newStudent = await studentModel.create({
-          studentId: score.results[i].studentId,
-          firstName: score.results[i].firstName,
-          lastName: score.results[i].lastName,
-          courseGrades: [
-            {
-              courseNo: courseNo,
-              section: section,
-              year: year,
-              semester: semester,
-              scores: [
-                {
-                  scoreName: score.scoreName,
-                  point: score.results[i].point
-                }
-              ]
-            }
-          ]
-        })
-        newStudent.save();
+    const test_arr = []
+    for (let i in results) {
+      let student_obj = {
+        studentId: results[i].studentId,
+        firstName: results[i].firstName,
+        lastName: results[i].lastName,
+        point: results[i].point
       }
-      return res.send('succeeded');
-    }
 
-    return res.send({
-      message: "You Cannot Add This Course..",
-    });
+      const student = await studentModel.findOne({
+        studentId: student_obj.studentId
+      })
+
+      if (student) {
+        // this student has been graded
+        const req_courseNo = await studentModel.findOne({
+          studentId: student_obj.studentId,
+          'courseGrades.courseNo': courseNo
+        })
+
+        if (req_courseNo) {
+          // this student has this course
+
+        } else {
+          // this student doesn't have this course
+          let courseGrade = {
+            courseNo: courseNo,
+            section: section,
+            year: year,
+            semester: semester, 
+            scores: [
+              {
+                scoreName: scoreName,
+                point: student_obj.point
+              }
+            ]
+          }
+          student.courseGrades.push(courseGrade)
+          await student.save()
+        }
+        
+      } else {
+        // this student hasn't been graded yet
+        const new_student = await studentModel.create(student_obj)
+        new_student.save();
+      }
+    }
+    return res.send('succeeded');
   } catch (err) {
     return err;
   }
