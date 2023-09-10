@@ -42,35 +42,39 @@ const TableScore = ({ data }) => {
       //calculate SD
       let x = 0;
       e.results.map((e) => (x += Math.pow(e.point - meanS, 2)));
-      data[i].SD = Math.sqrt(x / (e.studentNumber)).toFixed(2);
+      data[i].SD = Math.sqrt(x / e.studentNumber).toFixed(2);
 
-      
       const Q1 = (e.studentNumber + 1) / 4;
       const Q3 = (3 * (e.studentNumber + 1)) / 4;
       const baseQ1 = Math.floor(Q1);
       const baseQ3 = Math.floor(Q3);
-      //calculate Upper Quartile Q3 
-      data[i].UpperQu = (sortPoint[baseQ3-1].point + (Q3-baseQ3)*(sortPoint[baseQ3].point - sortPoint[baseQ3-1].point)).toFixed(2);
+      //calculate Upper Quartile Q3
+      data[i].UpperQu = (
+        sortPoint[baseQ3 - 1].point +
+        (Q3 - baseQ3) * (sortPoint[baseQ3].point - sortPoint[baseQ3 - 1].point)
+      ).toFixed(2);
       //calculate Lower Quartile Q1
-      data[i].LowerQu = (sortPoint[baseQ1-1].point + (Q1-baseQ1)*(sortPoint[baseQ1].point - sortPoint[baseQ1-1].point)).toFixed(2);
+      data[i].LowerQu = (
+        sortPoint[baseQ1 - 1].point +
+        (Q1 - baseQ1) * (sortPoint[baseQ1].point - sortPoint[baseQ1 - 1].point)
+      ).toFixed(2);
     });
   }, []);
 
   const publish = async (el) => {
-
     const student_schema = {
-      courseNo: searchParams.get('courseNo'),
-      semester: searchParams.get('semester'),
-      year: searchParams.get('year'),
-      section: searchParams.get('section'),
+      courseNo: searchParams.get("courseNo"),
+      semester: searchParams.get("semester"),
+      year: searchParams.get("year"),
+      section: searchParams.get("section"),
       scoreName: el.scoreName,
-      results: el.results
-    }
-    
-    console.log('send', student_schema)
+      results: el.results,
+    };
+
+    console.log("send", student_schema);
     let resp_student = await addStudentGrade(student_schema);
-    if (resp_student) console.log("response: ", resp_student)
-  }
+    if (resp_student) console.log("response: ", resp_student);
+  };
 
   const rows = data.map((element, key) => (
     <tr key={key}>
@@ -104,9 +108,7 @@ const TableScore = ({ data }) => {
       </td>
       <td>
         <center>
-
-          <div className={tabStyle.publicBT} onClick={()=>publish(element)}>
-
+          <div className={tabStyle.publicBT} onClick={() => publish(element)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"
@@ -132,7 +134,6 @@ const TableScore = ({ data }) => {
         <center>
           <div className={tabStyle.manageBtDisplay}>
             <div className={`${tabStyle.manageBT} ${tabStyle.logBT}`}>
-              
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -155,7 +156,6 @@ const TableScore = ({ data }) => {
                   strokeLinejoin="round"
                 />
               </svg>
-              
             </div>
             <div className={`${tabStyle.manageBT} ${tabStyle.editBT}`}>
               <svg
@@ -202,60 +202,68 @@ const TableScore = ({ data }) => {
   ));
 
   return (
-    <div >
-      <Table withBorder  withColumnBorders verticalSpacing="md" striped fontSize={22} fw={500} style={{border: "1px solid", transform: "translateX(0px)"}} >
-        <thead >
+    <div style={{ marginInline: "30px"}}>
+      {/* style={{border: "0px solid", transform: "translateX(0px)"}} */}
+      <Table
+        withColumnBorders
+        verticalSpacing="md"
+        striped
+        className={` ${tabStyle.sizeTa} ${tabStyle.font}`}
+        fontSize={18.5}   
+      >
+        <thead>
           <tr>
-
-            <th className={`${tabStyle.colBig} ${tabStyle.front}`} style={{border: "1px solid"}} >
-              <center style={{fontSize: "18px"}} >Assignment</center>
+            <th
+              className={`${tabStyle.colBig} ${tabStyle.front} ${tabStyle.eachCl}`}
+            >
+              <center>Assignment</center>
             </th>
-            <th className={tabStyle.colSml} style={{border: "1px solid"}}>
-              <center style={{fontSize: "18px"}} >
-               Student
-              </center>
+            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+              <center>Student</center>
             </th>
-            <th className={tabStyle.colSml} style={{border: "1px solid"}}>
-              <center style={{fontSize: "18px"}}>Full Score</center>
+            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+              <center>Full Score</center>
             </th>
-            <th className={tabStyle.colSml} style={{border: "1px solid"}}>
-              <center style={{fontSize: "18px"}} >
+            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+              <center>
                 Mean<br></br>Section
               </center>
             </th>
-            <th className={tabStyle.colSml} style={{border: "1px solid"}}>
-              <center style={{fontSize: "18px"}}>
+            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+              <center>
                 Mean<br></br>Course
               </center>
             </th>
-            <th className={tabStyle.colSml} style={{border: "1px solid"}}>
-              <center style={{fontSize: "18px"}}>Median</center>
+            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+              <center>Median</center>
             </th>
-            <th className={tabStyle.colSml}style={{border: "1px solid"}}>
-              <center style={{fontSize: "18px"}} >Max</center>
+            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+              <center>Max</center>
             </th>
-            <th className={tabStyle.colSml}style={{border: "1px solid"}}>
-              <center style={{fontSize: "18px"}}>SD</center>
+            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+              <center>SD</center>
             </th>
-            <th className={tabStyle.colSml}style={{border: "1px solid"}}>
-              <center style={{fontSize: "18px"}}>
+            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+              <center>
                 Upper<br></br>Quartile
               </center>
             </th>
-            <th className={tabStyle.colSml}style={{border: "1px solid"}}>
-              <center style={{fontSize: "18px"}}>
+            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+              <center>
                 Lower<br></br>Quartile
               </center>
             </th>
-            <th className={tabStyle.colSml } style={{border: "1px solid"}}>
-              <center style={{fontSize: "18px"}}>Publish</center>
+            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+              <center>Publish</center>
             </th>
-            <th className={`${tabStyle.colBig} ${tabStyle.back}`} style={{border: "1px solid"}}>
-              <center style={{fontSize: "18px"}}>Management</center>
+            <th
+              className={`${tabStyle.colBig} ${tabStyle.back} ${tabStyle.eachCl}`}
+            >
+              <center>Management</center>
             </th>
           </tr>
         </thead>
-        <tbody>{rows}</tbody>
+        <tbody className={`${tabStyle.Stbody} ${tabStyle.child}`}>{rows}</tbody>
       </Table>
     </div>
   );
