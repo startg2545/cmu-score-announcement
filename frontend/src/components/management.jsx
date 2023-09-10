@@ -1,4 +1,4 @@
-import { ShowSidebarContext, UserInfoContext } from "../context";
+import { ShowSidebarContext } from "../context";
 import React, { useState, useEffect, useContext } from "react";
 import secMan from "./css/manage.module.css";
 import TableScore from "./TableScore";
@@ -18,7 +18,7 @@ const Management = ({ data }) => {
 
   useEffect(() => {
     data.sort((a, b) => a.section - b.section);
-  }, []);
+  }, [data]);
 
   return (
     <div>
