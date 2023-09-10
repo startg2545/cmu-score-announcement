@@ -36,41 +36,83 @@ router.post("/add", async (req, res) => {
         studentId: student_obj.studentId
       })
 
+      const courseGrade = {
+        courseNo: courseNo,
+        section: section,
+        year: year,
+        semester: semester, 
+        scores: [
+          {
+            scoreName: scoreName,
+            point: student_obj.point
+          }
+        ]
+      }
+
       if (student) {
         // this student has been graded
-        const req_courseNo = await studentModel.findOne({
+        const req_course = await studentModel.findOne({
           studentId: student_obj.studentId,
-          'courseGrades.courseNo': courseNo
+          'courseGrades.courseNo': courseNo,
+          'courseGrades.section': section,
+          'courseGrades.year': year,
+          'courseGrades.semester': semester
         })
 
-        if (req_courseNo) {
+        if (req_course) {
           // this student has this course
 
+          const score = await studentModel.findOne({
+            studentId: student_obj.studentId,
+            'courseGrades.courseNo': courseNo,
+            'courseGrades.scores.scoreName': scoreName
+          })
+
+          if (score) {
+            for (let x in score.courseGrades) {
+              for (let y in score.courseGrades[x].scores) {
+                const req_score = {
+                  scoreName: scoreName,
+                  point: student_obj.point
+                }
+                if (
+                  score.courseGrades[x].courseNo == courseNo,
+                  score.courseGrades[x].scores[y].scoreName == scoreName
+                  ) {
+                  // this student has existing score in this course
+                  score.courseGrades[x].scores[y].point = req_score.point
+                  await score.save()
+                } else if (
+                  score.courseGrades[x].courseNo == courseNo,
+                  score.courseGrades[x].scores[y].scoreName != scoreName
+                ) {
+                  // this student doesn't have existing score in this course
+                  score.courseGrades[x].scores.push(req_score)
+                  await score.save()
+                }
+              }
+            }
+          } else {
+          }
         } else {
           // this student doesn't have this course
-          let courseGrade = {
-            courseNo: courseNo,
-            section: section,
-            year: year,
-            semester: semester, 
-            scores: [
-              {
-                scoreName: scoreName,
-                point: student_obj.point
-              }
-            ]
-          }
           student.courseGrades.push(courseGrade)
           await student.save()
         }
         
       } else {
         // this student hasn't been graded yet
-        const new_student = await studentModel.create(student_obj)
+        let studentGrade = {
+          studentId: student_obj.studentId,
+          firstName: student_obj.firstName,
+          lastName: student_obj.lastName,
+          courseGrades: [courseGrade]
+        }
+        const new_student = await studentModel.create(studentGrade)
         new_student.save();
       }
     }
-    return res.send('succeeded');
+    return res.send(test_arr);
   } catch (err) {
     return err;
   }
