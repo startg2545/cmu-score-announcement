@@ -6,7 +6,7 @@
 
 .Managecourseframewindow {
   position: absolute;
-  top: calc(80px );
+  top: 80px;
   left: 50%;
   transform: translate(-50%,2.5%);
   width: 100vw;
@@ -63,4 +63,62 @@
 .secBox:last-child {
   margin-bottom: 3px;
 }
+
+
+.managePopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 120%;
+  height: 140%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  margin-top: -180px;
+  margin-left: -150px;
+}
+
+.managePopupContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 40px rgba(0, 0, 0, 0.8);
+  height: 220px;
+  width: 450px;
+  font-weight: 500;
+  align-items: center;
+  
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+}
+
+.closeButton {
+  background-color: #ff6347;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.closeButton:hover {
+  background-color: #ff4c3a;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+
 
