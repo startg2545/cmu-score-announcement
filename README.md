@@ -4,11 +4,11 @@
 ### Uploader: Microsoft Excel
 ### IDE: up to you
 
-### App main is located in 'cmu-score-announcement/frontend/src/App.jsx'
-### MongoDB is located in 'cmu-score-announcement/backend/server.py'
+### App main is located in "cmu-score-announcement/frontend/src/App.jsx"
+### MongoDB is located in "cmu-score-announcement/backend/db/dbConnect.js"
 
-# Get started
-## at directory 'cmu-score-announcement'
+# Getting started
+## at directory "cmu-score-announcement"
 ## 1. run frontend
 ###   1.1) open first terminal
 ###   1.2) run ``` cd frontend ```
