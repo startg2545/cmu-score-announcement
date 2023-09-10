@@ -524,11 +524,8 @@ transform: scale(1.1);
   color: #ffffff;
   font-size: 28px;
   left: 0;
-  width: 100vw;
+  width: 97vw;
   display: flex;
-  justify-content: space-between; 
-  align-items:flex-end;
-  z-index: 1;
   transition: width 0.4s ease, margin-left 0.4s ease;
   position: absolute;
   bottom: 0;
@@ -545,7 +542,7 @@ transform: scale(1.1);
 
 .publishSec .publishlAll{
   left: 0;
-  width: 48.3vw;
+  width: 49.1vw;
   height: 70px;
   display: flex;
   justify-content: center; 
@@ -558,7 +555,7 @@ transform: scale(1.1);
 
 .publishSec .publishlEach{
   left: 0;
-  width: 48.3vw;
+  width: 47.5vw;
   height: 70px;
   display: flex;
   justify-content: center; 
