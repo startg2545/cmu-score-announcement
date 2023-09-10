@@ -21,13 +21,11 @@ const CourseDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       const resp = await getScores();
-      console.log(resp);
       if (resp) {
         resp.map((data) => {
           if (data.courseNo === params.courseNo) {
             let sections = data.sections;
             setSections(sections);
-            console.log(sections);
           }
         });
       }
@@ -45,12 +43,12 @@ const CourseDetail = () => {
 
   const publish = async (score) => {
     console.log(score);
-    console.log("before submit");
-    let resp_student = await addStudentGrade(score);
-    console.log("after submit");
-    if (resp_student) {
-      console.log("response: ", resp_student);
-    }
+    // console.log("before submit");
+    // let resp_student = await addStudentGrade(score);
+    // console.log("after submit");
+    // if (resp_student) {
+    //   console.log("response: ", resp_student);
+    // }
   };
 
   return (

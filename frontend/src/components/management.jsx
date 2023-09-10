@@ -1,4 +1,5 @@
-import { ShowSidebarContext, UserInfoContext } from "../context";
+import { ShowSidebarContext } from "../context";
+import { useSearchParams } from "react-router-dom";
 import React, { useState, useEffect, useContext } from "react";
 import secMan from "./css/manage.module.css";
 import TableScore from "./TableScore";
@@ -9,16 +10,19 @@ const Management = ({ data }) => {
   const [dataTable, setDataTable] = useState();
   const { showSidebar } = useContext(ShowSidebarContext);
   const [isSelectedSec, setIsSelectSec] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const showTable = (sec) => {
-    setIsSelectSec(true);
+    searchParams.set('section', sec)
+    setSearchParams(searchParams)
+    setIsSelectSec(true)
     setIsShowTable(true);
     setDataTable(data.filter((e) => e.section === sec)[0].scores);
   };
 
   useEffect(() => {
     data.sort((a, b) => a.section - b.section);
-  }, []);
+  }, [data]);
 
   const [showPopup1, setShowPopup1] = useState(false);
   const [showPopup2, setShowPopup2] = useState(false);
