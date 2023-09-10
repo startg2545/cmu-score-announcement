@@ -1,23 +1,25 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import { getStudentScores, getAllCourses, getScoresCourse } from "../services";
-import UserInfoContext from "../context/userInfo";
 import { HiChevronRight } from "react-icons/hi";
+import { VscGraph } from "react-icons/vsc";
+import { ImParagraphLeft } from "react-icons/im";
 import { useMediaQuery } from "@mantine/hooks";
-import { Flex, Title, Text, Progress } from "@mantine/core";
+import { Flex, Title, Text, Progress, Button, Affix } from "@mantine/core";
 
 export default function StudentDashboard() {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [message, setMessage] = useState();
   const [courseList, setCourseList] = useState();
   const [section, setSection] = useState();
   const [scoreList, setScoreList] = useState();
   const [scores, setScores] = useState();
-  const { userInfo } = useContext(UserInfoContext);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [params, setParams] = useState({});
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isSelectedScore, setSelectedScore] = useState(false);
+  const [isShowGraph, setIsShowGraph] = useState(false);
   const isMobileOrTablet = useMediaQuery(
     "(max-width: 1024px) and (max-height: 1400px)"
   );
@@ -47,10 +49,10 @@ export default function StudentDashboard() {
     }, 1000);
 
     const fetchData = async () => {
-      if (userInfo.studentId) {
-        const allCourse = await getAllCourses();
-        const data = await getStudentScores(userInfo.studentId);
-        if (data) {
+      const allCourse = await getAllCourses();
+      const data = await getStudentScores();
+      if (data) {
+        if (data.ok) {
           if (allCourse.ok) {
             data.courseGrades.forEach((e, index) => {
               allCourse.forEach((all) => {
@@ -60,26 +62,26 @@ export default function StudentDashboard() {
               });
             });
           }
-          setCourseList(data.courseGrades);
+          setCourseList(data.scores.courseGrades);
+        } else {
+          setMessage(data.message);
         }
       }
     };
 
-    if (userInfo.studentId) {
-      if (!courseList) fetchData();
-      if (params.courseNo) {
-        setCourse(params.courseNo);
-        setSelectedCourse(true);
-      }
-      if (params.scoreName) {
-        calStat(params.scoreName);
-        setSelectedScore(true);
-      }
+    if (!courseList && !message) fetchData();
+    if (params.courseNo) {
+      setCourse(params.courseNo);
+      setSelectedCourse(true);
+    }
+    if (params.scoreName) {
+      calStat(params.scoreName);
+      setSelectedScore(true);
     }
 
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, [userInfo, courseList, section, scores]);
+  }, [courseList, section, scores]);
 
   useEffect(() => {
     setParams({
@@ -186,6 +188,10 @@ export default function StudentDashboard() {
     setSearchParams(searchParams);
   };
 
+  const changeView = () => {
+    isShowGraph ? setIsShowGraph(false) : setIsShowGraph(true);
+  };
+
   return (
     <>
       {isSelectedCourse && (
@@ -218,6 +224,32 @@ export default function StudentDashboard() {
           <div className={Course.lineIndex} style={{ marginTop: -15 }}></div>
         </div>
       )}
+      {isSelectedScore && (
+        <Affix position={{ top: 150, right: 20 }}>
+          <Button
+            variant="outline"
+            ff={"SF PRo, sans-serif"}
+            w={150}
+            radius={20}
+            sx={{
+              // color: "#696CA3",
+              ":hover": { backgroundColor: "lightgray" },
+              // borderColor: "#696CA3",
+              border: "3px solid",
+            }}
+            onClick={changeView}
+            leftIcon={
+              isShowGraph ? (
+                <ImParagraphLeft size={20} />
+              ) : (
+                <VscGraph size={23} />
+              )
+            }
+          >
+            {isShowGraph ? "Show Detail" : "Show Graph"}
+          </Button>
+        </Affix>
+      )}
       <Text
         className={Course.coursetopictext}
         w="fit-content"
@@ -237,8 +269,23 @@ export default function StudentDashboard() {
       </Text>
       <div
         className={Course.courseframewindow}
-        style={{ gap: 10, marginTop: isSelectedCourse ? 4 : 0 }}
+        style={{
+          gap: 10,
+          marginTop: isSelectedCourse ? 4 : 0,
+          justifyContent: message ? "center" : null,
+          height: 550
+        }}
       >
+        {message && (
+          <Text
+            ff={"SF PRo, sans-serif"}
+            fz={isMobileOrTablet ? 25 : 40}
+            fw={550}
+            color="#696CA3"
+          >
+            {message}
+          </Text>
+        )}
         {!isSelectedCourse &&
           courseList &&
           courseList.map((item, key) => {
@@ -282,27 +329,36 @@ export default function StudentDashboard() {
               </div>
             );
           })}
-        {isSelectedScore && (
-          <Flex direction="column" mt={15} gap={25}>
-            <Title
-              ta="right"
-              order={3}
-              color="#696CA3"
-              ff={"SF PRo, sans-serif"}
-              fz={isMobileOrTablet ? 20 : 25}
-            >
-              Full Score: {fullScore}
-            </Title>
-            {scoreList && stat && (
-              <>
+        {isSelectedScore && scoreList && stat && (
+          <>
+            {!isShowGraph && (
+              <Flex direction="column" mt={15} gap={25}>
+                <Title
+                  ta="right"
+                  order={3}
+                  color="#696CA3"
+                  ff={"SF PRo, sans-serif"}
+                  fz={isMobileOrTablet ? 20 : 25}
+                >
+                  Full Score: {fullScore}
+                </Title>
                 {stat.map((e, i) => (
                   <Flex key={i} direction="column" gap={12}>
                     <Title
-                      mt={i === 0 ? -20 : 0}
+                      mt={i === 0 ? (isMobileOrTablet ? -20 : -45) : 0}
                       order={3}
                       color={colorProgress[i]}
                       ff={"SF PRo, sans-serif"}
-                      fz={isMobileOrTablet ? 20 : 25}
+                      fz={
+                        isMobileOrTablet
+                          ? i === 0
+                            ? 30
+                            : 20
+                          : i === 0
+                          ? 30
+                          : 25
+                      }
+                      fw={i === 0 ? 700 : 500}
                     >
                       {title[i]}: {e}
                     </Title>
@@ -325,9 +381,10 @@ export default function StudentDashboard() {
                 >
                   SD: {SD}
                 </Title>
-              </>
+              </Flex>
             )}
-          </Flex>
+            {isShowGraph && <></>}
+          </>
         )}
       </div>
     </>
