@@ -1,6 +1,8 @@
 import React from "react";
+import { useSearchParams } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
 import { Center, Table } from "@mantine/core";
+import { addStudentGrade } from "../services";
 import tabStyle from "./css/tableScore.module.css";
 
 const TableScore = ({ data }) => {
@@ -8,6 +10,7 @@ const TableScore = ({ data }) => {
   const [islog, setlog] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     let total = 0;
@@ -53,6 +56,22 @@ const TableScore = ({ data }) => {
     });
   }, []);
 
+  const publish = async (el) => {
+
+    const student_schema = {
+      courseNo: searchParams.get('courseNo'),
+      semester: searchParams.get('semester'),
+      year: searchParams.get('year'),
+      section: searchParams.get('section'),
+      scoreName: el.scoreName,
+      results: el.results
+    }
+    
+    console.log('send', student_schema)
+    let resp_student = await addStudentGrade(student_schema);
+    if (resp_student) console.log("response: ", resp_student)
+  }
+
   const rows = data.map((element, key) => (
     <tr key={key}>
       <td>{element.scoreName}</td>
@@ -85,7 +104,7 @@ const TableScore = ({ data }) => {
       </td>
       <td>
         <center>
-          <div className={tabStyle.publicBT}>
+          <div className={tabStyle.publicBT} onClick={()=>publish(element)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"
