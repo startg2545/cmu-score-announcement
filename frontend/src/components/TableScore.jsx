@@ -104,7 +104,9 @@ const TableScore = ({ data }) => {
       </td>
       <td>
         <center>
+
           <div className={tabStyle.publicBT} onClick={()=>publish(element)}>
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="30"

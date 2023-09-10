@@ -24,13 +24,53 @@ const Management = ({ data }) => {
     data.sort((a, b) => a.section - b.section);
   }, [data]);
 
+  const [showPopup1, setShowPopup1] = useState(false);
+  const [showPopup2, setShowPopup2] = useState(false);
+
+  const handlePublishEachClick = () => {
+    setShowPopup1(true);
+    setShowPopup2(false);
+  };
+
+  const handlePublishAllClick = () => {
+    setShowPopup1(false);
+    setShowPopup2(true);
+  };
+
   return (
-    <div>
+    <>
+     {showPopup1 && (
+          <div className={secMan.managePopup}>
+            <div className={secMan.managePopupContent}>
+              <h2>Popup 1 Content</h2>
+              <button
+                className={secMan.closeButton}
+                onClick={() => setShowPopup1(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+        {showPopup2 && (
+          <div className={secMan.managePopup}>
+            <div className={secMan.managePopupContent}>
+              <h2>Popup 2 Content</h2>
+              <button
+                className={secMan.closeButton}
+                onClick={() => setShowPopup2(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       <div
         className={` ${secMan.Managecourseframewindow}  ${
           showSidebar ? secMan.shrink : ""
         }`}
       >
+       
         {!isShowTable && (
           <div>
             {data.map((e, key) => (
@@ -52,22 +92,24 @@ const Management = ({ data }) => {
           </div>
         )}
         {isShowTable && <TableScore data={dataTable} />}
+        
       </div>
       {!isSelectedSec && (
         <div
           className={`${Course.publishSec} ${showSidebar ? Course.shrink : ""}`}
         >
-          {/**Publish All Sections */}
-          <div className={Course.publishlAll}>
-            <p>Publish All Sections</p>
+          <div className={Course.publishlAll} onClick={handlePublishEachClick}>
+            <p style={{ fontWeight: "600" }}>Publish Each Sections</p>
           </div>
-          {/**Publish Each Sections */}
-          <div className={Course.publishlEach}>
-            <p>Publish Each Section</p>
+          <div className={Course.publishlEach} onClick={handlePublishAllClick}>
+            <p style={{ fontWeight: "600", textDecoration: "underline" }}>
+              Publish All Section
+            </p>
           </div>
         </div>
       )}
-    </div>
+      
+    </>
   );
 };
 
