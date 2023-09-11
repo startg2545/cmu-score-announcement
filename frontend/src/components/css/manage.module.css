@@ -69,7 +69,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 120%;
+  width: 140%;
   height: 140%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
@@ -77,7 +77,7 @@
   align-items: center;
   z-index: 1000;
   margin-top: -180px;
-  margin-left: -150px;
+  margin-left: -280px;
 }
 
 .managePopupContent {
@@ -89,10 +89,23 @@
   width: 450px;
   font-weight: 500;
   align-items: center;
-  
   display: flex;
   flex-direction: column;
   font-size: 20px;
+}
+
+.managePopupContentInner {
+  background-color: #8084c8;
+  border-radius: 10px 10px 0px 0px;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+  height: 45px;
+  width: 490px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-size: 24px;
+  transform: translateY(-28px);
 }
 
 .closeButton {
