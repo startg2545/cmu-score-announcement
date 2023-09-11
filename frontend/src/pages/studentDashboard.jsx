@@ -7,6 +7,11 @@ import { VscGraph } from "react-icons/vsc";
 import { ImParagraphLeft } from "react-icons/im";
 import { useMediaQuery } from "@mantine/hooks";
 import { Flex, Title, Text, Progress, Button, Affix } from "@mantine/core";
+import { Chart } from "chart.js/auto";
+import annotationPlugin from "chartjs-plugin-annotation";
+import { Line } from "react-chartjs-2";
+
+Chart.register(annotationPlugin);
 
 export default function StudentDashboard() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -28,20 +33,28 @@ export default function StudentDashboard() {
     "Mean",
     "Max",
     "Median",
-    "Lower Quartile",
-    "Upper Quartile",
+    "Q1",
+    "Q3",
   ];
   const colorProgress = [
-    "#696CA3",
-    "#FF7A00",
+    "blue",
+    "red",
     "#429195",
-    "#B05F99",
-    "#318A5F",
-    "#4868DB",
+    "green",
+    "purple",
+    "orange",
   ];
+  let mean = 0,
+    max = 0,
+    median = 0,
+    q1 = 0,
+    q3 = 0,
+    num = 0;
   const [stat, setStat] = useState([]);
   const [SD, setSD] = useState(0);
   const [fullScore, setFullScore] = useState();
+  const [xValues, setXValues] = useState([]);
+  const [yValues, setYValues] = useState([]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -93,6 +106,25 @@ export default function StudentDashboard() {
     }
   }, [searchParams]);
 
+  useEffect(() => {
+    const densityNormal = (value, mean, sd) => {
+      const SQRT2PI = Math.sqrt(2 * Math.PI);
+      sd = sd == null ? 1 : sd;
+      const z = (value - (mean || 0)) / sd;
+      return Math.exp(-0.5 * z * z) / (sd * SQRT2PI);
+    };
+
+    let YValues = xValues.map((item) => {
+      if (mean === null || SD === undefined) {
+        return null;
+      } else {
+        const pdfValue = densityNormal(item, stat[1], SD);
+        return pdfValue === Infinity ? null : pdfValue;
+      }
+    });
+    setYValues(YValues); // array for Y values
+  }, [xValues]);
+
   // Function to format the date as "XX Aug, 20XX"
   const formatDate = (date) => {
     const options = { day: "numeric", month: "short", year: "numeric" };
@@ -103,59 +135,6 @@ export default function StudentDashboard() {
     const course = courseList?.filter((c) => c.courseNo === data)[0];
     setSection(course?.section);
     setScoreList(course?.scores);
-  };
-
-  const calStat = async (data) => {
-    let mean = 0,
-      max = 0,
-      median = 0,
-      q1 = 0,
-      q3 = 0,
-      num = 0;
-    const scorePS = scoreList?.filter((s) => s.scoreName === data)[0]?.point;
-    if (section && data && !scores) {
-      const resp = await getScoresCourse({
-        section: section,
-        courseNo: params.courseNo,
-        scoreName: data,
-      });
-      if (resp) {
-        setScores(resp.results);
-        setFullScore(resp.fullScore);
-      }
-    }
-    if (scores) {
-      num = scores.length;
-      scores.sort((a, b) => a.point - b.point);
-      scores.map((e) => (mean += e.point));
-      mean = (mean / num).toFixed(2);
-      max = scores[num - 1].point;
-      median =
-        num % 2 === 0
-          ? (
-              (scores[parseInt(num / 2) - 1].point +
-                scores[parseInt(num / 2)].point) /
-              2
-            ).toFixed(2)
-          : scores[parseInt(num / 2)].point.toFixed(2);
-      const posQ1 = (num + 1) * (1 / 4);
-      const posQ3 = (num + 1) * (3 / 4);
-      const baseQ1 = Math.floor(posQ1);
-      const baseQ3 = Math.floor(posQ3);
-      q1 = (
-        scores[baseQ1 - 1].point +
-        (posQ1 - baseQ1) * (scores[baseQ1].point - scores[baseQ1 - 1].point)
-      ).toFixed(2);
-      q3 = (
-        scores[baseQ3 - 1].point +
-        (posQ3 - baseQ3) * (scores[baseQ3].point - scores[baseQ3 - 1].point)
-      ).toFixed(2);
-      let x = 0;
-      scores.map((e) => (x += Math.pow(e.point - mean, 2)));
-      setSD(Math.sqrt(x / num).toFixed(2));
-    }
-
-    setStat([scorePS, mean, max, median, q1, q3]);
   };
 
   const backToDashboard = () => {
@@ -192,6 +171,93 @@ export default function StudentDashboard() {
     isShowGraph ? setIsShowGraph(false) : setIsShowGraph(true);
   };
 
+  const calStat = async (data) => {
+    const scorePS = scoreList?.filter((s) => s.scoreName === data)[0]?.point;
+    if (section && data && !scores) {
+      const resp = await getScoresCourse({
+        section: section,
+        courseNo: params.courseNo,
+        scoreName: data,
+      });
+      if (resp) {
+        setScores(resp.results);
+        setFullScore(resp.fullScore);
+      }
+    }
+    if (scores) {
+      let dataSort = [];
+      num = scores.length;
+      scores.sort((a, b) => a.point - b.point);
+      scores.map((e) => dataSort.push(e.point));
+      setXValues(dataSort);
+      scores.map((e) => (mean += e.point));
+      mean = (mean / num).toFixed(2);
+      max = scores[num - 1].point;
+      median =
+        num % 2 === 0
+          ? (
+              (scores[parseInt(num / 2) - 1].point +
+                scores[parseInt(num / 2)].point) /
+              2
+            ).toFixed(2)
+          : scores[parseInt(num / 2)].point.toFixed(2);
+      const posQ1 = (num + 1) * (1 / 4);
+      const posQ3 = (num + 1) * (3 / 4);
+      const baseQ1 = Math.floor(posQ1);
+      const baseQ3 = Math.floor(posQ3);
+      q1 = (
+        scores[baseQ1 - 1].point +
+        (posQ1 - baseQ1) * (scores[baseQ1].point - scores[baseQ1 - 1].point)
+      ).toFixed(2);
+      q3 = (
+        scores[baseQ3 - 1].point +
+        (posQ3 - baseQ3) * (scores[baseQ3].point - scores[baseQ3 - 1].point)
+      ).toFixed(2);
+      let x = 0;
+      scores.map((e) => (x += Math.pow(e.point - mean, 2)));
+      setSD(Math.sqrt(x / num).toFixed(2));
+    }
+
+    setStat([scorePS, mean, max, median, q1, q3]);
+  };
+
+  const data = {
+    labels: [...xValues],
+    datasets: [
+      {
+        data: [...yValues],
+        lineTension: 0.5,
+        yAxisID: "y",
+      },
+    ],
+  };
+
+  const statLine = [];
+  for (let i = 0; i < title.length; i++) {
+    if (i !== 2) {
+      statLine.push({
+        type: "line",
+        label: {
+          content: title[i],
+          display: true,
+          position: "start",
+          yAdjust: -100,
+          rotation: 90,
+          color: colorProgress[i],
+          backgroundColor: "rgb(0,0,0,0)",
+          font: {
+            size: 15
+          }
+        },
+        value: stat[i],
+        borderColor: colorProgress[i],
+        borderDash: [6, 6],
+        borderWidth: 2,
+        scaleID: "x",
+      });
+    }
+  }
+
   return (
     <>
       {isSelectedCourse && (
@@ -227,14 +293,17 @@ export default function StudentDashboard() {
       {isSelectedScore && (
         <Affix position={{ top: 150, right: 20 }}>
           <Button
-            variant="outline"
             ff={"SF PRo, sans-serif"}
             w={150}
             radius={20}
+            bg="white"
             sx={{
-              // color: "#696CA3",
-              ":hover": { backgroundColor: "lightgray" },
-              // borderColor: "#696CA3",
+              color: "#8084c8",
+              ":hover": {
+                color: "white",
+                backgroundColor: "#8084c8",
+                borderColor: "#8084c8",
+              },
               border: "3px solid",
             }}
             onClick={changeView}
@@ -273,7 +342,7 @@ export default function StudentDashboard() {
           gap: 10,
           marginTop: isSelectedCourse ? 4 : 0,
           justifyContent: message ? "center" : null,
-          height: 550
+          height: 550,
         }}
       >
         {message && (
@@ -383,7 +452,56 @@ export default function StudentDashboard() {
                 </Title>
               </Flex>
             )}
-            {isShowGraph && <></>}
+            {isShowGraph && (
+              <Line
+                data={data}
+                options={{
+                  scales: {
+                    x: {
+                      type: "linear",
+                      position: "bottom",
+                      min: 0,
+                      max: fullScore,
+                    },
+                    y: {
+                      type: "linear",
+                      position: "left",
+                    },
+                  },
+                  layout: {
+                    padding: {
+                      right: 25,
+                      left: 25,
+                      top: 100,
+                      // // bottom: -90,
+                    },
+                    
+                    
+                  },
+                  plugins: {
+                    legend: {
+                      display: false,
+                    },
+                    annotation: {
+                      clip: false,
+                      annotations: statLine,
+                    },
+                  },
+                  animation: false,
+                  elements: {
+                    point: {
+                      radius: 0,
+                    },
+                    line: {
+                      borderColor: "black",
+                      borderWidth: 1,
+                    },
+                    
+                  },
+                  events: [],
+                }}
+              />
+            )}
           </>
         )}
       </div>
