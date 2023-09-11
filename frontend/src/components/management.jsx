@@ -13,9 +13,9 @@ const Management = ({ data }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const showTable = (sec) => {
-    searchParams.set('section', sec)
-    setSearchParams(searchParams)
-    setIsSelectSec(true)
+    searchParams.set("section", sec);
+    setSearchParams(searchParams);
+    setIsSelectSec(true);
     setIsShowTable(true);
     setDataTable(data.filter((e) => e.section === sec)[0].scores);
   };
@@ -39,38 +39,45 @@ const Management = ({ data }) => {
 
   return (
     <>
-     {showPopup1 && (
-          <div className={secMan.managePopup}>
-            <div className={secMan.managePopupContent}>
-              <h2>Popup 1 Content</h2>
-              <button
-                className={secMan.closeButton}
-                onClick={() => setShowPopup1(false)}
-              >
-                Close
-              </button>
+      {showPopup1 && (
+        <div className={secMan.managePopup}>
+          <div className={secMan.managePopupContent}>
+            <div className={secMan.managePopupContentInner}>
+              <p style={{ color: "white", fontWeight: "600" }}>
+                Select section to publish
+              </p>
             </div>
+            <button
+              className={secMan.closeButton}
+              onClick={() => setShowPopup1(false)}
+            >
+              Close
+            </button>
           </div>
-        )}
-        {showPopup2 && (
-          <div className={secMan.managePopup}>
-            <div className={secMan.managePopupContent}>
-              <h2>Popup 2 Content</h2>
-              <button
-                className={secMan.closeButton}
-                onClick={() => setShowPopup2(false)}
-              >
-                Close
-              </button>
+        </div>
+      )}
+      {showPopup2 && (
+        <div className={secMan.managePopup}>
+          <div className={secMan.managePopupContent}>
+            <div className={secMan.managePopupContentInner}>
+              <p style={{ color: "white", fontWeight: "600" }}>
+                Publish All Section?
+              </p>
             </div>
+            <button
+              className={secMan.closeButton}
+              onClick={() => setShowPopup2(false)}
+            >
+              Close
+            </button>
           </div>
-        )}
+        </div>
+      )}
       <div
         className={` ${secMan.Managecourseframewindow}  ${
           showSidebar ? secMan.shrink : ""
         }`}
       >
-       
         {!isShowTable && (
           <div>
             {data.map((e, key) => (
@@ -92,7 +99,6 @@ const Management = ({ data }) => {
           </div>
         )}
         {isShowTable && <TableScore data={dataTable} />}
-        
       </div>
       {!isSelectedSec && (
         <div
@@ -108,7 +114,6 @@ const Management = ({ data }) => {
           </div>
         </div>
       )}
-      
     </>
   );
 };

@@ -37,7 +37,7 @@
   width: calc(
     100vw - 300px
   ); /* Reduce the width by the width of the sssidebar */
-  margin-left: 12px; /* Move the framewindow to the right to accommodate the sssidebar */
+  margin-left: 120px; /* Move the framewindow to the right to accommodate the sssidebar */
 }
 
 .coursetopictext {
