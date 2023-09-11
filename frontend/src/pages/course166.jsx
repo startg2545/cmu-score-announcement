@@ -635,8 +635,8 @@ export default function Course166Container() {
 
                 <div
                   style={{
-                    height: "calc(87vh - 60px)",
                     width: "100vw",
+                    margin: "auto",
                     justifyContent: "center",
                     alignItems: "center",
                     display: "flex",
@@ -660,20 +660,6 @@ export default function Course166Container() {
                 </div>
                 {/* show Upload/Section/TableScore */}
                 {isManage && <Management data={section} />}
-                {/* {isManage &&
-                     <div
-                     className={`${Course.publishSec} ${
-                       showSidebar ? Course.shrink : ""
-                     }`}
-                   >
-                     <div className={Course.publishlAll}>
-                       <p>Publish All Sections</p>
-                     </div>
-                     <div className={Course.publishlEach}>
-                       <p>Publish Each Section</p>
-                     </div>
-                   </div>
-                } */}
                
               </div>
 
