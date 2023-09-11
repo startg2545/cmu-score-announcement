@@ -635,7 +635,6 @@ export default function Course166Container() {
 
                 <div
                   style={{
-                    width: "100vw",
                     margin: "auto",
                     justifyContent: "center",
                     alignItems: "center",
@@ -660,9 +659,9 @@ export default function Course166Container() {
                 </div>
                 {/* show Upload/Section/TableScore */}
                 {isManage && <Management data={section} />}
-               
               </div>
-
+              {isUploadScore && <UploadSc />}
+    
               {isUploadScore && !isManage && (
                 <p className={Course.MenuIndex}>
                   <svg
@@ -727,7 +726,7 @@ export default function Course166Container() {
               {" "}
             </div>
           </>
-          {isUploadScore && <UploadSc />}
+   
         </div>
       )}
     </>

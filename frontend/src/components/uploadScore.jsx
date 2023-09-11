@@ -179,6 +179,7 @@ export default function UploadScorePageContainer() {
           showSidebar ? upStyle.shrink : ""
         }`}
       >
+        <div  className={upStyle.frameChild} >
         <div className={upStyle.ScoreInlineContainer}>
           <div className={upStyle.ScoreText}>Score File</div>
           <input
@@ -190,6 +191,7 @@ export default function UploadScorePageContainer() {
             accept=".xlsx, .xls"
           />
         </div>
+
         <div
           className={` ${upStyle.ScoreDescriptionBox} ${
             showSidebar ? upStyle["move-right"] : ""
@@ -211,28 +213,12 @@ export default function UploadScorePageContainer() {
             And attach back to this system.
           </p>
         </div>
-        <div className={upStyle.ScoreInlineContainer}>
-          <div className={upStyle.ScoreText}>Note to student</div>
-        </div>
-        <input
-          type="text"
-          onChange={(e) => setNote(e.target.value)}
-          className={upStyle.ScoreTextBox}
-          placeholder=""
-          style={{
-            transform: "translateX(40px)",
-            marginTop: "-24px",
-            width: "70%",
-            height: "60px",
-          }}
-        />
         <div
           className={`${upStyle.ScoreDescriptionBox} ${
             showSidebar ? upStyle["move-right"] : ""
           }`}
           style={{
             transform: "translateY(30px)",
-            marginLeft: "40px",
             backgroundColor: "#D0CDFE",
           }}
         >
@@ -250,13 +236,13 @@ export default function UploadScorePageContainer() {
             not after completing the upload.
           </p>
         </div>
+
         <div
           className={` ${upStyle.ScoreDescriptionBox} ${
             showSidebar ? upStyle["move-right"] : ""
           }`}
           style={{
             transform: "translateY(38px)",
-            marginLeft: "40px",
             backgroundColor: "#A8F0F4",
             height: "20px",
           }}
@@ -269,7 +255,9 @@ export default function UploadScorePageContainer() {
             </span>
           </p>
         </div>
-        <div className={upStyle.ScoreInlineContainer}>
+
+        {/*button confirm/cancel*/}
+        <div className={`${upStyle.ScoreInlineContainer} ${upStyle.buttonCanCon}`}>
           <div
             className={upStyle.ScoreCancelButton}
             onClick={handleCancelClick}
@@ -290,7 +278,6 @@ export default function UploadScorePageContainer() {
               </svg>
             </div>
           </div>
-
           <div
             className={upStyle.ScoreConfirmButton}
             onClick={handleConfirmClick}
@@ -312,7 +299,25 @@ export default function UploadScorePageContainer() {
             </div>
           </div>
         </div>
+        </div>
       </div>
+
+              {/* <div className={upStyle.ScoreInlineContainer}>
+          <div className={upStyle.ScoreText}>Note to student</div>
+        </div>
+        <input
+          type="text"
+          onChange={(e) => setNote(e.target.value)}
+          className={upStyle.ScoreTextBox}
+          placeholder=""
+          style={{
+            transform: "translateX(40px)",
+            marginTop: "-24px",
+            width: "70%",
+            height: "60px",
+          }}
+        /> */}
+
       {showPopupCancel && (
         <div className={upStyle.ScorePopup}>
           <div className={upStyle["ScorePopup-Content"]}>

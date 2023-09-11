@@ -12,31 +12,32 @@ body {
 
 .Scorecourseframewindow {
   position: absolute;
-  top: calc(150px + 50%);
-  bottom: calc(10px + 50%);
+  top: calc(175px + 50%);
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
   max-width: 96.6%;
-  height: calc(61vh);
-  justify-content: center;
+  height: calc(75vh - 70px);
+
+  
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-
   transition: width 0.4s ease, margin-left 0.4s ease;
-  padding-block: 20px;
-  border-bottom: 25px;
 }
-
 
 .Scorecourseframewindow.shrink {
-
-  width: calc(
-    100vw - 340px
-  ); 
-  margin-left: 110px; 
+  width: calc(100vw - 340px);
+  margin-left: 110px;
 }
+.frameChild{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  margin-block: 2.5%;
+}
+
 
 .Scorecoursetopictext {
   color: #696ca3;
@@ -99,10 +100,7 @@ body {
 }
 
 .ScoreLine.move-right {
-  transform: translate(
-    280px,
-    32px
-  ); 
+  transform: translate(280px, 32px);
   width: 81%;
   position: absolute;
 }
@@ -130,14 +128,14 @@ body {
   transition: transform 0.3s ease;
 }
 
-
-
 .ScoreInlineContainer {
   display: flex; /* Use flexbox to align items in a row */
   align-items: center;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
   transition: transform 0.3s ease;
-  margin-top: -15px;
+}
+.ScoreInlineContainer.buttonCanCon {
+  margin-left: 150px;
 }
 
 .ScoreFileDescription {
@@ -145,24 +143,21 @@ body {
   color: #000000;
   font-family: SF Pro;
   transition: transform 0.3s ease;
-  margin-top: 0px;
+  margin: auto;
 }
-
 
 .ScoreDescriptionBox {
   padding: 10px;
   border: 1px;
   background-color: #faedca;
   border-radius: 5px;
-  width: calc(61vw);
+  width: calc(58vw);
   height: calc(1.6vh + 60px);
   margin-left: 189px;
-  margin-top: -20px;
-  margin-bottom: 20px;
+  /* margin-top: -20px; */
+  /* margin-bottom: 20px; */
   transition: transform 0.3s ease;
 }
-
-
 
 .ScoreCancelButton {
   transform: translate(40px, 45px);
@@ -212,7 +207,7 @@ body {
 
 .ScoreCancelText {
   position: absolute;
-  right:65px;
+  right: 65px;
   margin: 0;
   font-weight: 700;
   font-size: 14px;
