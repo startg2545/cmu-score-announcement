@@ -6,6 +6,8 @@ import { addCourse } from "../services";
 import * as XLSX from "xlsx";
 import Course from "../pages/css/course166.module.css";
 import { Button } from "@mantine/core";
+import Example from "../Example.xlsx"
+import Template from "../Template.xlsx"
 
 export default function UploadScorePageContainer() {
   const [sections, setSections] = useState([]);
@@ -129,7 +131,7 @@ export default function UploadScorePageContainer() {
     if (file) {
       const data = await file.arrayBuffer();
       const workbook = XLSX.read(data);
-      const worksheet = workbook.Sheets["Scores"];
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       const resultsData = XLSX.utils.sheet_to_json(worksheet, {
         header: 1,
         defval: "",
@@ -207,12 +209,28 @@ export default function UploadScorePageContainer() {
               <span style={{ color: "red", fontWeight: "bold" }}>
                 (support only this template .xlsx and .xls format)
               </span>{" "}
-              and fill student code, score (numbers only) and comments (if any).
+              and fill student code, score (numbers only).
               <span style={{ color: "red", fontWeight: "bold" }}>
                 {" "}
                 Do not change the column header name.{" "}
               </span>
               And attach back to this system.
+              <a
+                href={Example}
+                download="Example"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button>Example</button>
+              </a>
+              <a
+                href={Template}
+                download="Template"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button>Template</button>
+              </a>
             </p>
           </div>
           <div
@@ -303,7 +321,6 @@ export default function UploadScorePageContainer() {
               </div>
             </div>
           </div>
-          
         </div>
       </div>
 

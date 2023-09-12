@@ -138,7 +138,7 @@ body {
   background-color: #eeecec;
   border-radius: 3px;
   font-family: SF Pro;
-  width: calc(68.5%);
+  width: calc(58vw);
   font-size: 16px;
   transform: translateX(20px);
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
