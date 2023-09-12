@@ -48,16 +48,21 @@ router.post("/add", async (req, res) => {
           for (let j in req_sections[i].scores) {
             for (let x in section.sections) {
               if (
-                section.sections[x].section == req_sections[i].section.toString() &&
-                section.sections[x].scores.find((el)=>el.scoreName==req_sections[i].scores[j].scoreName) != null
+                section.sections[x].section ==
+                  req_sections[i].section.toString() &&
+                section.sections[x].scores.find(
+                  (el) => el.scoreName == req_sections[i].scores[j].scoreName
+                ) != null
               ) {
-                section.sections[x].scores[j] = req_sections[i].scores[j]
+                section.sections[x].scores[j] = req_sections[i].scores[j];
                 await section.save();
-              }
-              else if (
-                section.sections[x].section == req_sections[i].section.toString() &&
-                section.sections[x].scores.find((el)=>el.scoreName==req_sections[i].scores[j].scoreName) == null
-                ) {
+              } else if (
+                section.sections[x].section ==
+                  req_sections[i].section.toString() &&
+                section.sections[x].scores.find(
+                  (el) => el.scoreName == req_sections[i].scores[j].scoreName
+                ) == null
+              ) {
                 section.sections[x].scores.push(req_sections[i].scores[j]);
                 await section.save();
               }
@@ -71,7 +76,6 @@ router.post("/add", async (req, res) => {
       }
       return res.send("The sections have been added.");
     }
-
   } catch (err) {
     return err;
   }
@@ -88,20 +92,21 @@ router.put("/", async (req, res) => {
         return res.status(403).send({ ok: false, message: "Invalid token" });
     });
 
-    const section = await courseModel.findOneAndUpdate(
+    const decoded = jwt.decode(token);
+
+    const result = await courseModel.findOneAndUpdate(
       {
         courseNo: req.query.courseNo,
         year: req.query.year,
         semester: req.query.semester,
-        "sections.section": req.query.section,
+        "sections.instructor": decoded.cmuAccount,
       },
-      {
-        $push: { "sections.$.coInstructors": req.query.coInstructors },
-      },
+      { $push: { "sections.$[].coInstructors": req.query.coInstructors } },
       { new: true }
     );
-    await section.save();
-    return res.send(section);
+
+    await result.save();
+    return res.send("Co-Instructor have been added.");
   } catch (err) {
     return err;
   }
