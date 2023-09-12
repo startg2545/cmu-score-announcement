@@ -6,30 +6,26 @@
 
 .Managecourseframewindow {
   position: absolute;
-  top: 220px;
+  top: calc(175px + 50%);
   left: 50%;
-  transform: translate(-50%,2.5%);
-  width: 95vw;
-  max-width: 98%;
-  height: calc(63vh - 60px);
+  transform: translateX(-50%);
+  width: 100vw;
+  max-width: 96.6%;
+  height: calc(87vh - 165px);
   overflow-y: auto;
+  /* border: 1px solid #000; */
   display: flex;
   flex-direction: column;
   transition: width 0.4s ease, margin-left 0.4s ease;
-  padding-block: 20px;
-  border-bottom: 25px;
 }
-
-
 .Managecourseframewindow.shrink {
-  width: calc(
-    76vw
-  ); 
-  margin-left: 120px; 
+  width: calc(79vw); 
+  margin-left: 122px;
 }
-
-
-
+.frameTableSc {
+  /* border: 3px solid #1818a7; */
+  margin: 10px;
+}
 
 .secBox {
   top: 18px;
@@ -118,7 +114,71 @@
 }
 
 
+.publishSec{
+  color: #ffffff;
+  font-size: 28px;
+  left: 1.7%;
+  width: 97vw;
+  display: flex;
+  /* transition: width 0.4s ease, margin-left 0.4s ease; */
+  position: absolute;
+  bottom: 0;
+  top: calc(87.5vh);
+  left: 1.7%;
+  width: 100%; 
+  transform: none; 
+  cursor: pointer;
+  /* transform: translate(-2px, 2.5px); */
+}
 
+
+.publishSec.shrink {
+  width: calc(
+    79.3vw 
+  );
+  margin-left: calc(16.7vw);
+
+}
+
+
+
+.publishSec .publishlEach{
+  left: 0;
+  width: 49.1vw;
+  height: 70px;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  border-bottom-left-radius: 15px;
+  border-right: 2px solid white; 
+  background: #8584c5;
+  transition: width 0.4s ease, margin-left 0.4s ease;
+}
+
+.publishSec .publishlAll{
+  left: 0;
+  width: 47.5vw;
+  height: 70px;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  border-left: 1px solid white; 
+  border-bottom-right-radius: 15px;
+  background: #8584c5;
+  z-index: 1;
+  transition: width 0.4s ease, margin-left 0.4s ease;
+}
+
+
+.publishlEach:hover
+{
+  background-color: #696CA3;
+}
+
+.publishlAll:hover
+{
+  background-color: #696CA3;
+}
 
 
 
