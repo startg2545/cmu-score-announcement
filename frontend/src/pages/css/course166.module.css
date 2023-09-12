@@ -63,11 +63,11 @@
 }
 
 .coursetopictext.moveRight {
-  transform: translate(305px, 5px);
+  transform: translate(275px, 5px);
   transition: transform 0.4s ease;
 }
 .datetext.moveRight {
-  transform: translate(310px, 2px);
+  transform: translate(280px, 2px);
   transition: transform 0.4s ease;
 }
 
@@ -151,11 +151,10 @@
   text-indent: -5px;
   font-size: 18px;
   transition: background-color 0.3s ease;
-  position: fixed;
-  right: 25px; 
+  position:fixed;
+  right: calc(25px); 
   top: 110px; 
   cursor: pointer;
-  
 }
 
 .AddCourseButton svg {

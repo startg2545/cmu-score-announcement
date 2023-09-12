@@ -31,7 +31,7 @@ const ErrorView = () => {
       userInfo.itAccountType === ROLE.INSTRUCTOR &&
       pathname === "/errorView" &&
       screenSize.width >= 1200 &&
-      screenSize.height >= 500
+      screenSize.height >= 740
     ) {
       window.location.replace("/sign-in");
     }
