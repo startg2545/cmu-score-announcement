@@ -105,6 +105,7 @@ router.put("/", async (req, res) => {
       { new: true }
     );
 
+
     await result.save();
     return res.send("Co-Instructor have been added.");
   } catch (err) {
