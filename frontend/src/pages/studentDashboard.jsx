@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import Course from "./css/course166.module.css";
+import Student from "./css/studentDashboard.module.css";
 import { getStudentScores, getAllCourses, getScoresCourse } from "../services";
 import { HiChevronRight } from "react-icons/hi";
 import { VscGraph } from "react-icons/vsc";
@@ -33,17 +33,10 @@ export default function StudentDashboard() {
     "Mean",
     "Max",
     "Median",
-    "Q1",
-    "Q3",
+    "Lower Quartile",
+    "Upper Quartile",
   ];
-  const colorProgress = [
-    "blue",
-    "red",
-    "#429195",
-    "green",
-    "purple",
-    "orange",
-  ];
+  const colorProgress = ["blue", "red", "#429195", "green", "purple", "orange"];
   let mean = 0,
     max = 0,
     median = 0,
@@ -67,10 +60,10 @@ export default function StudentDashboard() {
       if (data) {
         if (data.ok) {
           if (allCourse.ok) {
-            data.courseGrades.forEach((e, index) => {
-              allCourse.forEach((all) => {
-                if (e.courseGrades.courseNo === all.courseNo) {
-                  data.courseGrades[index].courseName = all.courseNameEN;
+            data.scores.courseGrades.forEach((e, index) => {
+              allCourse.courseDetails.forEach((all) => {
+                if (e.courseNo === all.courseNo) {
+                  data.scores.courseGrades[index].courseName = all.courseNameEN;
                 }
               });
             });
@@ -115,7 +108,7 @@ export default function StudentDashboard() {
     };
 
     let YValues = xValues.map((item) => {
-      if (mean === null || SD === undefined) {
+      if (stat[1] === null || SD === undefined) {
         return null;
       } else {
         const pdfValue = densityNormal(item, stat[1], SD);
@@ -240,14 +233,15 @@ export default function StudentDashboard() {
         label: {
           content: title[i],
           display: true,
-          position: "start",
-          yAdjust: -100,
+          position: "end",
+          // yAdjust: -100,
+          xAdjust: 8,
           rotation: 90,
           color: colorProgress[i],
           backgroundColor: "rgb(0,0,0,0)",
           font: {
-            size: 15
-          }
+            size: 15,
+          },
         },
         value: stat[i],
         borderColor: colorProgress[i],
@@ -261,13 +255,13 @@ export default function StudentDashboard() {
   return (
     <>
       {isSelectedCourse && (
-        <div className={Course.MenuIndexLayout} style={{ marginInline: 25 }}>
-          <div className={Course.MenuNavigate}>
-            <p className={Course.MenuIndex}>
+        <div className={Student.MenuIndexLayout}>
+          <div className={Student.MenuNavigate}>
+            <p className={Student.MenuIndex}>
               <label
                 onClick={backToDashboard}
                 style={{ cursor: "pointer" }}
-                className={Course.date}
+                className={Student.date}
               >
                 Dashboard
               </label>
@@ -275,37 +269,25 @@ export default function StudentDashboard() {
               <label
                 onClick={backToCourse}
                 style={{ cursor: isSelectedScore ? "pointer" : null }}
-                className={Course.date}
+                className={Student.date}
               >
                 {params.courseNo}
               </label>
               {isSelectedScore && (
                 <>
                   <HiChevronRight />
-                  <label className={Course.date}>{params.scoreName}</label>
+                  <label className={Student.date}>{params.scoreName}</label>
                 </>
               )}
             </p>
           </div>
-          <div className={Course.lineIndex} style={{ marginTop: -15 }}></div>
+          <div className={Student.lineIndex}></div>
         </div>
       )}
       {isSelectedScore && (
         <Affix position={{ top: 150, right: 20 }}>
           <Button
-            ff={"SF PRo, sans-serif"}
-            w={150}
-            radius={20}
-            bg="white"
-            sx={{
-              color: "#8084c8",
-              ":hover": {
-                color: "white",
-                backgroundColor: "#8084c8",
-                borderColor: "#8084c8",
-              },
-              border: "3px solid",
-            }}
+            className={Student.showGraphBT}
             onClick={changeView}
             leftIcon={
               isShowGraph ? (
@@ -319,53 +301,27 @@ export default function StudentDashboard() {
           </Button>
         </Affix>
       )}
-      <Text
-        className={Course.coursetopictext}
-        w="fit-content"
-        fz={20}
-        style={{ marginTop: isSelectedCourse ? -8 : 0 }}
-      >
+      <Text className={Student.coursetopictext}>
         {!isSelectedCourse && "Dashboard"}
         {isSelectedCourse && !isSelectedScore && params.courseNo}
         {isSelectedScore && params.scoreName}
       </Text>
-      <Text
-        className={Course.datetext}
-        w="fit-content"
-        style={{ marginTop: isSelectedCourse ? 0 : 0 }}
-      >
+      <Text className={Student.datetext}>
         {formatDate(currentDate)}
       </Text>
-      <div
-        className={Course.courseframewindow}
-        style={{
-          gap: 10,
-          marginTop: isSelectedCourse ? 4 : 0,
-          justifyContent: message ? "center" : null,
-          height: 550,
-        }}
-      >
-        {message && (
-          <Text
-            ff={"SF PRo, sans-serif"}
-            fz={isMobileOrTablet ? 25 : 40}
-            fw={550}
-            color="#696CA3"
-          >
-            {message}
-          </Text>
-        )}
+      <div className={Student.courseframewindow}>
+        {message && <Text className={Student.message}>{message}</Text>}
         {!isSelectedCourse &&
           courseList &&
           courseList.map((item, key) => {
             return (
               <div
                 key={key}
-                className={Course.frameEachCourse}
+                className={Student.frameEachCourse}
                 onClick={() => onClickCourse(item.courseNo)}
               >
-                <div className={Course.courseName}>
-                  <div className={Course.intoCourse}>
+                <div className={Student.courseName}>
+                  <div className={Student.intoCourse}>
                     {item.courseNo}
                     {item.courseName ? ` - ${item.courseName}` : null}
                     <Text
@@ -389,11 +345,11 @@ export default function StudentDashboard() {
             return (
               <div
                 key={key}
-                className={Course.frameEachCourse}
+                className={Student.frameEachCourse}
                 onClick={() => onClickScore(item.scoreName)}
               >
-                <div className={Course.courseName}>
-                  <div className={Course.intoCourse}>{item.scoreName}</div>
+                <div className={Student.courseName}>
+                  <div className={Student.intoCourse}>{item.scoreName}</div>
                 </div>
               </div>
             );
@@ -470,13 +426,11 @@ export default function StudentDashboard() {
                   },
                   layout: {
                     padding: {
-                      right: 25,
-                      left: 25,
-                      top: 100,
+                      // right: 25,
+                      // left: 25,
+                      // top: 100,
                       // // bottom: -90,
                     },
-                    
-                    
                   },
                   plugins: {
                     legend: {
@@ -496,7 +450,6 @@ export default function StudentDashboard() {
                       borderColor: "black",
                       borderWidth: 1,
                     },
-                    
                   },
                   events: [],
                 }}

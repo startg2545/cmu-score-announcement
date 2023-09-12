@@ -45,13 +45,22 @@ export default function CMUOAuthCallback() {
     if (!code) return;
 
     const setUser = async (data) => {
-      setUserInfo({
-        cmuAccount: data.cmuAccount,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        studentId: data.studentId,
-        itAccountType: data.itAccountType,
-      });
+      setUserInfo(
+        data.studentId
+          ? {
+              cmuAccount: data.cmuAccount,
+              firstName: data.firstName,
+              lastName: data.lastName,
+              studentId: data.studentId,
+              itAccountType: data.itAccountType,
+            }
+          : {
+              cmuAccount: data.cmuAccount,
+              firstName: data.firstName,
+              lastName: data.lastName,
+              itAccountType: data.itAccountType,
+            }
+      );
     };
 
     const fetchData = async () => {
@@ -73,10 +82,14 @@ export default function CMUOAuthCallback() {
 
   return (
     <Flex m={50} justify="center" align="center" direction="column" gap={50}>
-      <Title maw={500} order={1}>{message || "Redirecting ..."}</Title>
-      {!userInfo.itAccountType && <Button maw={125} onClick={() => navigate("/sign-in")}>
-        Go Back
-      </Button>}
+      <Title maw={500} order={1}>
+        {message || "Redirecting ..."}
+      </Title>
+      {!userInfo.itAccountType && (
+        <Button maw={125} onClick={() => navigate("/sign-in")}>
+          Go Back
+        </Button>
+      )}
     </Flex>
   );
 }

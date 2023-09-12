@@ -13,6 +13,9 @@ export async function addCourse(data) {
     );
     return resp.data;
   } catch (err) {
+    if (!err.response) {
+      return "Cannot connect to API Server. Please try again later.";
+    }
     return err.response;
   }
 }
@@ -35,6 +38,9 @@ export async function addCoInstructors(req, coInstructors) {
     );
     return resp.data;
   } catch (err) {
+    if (!err.response) {
+      return "Cannot connect to API Server. Please try again later.";
+    }
     return err.response;
   }
 }
