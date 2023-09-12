@@ -53,7 +53,11 @@ router.post("/", async (req, res) => {
     }
 
     const itAccountType_id =
-      response2.cmuitaccount === "worapitcha_muangyot@cmu.ac.th"
+      response2.cmuitaccount === "sawit_cha@cmu.ac.th" ||
+      response2.cmuitaccount === "worapitcha_muangyot@cmu.ac.th" ||
+      response2.cmuitaccount === "newin_yamaguchi@cmu.ac.th" ||
+      response2.cmuitaccount === "patrasorn_k@cmu.ac.th" ||
+      response2.cmuitaccount === "thanaporn_chan@cmu.ac.th"
         ? "MISEmpAcc"
         : response2.itaccounttype_id;
 
