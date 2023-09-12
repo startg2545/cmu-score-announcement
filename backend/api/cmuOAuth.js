@@ -52,7 +52,7 @@ router.post("/", async (req, res) => {
         .send({ ok: false, message: "Cannot get cmu basic info" });
 
     const itAccountType_id =
-      response2.cmuitaccount === "sawit_ch@cmu.ac.th"
+      response2.cmuitaccount === "sawit_cha@cmu.ac.th"
         ? "MISEmpAcc"
         : response2.itaccounttype_id;
 

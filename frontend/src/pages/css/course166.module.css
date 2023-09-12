@@ -523,12 +523,16 @@ transform: scale(1.1);
 .publishSec{
   color: #ffffff;
   font-size: 28px;
-  left: 0;
+  left: 1.7%;
   width: 97vw;
   display: flex;
   transition: width 0.4s ease, margin-left 0.4s ease;
   position: absolute;
   bottom: 0;
+  top: calc(87.5vh);
+  left: 1.7%;
+  width: 100%; 
+  transform: none; 
   cursor: pointer;
   transform: translate(-2px, 2.5px);
 }
@@ -560,7 +564,6 @@ transform: scale(1.1);
   display: flex;
   justify-content: center; 
   align-items: center;
-
   border-left: 1px solid white; 
   border-bottom-right-radius: 15px;
   background: #8584c5;
@@ -751,7 +754,7 @@ transform: scale(1.1);
 }
 
 .AddPopupButton {
-  width: 120px;
+  width: 140px;
   height: 35px;
   border-radius: 10px;
   border: 1px;
