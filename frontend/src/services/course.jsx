@@ -27,7 +27,6 @@ export async function addCoInstructors(req, coInstructors) {
       {
         params: {
           courseNo: req.courseNo,
-          section: req.section,
           year: req.year,
           semester: req.semester,
           coInstructors: coInstructors,
