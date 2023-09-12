@@ -18,7 +18,7 @@ router.get("/course", async (req, res) => {
         e.courseNo.substring(0, 3) === "269"
     );
 
-    res.send({ok: true, courseDetails: course});
+    res.send({ ok: true, courseDetails: course });
   } catch (err) {
     return res.send(err.response.data);
   }
@@ -41,23 +41,11 @@ router.get("/sections", async (req, res) => {
 
     res.send(response.data);
   } catch (err) {
-    if(error.response.data)
-    return res.send(err.response.data);
-    return res.send({ok: false, message: "Cannot connect to CPE API Server. Please try again later."});
-  }
-
-});
-
-//get teacher from api cpe
-router.get("/teacher", async (req, res) => {
-  try {
-    const response = await axios.get(`${process.env.URL_PATH_CPE}/teacher`, {
-      headers: { Authorization: "Bearer " + process.env.TOKEN_API_CPE },
+    if (err.response.data) return res.send(err.response.data);
+    return res.send({
+      ok: false,
+      message: "Cannot connect to CPE API Server. Please try again later.",
     });
-
-    res.send(response.data);
-  } catch (err) {
-    return res.send(err.response.data);
   }
 });
 

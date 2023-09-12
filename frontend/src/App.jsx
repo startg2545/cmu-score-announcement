@@ -53,9 +53,9 @@ function App() {
     const fetchData = async () => {
       if (!userInfo) {
         const resp = await getUserInfo();
-        if (resp.ok) {
-          setUser(resp.userInfo);
-          setUserInfo(resp.userInfo);
+        if (resp) {
+          setUser({...resp});
+          setUserInfo({...resp});
         } else {
           window.location.replace("/sign-in");
         }

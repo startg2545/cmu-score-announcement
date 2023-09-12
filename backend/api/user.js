@@ -15,16 +15,20 @@ router.get("/", async (req, res) => {
 
     const decoded = jwt.decode(token);
 
-    res.send({
-      ok: true,
-      userInfo: {
-        cmuAccount: decoded.cmuAccount,
-        firstName: decoded.firstName,
-        lastName: decoded.lastName,
-        studentId: decoded.studentId,
-        itAccountType: decoded.itAccountType,
-      },
-    });
+    return decoded.studentId
+      ? res.send({
+          cmuAccount: decoded.cmuAccount,
+          firstName: decoded.firstName,
+          lastName: decoded.lastName,
+          studentId: decoded.studentId,
+          itAccountType: decoded.itAccountType,
+        })
+      : res.send({
+          cmuAccount: decoded.cmuAccount,
+          firstName: decoded.firstName,
+          lastName: decoded.lastName,
+          itAccountType: decoded.itAccountType,
+        });
   } catch (err) {
     return err;
   }

@@ -17,11 +17,11 @@ const getCMUBasicInfoAsync = async (accessToken) => {
 router.post("/", async (req, res) => {
   try {
     //validate code
-    if (typeof req.query.code !== "string")
+    if (typeof req.query.code !== "string") {
       return res
         .status(400)
         .send({ ok: false, message: "Invalid authorization code" });
-
+    }
     //get access token
     const response = await axios.post(
       process.env.CMU_OAUTH_GET_TOKEN_URL,
@@ -39,17 +39,18 @@ router.post("/", async (req, res) => {
         },
       }
     );
-    if (!response)
+    if (!response) {
       return res
         .status(400)
         .send({ ok: false, message: "Cannot get OAuth access token" });
-
+    }
     //get basic info
     const response2 = await getCMUBasicInfoAsync(response.data.access_token);
-    if (!response2)
+    if (!response2) {
       return res
         .status(400)
         .send({ ok: false, message: "Cannot get cmu basic info" });
+    }
 
     const itAccountType_id =
       response2.cmuitaccount === "sawit_cha@cmu.ac.th"
@@ -58,20 +59,27 @@ router.post("/", async (req, res) => {
 
     //create session
     const token = jwt.sign(
-      {
-        cmuAccount: response2.cmuitaccount,
-        firstName: response2.firstname_EN,
-        lastName: response2.lastname_EN,
-        studentId: response2.student_id ? response2.student_id : null, //Note that not everyone has this. Teachers and CMU Staffs don't have student id!
-        itAccountType: itAccountType_id,
-      },
+      response2.student_id
+        ? {
+            cmuAccount: response2.cmuitaccount,
+            firstName: response2.firstname_EN,
+            lastName: response2.lastname_EN,
+            studentId: response2.student_id,
+            itAccountType: itAccountType_id,
+          }
+        : {
+            cmuAccount: response2.cmuitaccount,
+            firstName: response2.firstname_EN,
+            lastName: response2.lastname_EN,
+            itAccountType: itAccountType_id,
+          },
       process.env.JWT_SECRET,
       {
         expiresIn: "1d", // Token will last for one day only
       }
     );
 
-    res
+    return res
       .cookie("token", token, {
         maxAge: 3600000 * 24, // Cookie will last for one day only
         //Set httpOnly to true so that client JavaScript cannot read or modify token
@@ -84,15 +92,30 @@ router.post("/", async (req, res) => {
         //change to your hostname in production
         domain: process.env.DOMAIN,
       })
-      .send({
-        cmuAccount: response2.cmuitaccount,
-        firstName: response2.firstname_EN,
-        lastName: response2.lastname_EN,
-        studentId: response2.student_id ? response2.student_id : null,
-        itAccountType: itAccountType_id,
-      });
+      .send(
+        response2.student_id
+          ? {
+              cmuAccount: response2.cmuitaccount,
+              firstName: response2.firstname_EN,
+              lastName: response2.lastname_EN,
+              studentId: response2.student_id,
+              itAccountType: itAccountType_id,
+            }
+          : {
+              cmuAccount: response2.cmuitaccount,
+              firstName: response2.firstname_EN,
+              lastName: response2.lastname_EN,
+              itAccountType: itAccountType_id,
+            }
+      );
   } catch (err) {
-    return err;
+    if (!err.response) {
+      return res.send({
+        ok: false,
+        message: "Cannot connect to API Server. Please try again later.",
+      });
+    } else if (!err.response.data.ok) return err.response.data;
+    else return err;
   }
 });
 
