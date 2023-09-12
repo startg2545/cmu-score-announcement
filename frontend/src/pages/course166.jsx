@@ -25,7 +25,6 @@ export default function Course166Container() {
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
   const [section, setSections] = useState([]);
-  const [tableData, setTableData] = useState();
   const [isCourseNoValid, setIsCourseNoValid] = useState(true);
   const [isEmailValid, setIsEmailNoValid] = useState(true);
 
@@ -658,10 +657,11 @@ export default function Course166Container() {
                   )}
                 </div>
                 {/* show Upload/Section/TableScore */}
-                {isManage && <Management data={section} />}
+                
               </div>
               {isUploadScore && <UploadSc />}
-    
+              {isManage && <Management data={section} />}
+
               {isUploadScore && !isManage && (
                 <p className={Course.MenuIndex}>
                   <svg
@@ -726,7 +726,6 @@ export default function Course166Container() {
               {" "}
             </div>
           </>
-   
         </div>
       )}
     </>

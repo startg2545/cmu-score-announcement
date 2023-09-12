@@ -4,6 +4,8 @@ import upStyle from "./css/uploadScore.module.css";
 import { ShowSidebarContext, UserInfoContext } from "../context";
 import { addCourse } from "../services";
 import * as XLSX from "xlsx";
+import Course from "../pages/css/course166.module.css";
+import { Button } from "@mantine/core";
 
 export default function UploadScorePageContainer() {
   const [sections, setSections] = useState([]);
@@ -353,18 +355,24 @@ export default function UploadScorePageContainer() {
             </svg>
             <p>This data will be discarded</p>
             <div className={upStyle.ScorePopupButtons}>
-              <button
-                className={upStyle.ScoreCancelPopupStayButton}
+              <Button
+                className={Course.CancelPopupButton}
                 onClick={CancelCancelhandleClosePopup}
+                sx={{
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#F0EAEA",
+                  },
+                }}
               >
                 Stay
-              </button>
-              <button
-                className={upStyle.ScoreCancelPopupLeaveButton}
+              </Button>
+              <Button
+                className={Course.AddPopupButton}
                 onClick={CancelConfirmhandleClosePopup}
               >
                 Yes, leave
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -443,18 +451,24 @@ export default function UploadScorePageContainer() {
             </div>
             <p>This data will be generated</p>
             <div className={upStyle.ScorePopupButtons}>
-              <button
-                className={upStyle.ScoreCancelPopupStayButton}
+              <Button
+                className={Course.CancelPopupButton}
                 onClick={ConfirmCancelhandleClosePopup}
+                sx={{
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#F0EAEA",
+                  },
+                }}
               >
                 No
-              </button>
-              <button
-                className={upStyle.ScoreCancelPopupLeaveButton}
+              </Button>
+              <Button
+               className={Course.AddPopupButton}
                 onClick={submitData}
               >
                 Yes, Upload
-              </button>
+              </Button>
             </div>
           </div>
         </div>
