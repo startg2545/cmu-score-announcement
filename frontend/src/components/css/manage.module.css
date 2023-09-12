@@ -139,9 +139,27 @@
 
 }
 
+.confirmButton {
+  background-color: greenyellow;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.confirmButton:hover {
+  background-color: rgb(123, 184, 32);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
 
 
-.publishSec .publishlEach{
+.publishSec .publishEach{
   left: 0;
   width: 49.1vw;
   height: 70px;
@@ -154,7 +172,7 @@
   transition: width 0.4s ease, margin-left 0.4s ease;
 }
 
-.publishSec .publishlAll{
+.publishSec .publishAll{
   left: 0;
   width: 47.5vw;
   height: 70px;

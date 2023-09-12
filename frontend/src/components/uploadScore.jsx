@@ -33,9 +33,6 @@ export default function UploadScorePageContainer() {
     let resp_course = await addCourse(scores);
     console.log(resp_course);
     if (resp_course) {
-      // let url = `semester=${semester}&year=${year}&courseNo=${courseNo}`;
-      // navigate(`/course?${url}`);
-      // window.location.reload();
       setShowPopupConfirm(false);
       localStorage.setItem("Upload", true);
     }

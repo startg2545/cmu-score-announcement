@@ -545,9 +545,7 @@ transform: scale(1.1);
 
 }
 
-
-
-.publishSec .publishlAll{
+.publishSec .publishAll{
   left: 0;
   width: 49.1vw;
   height: 70px;
@@ -580,7 +578,7 @@ transform: scale(1.1);
   background-color: #696CA3;
 }
 
-.publishlAll:hover
+.publishAll:hover
 {
   background-color: #696CA3;
 }

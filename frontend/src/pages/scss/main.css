@@ -1,0 +1,10 @@
+body {
+  background-color: light;
+}
+
+.element1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+/*# sourceMappingURL=main.css.map */
