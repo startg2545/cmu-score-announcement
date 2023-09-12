@@ -6,8 +6,8 @@ import { addCourse } from "../services";
 import * as XLSX from "xlsx";
 import Course from "../pages/css/course166.module.css";
 import { Button } from "@mantine/core";
-import Example from "../Example.xlsx"
-import Template from "../Template.xlsx"
+import Example from "../Example.xlsx";
+import Template from "../Template.xlsx";
 
 export default function UploadScorePageContainer() {
   const [sections, setSections] = useState([]);
@@ -249,11 +249,9 @@ export default function UploadScorePageContainer() {
               </span>{" "}
               the statistical values, including the mean section, mean course,
               median, maximum value, SD, upper quartile, and lower quartile.
-              Instructors have the option to publish these value to students or
-              not after completing the upload.
+              Score will not be automatically published after completing the upload.
             </p>
           </div>
-
           <div
             className={` ${upStyle.ScoreDescriptionBox} ${upStyle.DesBox3} ${
               showSidebar ? upStyle["move-right"] : ""
@@ -272,8 +270,6 @@ export default function UploadScorePageContainer() {
               </span>
             </p>
           </div>
-
-          {/*button confirm/cancel*/}
           <div
             className={`${upStyle.ScoreInlineContainer} ${upStyle.buttonCanCon}`}
           >

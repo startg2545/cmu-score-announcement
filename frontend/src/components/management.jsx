@@ -14,8 +14,8 @@ const Management = ({ data }) => {
   const [isShowTable, setIsShowTable] = useState(false);
   const [dataTable, setDataTable] = useState();
   const [isSelectedSec, setIsSelectSec] = useState(false);
-  const [sections, setSections] = useState([])
-  const [selectedSections, setSelectedSections] = useState([])
+  const [sections, setSections] = useState([]);
+  const [selectedSections, setSelectedSections] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [showPopup2, setShowPopup2] = useState(false);
   const [countChecked, setCountChecked] = useState(0);
@@ -33,8 +33,8 @@ const Management = ({ data }) => {
       const resp = await getScores();
       if (resp) {
         resp.map((data) => {
-          if (data.courseNo === searchParams.get('courseNo')) {
-            console.log(data.sections)
+          if (data.courseNo === searchParams.get("courseNo")) {
+            console.log(data.sections);
             let sections = data.sections;
             setSections(sections);
           }
@@ -42,7 +42,7 @@ const Management = ({ data }) => {
       }
     };
     fetchData();
-    
+
     data.sort((a, b) => a.section - b.section);
   }, [data, searchParams, setSections]);
 
@@ -55,48 +55,44 @@ const Management = ({ data }) => {
   };
 
   const handleCheckboxChange = (e) => {
-    if(e.target.checked === true)
-    {
-      setCountChecked(countChecked + 1)
-    }
-    else
-    {
-      setCountChecked(countChecked - 1)
+    if (e.target.checked === true) {
+      setCountChecked(countChecked + 1);
+    } else {
+      setCountChecked(countChecked - 1);
     }
   };
 
   const handleButtonClick = () => {
-    if(countChecked !== 0)
-    {
+    if (countChecked !== 0) {
       setShowPopup(false);
-    } 
+    }
   };
 
   const submitPublishAll = async () => {
     const student_schema = {
-      courseNo: searchParams.get('courseNo'),
-      year: parseInt(searchParams.get('year')),
-      semester: parseInt(searchParams.get('semester')),
+      courseNo: searchParams.get("courseNo"),
+      year: parseInt(searchParams.get("year")),
+      semester: parseInt(searchParams.get("semester")),
       sections: sections,
-      type: 'publish_many'
-    }
+      type: "publish_many",
+    };
     console.log("send", student_schema);
     let resp_student = await addStudentGrade(student_schema);
     if (resp_student) console.log("response: ", resp_student);
-  }
+  };
 
   const submitPublishEach = async () => {
     const student_schema = {
-      courseNo: searchParams.get('courseNo'),
-      year: searchParams.get('year'),
-      semester: searchParams.get('semester'),
+      courseNo: searchParams.get("courseNo"),
+      year: searchParams.get("year"),
+      semester: searchParams.get("semester"),
       sections: sections,
-      type: 'publish_each'
-    }
+      type: "publish_each",
+    };
     console.log("send", student_schema);
     let resp_student = await addStudentGrade(student_schema);
     if (resp_student) console.log("response: ", resp_student);
-  }
+  };
 
   return (
     <>
@@ -108,71 +104,70 @@ const Management = ({ data }) => {
                 Select section to publish
               </p>
             </div>
-            
-              <div>
-                {data.map((e, key) => (
-                  <div
-                    key={key}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginTop: "-22px",
-                    }}
-                  >
-                    <Checkbox
-                      color="indigo"
-                      size="md"
-                      onChange={handleCheckboxChange}
-                    />
-                    <p style={{ marginLeft: "8px", fontSize: "21px" }}>
-                      Section{" "}
-                      {e.section < 100
-                        ? `00${e.section}`
-                        : e.section < 1000
-                        ? `0${e.section}`
-                        : e.section}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginTop: "15px",
+
+            <div>
+              {data.map((e, key) => (
+                <div
+                  key={key}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginTop: "-22px",
+                  }}
+                >
+                  <Checkbox
+                    color="indigo"
+                    size="md"
+                    onChange={handleCheckboxChange}
+                  />
+                  <p style={{ marginLeft: "8px", fontSize: "21px" }}>
+                    Section{" "}
+                    {e.section < 100
+                      ? `00${e.section}`
+                      : e.section < 1000
+                      ? `0${e.section}`
+                      : e.section}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginTop: "15px",
+              }}
+            >
+              <Button
+                style={{ marginRight: "20px" }}
+                className={Course.CancelPopupButton}
+                onClick={() => setShowPopup(false)}
+                radius="md"
+                sx={{
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#F0EAEA",
+                  },
                 }}
               >
-                <Button
-                  style={{ marginRight: "20px" }}
-                  className={Course.CancelPopupButton}
-                  onClick={() => setShowPopup(false)}
-                  radius="md"
-                  sx={{
-                    color: "black",
-                    "&:hover": {
-                      backgroundColor: "#F0EAEA",
-                    },
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  style={{ marginLeft: "20px" }}
-                  className={Course.AddPopupButton}
-                  type="submit"
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "#d499ff",
-                    },
-                  }}
-                  onClick={handleButtonClick}
-                  radius="md"
-                  disabled={countChecked === 0}
-                >
-                  Confirm
-                </Button>
-              </div>
-         
+                Cancel
+              </Button>
+              <Button
+                style={{ marginLeft: "20px" }}
+                className={Course.AddPopupButton}
+                type="submit"
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "#d499ff",
+                  },
+                }}
+                onClick={handleButtonClick}
+                radius="md"
+                disabled={countChecked === 0}
+              >
+                Confirm
+              </Button>
+            </div>
           </div>
         </div>
       )}
@@ -184,15 +179,6 @@ const Management = ({ data }) => {
                 Publish All Sections?
               </p>
             </div>
-            <button
-              className={secMan.confirmButton}
-              onClick={() => submitPublishAll()}
-            >
-              Confirm
-            </button>
-            <button
-              className={secMan.closeButton}
-              onClick={() => setShowPopup2(false)}
             <div className={upStyle.ScoreSvgInline}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -329,12 +315,15 @@ const Management = ({ data }) => {
           className={`${Course.publishSec} ${showSidebar ? Course.shrink : ""}`}
         >
           <div className={Course.publishAll} onClick={handlePublishEachClick}>
-            <p style={{ fontWeight: "600" }}>Publish Each Sections</p>
-          <div className={Course.publishlAll} onClick={handlePublishEachClick}>
-            <p className={secMan.fontp} style={{ fontWeight: "600" }}>Publish Each Section</p>
+            <p className={secMan.fontp} style={{ fontWeight: "600" }}>
+              Publish Each Section
+            </p>
           </div>
           <div className={Course.publishlEach} onClick={handlePublishAllClick}>
-            <p className={secMan.fontp} style={{ fontWeight: "600", textDecoration: "underline" }}>
+            <p
+              className={secMan.fontp}
+              style={{ fontWeight: "600", textDecoration: "underline" }}
+            >
               Publish All Sections
             </p>
           </div>
