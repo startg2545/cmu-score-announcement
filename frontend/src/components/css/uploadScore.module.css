@@ -17,28 +17,45 @@ body {
   transform: translateX(-50%);
   width: 100vw;
   max-width: 96.6%;
-  height: calc(75vh - 70px);
-
-  
-  overflow-y: auto;
+  height: calc(87vh - 165px);
   display: flex;
   flex-direction: column;
+  /* justify-content: center; */
+  
+  overflow-y: auto;
   transition: width 0.4s ease, margin-left 0.4s ease;
 }
-
 .Scorecourseframewindow.shrink {
-  width: calc(100vw - 340px);
-  margin-left: 110px;
+  /* align-items: center; */
+  width: calc(79vw); 
+  margin-left: 122px; 
 }
+
 .frameChild{
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 5px;
+  margin-top: 10vh;
 
-  margin-block: 2.5%;
+  @media screen and  (max-height: 900px) {
+    gap: 13px;
+    margin-top: 8vh;
+  }
+
+  @media screen and  (max-height: 850px) {
+    gap: 7px;
+    margin-top: 6vh;
+  }
+
+  @media screen and  (max-height: 780px) {
+    gap: 5px;
+    margin-top: 5vh;
+  }
 }
 
 
+
+/* 
 .Scorecoursetopictext {
   color: #696ca3;
   font-family: "SF PRo", sans-serif;
@@ -94,7 +111,7 @@ body {
 
 .ScoreLine {
   transform: translate(12px, 32px);
-  transition: transform 0.3s ease; /* Add a smooth transition */
+  transition: transform 0.3s ease; 
   width: 99%;
   position: absolute;
 }
@@ -103,7 +120,7 @@ body {
   transform: translate(280px, 32px);
   width: 81%;
   position: absolute;
-}
+} */
 
 .ScoreText {
   color: #696ca3;
@@ -129,9 +146,9 @@ body {
 }
 
 .ScoreInlineContainer {
-  display: flex; /* Use flexbox to align items in a row */
+  display: flex; 
   align-items: center;
-  /* margin-bottom: 30px; */
+  margin-bottom: 30px;
   transition: transform 0.3s ease;
 }
 .ScoreInlineContainer.buttonCanCon {
@@ -147,16 +164,19 @@ body {
 }
 
 .ScoreDescriptionBox {
-  padding: 10px;
+  padding: 12px;
   border: 1px;
   background-color: #faedca;
   border-radius: 5px;
   width: calc(58vw);
   height: calc(1.6vh + 60px);
   margin-left: 189px;
-  /* margin-top: -20px; */
-  /* margin-bottom: 20px; */
+  margin-top: -10px;
   transition: transform 0.3s ease;
+}
+.ScoreDescriptionBox.DesBox3{
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .ScoreCancelButton {
