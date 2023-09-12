@@ -256,10 +256,10 @@ const Management = ({ data }) => {
           className={`${Course.publishSec} ${showSidebar ? Course.shrink : ""}`}
         >
           <div className={Course.publishlAll} onClick={handlePublishEachClick}>
-            <p style={{ fontWeight: "600" }}>Publish Each Section</p>
+            <p className={secMan.fontp} style={{ fontWeight: "600" }}>Publish Each Section</p>
           </div>
           <div className={Course.publishlEach} onClick={handlePublishAllClick}>
-            <p style={{ fontWeight: "600", textDecoration: "underline" }}>
+            <p className={secMan.fontp} style={{ fontWeight: "600", textDecoration: "underline" }}>
               Publish All Sections
             </p>
           </div>
