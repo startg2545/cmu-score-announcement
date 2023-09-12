@@ -25,7 +25,6 @@ export default function Course166Container() {
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
   const [section, setSections] = useState([]);
-  const [tableData, setTableData] = useState();
   const [isCourseNoValid, setIsCourseNoValid] = useState(true);
   const [isEmailValid, setIsEmailNoValid] = useState(true);
 
@@ -92,7 +91,7 @@ export default function Course166Container() {
       courseNo: (value) => {
         if (!value) {
           setIsCourseNoValid(false);
-          return "Course no is required";
+          return "Course no. is required";
         }
         const isValid = /^\d{6}$/.test(value);
         setIsCourseNoValid(isValid);
@@ -301,22 +300,15 @@ export default function Course166Container() {
                     >
                       Course:
                     </p>
-                    <div className={Course.DropDownContainer}>
+                    <TextInput
+                      placeholder="Type Course No"
+                      {...courseForm.getInputProps("courseNo")}
+                      size="md"
+                      radius="md"
+                    />
+                    {/* <div className={Course.DropDownContainer}>
                       <DropDownCourse parentToChild={allCourses} />
-                    </div>
-                  </div>
-                  <div className={Course.AddCourseInlineContainer}>
-                    <Flex mt={-20}>
-                      <Text fz={28}>or</Text>
-                      <TextInput
-                        placeholder="Type Course No"
-                        {...courseForm.getInputProps("courseNo")}
-                        mt={5}
-                        size="md"
-                        ml={90}
-                        radius="md"
-                      />
-                    </Flex>
+                    </div> */}
                   </div>
                   <div className={Course.AddCoursePopupButtons}>
                     <Button
@@ -635,7 +627,6 @@ export default function Course166Container() {
 
                 <div
                   style={{
-                    width: "100vw",
                     margin: "auto",
                     justifyContent: "center",
                     alignItems: "center",
@@ -659,9 +650,9 @@ export default function Course166Container() {
                   )}
                 </div>
                 {/* show Upload/Section/TableScore */}
-                {isManage && <Management data={section} />}
-               
               </div>
+              {isUploadScore && <UploadSc />}
+              {isManage && <Management data={section} />}
 
               {isUploadScore && !isManage && (
                 <p className={Course.MenuIndex}>
@@ -727,7 +718,6 @@ export default function Course166Container() {
               {" "}
             </div>
           </>
-          {isUploadScore && <UploadSc />}
         </div>
       )}
     </>

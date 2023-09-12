@@ -10,7 +10,10 @@ export async function getAllCourses() {
     );
     return resp.data;
   } catch (err) {
-    return err.response;
+    if (!err.response)
+      return "Cannot connect to API Server. Please try again later.";
+    else if (!err.response.data.ok) return err.response.data;
+    return "Unknown error occurred. Please try again later.";
   }
 }
 
@@ -30,20 +33,9 @@ export async function getAllSections(req) {
     );
     return resp.data;
   } catch (err) {
-    return err.response;
-  }
-}
-
-export async function getTeacher() {
-  try {
-    const resp = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/cpe/teacher`,
-      {
-        withCredentials: true,
-      }
-    );
-    return resp.data;
-  } catch (err) {
-    return err.response;
+    if (!err.response)
+      return "Cannot connect to API Server. Please try again later.";
+    else if (!err.response.data.ok) return err.response.data;
+    return "Unknown error occurred. Please try again later.";
   }
 }

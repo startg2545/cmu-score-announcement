@@ -203,7 +203,7 @@ const TableScore = ({ data }) => {
   ));
 
   return (
-    <div style={{ marginInline: "30px"}}>
+    <div>
       {/* style={{border: "0px solid", transform: "translateX(0px)"}} */}
       <Table
         withColumnBorders

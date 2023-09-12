@@ -4,6 +4,10 @@ import upStyle from "./css/uploadScore.module.css";
 import { ShowSidebarContext, UserInfoContext } from "../context";
 import { addCourse } from "../services";
 import * as XLSX from "xlsx";
+import Course from "../pages/css/course166.module.css";
+import { Button } from "@mantine/core";
+import Example from "../Example.xlsx"
+import Template from "../Template.xlsx"
 
 export default function UploadScorePageContainer() {
   const [sections, setSections] = useState([]);
@@ -124,7 +128,7 @@ export default function UploadScorePageContainer() {
     if (file) {
       const data = await file.arrayBuffer();
       const workbook = XLSX.read(data);
-      const worksheet = workbook.Sheets["Scores"];
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       const resultsData = XLSX.utils.sheet_to_json(worksheet, {
         header: 1,
         defval: "",
@@ -176,140 +180,147 @@ export default function UploadScorePageContainer() {
           showSidebar ? upStyle.shrink : ""
         }`}
       >
-        <div className={upStyle.ScoreInlineContainer}>
-          <div className={upStyle.ScoreText}>Score File</div>
-          <input
-            type="file"
-            onChange={(e) => handleFile(e)}
-            className={` ${upStyle.ScoreTextBox} ${
-              showSidebar ? upStyle["move-right"] : ""
-            }`}
-            accept=".xlsx, .xls"
-          />
-        </div>
-        <div
-          className={` ${upStyle.ScoreDescriptionBox} ${
-            showSidebar ? upStyle["move-right"] : ""
-          }`}
-        >
-          <p
-            className={upStyle.ScoreFileDescription}
-            style={{ paddingTop: "4px" }}
-          >
-            Please click to open this Excel template file{" "}
-            <span style={{ color: "red", fontWeight: "bold" }}>
-              (support only this template .xlsx and .xls format)
-            </span>{" "}
-            and fill student code, score (numbers only) and comments (if any).
-            <span style={{ color: "red", fontWeight: "bold" }}>
-              {" "}
-              Do not change the column header name.{" "}
-            </span>
-            And attach back to this system.
-          </p>
-        </div>
-        <div className={upStyle.ScoreInlineContainer}>
-          <div className={upStyle.ScoreText}>Note to student</div>
-        </div>
-        <input
-          type="text"
-          onChange={(e) => setNote(e.target.value)}
-          className={upStyle.ScoreTextBox}
-          placeholder=""
-          style={{
-            transform: "translateX(40px)",
-            marginTop: "-24px",
-            width: "70%",
-            height: "60px",
-          }}
-        />
-        <div
-          className={`${upStyle.ScoreDescriptionBox} ${
-            showSidebar ? upStyle["move-right"] : ""
-          }`}
-          style={{
-            transform: "translateY(30px)",
-            marginLeft: "40px",
-            backgroundColor: "#D0CDFE",
-          }}
-        >
-          <p
-            className={upStyle.ScoreFileDescription}
-            style={{ paddingTop: "4px" }}
-          >
-            The system{" "}
-            <span style={{ fontWeight: "bold" }}>
-              automatically calculates{" "}
-            </span>{" "}
-            the statistical values, including the mean section, mean course,
-            median, maximum value, SD, upper quartile, and lower quartile.
-            Instructors have the option to publish these value to students or
-            not after completing the upload.
-          </p>
-        </div>
-        <div
-          className={` ${upStyle.ScoreDescriptionBox} ${
-            showSidebar ? upStyle["move-right"] : ""
-          }`}
-          style={{
-            transform: "translateY(38px)",
-            marginLeft: "40px",
-            backgroundColor: "#A8F0F4",
-            height: "20px",
-          }}
-        >
-          <p className={upStyle.ScoreFileDescription}>
-            All changes to the file, including uploads,{" "}
-            <span style={{ fontWeight: "bold" }}>
-              {" "}
-              will be logged in the version history.{" "}
-            </span>
-          </p>
-        </div>
-        <div className={upStyle.ScoreInlineContainer}>
-          <div
-            className={upStyle.ScoreCancelButton}
-            onClick={handleCancelClick}
-          >
-            <p className={upStyle.ScoreCancelText}>CANCEL</p>
-            <div className={upStyle.ScoreCancelButtonInner}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="21"
-                height="21"
-                viewBox="0 0 21 21"
-                fill="none"
-              >
-                <path
-                  d="M5.09603 3.1778L10.5 8.5818L15.876 3.2058C15.9948 3.07941 16.1378 2.9783 16.2966 2.90853C16.4554 2.83877 16.6266 2.80178 16.8 2.7998C17.1713 2.7998 17.5274 2.9473 17.79 3.20986C18.0525 3.47241 18.2 3.8285 18.2 4.1998C18.2033 4.37145 18.1715 4.54195 18.1065 4.70084C18.0414 4.85973 17.9447 5.00366 17.822 5.1238L12.376 10.4998L17.822 15.9458C18.0528 16.1715 18.1881 16.4772 18.2 16.7998C18.2 17.1711 18.0525 17.5272 17.79 17.7898C17.5274 18.0523 17.1713 18.1998 16.8 18.1998C16.6216 18.2072 16.4436 18.1774 16.2773 18.1124C16.111 18.0473 15.96 17.9483 15.834 17.8218L10.5 12.4178L5.11003 17.8078C4.99174 17.93 4.85042 18.0275 4.69424 18.0948C4.53805 18.1621 4.37008 18.1978 4.20003 18.1998C3.82873 18.1998 3.47263 18.0523 3.21008 17.7898C2.94753 17.5272 2.80003 17.1711 2.80003 16.7998C2.79677 16.6282 2.82861 16.4577 2.89362 16.2988C2.95862 16.1399 3.0554 15.9959 3.17803 15.8758L8.62403 10.4998L3.17803 5.0538C2.94729 4.82807 2.81199 4.52238 2.80003 4.1998C2.80003 3.8285 2.94753 3.47241 3.21008 3.20986C3.47263 2.9473 3.82873 2.7998 4.20003 2.7998C4.53603 2.804 4.85803 2.9398 5.09603 3.1778Z"
-                  fill="white"
-                />
-              </svg>
-            </div>
+        <div className={upStyle.frameChild}>
+          <div className={upStyle.ScoreInlineContainer}>
+            <div className={upStyle.ScoreText}>Score File</div>
+            <input
+              type="file"
+              onChange={(e) => handleFile(e)}
+              className={` ${upStyle.ScoreTextBox} ${
+                showSidebar ? upStyle["move-right"] : ""
+              }`}
+              accept=".xlsx, .xls"
+            />
           </div>
 
           <div
-            className={upStyle.ScoreConfirmButton}
-            onClick={handleConfirmClick}
+            className={` ${upStyle.ScoreDescriptionBox} ${
+              showSidebar ? upStyle["move-right"] : ""
+            }`}
           >
-            <p className={upStyle.ScoreConfirmText}>CONFIRM</p>
-            <div className={upStyle.ScoreConfirmButtonInner}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="21"
-                height="15"
-                viewBox="0 0 21 15"
-                fill="none"
+            <p
+              className={upStyle.ScoreFileDescription}
+              style={{ paddingTop: "4px" }}
+            >
+              Please click to open this Excel template file{" "}
+              <span style={{ color: "red", fontWeight: "bold" }}>
+                (support only this template .xlsx and .xls format)
+              </span>{" "}
+              and fill student code, score (numbers only).
+              <span style={{ color: "red", fontWeight: "bold" }}>
+                {" "}
+                Do not change the column header name.{" "}
+              </span>
+              And attach back to this system.
+              <a
+                href={Example}
+                download="Example"
+                target="_blank"
+                rel="noreferrer"
               >
-                <path
-                  d="M20.5189 0.434078C20.38 0.296534 20.2148 0.187361 20.0327 0.112859C19.8506 0.038357 19.6553 0 19.458 0C19.2608 0 19.0655 0.038357 18.8834 0.112859C18.7013 0.187361 18.536 0.296534 18.3971 0.434078L7.26494 11.3815L2.58793 6.7736C2.4437 6.63677 2.27344 6.52918 2.08688 6.45698C1.90031 6.38477 1.70109 6.34936 1.50059 6.35277C1.30009 6.35618 1.10224 6.39833 0.918332 6.47683C0.734422 6.55533 0.568056 6.66864 0.428734 6.81028C0.289412 6.95193 0.179863 7.11913 0.10634 7.30236C0.0328167 7.48558 -0.00324036 7.68123 0.000228499 7.87814C0.00369735 8.07505 0.0466239 8.26935 0.126557 8.44997C0.206489 8.63058 0.321863 8.79397 0.466091 8.93079L6.20402 14.5659C6.34293 14.7035 6.50819 14.8126 6.69028 14.8871C6.87237 14.9616 7.06768 15 7.26494 15C7.4622 15 7.6575 14.9616 7.83959 14.8871C8.02168 14.8126 8.18695 14.7035 8.32586 14.5659L20.5189 2.59128C20.6706 2.45386 20.7917 2.28708 20.8745 2.10144C20.9573 1.9158 21 1.71534 21 1.51268C21 1.31002 20.9573 1.10955 20.8745 0.923914C20.7917 0.738279 20.6706 0.571497 20.5189 0.434078Z"
-                  fill="white"
-                />
-              </svg>
+                <button>Example</button>
+              </a>
+              <a
+                href={Template}
+                download="Template"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <button>Template</button>
+              </a>
+            </p>
+          </div>
+          <div
+            className={`${upStyle.ScoreDescriptionBox} ${
+              showSidebar ? upStyle["move-right"] : ""
+            }`}
+            style={{
+              transform: "translateY(30px)",
+              backgroundColor: "#D0CDFE",
+            }}
+          >
+            <p
+              className={upStyle.ScoreFileDescription}
+              style={{ paddingTop: "4px" }}
+            >
+              The system{" "}
+              <span style={{ fontWeight: "bold" }}>
+                automatically calculates{" "}
+              </span>{" "}
+              the statistical values, including the mean section, mean course,
+              median, maximum value, SD, upper quartile, and lower quartile.
+              Instructors have the option to publish these value to students or
+              not after completing the upload.
+            </p>
+          </div>
+
+          <div
+            className={` ${upStyle.ScoreDescriptionBox} ${upStyle.DesBox3} ${
+              showSidebar ? upStyle["move-right"] : ""
+            }`}
+            style={{
+              transform: "translateY(38px)",
+              backgroundColor: "#A8F0F4",
+              height: "20px",
+            }}
+          >
+            <p className={upStyle.ScoreFileDescription}>
+              All changes to the file, including uploads,{" "}
+              <span style={{ fontWeight: "bold" }}>
+                {" "}
+                will be logged in the version history.{" "}
+              </span>
+            </p>
+          </div>
+
+          {/*button confirm/cancel*/}
+          <div
+            className={`${upStyle.ScoreInlineContainer} ${upStyle.buttonCanCon}`}
+          >
+            <div
+              className={upStyle.ScoreCancelButton}
+              onClick={handleCancelClick}
+            >
+              <p className={upStyle.ScoreCancelText}>CANCEL</p>
+              <div className={upStyle.ScoreCancelButtonInner}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="21"
+                  height="21"
+                  viewBox="0 0 21 21"
+                  fill="none"
+                >
+                  <path
+                    d="M5.09603 3.1778L10.5 8.5818L15.876 3.2058C15.9948 3.07941 16.1378 2.9783 16.2966 2.90853C16.4554 2.83877 16.6266 2.80178 16.8 2.7998C17.1713 2.7998 17.5274 2.9473 17.79 3.20986C18.0525 3.47241 18.2 3.8285 18.2 4.1998C18.2033 4.37145 18.1715 4.54195 18.1065 4.70084C18.0414 4.85973 17.9447 5.00366 17.822 5.1238L12.376 10.4998L17.822 15.9458C18.0528 16.1715 18.1881 16.4772 18.2 16.7998C18.2 17.1711 18.0525 17.5272 17.79 17.7898C17.5274 18.0523 17.1713 18.1998 16.8 18.1998C16.6216 18.2072 16.4436 18.1774 16.2773 18.1124C16.111 18.0473 15.96 17.9483 15.834 17.8218L10.5 12.4178L5.11003 17.8078C4.99174 17.93 4.85042 18.0275 4.69424 18.0948C4.53805 18.1621 4.37008 18.1978 4.20003 18.1998C3.82873 18.1998 3.47263 18.0523 3.21008 17.7898C2.94753 17.5272 2.80003 17.1711 2.80003 16.7998C2.79677 16.6282 2.82861 16.4577 2.89362 16.2988C2.95862 16.1399 3.0554 15.9959 3.17803 15.8758L8.62403 10.4998L3.17803 5.0538C2.94729 4.82807 2.81199 4.52238 2.80003 4.1998C2.80003 3.8285 2.94753 3.47241 3.21008 3.20986C3.47263 2.9473 3.82873 2.7998 4.20003 2.7998C4.53603 2.804 4.85803 2.9398 5.09603 3.1778Z"
+                    fill="white"
+                  />
+                </svg>
+              </div>
+            </div>
+            <div
+              className={upStyle.ScoreConfirmButton}
+              onClick={handleConfirmClick}
+            >
+              <p className={upStyle.ScoreConfirmText}>CONFIRM</p>
+              <div className={upStyle.ScoreConfirmButtonInner}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="21"
+                  height="15"
+                  viewBox="0 0 21 15"
+                  fill="none"
+                >
+                  <path
+                    d="M20.5189 0.434078C20.38 0.296534 20.2148 0.187361 20.0327 0.112859C19.8506 0.038357 19.6553 0 19.458 0C19.2608 0 19.0655 0.038357 18.8834 0.112859C18.7013 0.187361 18.536 0.296534 18.3971 0.434078L7.26494 11.3815L2.58793 6.7736C2.4437 6.63677 2.27344 6.52918 2.08688 6.45698C1.90031 6.38477 1.70109 6.34936 1.50059 6.35277C1.30009 6.35618 1.10224 6.39833 0.918332 6.47683C0.734422 6.55533 0.568056 6.66864 0.428734 6.81028C0.289412 6.95193 0.179863 7.11913 0.10634 7.30236C0.0328167 7.48558 -0.00324036 7.68123 0.000228499 7.87814C0.00369735 8.07505 0.0466239 8.26935 0.126557 8.44997C0.206489 8.63058 0.321863 8.79397 0.466091 8.93079L6.20402 14.5659C6.34293 14.7035 6.50819 14.8126 6.69028 14.8871C6.87237 14.9616 7.06768 15 7.26494 15C7.4622 15 7.6575 14.9616 7.83959 14.8871C8.02168 14.8126 8.18695 14.7035 8.32586 14.5659L20.5189 2.59128C20.6706 2.45386 20.7917 2.28708 20.8745 2.10144C20.9573 1.9158 21 1.71534 21 1.51268C21 1.31002 20.9573 1.10955 20.8745 0.923914C20.7917 0.738279 20.6706 0.571497 20.5189 0.434078Z"
+                    fill="white"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       {showPopupCancel && (
         <div className={upStyle.ScorePopup}>
           <div className={upStyle["ScorePopup-Content"]}>
@@ -345,18 +356,24 @@ export default function UploadScorePageContainer() {
             </svg>
             <p>This data will be discarded</p>
             <div className={upStyle.ScorePopupButtons}>
-              <button
-                className={upStyle.ScoreCancelPopupStayButton}
+              <Button
+                className={Course.CancelPopupButton}
                 onClick={CancelCancelhandleClosePopup}
+                sx={{
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#F0EAEA",
+                  },
+                }}
               >
                 Stay
-              </button>
-              <button
-                className={upStyle.ScoreCancelPopupLeaveButton}
+              </Button>
+              <Button
+                className={Course.AddPopupButton}
                 onClick={CancelConfirmhandleClosePopup}
               >
                 Yes, leave
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -435,18 +452,21 @@ export default function UploadScorePageContainer() {
             </div>
             <p>This data will be generated</p>
             <div className={upStyle.ScorePopupButtons}>
-              <button
-                className={upStyle.ScoreCancelPopupStayButton}
+              <Button
+                className={Course.CancelPopupButton}
                 onClick={ConfirmCancelhandleClosePopup}
+                sx={{
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#F0EAEA",
+                  },
+                }}
               >
                 No
-              </button>
-              <button
-                className={upStyle.ScoreCancelPopupLeaveButton}
-                onClick={submitData}
-              >
+              </Button>
+              <Button className={Course.AddPopupButton} onClick={submitData}>
                 Yes, Upload
-              </button>
+              </Button>
             </div>
           </div>
         </div>

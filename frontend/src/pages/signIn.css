@@ -59,7 +59,7 @@
   width: 300px;
   height: 50px;
   border-radius: 10px;
-  background: #696ca3;
+  background: #797caf;
   align-self: center;
   justify-content: center;
   align-items: center;
@@ -72,6 +72,12 @@
   top: 80%;
   left: 50%;
   transform: translate(-50%, -50%);
+  transition: background 0.1s ease-in;
+}
+
+.loginbutton:hover
+{
+  background: #4f5286;
 }
 
 .emblem {
