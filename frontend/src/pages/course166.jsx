@@ -91,7 +91,7 @@ export default function Course166Container() {
       courseNo: (value) => {
         if (!value) {
           setIsCourseNoValid(false);
-          return "Course no is required";
+          return "Course no. is required";
         }
         const isValid = /^\d{6}$/.test(value);
         setIsCourseNoValid(isValid);
@@ -300,22 +300,15 @@ export default function Course166Container() {
                     >
                       Course:
                     </p>
-                    <div className={Course.DropDownContainer}>
+                    <TextInput
+                      placeholder="Type Course No"
+                      {...courseForm.getInputProps("courseNo")}
+                      size="md"
+                      radius="md"
+                    />
+                    {/* <div className={Course.DropDownContainer}>
                       <DropDownCourse parentToChild={allCourses} />
-                    </div>
-                  </div>
-                  <div className={Course.AddCourseInlineContainer}>
-                    <Flex mt={-20}>
-                      <Text fz={28}>or</Text>
-                      <TextInput
-                        placeholder="Type Course No"
-                        {...courseForm.getInputProps("courseNo")}
-                        mt={5}
-                        size="md"
-                        ml={90}
-                        radius="md"
-                      />
-                    </Flex>
+                    </div> */}
                   </div>
                   <div className={Course.AddCoursePopupButtons}>
                     <Button
@@ -657,7 +650,6 @@ export default function Course166Container() {
                   )}
                 </div>
                 {/* show Upload/Section/TableScore */}
-                
               </div>
               {isUploadScore && <UploadSc />}
               {isManage && <Management data={section} />}

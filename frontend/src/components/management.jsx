@@ -12,11 +12,10 @@ const Management = ({ data }) => {
   const [dataTable, setDataTable] = useState();
   const { showSidebar } = useContext(ShowSidebarContext);
   const [isSelectedSec, setIsSelectSec] = useState(false);
-  const [isCheckSec, setIsCheckSec] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [showPopup, setShowPopup] = useState(false);
   const [showPopup2, setShowPopup2] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  const [countChecked, setCountChecked] = useState(0);
 
   const showTable = (sec) => {
     searchParams.set("section", sec);
@@ -38,15 +37,23 @@ const Management = ({ data }) => {
     setShowPopup(true);
   };
 
-  const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
-  }
+  const handleCheckboxChange = (e) => {
+    if(e.target.checked === true)
+    {
+      setCountChecked(countChecked + 1)
+    }
+    else
+    {
+      setCountChecked(countChecked - 1)
+    }
+  };
 
   const handleButtonClick = () => {
-    if (isChecked) {
-      setShowPopup(false); 
-    }
-  }
+    if(countChecked !== 0)
+    {
+      setShowPopup(false);
+    } 
+  };
 
   return (
     <>
@@ -58,65 +65,71 @@ const Management = ({ data }) => {
                 Select section to publish
               </p>
             </div>
-            <div>
-              {data.map((e, key) => (
-                <div
-                  key={key}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginTop: "-22px",
+            
+              <div>
+                {data.map((e, key) => (
+                  <div
+                    key={key}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginTop: "-22px",
+                    }}
+                  >
+                    <Checkbox
+                      color="indigo"
+                      size="md"
+                      onChange={handleCheckboxChange}
+                    />
+                    <p style={{ marginLeft: "8px", fontSize: "21px" }}>
+                      Section{" "}
+                      {e.section < 100
+                        ? `00${e.section}`
+                        : e.section < 1000
+                        ? `0${e.section}`
+                        : e.section}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "15px",
+                }}
+              >
+                <Button
+                  style={{ marginRight: "20px" }}
+                  className={Course.CancelPopupButton}
+                  onClick={() => setShowPopup(false)}
+                  radius="md"
+                  sx={{
+                    color: "black",
+                    "&:hover": {
+                      backgroundColor: "#F0EAEA",
+                    },
                   }}
                 >
-                  <Checkbox color="indigo" size="md" onChange={handleCheckboxChange} />
-                  <p style={{ marginLeft: "8px", fontSize: "21px" }}>
-                    Section{" "}
-                    {e.section < 100
-                      ? `00${e.section}`
-                      : e.section < 1000
-                      ? `0${e.section}`
-                      : e.section}
-                  </p>
-                </div>
-              ))}
-            </div>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginTop: "15px",
-              }}
-            >
-              <Button
-                style={{ marginRight: "20px" }}
-                className={Course.CancelPopupButton}
-                onClick={() => setShowPopup(false)}
-                radius="md"
-                sx={{
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "#F0EAEA",
-                  },
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                style={{ marginLeft: "20px" }}
-                className={Course.AddPopupButton}
-                type="submit"
-                sx={{
-                  "&:hover": {
-                    backgroundColor: "#d499ff",
-                  },
-                }}
-                onClick={handleButtonClick}
-                radius="md"
-                disabled={!isChecked}
-              >
-                Confirm
-              </Button>
-            </div>
+                  Cancel
+                </Button>
+                <Button
+                  style={{ marginLeft: "20px" }}
+                  className={Course.AddPopupButton}
+                  type="submit"
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "#d499ff",
+                    },
+                  }}
+                  onClick={handleButtonClick}
+                  radius="md"
+                  disabled={countChecked === 0}
+                >
+                  Confirm
+                </Button>
+              </div>
+         
           </div>
         </div>
       )}
@@ -125,7 +138,7 @@ const Management = ({ data }) => {
           <div className={secMan.managePopupContent}>
             <div className={secMan.managePopupContentInner}>
               <p style={{ color: "white", fontWeight: "600" }}>
-                Publish All Section?
+                Publish All Sections?
               </p>
             </div>
             <div className={upStyle.ScoreSvgInline}>
@@ -135,7 +148,7 @@ const Management = ({ data }) => {
                 height="90"
                 viewBox="0 0 250 168"
                 fill="none"
-                transform="translate(11, 2)"
+                transform="translate(16, 2)"
                 style={{ marginTop: "-20px" }}
               >
                 <path
@@ -243,16 +256,15 @@ const Management = ({ data }) => {
           className={`${Course.publishSec} ${showSidebar ? Course.shrink : ""}`}
         >
           <div className={Course.publishlAll} onClick={handlePublishEachClick}>
-            <p style={{ fontWeight: "600" }}>Publish Each Sections</p>
+            <p style={{ fontWeight: "600" }}>Publish Each Section</p>
           </div>
           <div className={Course.publishlEach} onClick={handlePublishAllClick}>
             <p style={{ fontWeight: "600", textDecoration: "underline" }}>
-              Publish All Section
+              Publish All Sections
             </p>
           </div>
         </div>
       )}
-      {!isCheckSec}
     </>
   );
 };
