@@ -69,6 +69,7 @@ const TableScore = ({ data }) => {
       section: searchParams.get("section"),
       scoreName: el.scoreName,
       results: el.results,
+      type: 'publish_one'
     };
 
     console.log("send", student_schema);

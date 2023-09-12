@@ -1,16 +1,19 @@
 import { ShowSidebarContext } from "../context";
 import { useSearchParams } from "react-router-dom";
 import React, { useState, useEffect, useContext } from "react";
+import { getScores, addStudentGrade } from "../services";
 import secMan from "./css/manage.module.css";
 import TableScore from "./TableScore";
 import Course from "../pages/css/course166.module.css";
 
 const Management = ({ data }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { showSidebar } = useContext(ShowSidebarContext);
   const [isShowTable, setIsShowTable] = useState(false);
   const [dataTable, setDataTable] = useState();
-  const { showSidebar } = useContext(ShowSidebarContext);
   const [isSelectedSec, setIsSelectSec] = useState(false);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [sections, setSections] = useState([])
+  const [selectedSections, setSelectedSections] = useState([])
 
   const showTable = (sec) => {
     searchParams.set("section", sec);
@@ -21,8 +24,22 @@ const Management = ({ data }) => {
   };
 
   useEffect(() => {
+    const fetchData = async () => {
+      const resp = await getScores();
+      if (resp) {
+        resp.map((data) => {
+          if (data.courseNo === searchParams.get('courseNo')) {
+            console.log(data.sections)
+            let sections = data.sections;
+            setSections(sections);
+          }
+        });
+      }
+    };
+    fetchData();
+    
     data.sort((a, b) => a.section - b.section);
-  }, [data]);
+  }, [data, searchParams, setSections]);
 
   const [showPopup1, setShowPopup1] = useState(false);
   const [showPopup2, setShowPopup2] = useState(false);
@@ -36,6 +53,32 @@ const Management = ({ data }) => {
     setShowPopup1(false);
     setShowPopup2(true);
   };
+
+  const submitPublishAll = async () => {
+    const student_schema = {
+      courseNo: searchParams.get('courseNo'),
+      year: parseInt(searchParams.get('year')),
+      semester: parseInt(searchParams.get('semester')),
+      sections: sections,
+      type: 'publish_many'
+    }
+    console.log("send", student_schema);
+    let resp_student = await addStudentGrade(student_schema);
+    if (resp_student) console.log("response: ", resp_student);
+  }
+
+  const submitPublishEach = async () => {
+    const student_schema = {
+      courseNo: searchParams.get('courseNo'),
+      year: searchParams.get('year'),
+      semester: searchParams.get('semester'),
+      sections: sections,
+      type: 'publish_each'
+    }
+    console.log("send", student_schema);
+    let resp_student = await addStudentGrade(student_schema);
+    if (resp_student) console.log("response: ", resp_student);
+  }
 
   return (
     <>
@@ -64,6 +107,12 @@ const Management = ({ data }) => {
                 Publish All Section?
               </p>
             </div>
+            <button
+              className={secMan.confirmButton}
+              onClick={() => submitPublishAll()}
+            >
+              Confirm
+            </button>
             <button
               className={secMan.closeButton}
               onClick={() => setShowPopup2(false)}
@@ -104,7 +153,7 @@ const Management = ({ data }) => {
         <div
           className={`${Course.publishSec} ${showSidebar ? Course.shrink : ""}`}
         >
-          <div className={Course.publishlAll} onClick={handlePublishEachClick}>
+          <div className={Course.publishAll} onClick={handlePublishEachClick}>
             <p style={{ fontWeight: "600" }}>Publish Each Sections</p>
           </div>
           <div className={Course.publishlEach} onClick={handlePublishAllClick}>
