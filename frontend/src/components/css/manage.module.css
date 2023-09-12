@@ -23,9 +23,9 @@
 
 .Managecourseframewindow.shrink {
   width: calc(
-    100vw - 30px
+    76vw
   ); 
-  margin-left: 2px; 
+  margin-left: 120px; 
 }
 
 
