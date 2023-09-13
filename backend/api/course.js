@@ -45,8 +45,6 @@ router.post("/add", async (req, res) => {
             s.coInstructors.includes(user.cmuAccount))
       );
 
-      console.log(section);
-
       if (section) {
         for (const newScore of reqSection.scores) {
           const existingScore = section.scores.find(
@@ -61,14 +59,11 @@ router.post("/add", async (req, res) => {
             section.scores.push(newScore);
           }
         }
-        console.log(reqSection.section, section);
       } else {
         //have section but user not instructor / co-instructor
         const alreadySection = course.sections.find(
           (s) => s.section === reqSection.section
         );
-
-        console.log();
 
         if (!alreadySection) course.sections.push(reqSection);
       }
