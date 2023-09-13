@@ -30,6 +30,7 @@ router.post("/add", async (req, res) => {
           },
         ],
       });
+      return res.send({ ok: true, message: "The course have been added." });
     } else {
       course.sections = course.sections.filter(
         (section) => section.section !== null
@@ -37,6 +38,8 @@ router.post("/add", async (req, res) => {
       await course.save();
     }
     // Update sections
+    let canAdd = [];
+    let cannotAdd = [];
     for (const reqSection of sections) {
       const section = course.sections.find(
         (s) =>
@@ -64,13 +67,17 @@ router.post("/add", async (req, res) => {
         const alreadySection = course.sections.find(
           (s) => s.section === reqSection.section
         );
-
-        if (!alreadySection) course.sections.push(reqSection);
+        if (alreadySection) cannotAdd.push(reqSection.section);
+        else {
+          course.sections.push(reqSection);
+          canAdd.push(reqSection.section);
+        }
       }
     }
-
     await course.save();
-    return res.send("The sections have been added.");
+    if (cannotAdd.length === 0)
+      return res.send({ ok: true, message: "The sections have been added." });
+    else return res.send({ok: false, sectonAdd: canAdd, sectionCannotAdd: cannotAdd});
   } catch (err) {
     return res
       .status(500)
