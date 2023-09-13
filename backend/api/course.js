@@ -101,10 +101,9 @@ router.put("/", async (req, res) => {
         semester: req.query.semester,
         "sections.instructor": decoded.cmuAccount,
       },
-      { $push: { "sections.$[].coInstructors": req.query.coInstructors } },
+      { $addToSet: { "sections.$[].coInstructors": req.query.coInstructors } },
       { new: true }
     );
-
 
     await result.save();
     return res.send("Co-Instructor have been added.");
