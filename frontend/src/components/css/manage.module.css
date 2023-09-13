@@ -6,7 +6,9 @@
 
 .Managecourseframewindow {
   position: absolute;
-  top: calc(175px + 50%);
+
+  top: calc(185px + 50%);
+
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
