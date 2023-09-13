@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
 
-    //get one score
+    //get one score for cal stat in student dashboard
     if (req.query.scoreName) {
       const section = await scoreModel.findOne({
         courseNo: req.query.courseNo,
@@ -26,8 +26,13 @@ router.get("/", async (req, res) => {
       );
       return res.send(score[0]);
     } else {
-      //get all score
-      const course = await scoreModel.find();
+      //get all score of each instructor/co-instructor
+      const course = await scoreModel.find({
+        $or: [
+          { 'sections.instructor': user.cmuAccount },
+          { 'sections.coInstructors': user.cmuAccount }
+        ]
+      });
       return res.send(course);
     }
   } catch (err) {
