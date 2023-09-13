@@ -19,7 +19,7 @@ const CMUNavbar = () => {
   const isMobileOrTablet = useMediaQuery(
     "(max-width: 1024px) and (max-height: 1400px)"
   );
-  const svgWidth = isMobileOrTablet ? "32px" : "48px";
+  const svgWidth = isMobileOrTablet ? "24px" : "40px";
 
   // useEffect(() => {
   //   if(userInfo.itAccountType) {
@@ -40,7 +40,7 @@ const CMUNavbar = () => {
     <div
       style={{
         position: "relative",
-        height: 80,
+        height: 60,
         background: "#8084c8",
         paddingLeft: 50,
       }}
@@ -84,15 +84,15 @@ const CMUNavbar = () => {
         alt="CMULogo"
         style={{
           position: "absolute",
-          top: "50%",
+          top: "47%",
           left: isMobileOrTablet
             ? "20px"
             : userInfo.itAccountType !== ROLE.STUDENT
-            ? "90px"
+            ? "80px"
             : "20px",
           transform: "translateY(-50%)",
-          width: isMobileOrTablet ? "90px" : "120px",
-          height: isMobileOrTablet ? "90px" : "120px",
+          width: isMobileOrTablet ? "70px" : "90px",
+          height: isMobileOrTablet ? "70px" : "90px",
           borderRadius: 4,
         }}
       />
@@ -112,7 +112,7 @@ const CMUNavbar = () => {
               cursor: "pointer",
               position: "absolute",
               padding: 8,
-              marginTop: isMobileOrTablet ? "8px" : "4px",
+              marginTop: isMobileOrTablet ? "8px" : "1px",
               right: "20px",
               borderRadius: "10px",
               
@@ -129,7 +129,7 @@ const CMUNavbar = () => {
                     color: "black",
                     textShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
                     fontFamily: "'SF PRo', sans-serif",
-                    fontSize: isMobileOrTablet ? "18px" : "24px",
+                    fontSize: isMobileOrTablet ? "12px" : "24px",
                     fontWeight: 780,
                     lineHeight: "normal",
                   }}
@@ -144,7 +144,7 @@ const CMUNavbar = () => {
                   style={{
                     color: "#696CA3",
                     fontFamily: "'SF PRo', sans-serif",
-                    fontSize: isMobileOrTablet ? "14px" : "18px",
+                    fontSize: isMobileOrTablet ? "11px" : "11px",
                     fontWeight: 610,
                     lineHeight: "normal",
                   }}
@@ -182,13 +182,13 @@ const CMUNavbar = () => {
             <Text
               style={{
                 position: "absolute",
-                top: isMobileOrTablet ? "30px" : "25px",
+                top: isMobileOrTablet ? "30px" : "20px",
                 right: 25,
                 color: "#fff",
                 textAlign: "right",
                 textShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
                 fontFamily: "'SF PRo', sans-serif",
-                fontSize: isMobileOrTablet ? "18px" : "24px",
+                fontSize: isMobileOrTablet ? "12px" : "16px",
                 fontWeight: 780,
                 lineHeight: "normal",
                 transform: "translateY(-40%)",
@@ -201,12 +201,12 @@ const CMUNavbar = () => {
             <Text
               style={{
                 position: "absolute",
-                top: isMobileOrTablet ? "28px" : "20px",
+                top: isMobileOrTablet ? "28px" : "16px",
                 right: 30,
                 color: "#f7c878",
                 textAlign: "right",
                 fontFamily: "'SF PRo', sans-serif",
-                fontSize: isMobileOrTablet ? "14px" : "18px",
+                fontSize: isMobileOrTablet ? "14px" : "12px",
                 fontWeight: 610,
                 lineHeight: "normal",
                 transform: "translateY(120%)",

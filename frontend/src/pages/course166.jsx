@@ -507,14 +507,15 @@ export default function Course166Container() {
                       className={` ${Course.instructorButton} ${
                         showSidebar ? Course.moveLeft : ""
                       }`}
+                      style={{transform: "translate(-30px, 1px)"}}
                       onMouseEnter={() => setIsHovered3(true)}
                       onMouseLeave={() => setIsHovered3(false)}
                       onClick={handleClickInstructor}
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="25"
+                        width="19"
+                        height="20"
                         viewBox="0 0 24 25"
                         fill="none"
                       >
@@ -553,8 +554,8 @@ export default function Course166Container() {
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="25"
-                        height="25"
+                        width="17"
+                        height="17"
                         viewBox="0 0 30 29"
                         fill="none"
                       >
@@ -590,6 +591,7 @@ export default function Course166Container() {
                           ? "0px 4px 4px 0px rgba(0, 0, 0, 0.55) inset"
                           : "",
                         backgroundColor: isManage ? "white" : "",
+                        transform: "translate(-20px, 1px)"
                       }}
                       onClick={() => {
                         setManage(true);
@@ -601,8 +603,8 @@ export default function Course166Container() {
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
+                        width="20"
+                        height="20"
                         viewBox="0 0 24 24"
                         fill="none"
                       >

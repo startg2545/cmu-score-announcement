@@ -241,7 +241,7 @@
 .Title {
   color: #ffffff;
   font-family: "SF Pro", sans-serif;
-  font-size: 38px;
+  font-size: 34px;
   font-style: normal;
   font-weight: 590;
   line-height: normal;
@@ -252,7 +252,7 @@
 .Date {
   color: #ffffff;
   font-family: "SF Pro", sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 450;
   line-height: normal;
@@ -288,9 +288,9 @@
 .manageButton,
 .instructorButton {
   display: inline-flex;
-  height: 25px;
+  height: 18px;
   background: #8584c5;
-  gap: 20px;
+  gap: 16px;
   align-items: center;
   justify-content: center;
   align-items: center;
@@ -304,19 +304,20 @@
   font-weight: 600;
   color: #ffffff;
   text-indent: -5px;
-  transform: translateX(-10px);
+  transform: translateX(-25px);
 }
 
 .box_upload {
-  width: 170px;
+  width: 150px;
+  
 }
 
 .manageButton {
-  width: 170px;
+  width: 150px;
 }
 
 .instructorButton {
-  width: 130px;
+  width: 120px;
 }
 
 .box_upload:hover{
@@ -501,7 +502,7 @@ transform: scale(1.1);
   top: -3px;
   left: 0;
   width: 97vw;
-  height: 100px;
+  height: 80px;
   display: flex;
   justify-content: space-between; /* Align elements to the right */
   align-items: center; /* Vertically center align elements */
