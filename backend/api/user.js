@@ -1,36 +1,32 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
+const { verifyAndValidateToken } = require("../jwtUtils");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const token = req.cookies.token;
-
   try {
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err)
-        return res.status(401).send({ ok: false, message: "Invalid token" });
-      else if (!user.cmuAccount)
-        return res.status(403).send({ ok: false, message: "Invalid token" });
-    });
+    const token = req.cookies.token;
+    const user = await verifyAndValidateToken(token);
 
-    const decoded = jwt.decode(token);
+    if (!user.cmuAccount) {
+      return res.status(403).send({ ok: false, message: "Invalid token" });
+    }
 
-    return decoded.studentId
+    return user.studentId
       ? res.send({
-          cmuAccount: decoded.cmuAccount,
-          firstName: decoded.firstName,
-          lastName: decoded.lastName,
-          studentId: decoded.studentId,
-          itAccountType: decoded.itAccountType,
+          cmuAccount: user.cmuAccount,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          studentId: user.studentId,
+          itAccountType: user.itAccountType,
         })
       : res.send({
-          cmuAccount: decoded.cmuAccount,
-          firstName: decoded.firstName,
-          lastName: decoded.lastName,
-          itAccountType: decoded.itAccountType,
+          cmuAccount: user.cmuAccount,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          itAccountType: user.itAccountType,
         });
   } catch (err) {
-    return err;
+    return res.status(500).send({ ok: false, message: "Internal Server Error" });
   }
 });
 

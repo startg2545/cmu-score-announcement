@@ -1,6 +1,6 @@
 const express = require("express");
-const axios = require("axios");
 const jwt = require("jsonwebtoken");
+const { verifyAndValidateToken } = require("../jwtUtils");
 const scoreModel = require("../db/scoreSchema");
 const router = express.Router();
 
@@ -8,12 +8,11 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const token = req.cookies.token;
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err)
-        return res.status(401).send({ ok: false, message: "Invalid token" });
-      else if (!user.cmuAccount)
-        return res.status(403).send({ ok: false, message: "Invalid token" });
-    });
+    const user = await verifyAndValidateToken(token);
+
+    if (!user.cmuAccount) {
+      return res.status(403).send({ ok: false, message: "Invalid token" });
+    }
 
     //get one score
     if (req.query.scoreName) {
