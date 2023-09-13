@@ -1,7 +1,8 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
 import { useState, useEffect, useMemo } from "react";
-import { Center, Table, Button } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { Center, Table, Button, Modal } from "@mantine/core";
 import { addStudentGrade } from "../services";
 import tabStyle from "./css/tableScore.module.css";
 import Course from "../pages/css/course166.module.css";
@@ -12,15 +13,15 @@ const TableScore = ({ data }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-  const [showPopupDelete, setShowPopupDelete] = useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const handleClickDelete = () => {
-    setShowPopupDelete(true);
+    open();
   };
 
   const handleClose = () => {
-    setShowPopupDelete(false);
-  }
+    close();
+  };
 
   useEffect(() => {
     let total = 0;
@@ -79,7 +80,7 @@ const TableScore = ({ data }) => {
       section: searchParams.get("section"),
       scoreName: el.scoreName,
       results: el.results,
-      type: 'publish_one'
+      type: "publish_one",
     };
 
     console.log("send", student_schema);
@@ -192,7 +193,10 @@ const TableScore = ({ data }) => {
                 />
               </svg>
             </div>
-            <div className={`${tabStyle.manageBT} ${tabStyle.deleteBT}`} onClick={handleClickDelete}>
+            <div
+              className={`${tabStyle.manageBT} ${tabStyle.deleteBT}`}
+              onClick={handleClickDelete}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
@@ -214,70 +218,76 @@ const TableScore = ({ data }) => {
 
   return (
     <div>
-      {showPopupDelete && (
-        <div className={tabStyle.ScorePopup}>
-          <div className={tabStyle["ScorePopup-Content"]}>
-            <div className={tabStyle["ScorePopup-ContentInner"]}>
-              <p style={{ color: "white", fontWeight: "600" }}>
-                Leave this page?
-              </p>
-            </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="75"
-              height="76"
-              viewBox="0 0 55 96"
-              fill="none"
+      <Modal
+        opened={opened}
+        onClose={close}
+        centered
+        withCloseButton={false}
+        size="auto"
+        display="flex"
+        yOffset={0}
+        xOffset={0}
+        padding={0}
+        radius={10}
+      >
+        <div className={tabStyle["ScorePopup-Content"]}>
+          <div className={tabStyle["ScorePopup-ContentInner"]}>
+            <p style={{ color: "white", fontWeight: "600" }}>
+              Leave this page?
+            </p>
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="75"
+            height="76"
+            viewBox="0 0 55 96"
+            fill="none"
+          >
+            <path
+              d="M4.58729 22.8892C0.420621 21.175 -1.35021 16.1837 1.14979 12.5537C6.20187 5.29375 14.6394 0 25.7852 0C38.0248 0 46.4102 5.39458 50.681 12.1504C54.3269 17.9483 56.4623 28.7879 50.8373 36.8546C44.5873 45.7783 38.5977 48.5008 35.3685 54.2483C34.5873 55.6096 34.1185 56.7187 33.806 58.9875C33.3373 62.6679 30.2123 65.5417 26.3581 65.5417C21.8269 65.5417 18.129 61.7604 18.6498 57.3742C18.9623 54.8029 19.5873 52.1308 21.0456 49.61C25.056 42.6021 32.7644 38.4679 37.2435 32.2667C41.9831 25.7629 39.3269 13.6125 25.8894 13.6125C19.7956 13.6125 15.8373 16.6879 13.3894 20.3683C11.5665 23.2421 7.76437 24.1496 4.58729 22.8892ZM36.254 85.7083C36.254 91.2542 31.5665 95.7917 25.8373 95.7917C20.1081 95.7917 15.4206 91.2542 15.4206 85.7083C15.4206 80.1625 20.1081 75.625 25.8373 75.625C31.5665 75.625 36.254 80.1625 36.254 85.7083Z"
+              fill="url(#paint0_linear_599_1105)"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_599_1105"
+                x1="27.1437"
+                y1="0"
+                x2="27.1437"
+                y2="95.7917"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stopColor="#8084C8" stopOpacity="0.53" />
+                <stop offset="1" stopColor="#8084C8" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <p>This data will be discarded</p>
+          <div className={tabStyle.ScorePopupButtons}>
+            <Button
+              className={Course.CancelPopupButton}
+              onClick={handleClose}
+              sx={{
+                color: "black",
+                "&:hover": {
+                  backgroundColor: "#F0EAEA",
+                },
+              }}
             >
-              <path
-                d="M4.58729 22.8892C0.420621 21.175 -1.35021 16.1837 1.14979 12.5537C6.20187 5.29375 14.6394 0 25.7852 0C38.0248 0 46.4102 5.39458 50.681 12.1504C54.3269 17.9483 56.4623 28.7879 50.8373 36.8546C44.5873 45.7783 38.5977 48.5008 35.3685 54.2483C34.5873 55.6096 34.1185 56.7187 33.806 58.9875C33.3373 62.6679 30.2123 65.5417 26.3581 65.5417C21.8269 65.5417 18.129 61.7604 18.6498 57.3742C18.9623 54.8029 19.5873 52.1308 21.0456 49.61C25.056 42.6021 32.7644 38.4679 37.2435 32.2667C41.9831 25.7629 39.3269 13.6125 25.8894 13.6125C19.7956 13.6125 15.8373 16.6879 13.3894 20.3683C11.5665 23.2421 7.76437 24.1496 4.58729 22.8892ZM36.254 85.7083C36.254 91.2542 31.5665 95.7917 25.8373 95.7917C20.1081 95.7917 15.4206 91.2542 15.4206 85.7083C15.4206 80.1625 20.1081 75.625 25.8373 75.625C31.5665 75.625 36.254 80.1625 36.254 85.7083Z"
-                fill="url(#paint0_linear_599_1105)"
-              />
-              <defs>
-                <linearGradient
-                  id="paint0_linear_599_1105"
-                  x1="27.1437"
-                  y1="0"
-                  x2="27.1437"
-                  y2="95.7917"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="#8084C8" stopOpacity="0.53" />
-                  <stop offset="1" stopColor="#8084C8" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <p>This data will be discarded</p>
-            <div className={tabStyle.ScorePopupButtons}>
-              <Button
-                className={Course.CancelPopupButton}
-                onClick={handleClose}
-                sx={{
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "#F0EAEA",
-                  },
-                }}
-              >
-                Stay
-              </Button>
-              <Button
-                className={Course.AddPopupButton}
-                onClick={handleClose}
-              >
-                Yes, leave
-              </Button>
-            </div>
+              Stay
+            </Button>
+            <Button className={Course.AddPopupButton} onClick={handleClose}>
+              Yes, leave
+            </Button>
           </div>
         </div>
-      )}
+      </Modal>
       {/* style={{border: "0px solid", transform: "translateX(0px)"}} */}
       <Table
         withColumnBorders
         verticalSpacing="md"
         striped
         className={` ${tabStyle.sizeTa} ${tabStyle.font}`}
-        fontSize={18.5}   
+        fontSize={18.5}
       >
         <thead>
           <tr>
