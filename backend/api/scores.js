@@ -19,7 +19,6 @@ router.get("/", async (req, res) => {
       const section = await scoreModel.findOne({
         courseNo: req.query.courseNo,
         "sections.section": req.query.section,
-        // "sections.section.scores.scoreName": req.query.scoreName,
       });
       const score = section.sections[0].scores.filter(
         (e) => e.scoreName === req.query.scoreName
