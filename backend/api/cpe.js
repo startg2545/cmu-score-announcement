@@ -1,10 +1,18 @@
 const express = require("express");
 const axios = require("axios");
+const { verifyAndValidateToken } = require("../jwtUtils");
 const router = express.Router();
 
 //get course detail from api cpe
 router.get("/course", async (req, res) => {
   try {
+    const token = req.cookies.token;
+    const user = await verifyAndValidateToken(token);
+
+    if (!user.cmuAccount) {
+      return res.status(403).send({ ok: false, message: "Invalid token" });
+    }
+
     const response = await axios.get(
       `${process.env.URL_PATH_CPE}/course/detail`,
       {
@@ -27,6 +35,13 @@ router.get("/course", async (req, res) => {
 //get sections of course from api cpe
 router.get("/sections", async (req, res) => {
   try {
+    const token = req.cookies.token;
+    const user = await verifyAndValidateToken(token);
+
+    if (!user.cmuAccount) {
+      return res.status(403).send({ ok: false, message: "Invalid token" });
+    }
+
     const response = await axios.get(
       `${process.env.URL_PATH_CPE}/course/sections`,
       {
