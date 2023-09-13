@@ -17,14 +17,32 @@ router.post("/add", async (req, res) => {
 
     // Find the course
     let course = await courseModel.findOne({ courseNo, year, semester });
-    // Create  the course
+    // Create the course
     if (!course) {
-      course = await courseModel.create({ courseNo, year, semester });
+      course = await courseModel.create({
+        courseNo,
+        year,
+        semester,
+        sections: [
+          {
+            section: null,
+            instructor: user.cmuAccount,
+          },
+        ],
+      });
+    } else {
+      course.sections = course.sections.filter(
+        (section) => section.section !== null
+      );
+      await course.save();
     }
     // Update sections
     for (const reqSection of sections) {
       const section = course.sections.find(
-        (s) => s.section === reqSection.section
+        (s) =>
+          s.section === reqSection.section &&
+          (s.instructor === user.cmuAccount ||
+            s.coInstructors.includes(user.cmuAccount))
       );
 
       if (section) {
@@ -42,14 +60,21 @@ router.post("/add", async (req, res) => {
           }
         }
       } else {
-        course.sections.push(reqSection);
+        //have section but user not instructor / co-instructor
+        const alreadySection = course.sections.find(
+          (s) => s.section === reqSection.section
+        );
+
+        if (!alreadySection) course.sections.push(reqSection);
       }
     }
 
     await course.save();
     return res.send("The sections have been added.");
   } catch (err) {
-    return res.status(500).send({ ok: false, message: "Internal Server Error" });
+    return res
+      .status(500)
+      .send({ ok: false, message: "Internal Server Error" });
   }
 });
 
@@ -61,7 +86,7 @@ router.put("/", async (req, res) => {
 
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
-    };
+    }
 
     const result = await courseModel.findOneAndUpdate(
       {
@@ -77,7 +102,9 @@ router.put("/", async (req, res) => {
     await result.save();
     return res.send("Co-Instructor have been added.");
   } catch (err) {
-    return res.status(500).send({ ok: false, message: "Internal Server Error" });
+    return res
+      .status(500)
+      .send({ ok: false, message: "Internal Server Error" });
   }
 });
 
