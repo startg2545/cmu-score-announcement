@@ -20,13 +20,10 @@ body {
   height: calc(87vh - 165px);
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  
   overflow-y: auto;
   transition: width 0.4s ease, margin-left 0.4s ease;
 }
 .Scorecourseframewindow.shrink {
-  /* align-items: center; */
   width: calc(79vw); 
   margin-left: 122px; 
 }

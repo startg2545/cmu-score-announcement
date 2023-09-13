@@ -308,18 +308,22 @@ const Management = ({ data }) => {
             ))}
           </div>
         )}
-        {isShowTable && <TableScore data={dataTable} />}
+        <div className={secMan.frameTableSc }>
+          {isShowTable && <TableScore data={dataTable} />}
+        </div>
+       
       </div>
+
       {!isSelectedSec && (
         <div
-          className={`${Course.publishSec} ${showSidebar ? Course.shrink : ""}`}
+          className={`${secMan.publishSec} ${showSidebar ? secMan.shrink : ""}`}
         >
-          <div className={Course.publishAll} onClick={handlePublishEachClick}>
+          <div className={secMan.publishlEach} onClick={handlePublishEachClick}>
             <p className={secMan.fontp} style={{ fontWeight: "600" }}>
               Publish Each Section
             </p>
           </div>
-          <div className={Course.publishlEach} onClick={handlePublishAllClick}>
+          <div className={secMan.publishlAll} onClick={handlePublishAllClick}>
             <p
               className={secMan.fontp}
               style={{ fontWeight: "600", textDecoration: "underline" }}
