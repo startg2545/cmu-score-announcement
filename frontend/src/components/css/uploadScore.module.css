@@ -161,12 +161,12 @@ body {
 }
 
 .ScoreDescriptionBox {
-  padding: 12px;
+  padding: 18px;
   border: 1px;
   background-color: #faedca;
   border-radius: 5px;
   width: calc(58vw);
-  height: calc(1.6vh + 60px);
+  height: fit-content;
   margin-left: 189px;
   margin-top: -10px;
   transition: transform 0.3s ease;

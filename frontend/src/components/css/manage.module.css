@@ -102,14 +102,14 @@
 
 .publishSec{
   color: #ffffff;
-  font-size: 28px;
+  font-size: 24px;
   left: 1.7%;
   width: 97vw;
   display: flex;
-  /* transition: width 0.4s ease, margin-left 0.4s ease; */
+  transition: width 0.4s ease, margin-left 0.4s ease;
   position: absolute;
   bottom: 0;
-  top: calc(87.5vh);
+  top: calc(87.6vh);
   left: 1.7%;
   width: 100%; 
   transform: none; 
@@ -126,12 +126,10 @@
 
 }
 
-
-
 .publishSec .publishlEach{
   left: 0;
   width: 49.1vw;
-  height: 70px;
+  height: 60px;
   display: flex;
   justify-content: center; 
   align-items: center;
@@ -144,7 +142,7 @@
 .publishSec .publishlAll{
   left: 0;
   width: 47.5vw;
-  height: 70px;
+  height: 60px;
   display: flex;
   justify-content: center; 
   align-items: center;
