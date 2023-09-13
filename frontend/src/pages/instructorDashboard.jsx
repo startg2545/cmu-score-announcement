@@ -14,7 +14,7 @@ export default function Dashboard() {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: isMobileOrTablet ? "93vh" : "90vh", 
+    height: isMobileOrTablet ? "93vh" : "calc(92vh - 10px)", 
   };
 
   const paperStyles = {
@@ -38,10 +38,11 @@ export default function Dashboard() {
         <Paper
           padding="xl"
           radius={25}
-          shadow="xs"
+          shadow="md"
           background="white"
           withBorder
           style={paperStyles}
+          
         >
           <Center>
             <p
