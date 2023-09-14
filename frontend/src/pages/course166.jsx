@@ -217,6 +217,8 @@ export default function Course166Container() {
     setUploadScore(true);
     setManage(false);
     setShowTableScore(false);
+    searchParams.delete("section");
+    setSearchParams(searchParams);
   };
 
   const goToManage = () => {
@@ -517,7 +519,7 @@ export default function Course166Container() {
                         showSidebar ? Course.moveRight : ""
                       }`}
                       onClick={backToSelectSec}
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: params.section ?  "pointer" : null }}
                     >
                       Management
                     </label>
