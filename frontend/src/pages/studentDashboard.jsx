@@ -16,9 +16,9 @@ Chart.register(annotationPlugin);
 export default function StudentDashboard() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [message, setMessage] = useState();
-  const [courseList, setCourseList] = useState();
+  const [courseList, setCourseList] = useState([]);
   const [section, setSection] = useState();
-  const [scoreList, setScoreList] = useState();
+  const [scoreList, setScoreList] = useState([]);
   const [scores, setScores] = useState();
   const [searchParams, setSearchParams] = useSearchParams({});
   const [params, setParams] = useState({});
@@ -73,8 +73,8 @@ export default function StudentDashboard() {
       }
     };
 
-    if (!courseList && !message) fetchData();
-    if (params.courseNo) {
+    if (!courseList.length && !message) fetchData();
+    if (params.courseNo && courseList.length) {
       setCourse(params.courseNo);
     }
     if (params.scoreName) {
@@ -121,9 +121,9 @@ export default function StudentDashboard() {
   };
 
   const setCourse = (data) => {
-    const course = courseList?.filter((c) => c.courseNo === data)[0];
-    setSection(course?.section);
-    setScoreList(course?.scores);
+    const course = courseList.filter((c) => c.courseNo === data)[0];
+    setSection(course.section);
+    setScoreList(course.scores);
   };
 
   const backToDashboard = () => {
@@ -301,7 +301,6 @@ export default function StudentDashboard() {
       <div className={Student.courseframewindow}>
         {message && <Text className={Student.message}>{message}</Text>}
         {!params.courseNo &&
-          courseList &&
           courseList.map((item, key) => {
             return (
               <div
@@ -329,7 +328,6 @@ export default function StudentDashboard() {
           })}
         {params.courseNo &&
           !params.scoreName &&
-          scoreList &&
           scoreList.map((item, key) => {
             return (
               <div
@@ -343,7 +341,7 @@ export default function StudentDashboard() {
               </div>
             );
           })}
-        {params.scoreName && scoreList && stat && (
+        {params.scoreName  && (
           <>
             {!isShowGraph && (
               <Flex direction="column" mt={15} gap={25}>

@@ -72,7 +72,7 @@ const TableScore = ({ data }) => {
         (Q1 - baseQ1) * (sortPoint[baseQ1].point - sortPoint[baseQ1 - 1].point)
       ).toFixed(2);
     });
-  }, []);
+  }, [data]);
 
   const publish = async (el) => {
     const student_schema = {
