@@ -315,10 +315,8 @@ const Management = ({ data }) => {
         <div
           className={` ${secMan.publishSec}  ${
             showSidebar ? secMan.shrink : ""
-          }`}
-          
+          }`}   
         >
-       
             <div
               className={secMan.publishlEach}
               onClick={handlePublishEachClick}

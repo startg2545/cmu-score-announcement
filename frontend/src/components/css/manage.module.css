@@ -117,12 +117,10 @@
   cursor: pointer;
 
 }
-
 .publishSec.shrink {
   width: calc(79vw); 
   margin-left: 122px; 
 }
-
 .publishSec .publishlEach{
   left: 0;
   width: 49.1vw;
