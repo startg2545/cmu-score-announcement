@@ -62,6 +62,7 @@ router.post("/add", async (req, res) => {
             section.scores.push(newScore);
           }
         }
+        canAdd.push(reqSection.section);
       } else {
         //have section but user not instructor / co-instructor
         const alreadySection = course.sections.find(
@@ -77,7 +78,7 @@ router.post("/add", async (req, res) => {
     await course.save();
     if (cannotAdd.length === 0)
       return res.send({ ok: true, message: "The sections have been added." });
-    else return res.send({ok: false, sectonAdd: canAdd, sectionCannotAdd: cannotAdd});
+    else return res.send({ok: false, sectionAddEdit: canAdd, sectionCannotAddEdit: cannotAdd});
   } catch (err) {
     return res
       .status(500)
