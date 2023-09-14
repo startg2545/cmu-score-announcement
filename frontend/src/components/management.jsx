@@ -313,13 +313,10 @@ const Management = ({ data }) => {
 
       {!searchParams.get("section") && (
         <div
-          className={` ${secMan.Publishframewindow}  ${
+          className={` ${secMan.publishSec}  ${
             showSidebar ? secMan.shrink : ""
-          }`}
+          }`}   
         >
-          <div
-            className={`${secMan.publishSec} `}
-          >
             <div
               className={secMan.publishlEach}
               onClick={handlePublishEachClick}
@@ -337,7 +334,7 @@ const Management = ({ data }) => {
               </p>
             </div>
           </div>
-        </div>
+      
       )}
     </>
   );
