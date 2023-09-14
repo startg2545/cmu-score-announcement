@@ -12,11 +12,10 @@
   width: 100vw;
   max-width: 96.6%;
   height: calc(87vh - 147px);
-
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  border: 1px solid #000;
+  font-family: "SF PRO";
   transition: width 0.4s ease, margin-left 0.4s ease;
 }
 .Managecourseframewindow.shrink {
@@ -100,32 +99,28 @@
   transform: translateY(-28px);
 }
 
+
 .publishSec{
   color: #ffffff;
   font-size: 24px;
-  left: 1.7%;
-  width: 97vw;
+  font-family: "SF PRO";
+
+  top: calc(87.6vh);
+  width: 100vw;
+  max-width: 96.6%;
   display: flex;
-  transition: width 0.4s ease, margin-left 0.4s ease;
   position: absolute;
   bottom: 0;
-  top: calc(87.6vh);
-  left: 1.7%;
-  width: 100%; 
-  transform: none; 
+  left: 50%;
+  transform: translateX(-50%);
+  transition: width 0.4s ease, margin-left 0.4s ease;
   cursor: pointer;
-  /* transform: translate(-2px, 2.5px); */
+
 }
-
-
 .publishSec.shrink {
-  width: calc(
-    79.3vw 
-  );
-  margin-left: calc(16.7vw);
-
+  width: calc(79vw); 
+  margin-left: 122px; 
 }
-
 .publishSec .publishlEach{
   left: 0;
   width: 49.1vw;

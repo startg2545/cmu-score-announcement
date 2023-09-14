@@ -287,7 +287,7 @@ const Management = ({ data }) => {
         }`}
       >
         {!searchParams.get("section") && (
-          <div>
+          <div className={secMan.frameTableSc}>
             {data.map((e, key) => (
               <p
                 className={secMan.secBox}
@@ -313,22 +313,28 @@ const Management = ({ data }) => {
 
       {!searchParams.get("section") && (
         <div
-          className={`${secMan.publishSec} ${showSidebar ? secMan.shrink : ""}`}
+          className={` ${secMan.publishSec}  ${
+            showSidebar ? secMan.shrink : ""
+          }`}   
         >
-          <div className={secMan.publishlEach} onClick={handlePublishEachClick}>
-            <p className={secMan.fontp} style={{ fontWeight: "600" }}>
-              Publish Each Section
-            </p>
-          </div>
-          <div className={secMan.publishlAll} onClick={handlePublishAllClick}>
-            <p
-              className={secMan.fontp}
-              style={{ fontWeight: "600", textDecoration: "underline" }}
+            <div
+              className={secMan.publishlEach}
+              onClick={handlePublishEachClick}
             >
-              Publish All Sections
-            </p>
+              <p className={secMan.fontp} style={{ fontWeight: "600" }}>
+                Publish Each Section
+              </p>
+            </div>
+            <div className={secMan.publishlAll} onClick={handlePublishAllClick}>
+              <p
+                className={secMan.fontp}
+                style={{ fontWeight: "600", textDecoration: "underline" }}
+              >
+                Publish All Sections
+              </p>
+            </div>
           </div>
-        </div>
+      
       )}
     </>
   );

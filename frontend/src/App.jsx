@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { MantineProvider } from "@mantine/core";
 import { getUserInfo } from "./services";
 import { ROLE, ShowSidebarContext, UserInfoContext } from "./context";
+import { CMUNavbar, TableScore } from "./components";
 import Home from "./pages";
-import About from "./pages/about";
-import AddScore from "./pages/addScore";
 import SignIn from "./pages/signIn";
-import SearchCourse from "./pages/searchCourse";
 import StudentDashboard from "./pages/studentDashboard";
 import InstructorDashboard from "./pages/instructorDashboard";
 import CourseDetail from "./pages/courseDetail";
 import CMUOAuthCallback from "./pages/cmuOAuthCallback";
 import Course166 from "./pages/course166";
-import AddDatabase from "./pages/addDatabase";
-import TableScore from "./components/TableScore";
-import CMUNavbar from "./components/CMUNavbar";
-
-import { MantineProvider } from "@mantine/core";
 import ErrorView from "./pages/errorView";
-import CourseDash from "./pages/courseDash";
 
 function App() {
   const [userInfo, setUserInfo] = useState(null);
@@ -54,8 +47,8 @@ function App() {
       if (!userInfo) {
         const resp = await getUserInfo();
         if (resp) {
-          setUser({...resp});
-          setUserInfo({...resp});
+          setUser({ ...resp });
+          setUserInfo({ ...resp });
         } else {
           window.location.replace("/sign-in");
         }
@@ -106,18 +99,13 @@ function App() {
             <CMUNavbar />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route exact path="/about" element={<About />} />
               <Route exact path="/errorView" element={<ErrorView />} />
-              <Route exact path="/add-database" element={<AddDatabase />} />
-              <Route path="/course-detail" element={<CourseDetail />} />
-              <Route path="/add-score" element={<AddScore />} />
               <Route exact path="/sign-in" element={<SignIn />} />
               <Route
                 exact
                 path="/cmuOAuthCallback"
                 element={<CMUOAuthCallback />}
               />
-              <Route exact path="/search-course" element={<SearchCourse />} />
               <Route
                 exact
                 path="/student-dashboard"
@@ -130,8 +118,7 @@ function App() {
               />
               <Route path="/course" element={<Course166 />} />
               <Route exact path="/table-score" element={<TableScore />} />
-
-              <Route exact path="/courseDash" element={<CourseDash />} />
+              <Route path="/course-detail" element={<CourseDetail />} />
             </Routes>
           </Router>
         </UserInfoContext.Provider>

@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
-import { SideBar, TableScore, UploadSc } from "../components";
+import { SideBar, UploadSc } from "../components";
 import { ShowSidebarContext } from "../context";
 import { addCourse, getAllCourses, getScores } from "../services";
-import DropDownCourse from "../components/DropDownCourse";
 import { TextInput, Button, Flex, Modal } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
@@ -37,7 +36,7 @@ export default function Course166Container() {
 
   const showSection = () => {
     const data = course.filter((e) => e.courseNo === params.courseNo)[0]
-      .sections;
+      .sections.filter(e=>e.section);
     setSections(data);
     setManage(true);
     setShowTableScore(false);
