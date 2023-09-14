@@ -37,7 +37,7 @@ export default function Course166Container() {
 
   const showSection = () => {
     const data = course.filter((e) => e.courseNo === params.courseNo)[0]
-      .sections;
+      .sections.filter(e=>e.section);
     setSections(data);
     setManage(true);
     setShowTableScore(false);
