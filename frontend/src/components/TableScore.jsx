@@ -6,6 +6,7 @@ import { Center, Table, Button, Modal } from "@mantine/core";
 import { addStudentGrade } from "../services";
 import tabStyle from "./css/tableScore.module.css";
 import Course from "../pages/css/course166.module.css";
+import upStyle from "./css/uploadScore.module.css";
 
 const TableScore = ({ data }) => {
   const [isPublic, setIsPublic] = useState(false);
@@ -14,6 +15,7 @@ const TableScore = ({ data }) => {
   const [isDelete, setIsDelete] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [opened, { open, close }] = useDisclosure(false);
+  const [scoreName, setScoreName] = useState();
 
   const handleClickDelete = () => {
     open();
@@ -70,7 +72,7 @@ const TableScore = ({ data }) => {
         (Q1 - baseQ1) * (sortPoint[baseQ1].point - sortPoint[baseQ1 - 1].point)
       ).toFixed(2);
     });
-  }, []);
+  }, [data]);
 
   const publish = async (el) => {
     const student_schema = {
@@ -195,7 +197,10 @@ const TableScore = ({ data }) => {
             </div>
             <div
               className={`${tabStyle.manageBT} ${tabStyle.deleteBT}`}
-              onClick={handleClickDelete}
+              onClick={() => {
+                setScoreName(element.scoreName);
+                handleClickDelete();
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -233,38 +238,56 @@ const TableScore = ({ data }) => {
         <div className={tabStyle["ScorePopup-Content"]}>
           <div className={tabStyle["ScorePopup-ContentInner"]}>
             <p style={{ color: "white", fontWeight: "600" }}>
-              Leave this page?
+              Delete {scoreName}?
             </p>
           </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="75"
-            height="76"
-            viewBox="0 0 55 96"
-            fill="none"
-          >
-            <path
-              d="M4.58729 22.8892C0.420621 21.175 -1.35021 16.1837 1.14979 12.5537C6.20187 5.29375 14.6394 0 25.7852 0C38.0248 0 46.4102 5.39458 50.681 12.1504C54.3269 17.9483 56.4623 28.7879 50.8373 36.8546C44.5873 45.7783 38.5977 48.5008 35.3685 54.2483C34.5873 55.6096 34.1185 56.7187 33.806 58.9875C33.3373 62.6679 30.2123 65.5417 26.3581 65.5417C21.8269 65.5417 18.129 61.7604 18.6498 57.3742C18.9623 54.8029 19.5873 52.1308 21.0456 49.61C25.056 42.6021 32.7644 38.4679 37.2435 32.2667C41.9831 25.7629 39.3269 13.6125 25.8894 13.6125C19.7956 13.6125 15.8373 16.6879 13.3894 20.3683C11.5665 23.2421 7.76437 24.1496 4.58729 22.8892ZM36.254 85.7083C36.254 91.2542 31.5665 95.7917 25.8373 95.7917C20.1081 95.7917 15.4206 91.2542 15.4206 85.7083C15.4206 80.1625 20.1081 75.625 25.8373 75.625C31.5665 75.625 36.254 80.1625 36.254 85.7083Z"
-              fill="url(#paint0_linear_599_1105)"
-            />
-            <defs>
-              <linearGradient
-                id="paint0_linear_599_1105"
-                x1="27.1437"
-                y1="0"
-                x2="27.1437"
-                y2="95.7917"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#8084C8" stopOpacity="0.53" />
-                <stop offset="1" stopColor="#8084C8" />
-              </linearGradient>
-            </defs>
-          </svg>
-          <p>This data will be discarded</p>
+          <div className={upStyle.ScoreSvgInline}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="65"
+              height="66"
+              viewBox="0 0 55 56"
+              fill="none"
+              transform="translate(14, 0)"
+            >
+              <rect width="55" height="56" fill="white" />
+              <path
+                d="M14.8959 27.9998C18.2387 27.9998 21.4447 29.3519 23.8084 31.7586C26.1721 34.1653 27.5001 37.4296 27.5001 40.8332C27.5001 44.2368 26.1721 47.501 23.8084 49.9077C21.4447 52.3144 18.2387 53.6665 14.8959 53.6665C11.5531 53.6665 8.34716 52.3144 5.98342 49.9077C3.61968 47.501 2.29175 44.2368 2.29175 40.8332C2.29175 37.4296 3.61968 34.1653 5.98342 31.7586C8.34716 29.3519 11.5531 27.9998 14.8959 27.9998ZM27.7957 4.6665C29.1624 4.66711 30.473 5.22018 31.4395 6.20417L37.8836 12.7608L44.3186 19.3222C45.2834 20.3068 45.8265 21.6415 45.8265 23.0322V46.0832C45.8265 47.4756 45.2833 48.8109 44.3163 49.7955C43.3493 50.78 42.0378 51.3332 40.6703 51.3332H25.6438C26.626 50.293 27.4571 49.1152 28.112 47.8355L40.6703 47.8332C41.1261 47.8332 41.5633 47.6488 41.8856 47.3206C42.208 46.9924 42.389 46.5473 42.389 46.0832L42.3867 23.3402H32.6563C31.3502 23.3404 30.0926 22.8358 29.1376 21.9285C28.1827 21.0211 27.6015 19.7786 27.5115 18.4518L27.5001 18.0925L27.4978 8.1665H14.323C13.8672 8.1665 13.43 8.35088 13.1077 8.67907C12.7853 9.00726 12.6042 9.45237 12.6042 9.9165V25.8462C11.4235 26.0318 10.2693 26.3624 9.16675 26.8308V9.9165C9.16675 8.52412 9.70999 7.18876 10.677 6.20419C11.644 5.21963 12.9555 4.6665 14.323 4.6665H27.7957ZM9.37987 34.9205L9.21946 35.0558L9.08883 35.2192C8.95678 35.414 8.88605 35.6451 8.88605 35.8818C8.88605 36.1186 8.95678 36.3497 9.08883 36.5445L9.22175 36.7078L13.278 40.8355L9.22633 44.9562L9.09571 45.1195C8.96365 45.3143 8.89293 45.5454 8.89293 45.7822C8.89293 46.0189 8.96365 46.25 9.09571 46.4448L9.22633 46.6082L9.38675 46.7412C9.5781 46.8756 9.80509 46.9476 10.0376 46.9476C10.2701 46.9476 10.4971 46.8756 10.6884 46.7412L10.8488 46.6082L14.8959 42.4852L18.9522 46.6128L19.1103 46.7482C19.3016 46.8826 19.5286 46.9546 19.7611 46.9546C19.9936 46.9546 20.2206 46.8826 20.412 46.7482L20.5724 46.6128L20.703 46.4495C20.8351 46.2547 20.9058 46.0236 20.9058 45.7868C20.9058 45.5501 20.8351 45.319 20.703 45.1242L20.5701 44.9608L16.5161 40.8355L20.577 36.7055L20.7099 36.5445C20.8424 36.3494 20.9134 36.1179 20.9134 35.8807C20.9134 35.6435 20.8424 35.4119 20.7099 35.2168L20.577 35.0558L20.4188 34.9205C20.2273 34.7855 19.9998 34.7132 19.7669 34.7132C19.5339 34.7132 19.3064 34.7855 19.1149 34.9205L18.9567 35.0558L14.8959 39.1858L10.8397 35.0558L10.6838 34.9205C10.4923 34.7855 10.2648 34.7132 10.0319 34.7132C9.79888 34.7132 9.57145 34.7855 9.37987 34.9205ZM30.9376 10.6398L30.9399 18.0948C30.9399 18.9815 31.5861 19.7118 32.4249 19.8285L32.6586 19.8448L39.9713 19.8425L30.9376 10.6398Z"
+                fill="#696CA3"
+              />
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="38"
+              height="40"
+              viewBox="0 0 44 40"
+              fill="none"
+              transform="translate(-10, 24)"
+            >
+              <path
+                d="M26.622 3.17771L26.6221 3.17796L42.8112 31.6836C44.794 35.1767 42.2528 39.5 38.192 39.5H5.81084C1.74691 39.5 -0.793947 35.1765 1.18874 31.6836L17.3778 3.17796C19.4058 -0.392872 24.5971 -0.392349 26.622 3.17771ZM24.4033 33.7694C25.0417 33.1371 25.4013 32.2785 25.4013 31.3822C25.4013 30.4859 25.0417 29.6273 24.4033 28.995C23.7651 28.3629 22.9005 28.0086 22 28.0086C21.0994 28.0086 20.2348 28.3629 19.5966 28.995C18.9582 29.6273 18.5987 30.4859 18.5987 31.3822C18.5987 32.2785 18.9582 33.1371 19.5966 33.7694C20.2348 34.4015 21.0994 34.7558 22 34.7558C22.9005 34.7558 23.7651 34.4015 24.4033 33.7694ZM22 7.89368C21.0994 7.89368 20.2348 8.24795 19.5966 8.88008C18.9582 9.51237 18.5987 10.371 18.5987 11.2672V19.8879C18.5987 20.7842 18.9582 21.6428 19.5966 22.2751C20.2348 22.9072 21.0994 23.2615 22 23.2615C22.9005 23.2615 23.7651 22.9072 24.4033 22.2751C25.0417 21.6428 25.4013 20.7842 25.4013 19.8879V11.2672C25.4013 10.371 25.0417 9.51237 24.4033 8.88008C23.7651 8.24795 22.9005 7.89368 22 7.89368Z"
+                fill="url(#paint0_linear_299_1210)"
+                stroke="black"
+              />
+              <defs>
+                <linearGradient
+                  id="paint0_linear_299_1210"
+                  x1="22"
+                  y1="0"
+                  x2="22"
+                  y2="40"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stopColor="#F9E5C4" stopOpacity="0.76" />
+                  <stop offset="1" stopColor="#FFBB0C" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <p>"{scoreName}" will be permanently deleted</p>
           <div className={tabStyle.ScorePopupButtons}>
             <Button
-              className={Course.CancelPopupButton}
+              className={tabStyle.tertiaryButton}
               onClick={handleClose}
               sx={{
                 color: "black",
@@ -272,11 +295,25 @@ const TableScore = ({ data }) => {
                   backgroundColor: "#F0EAEA",
                 },
               }}
+              fw={500}
             >
-              Stay
+              Cancel
             </Button>
-            <Button className={Course.AddPopupButton} onClick={handleClose}>
-              Yes, leave
+            <Button
+              className={tabStyle.secondaryButton}
+              onClick={handleClose}
+              sx={{
+                color: "black",
+                "&:hover": {
+                  backgroundColor: "#8084c8",
+                  color: "#ffffff",
+                },
+              }}
+            >
+              This section
+            </Button>
+            <Button className={tabStyle.primaryButton} onClick={handleClose}>
+              All sections
             </Button>
           </div>
         </div>

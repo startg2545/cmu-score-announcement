@@ -5,7 +5,8 @@ import { ShowSidebarContext, UserInfoContext } from "../context";
 import { addCourse } from "../services";
 import * as XLSX from "xlsx";
 import Course from "../pages/css/course166.module.css";
-import { Button } from "@mantine/core";
+import { Button, Modal, useMantineTheme } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import Example from "../Example.xlsx";
 import Template from "../Template.xlsx";
 
@@ -19,6 +20,9 @@ export default function UploadScorePageContainer() {
   const [semester, setSemester] = useState(0);
   const [note, setNote] = useState("");
   const [isFileUploaded, setIsFileUploaded] = useState(false);
+  const cancleModal = useDisclosure();
+  const confirmModal = useDisclosure();
+  const theme = useMantineTheme();
 
   const navigate = useNavigate();
 
@@ -33,7 +37,6 @@ export default function UploadScorePageContainer() {
     let resp_course = await addCourse(scores);
     console.log(resp_course);
     if (resp_course) {
-      setShowPopupConfirm(false);
       localStorage.setItem("Upload", true);
     }
   };
@@ -148,31 +151,6 @@ export default function UploadScorePageContainer() {
     }
   };
 
-  const [showPopupCancel, setShowPopupCancel] = useState(false);
-
-  const handleCancelClick = () => {
-    setShowPopupCancel(true);
-  };
-
-  const CancelConfirmhandleClosePopup = () => {
-    setShowPopupCancel(false);
-    localStorage.setItem("Upload", true);
-  };
-
-  const CancelCancelhandleClosePopup = () => {
-    setShowPopupCancel(false);
-  };
-
-  const [showPopupConfirm, setShowPopupConfirm] = useState(false);
-
-  const handleConfirmClick = () => {
-    setShowPopupConfirm(true);
-  };
-
-  const ConfirmCancelhandleClosePopup = () => {
-    setShowPopupConfirm(false);
-  };
-
   return (
     <>
       <div
@@ -249,7 +227,8 @@ export default function UploadScorePageContainer() {
               </span>{" "}
               the statistical values, including the mean section, mean course,
               median, maximum value, SD, upper quartile, and lower quartile.
-              Score will not be automatically published after completing the upload.
+              Score will not be automatically published after completing the
+              upload.
             </p>
           </div>
           <div
@@ -275,7 +254,7 @@ export default function UploadScorePageContainer() {
           >
             <div
               className={upStyle.ScoreCancelButton}
-              onClick={handleCancelClick}
+              onClick={cancleModal[1].open}
             >
               <p className={upStyle.ScoreCancelText}>CANCEL</p>
               <div className={upStyle.ScoreCancelButtonInner}>
@@ -295,7 +274,7 @@ export default function UploadScorePageContainer() {
             </div>
             <div
               className={upStyle.ScoreConfirmButton}
-              onClick={handleConfirmClick}
+              onClick={confirmModal[1].open}
             >
               <p className={upStyle.ScoreConfirmText}>CONFIRM</p>
               <div className={upStyle.ScoreConfirmButtonInner}>
@@ -317,156 +296,190 @@ export default function UploadScorePageContainer() {
         </div>
       </div>
 
-      {showPopupCancel && (
-        <div className={upStyle.ScorePopup}>
-          <div className={upStyle["ScorePopup-Content"]}>
-            <div className={upStyle["ScorePopup-ContentInner"]}>
-              <p style={{ color: "white", fontWeight: "600" }}>
-                Leave this page?
-              </p>
-            </div>
+      <Modal
+        opened={cancleModal[0]}
+        onClose={cancleModal[1].close}
+        centered
+        withCloseButton={false}
+        size="auto"
+        display="flex"
+        yOffset={0}
+        xOffset={0}
+        padding={0}
+        radius={10}
+        overlayProps={{
+          color:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[9]
+              : theme.colors.gray[10],
+          opacity: 0.55,
+          blur: 3,
+        }}
+      >
+        <div className={upStyle["ScorePopup-Content"]}>
+          <div className={upStyle["ScorePopup-ContentInner"]}>
+            <p style={{ color: "white", fontWeight: "600" }}>
+              Leave this page?
+            </p>
+          </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="75"
+            height="76"
+            viewBox="0 0 55 96"
+            fill="none"
+          >
+            <path
+              d="M4.58729 22.8892C0.420621 21.175 -1.35021 16.1837 1.14979 12.5537C6.20187 5.29375 14.6394 0 25.7852 0C38.0248 0 46.4102 5.39458 50.681 12.1504C54.3269 17.9483 56.4623 28.7879 50.8373 36.8546C44.5873 45.7783 38.5977 48.5008 35.3685 54.2483C34.5873 55.6096 34.1185 56.7187 33.806 58.9875C33.3373 62.6679 30.2123 65.5417 26.3581 65.5417C21.8269 65.5417 18.129 61.7604 18.6498 57.3742C18.9623 54.8029 19.5873 52.1308 21.0456 49.61C25.056 42.6021 32.7644 38.4679 37.2435 32.2667C41.9831 25.7629 39.3269 13.6125 25.8894 13.6125C19.7956 13.6125 15.8373 16.6879 13.3894 20.3683C11.5665 23.2421 7.76437 24.1496 4.58729 22.8892ZM36.254 85.7083C36.254 91.2542 31.5665 95.7917 25.8373 95.7917C20.1081 95.7917 15.4206 91.2542 15.4206 85.7083C15.4206 80.1625 20.1081 75.625 25.8373 75.625C31.5665 75.625 36.254 80.1625 36.254 85.7083Z"
+              fill="url(#paint0_linear_599_1105)"
+            />
+            <defs>
+              <linearGradient
+                id="paint0_linear_599_1105"
+                x1="27.1437"
+                y1="0"
+                x2="27.1437"
+                y2="95.7917"
+                gradientUnits="userSpaceOnUse"
+              >
+                <stop stopColor="#8084C8" stopOpacity="0.53" />
+                <stop offset="1" stopColor="#8084C8" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <p>This data will be discarded</p>
+          <div className={upStyle.ScorePopupButtons}>
+            <Button
+              className={Course.CancelPopupButton}
+              onClick={cancleModal[1].close}
+              sx={{
+                color: "black",
+                "&:hover": {
+                  backgroundColor: "#F0EAEA",
+                },
+              }}
+            >
+              Stay
+            </Button>
+            <Button
+              className={Course.AddPopupButton}
+              onClick={() => {localStorage.setItem("Upload", true); cancleModal[1].close()} }
+            >
+              Yes, leave
+            </Button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        opened={confirmModal[0]}
+        onClose={confirmModal[1].close}
+        centered
+        withCloseButton={false}
+        size="auto"
+        display="flex"
+        yOffset={0}
+        xOffset={0}
+        padding={0}
+        radius={10}
+        overlayProps={{
+          color:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[9]
+              : theme.colors.gray[10],
+          opacity: 0.55,
+          blur: 3,
+        }}
+      >
+        <div className={upStyle["ScorePopup-Content"]}>
+          <div className={upStyle["ScorePopup-ContentInner"]}>
+            <p style={{ color: "white", fontWeight: "600" }}>
+              Upload this data?
+            </p>
+          </div>
+          <div className={upStyle.ScoreSvgInline}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="75"
-              height="76"
-              viewBox="0 0 55 96"
+              width="53"
+              height="60"
+              viewBox="0 0 63 76"
               fill="none"
+              transform="translate(12, 0)"
             >
               <path
-                d="M4.58729 22.8892C0.420621 21.175 -1.35021 16.1837 1.14979 12.5537C6.20187 5.29375 14.6394 0 25.7852 0C38.0248 0 46.4102 5.39458 50.681 12.1504C54.3269 17.9483 56.4623 28.7879 50.8373 36.8546C44.5873 45.7783 38.5977 48.5008 35.3685 54.2483C34.5873 55.6096 34.1185 56.7187 33.806 58.9875C33.3373 62.6679 30.2123 65.5417 26.3581 65.5417C21.8269 65.5417 18.129 61.7604 18.6498 57.3742C18.9623 54.8029 19.5873 52.1308 21.0456 49.61C25.056 42.6021 32.7644 38.4679 37.2435 32.2667C41.9831 25.7629 39.3269 13.6125 25.8894 13.6125C19.7956 13.6125 15.8373 16.6879 13.3894 20.3683C11.5665 23.2421 7.76437 24.1496 4.58729 22.8892ZM36.254 85.7083C36.254 91.2542 31.5665 95.7917 25.8373 95.7917C20.1081 95.7917 15.4206 91.2542 15.4206 85.7083C15.4206 80.1625 20.1081 75.625 25.8373 75.625C31.5665 75.625 36.254 80.1625 36.254 85.7083Z"
-                fill="url(#paint0_linear_599_1105)"
+                d="M2 2H49.529L61 13.4545V74H2.00656L2 2ZM44.6129 2V18.3636H61M31.5033 64.1818V34.7273V64.1818ZM18.3936 44.5455L31.5033 31.4545L44.6129 44.5455"
+                fill="url(#paint0_linear_299_1209)"
+              />
+              <path
+                d="M44.6129 2V18.3636H61M31.5033 64.1818V34.7273M18.3936 44.5455L31.5033 31.4545L44.6129 44.5455M2 2H49.529L61 13.4545V74H2.00656L2 2Z"
+                stroke="#160000"
+                strokeWidth="3"
               />
               <defs>
                 <linearGradient
-                  id="paint0_linear_599_1105"
-                  x1="27.1437"
-                  y1="0"
-                  x2="27.1437"
-                  y2="95.7917"
+                  id="paint0_linear_299_1209"
+                  x1="31.5"
+                  y1="2"
+                  x2="31.5"
+                  y2="74"
                   gradientUnits="userSpaceOnUse"
                 >
-                  <stop stopColor="#8084C8" stopOpacity="0.53" />
-                  <stop offset="1" stopColor="#8084C8" />
+                  <stop
+                    offset="0.359375"
+                    stopColor="#777DDB"
+                    stopOpacity="0.44"
+                  />
+                  <stop offset="1" stopColor="#5960D1" />
                 </linearGradient>
               </defs>
             </svg>
-            <p>This data will be discarded</p>
-            <div className={upStyle.ScorePopupButtons}>
-              <Button
-                className={Course.CancelPopupButton}
-                onClick={CancelCancelhandleClosePopup}
-                sx={{
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "#F0EAEA",
-                  },
-                }}
-              >
-                Stay
-              </Button>
-              <Button
-                className={Course.AddPopupButton}
-                onClick={CancelConfirmhandleClosePopup}
-              >
-                Yes, leave
-              </Button>
-            </div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="38"
+              height="40"
+              viewBox="0 0 44 40"
+              fill="none"
+              transform="translate(-4, 22)"
+            >
+              <path
+                d="M26.622 3.17771L26.6221 3.17796L42.8112 31.6836C44.794 35.1767 42.2528 39.5 38.192 39.5H5.81084C1.74691 39.5 -0.793947 35.1765 1.18874 31.6836L17.3778 3.17796C19.4058 -0.392872 24.5971 -0.392349 26.622 3.17771ZM24.4033 33.7694C25.0417 33.1371 25.4013 32.2785 25.4013 31.3822C25.4013 30.4859 25.0417 29.6273 24.4033 28.995C23.7651 28.3629 22.9005 28.0086 22 28.0086C21.0994 28.0086 20.2348 28.3629 19.5966 28.995C18.9582 29.6273 18.5987 30.4859 18.5987 31.3822C18.5987 32.2785 18.9582 33.1371 19.5966 33.7694C20.2348 34.4015 21.0994 34.7558 22 34.7558C22.9005 34.7558 23.7651 34.4015 24.4033 33.7694ZM22 7.89368C21.0994 7.89368 20.2348 8.24795 19.5966 8.88008C18.9582 9.51237 18.5987 10.371 18.5987 11.2672V19.8879C18.5987 20.7842 18.9582 21.6428 19.5966 22.2751C20.2348 22.9072 21.0994 23.2615 22 23.2615C22.9005 23.2615 23.7651 22.9072 24.4033 22.2751C25.0417 21.6428 25.4013 20.7842 25.4013 19.8879V11.2672C25.4013 10.371 25.0417 9.51237 24.4033 8.88008C23.7651 8.24795 22.9005 7.89368 22 7.89368Z"
+                fill="url(#paint0_linear_299_1210)"
+                stroke="black"
+              />
+              <defs>
+                <linearGradient
+                  id="paint0_linear_299_1210"
+                  x1="22"
+                  y1="0"
+                  x2="22"
+                  y2="40"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stopColor="#F9E5C4" stopOpacity="0.76" />
+                  <stop offset="1" stopColor="#FFBB0C" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <p>This data will be generated</p>
+          <div className={upStyle.ScorePopupButtons}>
+            <Button
+              className={Course.CancelPopupButton}
+              onClick={confirmModal[1].close}
+              sx={{
+                color: "black",
+                "&:hover": {
+                  backgroundColor: "#F0EAEA",
+                },
+              }}
+            >
+              No
+            </Button>
+            <Button className={Course.AddPopupButton} onClick={() => {submitData(); confirmModal[1].close()}}>
+              Yes, Upload
+            </Button>
           </div>
         </div>
-      )}
-      {showPopupConfirm && (
-        <div className={upStyle.ScorePopup}>
-          <div className={upStyle["ScorePopup-Content"]}>
-            <div className={upStyle["ScorePopup-ContentInner"]}>
-              <p style={{ color: "white", fontWeight: "600" }}>
-                Upload this data?
-              </p>
-            </div>
-            <div className={upStyle.ScoreSvgInline}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="53"
-                height="60"
-                viewBox="0 0 63 76"
-                fill="none"
-                transform="translate(12, 0)"
-              >
-                <path
-                  d="M2 2H49.529L61 13.4545V74H2.00656L2 2ZM44.6129 2V18.3636H61M31.5033 64.1818V34.7273V64.1818ZM18.3936 44.5455L31.5033 31.4545L44.6129 44.5455"
-                  fill="url(#paint0_linear_299_1209)"
-                />
-                <path
-                  d="M44.6129 2V18.3636H61M31.5033 64.1818V34.7273M18.3936 44.5455L31.5033 31.4545L44.6129 44.5455M2 2H49.529L61 13.4545V74H2.00656L2 2Z"
-                  stroke="#160000"
-                  strokeWidth="3"
-                />
-                <defs>
-                  <linearGradient
-                    id="paint0_linear_299_1209"
-                    x1="31.5"
-                    y1="2"
-                    x2="31.5"
-                    y2="74"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop
-                      offset="0.359375"
-                      stopColor="#777DDB"
-                      stopOpacity="0.44"
-                    />
-                    <stop offset="1" stopColor="#5960D1" />
-                  </linearGradient>
-                </defs>
-              </svg>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="38"
-                height="40"
-                viewBox="0 0 44 40"
-                fill="none"
-                transform="translate(-4, 22)"
-              >
-                <path
-                  d="M26.622 3.17771L26.6221 3.17796L42.8112 31.6836C44.794 35.1767 42.2528 39.5 38.192 39.5H5.81084C1.74691 39.5 -0.793947 35.1765 1.18874 31.6836L17.3778 3.17796C19.4058 -0.392872 24.5971 -0.392349 26.622 3.17771ZM24.4033 33.7694C25.0417 33.1371 25.4013 32.2785 25.4013 31.3822C25.4013 30.4859 25.0417 29.6273 24.4033 28.995C23.7651 28.3629 22.9005 28.0086 22 28.0086C21.0994 28.0086 20.2348 28.3629 19.5966 28.995C18.9582 29.6273 18.5987 30.4859 18.5987 31.3822C18.5987 32.2785 18.9582 33.1371 19.5966 33.7694C20.2348 34.4015 21.0994 34.7558 22 34.7558C22.9005 34.7558 23.7651 34.4015 24.4033 33.7694ZM22 7.89368C21.0994 7.89368 20.2348 8.24795 19.5966 8.88008C18.9582 9.51237 18.5987 10.371 18.5987 11.2672V19.8879C18.5987 20.7842 18.9582 21.6428 19.5966 22.2751C20.2348 22.9072 21.0994 23.2615 22 23.2615C22.9005 23.2615 23.7651 22.9072 24.4033 22.2751C25.0417 21.6428 25.4013 20.7842 25.4013 19.8879V11.2672C25.4013 10.371 25.0417 9.51237 24.4033 8.88008C23.7651 8.24795 22.9005 7.89368 22 7.89368Z"
-                  fill="url(#paint0_linear_299_1210)"
-                  stroke="black"
-                />
-                <defs>
-                  <linearGradient
-                    id="paint0_linear_299_1210"
-                    x1="22"
-                    y1="0"
-                    x2="22"
-                    y2="40"
-                    gradientUnits="userSpaceOnUse"
-                  >
-                    <stop stopColor="#F9E5C4" stopOpacity="0.76" />
-                    <stop offset="1" stopColor="#FFBB0C" />
-                  </linearGradient>
-                </defs>
-              </svg>
-            </div>
-            <p>This data will be generated</p>
-            <div className={upStyle.ScorePopupButtons}>
-              <Button
-                className={Course.CancelPopupButton}
-                onClick={ConfirmCancelhandleClosePopup}
-                sx={{
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "#F0EAEA",
-                  },
-                }}
-              >
-                No
-              </Button>
-              <Button className={Course.AddPopupButton} onClick={submitData}>
-                Yes, Upload
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+      </Modal>
     </>
   );
 }

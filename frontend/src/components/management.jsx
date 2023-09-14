@@ -11,21 +11,16 @@ import { Checkbox, Button } from "@mantine/core";
 const Management = ({ data }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { showSidebar } = useContext(ShowSidebarContext);
-  const [isShowTable, setIsShowTable] = useState(false);
-  const [dataTable, setDataTable] = useState();
-  const [isSelectedSec, setIsSelectSec] = useState(false);
+  const [dataTable, setDataTable] = useState([]);
   const [sections, setSections] = useState([]);
-  const [selectedSections, setSelectedSections] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [showPopup2, setShowPopup2] = useState(false);
   const [countChecked, setCountChecked] = useState(0);
 
   const showTable = (sec) => {
+    setDataTable(data.filter((e) => e.section === sec)[0].scores);
     searchParams.set("section", sec);
     setSearchParams(searchParams);
-    setIsSelectSec(true);
-    setIsShowTable(true);
-    setDataTable(data.filter((e) => e.section === sec)[0].scores);
   };
 
   useEffect(() => {
@@ -41,10 +36,13 @@ const Management = ({ data }) => {
         });
       }
     };
-    fetchData();
+    if (!sections) fetchData();
+    if (searchParams.get("section") && !dataTable.length && data.length) {
+      showTable(searchParams.get("section"));
+    }
 
     data.sort((a, b) => a.section - b.section);
-  }, [data, searchParams, setSections]);
+  }, [data, searchParams, sections, dataTable]);
 
   const handlePublishAllClick = () => {
     setShowPopup2(true);
@@ -288,7 +286,7 @@ const Management = ({ data }) => {
           showSidebar ? secMan.shrink : ""
         }`}
       >
-        {!isShowTable && (
+        {!searchParams.get("section") && (
           <div>
             {data.map((e, key) => (
               <p
@@ -308,13 +306,12 @@ const Management = ({ data }) => {
             ))}
           </div>
         )}
-        <div className={secMan.frameTableSc }>
-          {isShowTable && <TableScore data={dataTable} />}
+        <div className={secMan.frameTableSc}>
+          {searchParams.get("section") && <TableScore data={dataTable} />}
         </div>
-       
       </div>
 
-      {!isSelectedSec && (
+      {!searchParams.get("section") && (
         <div
           className={`${secMan.publishSec} ${showSidebar ? secMan.shrink : ""}`}
         >

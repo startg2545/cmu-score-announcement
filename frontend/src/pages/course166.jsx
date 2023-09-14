@@ -5,14 +5,15 @@ import { SideBar, TableScore, UploadSc } from "../components";
 import { ShowSidebarContext } from "../context";
 import { addCourse, getAllCourses, getScores } from "../services";
 import DropDownCourse from "../components/DropDownCourse";
-import { TextInput, Button, Flex, Text } from "@mantine/core";
+import { TextInput, Button, Flex, Modal } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useDisclosure } from "@mantine/hooks";
 import { IconAt } from "@tabler/icons-react";
 import Management from "../components/management";
+import { HiChevronRight } from "react-icons/hi";
 
 export default function Course166Container() {
   const [course, setCourse] = useState([]);
-  const [allCourses, setAllCourses] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isHovered, setIsHovered] = useState(false);
@@ -25,20 +26,18 @@ export default function Course166Container() {
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
   const [section, setSections] = useState([]);
-  const [isCourseNoValid, setIsCourseNoValid] = useState(true);
+
   const [isEmailValid, setIsEmailNoValid] = useState(true);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const { showSidebar } = useContext(ShowSidebarContext);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [showPopup, setShowPopup] = useState(false);
-
   const showSection = () => {
-    const data = course.filter(
-      (e) => e.courseNo === searchParams.get("courseNo")
-    )[0].sections;
+    const data = course.filter((e) => e.courseNo === params.courseNo)[0]
+      .sections;
     setSections(data);
     setManage(true);
     setShowTableScore(false);
@@ -46,19 +45,19 @@ export default function Course166Container() {
   };
 
   const handleClickInstructor = () => {
-    setShowPopup(true);
+    open();
   };
 
   const instructorClosePopup = () => {
     if (!isEmailValid) {
       return;
     }
-    setShowPopup(false);
+    close();
     emailform.reset();
   };
 
   const instructorCancelClosePopup = () => {
-    setShowPopup(false);
+    close();
     emailform.reset();
   };
 
@@ -90,11 +89,9 @@ export default function Course166Container() {
     validate: {
       courseNo: (value) => {
         if (!value) {
-          setIsCourseNoValid(false);
           return "Course no. is required";
         }
         const isValid = /^\d{6}$/.test(value);
-        setIsCourseNoValid(isValid);
         return isValid ? null : "Please enter a valid course no";
       },
     },
@@ -119,21 +116,30 @@ export default function Course166Container() {
   };
 
   const backToDashboard = () => {
+    localStorage.removeItem("page");
     setUploadScore(false);
     setManage(false);
     setSelectedCourse(false);
     searchParams.delete("courseNo");
+    searchParams.delete("section");
     setSearchParams(searchParams);
   };
 
   const backToCourse = () => {
+    localStorage.removeItem("page");
     setUploadScore(false);
     setManage(false);
+    searchParams.delete("section");
+    setSearchParams(searchParams);
+  };
+
+  const backToSelectSec = () => {
+    searchParams.delete("section");
+    setSearchParams(searchParams);
   };
 
   const fetchData = async () => {
     const allCourse = await getAllCourses();
-    setAllCourses(allCourse);
     const resp = await getScores();
     if (resp) {
       const data = resp.filter(
@@ -155,7 +161,7 @@ export default function Course166Container() {
   };
 
   useEffect(() => {
-    if (isUploadScore === true) {
+    if (isManage === true) {
       document.getElementById("tab-menu").style.cursor = "pointer";
     }
 
@@ -164,7 +170,24 @@ export default function Course166Container() {
       localStorage.removeItem("Upload");
     }
 
-    if (!showPopupAddCourse) fetchData();
+    if (!course.length) {
+      fetchData();
+    }
+
+    if (params.courseNo) {
+      setSelectedCourse(true);
+    }
+
+    if (localStorage.getItem("page") === "upload") {
+      setUploadScore(true);
+    }
+
+    if (localStorage.getItem("page") === "management") {
+      setManage(true);
+      if (!section.length && course.length) {
+        showSection();
+      }
+    }
 
     const interval = setInterval(() => {
       setCurrentDate(new Date());
@@ -172,6 +195,8 @@ export default function Course166Container() {
 
     return () => clearInterval(interval);
   }, [
+    course,
+    section,
     localStorage.getItem("Upload"),
     location,
     isShowTableScore,
@@ -180,7 +205,7 @@ export default function Course166Container() {
     getParams,
     params,
     setSearchParams,
-    isUploadScore,
+    isManage,
   ]);
 
   const formatDate = (date) => {
@@ -340,91 +365,100 @@ export default function Course166Container() {
             }`}
             style={{ gap: 25 }}
           >
-            {course &&
-              course.map((item, key) => {
-                return (
-                  <div
-                    key={key}
-                    className={Course.frameEachCourse}
-                    onClick={() => onClickCourse(item)}
-                  >
-                    <div className={Course.courseName}>
-                      <div className={Course.intoCourse}>
-                        {item.courseNo}
-                        {item.courseName ? ` - ${item.courseName}` : null}
-                      </div>
+            {course.map((item, key) => {
+              return (
+                <div
+                  key={key}
+                  className={Course.frameEachCourse}
+                  onClick={() => onClickCourse(item)}
+                >
+                  <div className={Course.courseName}>
+                    <div className={Course.intoCourse}>
+                      {item.courseNo}
+                      {item.courseName ? ` - ${item.courseName}` : null}
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
-      {showPopup && (
-        <div className={Course.ScorePopup}>
-          <div className={Course["ScorePopup-Content"]}>
-            <div className={Course["ScorePopup-ContentInner"]}>
-              <p style={{ color: "white", fontWeight: "600" }}>
-                {`Add Co-Instructor ${params.courseNo}`}
-              </p>
-            </div>
-            <p
-              style={{
-                marginTop: "-10px",
-                fontSize: "15px",
-                color: "#676666",
-                fontFamily: "SF Pro",
-              }}
-            >
-              Co-Instructors have full access to edit and change scores in all
-              documents. Input an email with the domain cmu.ac.th to invite.
+
+      <Modal
+        opened={opened}
+        onClose={close}
+        centered
+        withCloseButton={false}
+        size="auto"
+        display="flex"
+        yOffset={0}
+        xOffset={0}
+        padding={0}
+        radius={10}
+      >
+        <div className={Course["ScorePopup-Content"]}>
+          <div className={Course["ScorePopup-ContentInner"]}>
+            <p style={{ color: "white", fontWeight: "600" }}>
+              {`Add Co-Instructor ${params.courseNo}`}
             </p>
-            <form
-              onSubmit={emailform.onSubmit((data) => {
-                console.log(data);
-                instructorClosePopup();
-              })}
-            >
-              <TextInput
-                placeholder="Type email to add co-instructor"
-                className={Course.instructorNameInput}
-                fs={20}
-                w={450}
-                mt={5}
-                radius="md"
-                ta="center"
-                icon={<IconAt size="1.1rem" />}
-                {...emailform.getInputProps("email")}
-              />
-              <Flex className={Course.instructorPopupButtons}>
-                <Button
-                  className={Course.CancelPopupButton}
-                  onClick={instructorCancelClosePopup}
-                  sx={{
-                    color: "black",
-                    "&:hover": {
-                      backgroundColor: "#F0EAEA",
-                    },
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  className={Course.AddPopupButton}
-                  type="submit"
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "#d499ff",
-                    },
-                  }}
-                >
-                  Add
-                </Button>
-              </Flex>
-            </form>
           </div>
+          <p
+            style={{
+              marginTop: "-10px",
+              fontSize: "15px",
+              color: "#676666",
+              fontFamily: "SF Pro",
+            }}
+          >
+            Co-Instructors have full access to edit and change scores in all
+            documents. Input an email with the domain cmu.ac.th to invite.
+          </p>
+          <form
+            onSubmit={emailform.onSubmit((data) => {
+              console.log(data);
+              instructorClosePopup();
+            })}
+          >
+            <TextInput
+              placeholder="Type email to add co-instructor"
+              className={Course.instructorNameInput}
+              fs={20}
+              w={450}
+              mt={5}
+              radius="md"
+              ta="center"
+              icon={<IconAt size="1.1rem" />}
+              {...emailform.getInputProps("email")}
+            />
+            <Flex className={Course.instructorPopupButtons}>
+              <Button
+                className={Course.CancelPopupButton}
+                onClick={instructorCancelClosePopup}
+                sx={{
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#F0EAEA",
+                  },
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                className={Course.AddPopupButton}
+                type="submit"
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "#d499ff",
+                  },
+                }}
+              >
+                Add
+              </Button>
+            </Flex>
+          </form>
         </div>
-      )}
+      </Modal>
 
       {isSelectedCourse && (
         <div className={Course.MenuIndexLayout}>
@@ -441,21 +475,11 @@ export default function Course166Container() {
                   Course {params.semester}/{params.year.slice(2)}
                 </label>
 
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="8"
-                  height="12"
-                  viewBox="0 0 8 12"
-                  fill="none"
+                <HiChevronRight
                   className={` ${Course.date} ${
                     showSidebar ? Course.moveRight : ""
                   }`}
-                >
-                  <path
-                    d="M7.43738 6.41702L2.36856 11.3462C2.01821 11.6869 1.4517 11.6869 1.10508 11.3462L0.262759 10.5271C-0.0875863 10.1864 -0.0875863 9.63549 0.262759 9.29842L3.85566 5.80449L0.262759 2.31056C-0.0875863 1.96987 -0.0875863 1.41896 0.262759 1.08189L1.10135 0.255521C1.4517 -0.0851736 2.01821 -0.0851736 2.36483 0.255521L7.43365 5.18472C7.78773 5.52541 7.78773 6.07632 7.43738 6.41702Z"
-                    fill="#696CA3"
-                  />
-                </svg>
+                />
                 <label
                   onClick={backToCourse}
                   id="tab-menu"
@@ -465,6 +489,58 @@ export default function Course166Container() {
                 >
                   {params.courseNo}
                 </label>
+                {isUploadScore && !isManage && (
+                  <>
+                    <HiChevronRight
+                      className={` ${Course.date} ${
+                        showSidebar ? Course.moveRight : ""
+                      }`}
+                    />
+                    <label
+                      className={` ${Course.date} ${
+                        showSidebar ? Course.moveRight : ""
+                      }`}
+                    >
+                      Upload Score
+                    </label>
+                  </>
+                )}
+                {isManage && (
+                  <>
+                    <HiChevronRight
+                      className={` ${Course.date} ${
+                        showSidebar ? Course.moveRight : ""
+                      }`}
+                    />
+                    <label
+                      className={` ${Course.date} ${
+                        showSidebar ? Course.moveRight : ""
+                      }`}
+                      onClick={backToSelectSec}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Management
+                    </label>
+                  </>
+                )}
+                {searchParams.get("section") && (
+                  <>
+                    <HiChevronRight
+                      className={` ${Course.date} ${
+                        showSidebar ? Course.moveRight : ""
+                      }`}
+                    />
+                    <label
+                      className={` ${Course.date} ${
+                        showSidebar ? Course.moveRight : ""
+                      }`}
+                      onClick={showSection}
+                      style={{ cursor: "pointer" }}
+                    >
+                      Section {`00${searchParams.get("section")}`}
+                    </label>
+                  </>
+                )}
               </p>
               <div
                 className={`${Course.frameCourseDash} ${
@@ -507,7 +583,7 @@ export default function Course166Container() {
                       className={` ${Course.instructorButton} ${
                         showSidebar ? Course.moveLeft : ""
                       }`}
-                      style={{transform: "translate(-30px, 1px)"}}
+                      style={{ transform: "translate(-30px, 1px)" }}
                       onMouseEnter={() => setIsHovered3(true)}
                       onMouseLeave={() => setIsHovered3(false)}
                       onClick={handleClickInstructor}
@@ -535,6 +611,7 @@ export default function Course166Container() {
                         showSidebar ? Course.moveLeft : ""
                       }`}
                       onClick={() => {
+                        localStorage.setItem("page", "upload");
                         setUploadScore(true);
                         setShowTableScore(false);
                         document.getElementById("tab-menu").style.cursor =
@@ -591,9 +668,10 @@ export default function Course166Container() {
                           ? "0px 4px 4px 0px rgba(0, 0, 0, 0.55) inset"
                           : "",
                         backgroundColor: isManage ? "white" : "",
-                        transform: "translate(-20px, 1px)"
+                        transform: "translate(-20px, 1px)",
                       }}
                       onClick={() => {
+                        localStorage.setItem("page", "management");
                         setManage(true);
                         document.getElementById("tab-menu").style.cursor =
                           "pointer";
@@ -655,61 +733,6 @@ export default function Course166Container() {
               </div>
               {isUploadScore && <UploadSc />}
               {isManage && <Management data={section} />}
-
-              {isUploadScore && !isManage && (
-                <p className={Course.MenuIndex}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="8"
-                    height="12"
-                    viewBox="0 0 8 12"
-                    fill="none"
-                    className={` ${Course.date} ${
-                      showSidebar ? Course.moveRight : ""
-                    }`}
-                  >
-                    <path
-                      d="M7.43738 6.41702L2.36856 11.3462C2.01821 11.6869 1.4517 11.6869 1.10508 11.3462L0.262759 10.5271C-0.0875863 10.1864 -0.0875863 9.63549 0.262759 9.29842L3.85566 5.80449L0.262759 2.31056C-0.0875863 1.96987 -0.0875863 1.41896 0.262759 1.08189L1.10135 0.255521C1.4517 -0.0851736 2.01821 -0.0851736 2.36483 0.255521L7.43365 5.18472C7.78773 5.52541 7.78773 6.07632 7.43738 6.41702Z"
-                      fill="#696CA3"
-                    />
-                  </svg>
-                  <label
-                    className={` ${Course.date} ${
-                      showSidebar ? Course.moveRight : ""
-                    }`}
-                  >
-                    Upload Score
-                  </label>
-                </p>
-              )}
-              {isManage && (
-                <p className={Course.MenuIndex}>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="8"
-                    height="12"
-                    viewBox="0 0 8 12"
-                    fill="none"
-                    className={` ${Course.date} ${
-                      showSidebar ? Course.moveRight : ""
-                    }`}
-                  >
-                    <path
-                      d="M7.43738 6.41702L2.36856 11.3462C2.01821 11.6869 1.4517 11.6869 1.10508 11.3462L0.262759 10.5271C-0.0875863 10.1864 -0.0875863 9.63549 0.262759 9.29842L3.85566 5.80449L0.262759 2.31056C-0.0875863 1.96987 -0.0875863 1.41896 0.262759 1.08189L1.10135 0.255521C1.4517 -0.0851736 2.01821 -0.0851736 2.36483 0.255521L7.43365 5.18472C7.78773 5.52541 7.78773 6.07632 7.43738 6.41702Z"
-                      fill="#696CA3"
-                    />
-                  </svg>
-                  <label
-                    className={` ${Course.date} ${
-                      showSidebar ? Course.moveRight : ""
-                    }`}
-                    onClick={showSection}
-                    style={{ cursor: "pointer" }}
-                  >
-                    Management
-                  </label>
-                </p>
-              )}
             </div>
 
             <div

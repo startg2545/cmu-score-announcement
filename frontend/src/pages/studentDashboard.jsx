@@ -16,14 +16,12 @@ Chart.register(annotationPlugin);
 export default function StudentDashboard() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [message, setMessage] = useState();
-  const [courseList, setCourseList] = useState();
+  const [courseList, setCourseList] = useState([]);
   const [section, setSection] = useState();
-  const [scoreList, setScoreList] = useState();
+  const [scoreList, setScoreList] = useState([]);
   const [scores, setScores] = useState();
   const [searchParams, setSearchParams] = useSearchParams({});
   const [params, setParams] = useState({});
-  const [isSelectedCourse, setSelectedCourse] = useState(false);
-  const [isSelectedScore, setSelectedScore] = useState(false);
   const [isShowGraph, setIsShowGraph] = useState(false);
   const isMobileOrTablet = useMediaQuery(
     "(max-width: 1024px) and (max-height: 1400px)"
@@ -75,14 +73,12 @@ export default function StudentDashboard() {
       }
     };
 
-    if (!courseList && !message) fetchData();
-    if (params.courseNo) {
+    if (!courseList.length && !message) fetchData();
+    if (params.courseNo && courseList.length) {
       setCourse(params.courseNo);
-      setSelectedCourse(true);
     }
     if (params.scoreName) {
       calStat(params.scoreName);
-      setSelectedScore(true);
     }
 
     // Clear the interval when the component unmounts
@@ -125,14 +121,12 @@ export default function StudentDashboard() {
   };
 
   const setCourse = (data) => {
-    const course = courseList?.filter((c) => c.courseNo === data)[0];
-    setSection(course?.section);
-    setScoreList(course?.scores);
+    const course = courseList.filter((c) => c.courseNo === data)[0];
+    setSection(course.section);
+    setScoreList(course.scores);
   };
 
   const backToDashboard = () => {
-    setSelectedCourse(false);
-    setSelectedScore(false);
     searchParams.delete("courseNo");
     searchParams.delete("scoreName");
     setSearchParams(searchParams);
@@ -140,22 +134,17 @@ export default function StudentDashboard() {
 
   const onClickCourse = (e) => {
     setCourse(e);
-    setSelectedCourse(true);
-    setSelectedScore(false);
     searchParams.set("courseNo", e);
     setSearchParams(searchParams);
   };
 
   const backToCourse = () => {
-    setSelectedCourse(true);
-    setSelectedScore(false);
     searchParams.delete("scoreName");
     setSearchParams(searchParams);
   };
 
   const onClickScore = async (e) => {
     calStat(e);
-    setSelectedScore(true);
     searchParams.set("scoreName", e);
     setSearchParams(searchParams);
   };
@@ -254,7 +243,7 @@ export default function StudentDashboard() {
 
   return (
     <>
-      {isSelectedCourse && (
+      {params.courseNo && (
         <div className={Student.MenuIndexLayout}>
           <div className={Student.MenuNavigate}>
             <p className={Student.MenuIndex}>
@@ -268,12 +257,12 @@ export default function StudentDashboard() {
               <HiChevronRight />
               <label
                 onClick={backToCourse}
-                style={{ cursor: isSelectedScore ? "pointer" : null }}
+                style={{ cursor: params.scoreName ? "pointer" : null }}
                 className={Student.date}
               >
                 {params.courseNo}
               </label>
-              {isSelectedScore && (
+              {params.scoreName && (
                 <>
                   <HiChevronRight />
                   <label className={Student.date}>{params.scoreName}</label>
@@ -284,7 +273,7 @@ export default function StudentDashboard() {
           <div className={Student.lineIndex}></div>
         </div>
       )}
-      {isSelectedScore && (
+      {params.scoreName && (
         <Affix position={{ top: 150, right: 20 }}>
           <Button
             className={Student.showGraphBT}
@@ -302,17 +291,16 @@ export default function StudentDashboard() {
         </Affix>
       )}
       <Text className={Student.coursetopictext}>
-        {!isSelectedCourse && "Dashboard"}
-        {isSelectedCourse && !isSelectedScore && params.courseNo}
-        {isSelectedScore && params.scoreName}
+        {!params.courseNo && "Dashboard"}
+        {params.courseNo && !params.scoreName && params.courseNo}
+        {params.scoreName && params.scoreName}
       </Text>
       <Text className={Student.datetext}>
         {formatDate(currentDate)}
       </Text>
       <div className={Student.courseframewindow}>
         {message && <Text className={Student.message}>{message}</Text>}
-        {!isSelectedCourse &&
-          courseList &&
+        {!params.courseNo &&
           courseList.map((item, key) => {
             return (
               <div
@@ -338,9 +326,8 @@ export default function StudentDashboard() {
               </div>
             );
           })}
-        {isSelectedCourse &&
-          !isSelectedScore &&
-          scoreList &&
+        {params.courseNo &&
+          !params.scoreName &&
           scoreList.map((item, key) => {
             return (
               <div
@@ -354,7 +341,7 @@ export default function StudentDashboard() {
               </div>
             );
           })}
-        {isSelectedScore && scoreList && stat && (
+        {params.scoreName  && (
           <>
             {!isShowGraph && (
               <Flex direction="column" mt={15} gap={25}>
