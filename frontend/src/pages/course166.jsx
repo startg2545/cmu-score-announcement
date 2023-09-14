@@ -13,7 +13,7 @@ import Management from "../components/management";
 import { HiChevronRight } from "react-icons/hi";
 
 export default function Course166Container() {
-  const [course, setCourse] = useState();
+  const [course, setCourse] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isHovered, setIsHovered] = useState(false);
@@ -25,7 +25,7 @@ export default function Course166Container() {
   const [isManage, setManage] = useState(false);
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
-  const [section, setSections] = useState();
+  const [section, setSections] = useState([]);
 
   const [isEmailValid, setIsEmailNoValid] = useState(true);
   const [opened, { open, close }] = useDisclosure(false);
@@ -170,7 +170,7 @@ export default function Course166Container() {
       localStorage.removeItem("Upload");
     }
 
-    if (!course) {
+    if (!course.length) {
       fetchData();
     }
 
@@ -182,9 +182,11 @@ export default function Course166Container() {
       setUploadScore(true);
     }
 
-    if (localStorage.getItem("page") === "management" && !section && course) {
+    if (localStorage.getItem("page") === "management") {
       setManage(true);
-      showSection();
+      if (!section.length && course.length) {
+        showSection();
+      }
     }
 
     const interval = setInterval(() => {
@@ -363,23 +365,22 @@ export default function Course166Container() {
             }`}
             style={{ gap: 25 }}
           >
-            {course &&
-              course.map((item, key) => {
-                return (
-                  <div
-                    key={key}
-                    className={Course.frameEachCourse}
-                    onClick={() => onClickCourse(item)}
-                  >
-                    <div className={Course.courseName}>
-                      <div className={Course.intoCourse}>
-                        {item.courseNo}
-                        {item.courseName ? ` - ${item.courseName}` : null}
-                      </div>
+            {course.map((item, key) => {
+              return (
+                <div
+                  key={key}
+                  className={Course.frameEachCourse}
+                  onClick={() => onClickCourse(item)}
+                >
+                  <div className={Course.courseName}>
+                    <div className={Course.intoCourse}>
+                      {item.courseNo}
+                      {item.courseName ? ` - ${item.courseName}` : null}
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

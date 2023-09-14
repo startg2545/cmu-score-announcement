@@ -11,16 +11,16 @@ import { Checkbox, Button } from "@mantine/core";
 const Management = ({ data }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { showSidebar } = useContext(ShowSidebarContext);
-  const [dataTable, setDataTable] = useState();
-  const [sections, setSections] = useState();
+  const [dataTable, setDataTable] = useState([]);
+  const [sections, setSections] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [showPopup2, setShowPopup2] = useState(false);
   const [countChecked, setCountChecked] = useState(0);
 
   const showTable = (sec) => {
+    setDataTable(data.filter((e) => e.section === sec)[0].scores);
     searchParams.set("section", sec);
     setSearchParams(searchParams);
-    setDataTable(data.filter((e) => e.section === sec)[0].scores);
   };
 
   useEffect(() => {
@@ -29,17 +29,20 @@ const Management = ({ data }) => {
       if (resp) {
         resp.map((data) => {
           if (data.courseNo === searchParams.get("courseNo")) {
+            console.log(data.sections);
             let sections = data.sections;
             setSections(sections);
           }
         });
       }
     };
-    if (!sections)
-      fetchData();
-    if(data)
-      data.sort((a, b) => a.section - b.section);
-  }, [data, searchParams, sections]);
+    if (!sections) fetchData();
+    if (searchParams.get("section") && !dataTable.length && data.length) {
+      showTable(searchParams.get("section"));
+    }
+
+    data.sort((a, b) => a.section - b.section);
+  }, [data, searchParams, sections, dataTable]);
 
   const handlePublishAllClick = () => {
     setShowPopup2(true);
@@ -101,7 +104,7 @@ const Management = ({ data }) => {
             </div>
 
             <div>
-              {data && data.map((e, key) => (
+              {data.map((e, key) => (
                 <div
                   key={key}
                   style={{
@@ -283,9 +286,9 @@ const Management = ({ data }) => {
           showSidebar ? secMan.shrink : ""
         }`}
       >
-        {!searchParams.get('section') && (
+        {!searchParams.get("section") && (
           <div>
-            {data && data.map((e, key) => (
+            {data.map((e, key) => (
               <p
                 className={secMan.secBox}
                 key={key}
@@ -303,13 +306,12 @@ const Management = ({ data }) => {
             ))}
           </div>
         )}
-        <div className={secMan.frameTableSc }>
-          {searchParams.get('section') && <TableScore data={dataTable} />}
+        <div className={secMan.frameTableSc}>
+          {searchParams.get("section") && <TableScore data={dataTable} />}
         </div>
-       
       </div>
 
-      {!searchParams.get('section') && (
+      {!searchParams.get("section") && (
         <div
           className={`${secMan.publishSec} ${showSidebar ? secMan.shrink : ""}`}
         >
