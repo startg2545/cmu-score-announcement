@@ -316,6 +316,7 @@ const Management = ({ data }) => {
           className={` ${secMan.publishSec}  ${
             showSidebar ? secMan.shrink : ""
           }`}
+          
         >
        
             <div
