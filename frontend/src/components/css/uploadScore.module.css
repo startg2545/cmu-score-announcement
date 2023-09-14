@@ -31,93 +31,28 @@ body {
 .frameChild{
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  margin-top: 10vh;
+  gap: 13px;
+  margin-top: 7vh;
 
   @media screen and  (max-height: 900px) {
     gap: 13px;
-    margin-top: 8vh;
+    margin-top: 5vh;
   }
 
   @media screen and  (max-height: 850px) {
     gap: 7px;
-    margin-top: 6vh;
+    margin-top: 5vh;
+  }
+  @media screen and  (max-height: 830px) {
+    gap: 5px;
+    margin-top: 4vh;
   }
 
   @media screen and  (max-height: 780px) {
     gap: 5px;
-    margin-top: 5vh;
+    margin-top: 2vh;
   }
 }
-
-
-
-/* 
-.Scorecoursetopictext {
-  color: #696ca3;
-  font-family: "SF PRo", sans-serif;
-  font-size: 48px;
-  font-style: normal;
-  font-weight: 540;
-  line-height: normal;
-  transform: translate(62px, 45px);
-  transition: transform 0.4s ease;
-  position: absolute;
-}
-
-.Scoredatetext {
-  color: #696ca3;
-  font-family: "SF PRo", sans-serif;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 450;
-  line-height: normal;
-  transform: translate(65px, 100px);
-  transition: transform 0.4s ease;
-  position: absolute;
-}
-
-.Scorecoursetopictext.move-right {
-  transform: translate(340px, 45px);
-  transition: transform 0.4s ease;
-  position: absolute;
-}
-.Scoredatetext.move-right {
-  transform: translate(342px, 100px);
-  transition: transform 0.4s ease;
-  position: absolute;
-}
-
-.ScoreTextNavigate {
-  color: #696ca3;
-  font-family: "SF PRo", sans-serif;
-  font-size: 22px;
-  font-style: normal;
-  font-weight: 540;
-  line-height: normal;
-  transform: translate(30px, 10px);
-  transition: transform 0.4s ease;
-  position: absolute;
-}
-
-.ScoreTextNavigate.move-right {
-  transform: translate(305px, 9px);
-  transition: transform 0.4s ease;
-  position: absolute;
-}
-
-.ScoreLine {
-  transform: translate(12px, 32px);
-  transition: transform 0.3s ease; 
-  width: 99%;
-  position: absolute;
-}
-
-.ScoreLine.move-right {
-  transform: translate(280px, 32px);
-  width: 81%;
-  position: absolute;
-} */
 
 .ScoreText {
   color: #696ca3;
@@ -159,6 +94,7 @@ body {
   transition: transform 0.3s ease;
   margin: auto;
 }
+
 
 .ScoreDescriptionBox {
   padding: 18px;
