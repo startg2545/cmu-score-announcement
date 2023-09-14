@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Box, Flex, Text, Group, Menu } from "@mantine/core"; // Removed Paper
+import { Flex, Text, Menu } from "@mantine/core";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROLE, ShowSidebarContext, UserInfoContext } from "../context";
 import { CheckPermission } from "../utility/main";
