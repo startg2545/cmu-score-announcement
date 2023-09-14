@@ -181,15 +181,27 @@ export default function UploadScorePageContainer() {
               style={{ paddingTop: "4px" }}
             >
               Please click to open this Excel template file{" "}
-              <span style={{ color: "red", fontWeight: "bold" }}>
-                (support only this template .xlsx and .xls format)
+              <span style={{ color: "red", fontWeight: "bold" , textAlign: "center"}}>
+                (support only this{" "}
+                {
+                  <a
+                    href={Template}
+                    download="Template"
+                    target="_blank"
+                    rel="noreferrer"
+                  
+                  >
+                    <button>Template</button>
+                  </a>
+                }{" "}
+                .xlsx and .xls format)
               </span>{" "}
               and fill student code, score (numbers only).
               <span style={{ color: "red", fontWeight: "bold" }}>
                 {" "}
                 Do not change the column header name.{" "}
               </span>
-              And attach back to this system.
+              And attach back to this system.{" "}
               <a
                 href={Example}
                 download="Example"
@@ -197,14 +209,6 @@ export default function UploadScorePageContainer() {
                 rel="noreferrer"
               >
                 <button>Example</button>
-              </a>
-              <a
-                href={Template}
-                download="Template"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <button>Template</button>
               </a>
             </p>
           </div>
@@ -363,7 +367,10 @@ export default function UploadScorePageContainer() {
             </Button>
             <Button
               className={Course.AddPopupButton}
-              onClick={() => {localStorage.setItem("Upload", true); cancleModal[1].close()} }
+              onClick={() => {
+                localStorage.setItem("Upload", true);
+                cancleModal[1].close();
+              }}
             >
               Yes, leave
             </Button>
@@ -474,7 +481,13 @@ export default function UploadScorePageContainer() {
             >
               No
             </Button>
-            <Button className={Course.AddPopupButton} onClick={() => {submitData(); confirmModal[1].close()}}>
+            <Button
+              className={Course.AddPopupButton}
+              onClick={() => {
+                submitData();
+                confirmModal[1].close();
+              }}
+            >
               Yes, Upload
             </Button>
           </div>
