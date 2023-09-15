@@ -326,15 +326,12 @@ export default function Course166Container() {
                     >
                       Course:
                     </p>
-                    {/* <TextInput
+                    <TextInput
                       placeholder="Type Course No"
                       {...courseForm.getInputProps("courseNo")}
                       size="md"
                       radius="md"
-                    /> */}
-                    <div className={Course.DropDownContainer}>
-                      <DropDownCourse parentToChild={allCourses}/>
-                    </div>
+                    />
                   </div>
                   <div className={Course.AddCoursePopupButtons}>
                     <Button
