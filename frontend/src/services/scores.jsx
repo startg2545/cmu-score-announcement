@@ -1,10 +1,14 @@
 import axios from "axios";
 
-export async function getScores() {
+export async function getScores(year, semester) {
   try {
     const resp = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/api/v1/scores`,
       {
+        params: {
+          year: year,
+          semester: semester,
+        },
         withCredentials: true,
       }
     );

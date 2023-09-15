@@ -9,7 +9,7 @@ import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import { SideBar, UploadSc, Management } from "../components";
 import { ShowSidebarContext } from "../context";
-import { addCourse, getAllCourses, getScores, getAllSections } from "../services";
+import { addCourse, getAllCourses, getScores } from "../services";
 import { TextInput, Button, Flex, Modal } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
@@ -17,6 +17,7 @@ import { IconAt } from "@tabler/icons-react";
 import { HiChevronRight } from "react-icons/hi";
 
 export default function Course166Container() {
+  const [noCourse, setNoCourse] = useState();
   const [course, setCourse] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -29,22 +30,12 @@ export default function Course166Container() {
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
   const [section, setSections] = useState([]);
-  const [allCourses, setAllCourses] = useState([])
   const [isEmailValid, setIsEmailNoValid] = useState(true);
   const [opened, { open, close }] = useDisclosure(false);
   const { showSidebar } = useContext(ShowSidebarContext);
   const navigate = useNavigate();
   const location = useLocation();
   const addCourseButton = useDisclosure();
-
-  const showSection = useCallback(() => {
-    const data = course
-      .filter((e) => e.courseNo === params.courseNo)[0]
-      .sections.filter((e) => e.section);
-    setSections(data);
-    setUploadScore(false);
-    setManage(true);
-  }, [course, params]);
 
   const handleClickInstructor = () => {
     open();
@@ -142,26 +133,37 @@ export default function Course166Container() {
 
   const fetchData = useCallback(async () => {
     const allCourses = await getAllCourses();
-    setAllCourses(allCourses)
-    const resp = await getScores();
-    if (resp) {
-      const data = resp.filter(
-        (item) =>
-          item.year === parseInt(params.year) &&
-          item.semester === parseInt(params.semester)
-      );
+    const resp = await getScores(params.year, params.semester);
+    if (resp.ok) {
       if (allCourses.ok) {
-        data.forEach((e, index) => {
+        resp.course.forEach((e, index) => {
           allCourses.courseDetails.forEach((all) => {
             if (e.courseNo === all.courseNo) {
-              data[index].courseName = all.courseNameEN;
+              resp.course[index].courseName = all.courseNameEN;
             }
           });
         });
       }
-      setCourse(data);
+      if (resp.course.length) {
+        setCourse(resp.course);
+      } else {
+        setNoCourse(resp.message);
+      }
     }
-  }, [params]);
+  }, [params.year, params.semester]);
+
+  const showSection = useCallback(() => {
+    const data = course
+      .filter((e) => e.courseNo === params.courseNo)[0]
+      .sections.filter((e) => e.section);
+    setSections(data);
+    setUploadScore(false);
+    setManage(true);
+  }, [course, params.courseNo]);
+
+  useEffect(() => {
+    setCourse([]);
+  }, [params.year, params.semester]);
 
   useEffect(() => {
     if (!searchParams.get("year") || !searchParams.get("semester")) {
@@ -171,9 +173,10 @@ export default function Course166Container() {
     if (localStorage.getItem("Upload") !== null) {
       setUploadScore(false);
       localStorage.removeItem("Upload");
+      localStorage.removeItem("page");
     }
 
-    fetchData();
+    if (!course.length && !noCourse) fetchData();
 
     if (params.courseNo) {
       setSelectedCourse(true);
@@ -246,7 +249,7 @@ export default function Course166Container() {
       semester: parseInt(params.semester),
       courseNo: params.courseNo ? params.courseNo : data.courseNo,
     });
-    console.log(req)
+    console.log(req);
     setShowPopupAddCourse(false);
     courseForm.reset();
     fetchData();
@@ -325,7 +328,6 @@ export default function Course166Container() {
                 addCourseButton[1].close();
               })}
             >
-
               <div className={Course["AddCoursePopup-Content"]}>
                 <div className={Course["AddCoursePopup-ContentInner"]}>
                   <p style={{ color: "white", fontWeight: "600" }}>

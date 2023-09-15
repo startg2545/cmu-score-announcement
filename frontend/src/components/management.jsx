@@ -30,7 +30,10 @@ const Management = ({ data }) => {
   );
 
   const fetchData = useCallback(async () => {
-    const resp = await getScores();
+    const resp = await getScores(
+      searchParams.get("year"),
+      searchParams.get("semester")
+    );
     if (resp) {
       resp.map((data) => {
         data.sections.shift(); // delete cmu acc object
@@ -39,11 +42,10 @@ const Management = ({ data }) => {
         }
       });
     }
-  }, [searchParams]);
+  }, [searchParams.get("courseNo")]);
 
   useEffect(() => {
-    fetchData();
-    // if (!sections) fetchData();
+    if (!sections.length && searchParams.get("courseNo")) fetchData();
 
     if (searchParams.get("section") && !dataTable.length && data.length) {
       showTable(searchParams.get("section"));
@@ -51,7 +53,6 @@ const Management = ({ data }) => {
 
     data.sort((a, b) => a.section - b.section);
   }, [data, searchParams, sections, dataTable, showTable, fetchData]);
-
 
   const handleCheckboxChange = (e, value) => {
     if (e.target.checked === true) {
@@ -311,7 +312,6 @@ const Management = ({ data }) => {
                   backgroundColor: "#F0EAEA",
                 },
               }}
-              
             >
               Cancel
             </Button>
