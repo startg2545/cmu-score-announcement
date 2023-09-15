@@ -1,5 +1,6 @@
 const express = require("express");
-const { verifyAndValidateToken } = require("../jwtUtils");
+const axios = require("axios");
+const jwt = require("jsonwebtoken");
 const studentModel = require("../db/studentSchema");
 const router = express.Router();
 
@@ -7,11 +8,13 @@ const router = express.Router();
 router.post("/add", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token);
-
-    if (!user.cmuAccount) {
-      return res.status(403).send({ ok: false, message: "Invalid token" });
-    }
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err)
+        return res.status(401).send({ ok: false, message: "Invalid token" });
+      else if (!user.cmuAccount)
+        return res.status(403).send({ ok: false, message: "Invalid token" });
+    });
+    const decoded = jwt.decode(token);
     
     const courseNo = req.body.courseNo
     const semester = req.body.semester
@@ -215,20 +218,22 @@ router.post("/add", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token);
-
-    if (!user.cmuAccount) {
-      return res.status(403).send({ ok: false, message: "Invalid token" });
-    }
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+      if (err)
+        return res.status(401).send({ ok: false, message: "Invalid token" });
+      else if (!user.cmuAccount)
+        return res.status(403).send({ ok: false, message: "Invalid token" });
+    });
+    const decoded = jwt.decode(token);
 
     const scores = await studentModel.findOne({
-      studentId: user.studentId,
+      studentId: decoded.studentId,
     });
     if (!scores)
       return res.send({ ok: false, message: "You don't have any score" });
     return res.send({ ok: true, scores});
   } catch (err) {
-    return res.status(500).send({ ok: false, message: "Internal Server Error" });
+    return err;
   }
 });
 

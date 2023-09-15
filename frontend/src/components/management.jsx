@@ -34,6 +34,7 @@ const Management = ({ data }) => {
       searchParams.get("year"),
       searchParams.get("semester")
     );
+    console.log(resp.course)
     if (resp.ok) {
       resp.course.map((data) => {
         data.sections.shift(); // delete cmu acc object
@@ -51,7 +52,6 @@ const Management = ({ data }) => {
         showTable(searchParams.get("section"));
       }
     }
-
     data.sort((a, b) => a.section - b.section);
   }, [data, searchParams, sections, dataTable, showTable, fetchData]);
 
@@ -74,7 +74,7 @@ const Management = ({ data }) => {
       courseNo: searchParams.get("courseNo"),
       year: parseInt(searchParams.get("year")),
       semester: parseInt(searchParams.get("semester")),
-      sections: sections,
+      sections: data,
       type: "publish_many",
     };
     console.log("send", student_schema);
@@ -82,13 +82,19 @@ const Management = ({ data }) => {
     if (resp_student) console.log("response: ", resp_student);
   };
 
-  const submitPublishEach = async (selected_sections) => {
+  const submitPublishEach = async () => {
+    const section_arr = []
+    for (let checked in checkedSections ) {
+      data.map(e=>{
+        if (e.section == checkedSections[checked]) section_arr.push(e)
+      })
+    }
     const student_schema = {
       courseNo: searchParams.get("courseNo"),
       year: searchParams.get("year"),
       semester: searchParams.get("semester"),
-      sections: sections,
-      type: "publish_each",
+      sections: section_arr,
+      type: "publish_many",
     };
     console.log("send", student_schema);
     let resp_student = await addStudentGrade(student_schema);
@@ -195,6 +201,7 @@ const Management = ({ data }) => {
               onClick={() => {
                 publishEach[1].close();
                 setCheckedSections([]);
+                submitPublishEach()
               }}
               radius="md"
               disabled={countChecked === 0}
