@@ -29,14 +29,12 @@ export default function Course166Container() {
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
   const [section, setSections] = useState([]);
-
   const [isEmailValid, setIsEmailNoValid] = useState(true);
   const [opened, { open, close }] = useDisclosure(false);
-
   const { showSidebar } = useContext(ShowSidebarContext);
-
   const navigate = useNavigate();
   const location = useLocation();
+  const addCourseButton = useDisclosure();
 
   const showSection = useCallback(() => {
     const data = course
@@ -177,6 +175,10 @@ export default function Course166Container() {
 
     if (params.courseNo) {
       setSelectedCourse(true);
+    } else {
+      setSelectedCourse(false);
+      setUploadScore(false);
+      setManage(false);
     }
 
     if (localStorage.getItem("page") === "upload" && params.courseNo) {
@@ -272,15 +274,15 @@ export default function Course166Container() {
           </div>
           <div
             className={Course.AddCourseButton}
-            onClick={handleAddCourse}
+            onClick={addCourseButton[1].open}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
             <div>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
+                width="22"
+                height="22"
                 viewBox="0 0 30 29"
                 fill="none"
               >
@@ -300,64 +302,80 @@ export default function Course166Container() {
               Add Course
             </div>
           </div>
-          {showPopupAddCourse && (
+          <Modal
+            opened={addCourseButton[0]}
+            onClose={addCourseButton[1].close}
+            centered
+            withCloseButton={false}
+            size="auto"
+            display="flex"
+            yOffset={0}
+            xOffset={0}
+            padding={0}
+            radius={10}
+            closeOnClickOutside={false}
+            closeOnEscape={false}
+          >
             <form
               onSubmit={courseForm.onSubmit((data) => {
                 console.log(data);
                 ConfirmhandleClosePopup(data);
+                addCourseButton[1].close();
               })}
             >
-              <div className={Course.AddCoursePopup}>
-                <div className={Course["AddCoursePopup-Content"]}>
-                  <div className={Course["AddCoursePopup-ContentInner"]}>
-                    <p style={{ color: "white", fontWeight: "600" }}>
-                      Add Course
-                    </p>
-                  </div>
-                  <div className={Course.AddCourseInlineContainer}>
-                    <p
-                      style={{
-                        marginRight: "20px",
-                        fontSize: "28px",
-                        transform: "translateY(-5px)",
-                      }}
-                    >
-                      Course:
-                    </p>
-                    <TextInput
-                      placeholder="Type Course No"
-                      {...courseForm.getInputProps("courseNo")}
-                      size="md"
-                      radius="md"
-                    />
-                    {/* <div className={Course.DropDownContainer}>
+              <div className={Course["AddCoursePopup-Content"]}>
+                <div className={Course["AddCoursePopup-ContentInner"]}>
+                  <p style={{ color: "white", fontWeight: "600" }}>
+                    Add Course
+                  </p>
+                </div>
+                <div className={Course.AddCourseInlineContainer}>
+                  <p
+                    style={{
+                      marginRight: "20px",
+                      fontSize: "28px",
+                      transform: "translateY(-5px)",
+                    }}
+                  >
+                    Course:
+                  </p>
+                  <TextInput
+                    placeholder="Type Course No"
+                    {...courseForm.getInputProps("courseNo")}
+                    size="md"
+                    radius="md"
+                  />
+                  {/* <div className={Course.DropDownContainer}>
                       <DropDownCourse parentToChild={allCourses} />
                     </div> */}
-                  </div>
-                  <div className={Course.AddCoursePopupButtons}>
-                    <Button
-                      className={Course.AddCourseCancelButton}
-                      onClick={CancelhandleClosePopup}
-                      sx={{
-                        color: "black",
-                        "&:hover": {
-                          backgroundColor: "#F0EAEA",
-                        },
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      className={Course.AddCourseConfirmButton}
-                      type="submit"
-                    >
-                      Confirm
-                    </Button>
-                  </div>
+                </div>
+                <div className={Course.AddCoursePopupButtons}>
+                  <Button
+                    className={Course.AddCourseCancelButton}
+                    onClick={() => {
+                      CancelhandleClosePopup();
+                      addCourseButton[1].close();
+                    }}
+                    sx={{
+                      color: "black",
+                      "&:hover": {
+                        backgroundColor: "#F0EAEA",
+                      },
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    className={Course.AddCourseConfirmButton}
+                    type="submit"
+                  >
+                    Confirm
+                  </Button>
                 </div>
               </div>
             </form>
-          )}
+          </Modal>
+
           <div
             className={`${Course.courseframewindow} ${
               showSidebar ? Course.shrink : ""
@@ -386,7 +404,9 @@ export default function Course166Container() {
 
       <Modal
         opened={opened}
-        onClose={close}
+        onClose={() => {
+          close();
+        }}
         centered
         withCloseButton={false}
         size="auto"
@@ -395,6 +415,8 @@ export default function Course166Container() {
         xOffset={0}
         padding={0}
         radius={10}
+        closeOnClickOutside={false}
+        closeOnEscape={false}
       >
         <div className={Course["ScorePopup-Content"]}>
           <div className={Course["ScorePopup-ContentInner"]}>
