@@ -27,9 +27,8 @@ export default function Course166Container() {
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isUploadScore, setUploadScore] = useState(false);
   const [isManage, setManage] = useState(false);
-  const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
-  const [section, setSections] = useState([]);
+  const [sections, setSections] = useState([]);
   const [isEmailValid, setIsEmailNoValid] = useState(true);
   const [opened, { open, close }] = useDisclosure(false);
   const { showSidebar } = useContext(ShowSidebarContext);
@@ -144,11 +143,9 @@ export default function Course166Container() {
           });
         });
       }
-      if (resp.course.length) {
-        setCourse(resp.course);
-      } else {
-        setNoCourse(resp.message);
-      }
+      setCourse(resp.course);
+    } else {
+      setNoCourse(resp.message);
     }
   }, [params.year, params.semester]);
 
@@ -163,6 +160,7 @@ export default function Course166Container() {
 
   useEffect(() => {
     setCourse([]);
+    setNoCourse();
   }, [params.year, params.semester]);
 
   useEffect(() => {
@@ -192,7 +190,7 @@ export default function Course166Container() {
 
     if (localStorage.getItem("page") === "management" && params.courseNo) {
       setManage(true);
-      if (!section.length && course.length) {
+      if (!sections.length && course.length) {
         showSection();
       }
     }
@@ -204,7 +202,7 @@ export default function Course166Container() {
     return () => clearInterval(interval);
   }, [
     course,
-    section,
+    sections,
     localStorage.getItem("Upload"),
     location,
     getParams,
@@ -230,16 +228,9 @@ export default function Course166Container() {
     setUploadScore(false);
   };
 
-  const handleAddCourse = () => {
-    searchParams.delete("courseNo");
-    setSearchParams(searchParams);
-    setShowPopupAddCourse(true);
-  };
-
   const CancelhandleClosePopup = () => {
     searchParams.delete("courseNo");
     setSearchParams(searchParams);
-    setShowPopupAddCourse(false);
     courseForm.reset();
   };
 
@@ -250,7 +241,6 @@ export default function Course166Container() {
       courseNo: params.courseNo ? params.courseNo : data.courseNo,
     });
     console.log(req);
-    setShowPopupAddCourse(false);
     courseForm.reset();
     fetchData();
   };
@@ -757,7 +747,7 @@ export default function Course166Container() {
                 {/* show Upload/Section/TableScore */}
               </div>
               {isUploadScore && <UploadSc />}
-              {isManage && <Management data={section} />}
+              {isManage && <Management data={sections} />}
             </div>
 
             <div
