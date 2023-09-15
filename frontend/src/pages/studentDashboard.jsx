@@ -191,10 +191,12 @@ export default function StudentDashboard() {
         scores[baseQ1].point +
         (posQ1 - baseQ1) * (scores[baseQ1 + 1].point - scores[baseQ1].point)
       ).toFixed(2);
-      q3 = scores[baseQ3].point.toFixed(2);
+      q3 = Number(scores[baseQ3].point.toFixed(2));
       if (baseQ3 + 1 < scores.length) {
-        q3 +=
-          (posQ3 - baseQ3) * (scores[baseQ3 + 1].point - scores[baseQ3].point);
+        q3 = (
+          q3 +
+          (posQ3 - baseQ3) * (scores[baseQ3 + 1].point - scores[baseQ3].point)
+        ).toFixed(2);
       }
       let x = 0;
       scores.map((e) => (x += Math.pow(e.point - mean, 2)));
