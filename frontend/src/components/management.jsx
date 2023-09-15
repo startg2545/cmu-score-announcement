@@ -158,7 +158,7 @@ const Management = ({ data }) => {
           {checkedSections.length > 0 && (
             <>
               <p className={secMan.inline}>
-                {checkedSections.length > 0 && <p>Score in:&nbsp;</p>}
+                {checkedSections.length > 0 && <p>Score in&nbsp;</p>}
 
                 {checkedSections.map((section, i) => (
                   <p key={section}>section {section}&nbsp;</p>
@@ -186,6 +186,7 @@ const Management = ({ data }) => {
                   backgroundColor: "#F0EAEA",
                 },
               }}
+            
             >
               Cancel
             </Button>
@@ -372,7 +373,7 @@ const Management = ({ data }) => {
           {searchParams.get("section") && <TableScore data={dataTable} />}
         </div>
       </div>
-      {!searchParams.get("section") && (
+      {!searchParams.get("section") && sections.length > 0 &&  (
         <div
           className={` ${secMan.publishSec}  ${
             showSidebar ? secMan.shrink : ""
@@ -392,6 +393,27 @@ const Management = ({ data }) => {
             </p>
           </div>
         </div>
+      )}
+      {sections.length === 0 && (
+        <div
+        className={` ${secMan.publishSec}  ${
+          showSidebar ? secMan.shrink : ""
+        }`}
+      >
+        <div className={secMan.publishEachDisable}>
+          <p className={secMan.fontp} style={{ fontWeight: "600" }}>
+            Publish Each Section
+          </p>
+        </div>
+        <div className={secMan.publishlAllDisable}>
+          <p
+            className={secMan.fontp}
+            style={{ fontWeight: "600", textDecoration: "underline" }}
+          >
+            Publish All Sections
+          </p>
+        </div>
+      </div>
       )}
     </>
   );

@@ -206,10 +206,10 @@ body {
   text-indent: -35px;
   font-size: 16px;
   transition: background-color 0.3s ease;
-  cursor: not-allowed;
+  cursor:default;
 }
 .ScoreConfirmButtonInner.disable{
-  cursor: not-allowed;
+  cursor: default;
   background: #aca9a9;
 }
 .ScoreConfirmText.disable {

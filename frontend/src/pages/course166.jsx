@@ -221,6 +221,8 @@ export default function Course166Container() {
   const goToUpload = () => {
     setUploadScore(true);
     setManage(false);
+    searchParams.delete("section");
+    setSearchParams(searchParams);
   };
 
   const goToManage = () => {
@@ -555,7 +557,6 @@ export default function Course166Container() {
                         showSidebar ? Course.moveRight : ""
                       }`}
                       onClick={showSection}
-                      style={{ cursor: "pointer" }}
                     >
                       Section {`00${searchParams.get("section")}`}
                     </label>
