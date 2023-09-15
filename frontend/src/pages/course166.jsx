@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  useCallback,
+} from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import { SideBar, UploadSc, Management } from "../components";
@@ -30,14 +36,16 @@ export default function Course166Container() {
   const { showSidebar } = useContext(ShowSidebarContext);
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const showSection = useCallback(() => {
-    const data = course.filter((e) => e.courseNo === params.courseNo)[0]
-      .sections.filter(e=>e.section);
+    const data = course
+      .filter((e) => e.courseNo === params.courseNo)[0]
+      .sections.filter((e) => e.section);
     setSections(data);
-    setManage(true);
     setUploadScore(false);
-  },[course, params])
+    setManage(true);
+  }, [course, params]);
 
   const handleClickInstructor = () => {
     open();
@@ -153,7 +161,7 @@ export default function Course166Container() {
       }
       setCourse(data);
     }
-  }, [params])
+  }, [params]);
 
   useEffect(() => {
     if (!searchParams.get("year") || !searchParams.get("semester")) {
@@ -202,13 +210,11 @@ export default function Course166Container() {
     section,
     localStorage.getItem("Upload"),
     location,
-    isShowTableScore,
-    searchParams,
     getParams,
     params,
     setSearchParams,
     fetchData,
-    showSection
+    showSection,
   ]);
 
   const formatDate = (date) => {
@@ -484,10 +490,12 @@ export default function Course166Container() {
                 />
                 <label
                   onClick={backToCourse}
-                  id="tab-menu"
                   className={` ${Course.date} ${
                     showSidebar ? Course.moveRight : ""
                   }`}
+                  style={{
+                    cursor: isUploadScore || isManage ? "pointer" : null,
+                  }}
                 >
                   {params.courseNo}
                 </label>
@@ -519,7 +527,9 @@ export default function Course166Container() {
                         showSidebar ? Course.moveRight : ""
                       }`}
                       onClick={backToSelectSec}
-                      style={{ cursor: "pointer" }}
+                      style={{
+                        cursor: searchParams.get("section") ? "pointer" : null,
+                      }}
                     >
                       Management
                     </label>
@@ -615,8 +625,6 @@ export default function Course166Container() {
                       onClick={() => {
                         localStorage.setItem("page", "upload");
                         setUploadScore(true);
-                        document.getElementById("tab-menu").style.cursor =
-                          "pointer";
                         goToUpload();
                       }}
                       onMouseEnter={() => setIsHovered(true)}
@@ -674,8 +682,6 @@ export default function Course166Container() {
                       onClick={() => {
                         localStorage.setItem("page", "management");
                         setManage(true);
-                        document.getElementById("tab-menu").style.cursor =
-                          "pointer";
                         goToManage();
                         showSection();
                       }}
