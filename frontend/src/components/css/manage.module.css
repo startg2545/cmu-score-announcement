@@ -69,6 +69,7 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  font-family: "SF PRO";
 }
 
 .managePopupContent {
@@ -82,6 +83,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+  font-family: "SF PRO";
 }
 
 .managePopupContentInner {
@@ -97,6 +99,7 @@
   font-size: 24px;
   transform: translateY(-28px);
   margin-top: 8px;
+  font-family: "SF PRO";
 }
 
 
@@ -104,8 +107,7 @@
   color: #ffffff;
   font-size: 24px;
   font-family: "SF PRO";
-
-  top: calc(87.6vh);
+  top: calc(87.7vh);
   width: 100vw;
   max-width: 96.6%;
   display: flex;
@@ -123,7 +125,7 @@
 }
 .publishSec .publishlEach{
   left: 0;
-  width: 49.1vw;
+  width: 49.6vw;
   height: 60px;
   display: flex;
   justify-content: center; 
@@ -136,12 +138,12 @@
 
 .publishSec .publishlAll{
   left: 0;
-  width: 47.5vw;
+  width: 47.6vw;
   height: 60px;
   display: flex;
   justify-content: center; 
   align-items: center;
-  border-left: 1px solid white; 
+  border-left: 2px solid white; 
   border-bottom-right-radius: 15px;
   background: #8584c5;
   z-index: 1;
@@ -163,5 +165,33 @@
   display:flex;
   justify-content: center;
   margin-top: -20px;
+}
+
+.publishlAllDisable
+{
+  left: 0;
+  width: 49.1vw;
+  height: 60px;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  border-bottom-right-radius: 15px;
+  border-left: 2px solid white; 
+  background: #bcbebd;
+  cursor: default;
+}
+
+.publishEachDisable
+{
+  left: 0;
+  width: 47.5vw;
+  height: 60px;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  border-right: 2px solid white; 
+  border-bottom-left-radius: 15px;
+  background: #bcbebd;
+  cursor: default;
 }
 

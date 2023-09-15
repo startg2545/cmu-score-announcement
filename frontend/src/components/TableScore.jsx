@@ -152,30 +152,7 @@ const TableScore = ({ data }) => {
       <td>
         <center>
           <div className={tabStyle.manageBtDisplay}>
-            <div className={`${tabStyle.manageBT} ${tabStyle.logBT}`}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 16 16"
-                fill="none"
-              >
-                <path
-                  d="M1.76447 7.78513C1.76447 9.08316 2.14938 10.352 2.87052 11.4313C3.59167 12.5106 4.61666 13.3518 5.81589 13.8485C7.01511 14.3452 8.3347 14.4752 9.60779 14.222C10.8809 13.9687 12.0503 13.3437 12.9681 12.4258C13.886 11.508 14.511 10.3386 14.7643 9.0655C15.0175 7.79241 14.8875 6.47282 14.3908 5.27359C13.8941 4.07437 13.0529 3.04938 11.9736 2.32823C10.8943 1.60708 9.62545 1.22217 8.32742 1.22217C6.44736 1.22009 4.63898 1.94344 3.27899 3.24154"
-                  stroke="white"
-                  strokeWidth="1.55556"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M3.78379 1.22217L3.27895 3.24154L5.29832 3.74638M8.32737 4.25123V8.28997L5.70219 9.60256"
-                  stroke="white"
-                  strokeWidth="1.55556"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
+            
             <div className={`${tabStyle.manageBT} ${tabStyle.editBT}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
