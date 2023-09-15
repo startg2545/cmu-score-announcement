@@ -233,6 +233,8 @@ const TableScore = ({ data }) => {
         xOffset={0}
         padding={0}
         radius={10}
+        closeOnClickOutside={false}
+        closeOnEscape={false}
       >
         <div className={tabStyle["ScorePopup-Content"]}>
           <div className={tabStyle["ScorePopup-ContentInner"]}>
