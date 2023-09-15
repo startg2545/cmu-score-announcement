@@ -25,6 +25,7 @@ router.post("/add", async (req, res) => {
         semester,
         sections: [
           {
+            section: null,
             instructor: user.cmuAccount,
           },
         ],
