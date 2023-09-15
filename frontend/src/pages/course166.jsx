@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useEffect, useContext, useMemo, useCallback } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import { SideBar, UploadSc } from "../components";
@@ -34,14 +34,14 @@ export default function Course166Container() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const showSection = () => {
+  const showSection = useCallback(() => {
     const data = course.filter((e) => e.courseNo === params.courseNo)[0]
       .sections.filter(e=>e.section);
     setSections(data);
     setManage(true);
     setShowTableScore(false);
     setUploadScore(false);
-  };
+  },[course, params])
 
   const handleClickInstructor = () => {
     open();
@@ -137,7 +137,7 @@ export default function Course166Container() {
     setSearchParams(searchParams);
   };
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const allCourse = await getAllCourses();
     const resp = await getScores();
     if (resp) {
@@ -157,12 +157,12 @@ export default function Course166Container() {
       }
       setCourse(data);
     }
-  };
+  }, [params])
 
   useEffect(() => {
-    if (isManage === true) {
-      document.getElementById("tab-menu").style.cursor = "pointer";
-    }
+    // if (isManage === true) {
+    //   document.getElementById("tab-menu").style.cursor = "pointer";
+    // }
 
     if (localStorage.getItem("Upload") !== null) {
       setUploadScore(false);
@@ -196,7 +196,6 @@ export default function Course166Container() {
   }, [
     course,
     section,
-    localStorage.getItem("Upload"),
     location,
     isShowTableScore,
     searchParams,
@@ -205,6 +204,8 @@ export default function Course166Container() {
     params,
     setSearchParams,
     isManage,
+    fetchData,
+    showSection
   ]);
 
   const formatDate = (date) => {
