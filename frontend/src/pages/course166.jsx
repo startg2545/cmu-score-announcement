@@ -7,9 +7,9 @@ import React, {
 } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
-import { SideBar, UploadSc, Management } from "../components";
+import { SideBar, UploadSc, DropDownCourse, DropDownSection } from "../components";
 import { ShowSidebarContext } from "../context";
-import { addCourse, getAllCourses, getScores } from "../services";
+import { addCourse, getAllCourses, getScores, getAllSections } from "../services";
 import { TextInput, Button, Flex, Modal } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
@@ -29,6 +29,7 @@ export default function Course166Container() {
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
   const [section, setSections] = useState([]);
+  const [allCourses, setAllCourses] = useState([])
 
   const [isEmailValid, setIsEmailNoValid] = useState(true);
   const [opened, { open, close }] = useDisclosure(false);
@@ -142,7 +143,8 @@ export default function Course166Container() {
   };
 
   const fetchData = useCallback(async () => {
-    const allCourse = await getAllCourses();
+    const allCourses = await getAllCourses();
+    setAllCourses(allCourses)
     const resp = await getScores();
     if (resp) {
       const data = resp.filter(
@@ -150,9 +152,9 @@ export default function Course166Container() {
           item.year === parseInt(params.year) &&
           item.semester === parseInt(params.semester)
       );
-      if (allCourse.ok) {
+      if (allCourses.ok) {
         data.forEach((e, index) => {
-          allCourse.courseDetails.forEach((all) => {
+          allCourses.courseDetails.forEach((all) => {
             if (e.courseNo === all.courseNo) {
               data[index].courseName = all.courseNameEN;
             }
@@ -186,7 +188,7 @@ export default function Course166Container() {
     if (localStorage.getItem("page") === "management" && params.courseNo) {
       setManage(true);
       if (!section.length && course.length) {
-        showSection();
+        // showSection();
       }
     }
 
@@ -237,11 +239,12 @@ export default function Course166Container() {
   };
 
   const ConfirmhandleClosePopup = async (data) => {
-    await addCourse({
+    let req = await addCourse({
       year: parseInt(params.year),
       semester: parseInt(params.semester),
       courseNo: params.courseNo ? params.courseNo : data.courseNo,
     });
+    console.log(req)
     setShowPopupAddCourse(false);
     courseForm.reset();
     fetchData();
@@ -303,7 +306,6 @@ export default function Course166Container() {
           {showPopupAddCourse && (
             <form
               onSubmit={courseForm.onSubmit((data) => {
-                console.log(data);
                 ConfirmhandleClosePopup(data);
               })}
             >
@@ -324,15 +326,15 @@ export default function Course166Container() {
                     >
                       Course:
                     </p>
-                    <TextInput
+                    {/* <TextInput
                       placeholder="Type Course No"
                       {...courseForm.getInputProps("courseNo")}
                       size="md"
                       radius="md"
-                    />
-                    {/* <div className={Course.DropDownContainer}>
-                      <DropDownCourse parentToChild={allCourses} />
-                    </div> */}
+                    /> */}
+                    <div className={Course.DropDownContainer}>
+                      <DropDownCourse parentToChild={allCourses}/>
+                    </div>
                   </div>
                   <div className={Course.AddCoursePopupButtons}>
                     <Button
@@ -730,7 +732,7 @@ export default function Course166Container() {
                 {/* show Upload/Section/TableScore */}
               </div>
               {isUploadScore && <UploadSc />}
-              {isManage && <Management data={section} />}
+              {/* {isManage && <Management data={section} />} */}
             </div>
 
             <div
