@@ -209,7 +209,7 @@ export default function UploadScorePageContainer() {
                 target="_blank"
                 rel="noreferrer"
               >
-                <button>Example</button>
+                Example
               </a>
             </p>
           </div>
