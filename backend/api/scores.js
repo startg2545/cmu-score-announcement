@@ -27,15 +27,20 @@ router.get("/", async (req, res) => {
     } else {
       //get all score of each instructor/co-instructor
       const course = await scoreModel.find({
+        year: req.query.year,
+        semester: req.query.semester,
         $or: [
-          { 'sections.instructor': user.cmuAccount },
-          { 'sections.coInstructors': user.cmuAccount }
-        ]
+          { "sections.instructor": user.cmuAccount },
+          { "sections.coInstructors": user.cmuAccount },
+        ],
       });
-      return res.send(course);
+      if (course) return res.send({ok: true, course});
+      else return res.send({ok: false, message: "You don't have any course."})
     }
   } catch (err) {
-    return err;
+    return res
+      .status(500)
+      .send({ ok: false, message: "Internal Server Error" });
   }
 });
 

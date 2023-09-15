@@ -25,10 +25,11 @@ const TableScore = ({ data }) => {
     close();
   };
 
-  useEffect(() => {
+  const calStat = () => {
     let total = 0;
     let meanS = 0;
     let sd = 0;
+
     data.map((e, i) => {
       //mean section
       e.results.map((e) => (total += e.point));
@@ -72,6 +73,10 @@ const TableScore = ({ data }) => {
         (Q1 - baseQ1) * (sortPoint[baseQ1].point - sortPoint[baseQ1 - 1].point)
       ).toFixed(2);
     });
+  };
+
+  useEffect(() => {
+    calStat();
   }, [data]);
 
   const publish = async (el) => {
