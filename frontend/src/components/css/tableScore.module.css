@@ -50,11 +50,15 @@
   height: 30px;
   border-radius: 30px;
   flex-shrink: 0;
-  background-color: #6fbf77;
+  background-color: grey;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.publicBT.active {
+  background-color: #6fbf77; 
 }
 
 .manageBtDisplay {
