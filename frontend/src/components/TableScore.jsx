@@ -143,7 +143,9 @@ const TableScore = ({ data }) => {
         <center>
           <div
             id="toggleButton"
-            className={` ${tabStyle.publicBT} ${isPublished ? tabStyle.active : ""}`}
+            className={` ${tabStyle.publicBT} ${
+              isPublished ? tabStyle.active : ""
+            }`}
             onClick={() => publish(element)}
           >
             <svg
@@ -170,7 +172,12 @@ const TableScore = ({ data }) => {
       <td>
         <center>
           <div className={tabStyle.manageBtDisplay}>
-            <div className={`${tabStyle.manageBT} ${tabStyle.editBT}`}>
+            <div
+              className={`${tabStyle.manageBT} ${tabStyle.editBT}`}
+              // onClick={() => {
+              //   localStorage.setItem("Upload", true);
+              // }}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -233,6 +240,8 @@ const TableScore = ({ data }) => {
         xOffset={0}
         padding={0}
         radius={10}
+        closeOnClickOutside={false}
+        closeOnEscape={false}
       >
         <div className={tabStyle["ScorePopup-Content"]}>
           <div className={tabStyle["ScorePopup-ContentInner"]}>
