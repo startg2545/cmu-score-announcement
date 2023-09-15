@@ -34,7 +34,7 @@ router.get("/", async (req, res) => {
           { "sections.coInstructors": user.cmuAccount },
         ],
       });
-      if (course) return res.send({ok: true, course});
+      if (course.length) return res.send({ok: true, course});
       else return res.send({ok: false, message: "You don't have any course."})
     }
   } catch (err) {

@@ -22,7 +22,7 @@ const Management = ({ data }) => {
 
   const showTable = useCallback(
     (sec) => {
-      setDataTable(data.filter((e) => e.section === sec)[0].scores);
+      setDataTable(data.filter((e) => e.section === parseInt(sec))[0].scores);
       searchParams.set("section", sec);
       setSearchParams(searchParams);
     },
@@ -34,8 +34,8 @@ const Management = ({ data }) => {
       searchParams.get("year"),
       searchParams.get("semester")
     );
-    if (resp) {
-      resp.map((data) => {
+    if (resp.ok) {
+      resp.course.map((data) => {
         data.sections.shift(); // delete cmu acc object
         if (data.courseNo === searchParams.get("courseNo")) {
           setSections(data.sections);
@@ -45,10 +45,11 @@ const Management = ({ data }) => {
   }, [searchParams.get("courseNo")]);
 
   useEffect(() => {
-    if (!sections.length && searchParams.get("courseNo")) fetchData();
-
-    if (searchParams.get("section") && !dataTable.length && data.length) {
-      showTable(searchParams.get("section"));
+    if (data.length ) {
+      if (!sections.length) fetchData();
+      if (searchParams.get("section") && !dataTable.length) {
+        showTable(searchParams.get("section"));
+      }
     }
 
     data.sort((a, b) => a.section - b.section);
