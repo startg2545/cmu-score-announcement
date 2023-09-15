@@ -113,6 +113,7 @@ body {
 }
 
 .ScoreCancelButton {
+  font-family: "SF PRO";
   transform: translate(40px, 45px);
   width: 150px;
   height: 35px;
@@ -169,6 +170,7 @@ body {
 }
 
 .ScoreConfirmButton {
+  font-family: "SF PRO";
   transform: translate(60px, 45px);
   width: 150px;
   height: 35px;
@@ -188,6 +190,7 @@ body {
 }
 
 .ScoreConfirmButtonInner {
+
   width: 45px;
   height: 35px;
   flex-shrink: 0;

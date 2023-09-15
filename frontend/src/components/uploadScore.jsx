@@ -180,22 +180,22 @@ export default function UploadScorePageContainer() {
               className={upStyle.ScoreFileDescription}
               style={{ paddingTop: "4px" }}
             >
-              Please click to open this Excel template file{" "}
-              <span style={{ color: "red", fontWeight: "bold" , textAlign: "center"}}>
-                (support only this{" "}
+              Click to download this Excel 
+              {" "}
                 {
                   <a
                     href={Template}
                     download="Template"
                     target="_blank"
                     rel="noreferrer"
-                    style={{ color: "red", fontWeight: "bold" }}
                   
                   >
-                    Template
+                    template
                   </a>
                 }{" "}
-                .xlsx and .xls format)
+               file{" "}
+              <span style={{ color: "red",fontWeight: "bold", textAlign: "center"}}>
+                (support only this template xlsx and .xls format)
               </span>{" "}
               and fill student code, score (numbers only).
               <span style={{ color: "red", fontWeight: "bold" }}>
