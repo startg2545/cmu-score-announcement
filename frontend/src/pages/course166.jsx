@@ -29,6 +29,7 @@ export default function Course166Container() {
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
   const [params, setParams] = useState({});
   const [section, setSections] = useState([]);
+  const [allCourses, setAllCourses] = useState([])
 
   const [isEmailValid, setIsEmailNoValid] = useState(true);
   const [opened, { open, close }] = useDisclosure(false);
@@ -143,6 +144,7 @@ export default function Course166Container() {
 
   const fetchData = useCallback(async () => {
     const allCourses = await getAllCourses();
+    setAllCourses(allCourses)
     const resp = await getScores();
     if (resp) {
       const data = resp.filter(
@@ -331,7 +333,7 @@ export default function Course166Container() {
                       radius="md"
                     /> */}
                     <div className={Course.DropDownContainer}>
-                      <DropDownCourse />
+                      <DropDownCourse parentToChild={allCourses}/>
                     </div>
                   </div>
                   <div className={Course.AddCoursePopupButtons}>
@@ -730,7 +732,7 @@ export default function Course166Container() {
                 {/* show Upload/Section/TableScore */}
               </div>
               {isUploadScore && <UploadSc />}
-              {isManage && <Management data={section} />}
+              {/* {isManage && <Management data={section} />} */}
             </div>
 
             <div
