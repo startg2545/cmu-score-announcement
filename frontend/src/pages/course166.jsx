@@ -188,7 +188,7 @@ export default function Course166Container() {
     if (localStorage.getItem("page") === "management" && params.courseNo) {
       setManage(true);
       if (!section.length && course.length) {
-        // showSection();
+        showSection();
       }
     }
 
