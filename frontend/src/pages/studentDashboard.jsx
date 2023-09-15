@@ -183,18 +183,19 @@ export default function StudentDashboard() {
               2
             ).toFixed(2)
           : scores[parseInt(num / 2)].point.toFixed(2);
-      const posQ1 = (num + 1) * (1 / 4);
-      const posQ3 = (num + 1) * (3 / 4);
+      const posQ1 = (num + 1) * (1 / 4) - 1;
+      const posQ3 = (num + 1) * (3 / 4) - 1;
       const baseQ1 = Math.floor(posQ1);
       const baseQ3 = Math.floor(posQ3);
       q1 = (
-        scores[baseQ1 - 1].point +
-        (posQ1 - baseQ1) * (scores[baseQ1].point - scores[baseQ1 - 1].point)
+        scores[baseQ1].point +
+        (posQ1 - baseQ1) * (scores[baseQ1 + 1].point - scores[baseQ1].point)
       ).toFixed(2);
-      q3 = (
-        scores[baseQ3 - 1].point +
-        (posQ3 - baseQ3) * (scores[baseQ3].point - scores[baseQ3 - 1].point)
-      ).toFixed(2);
+      q3 = scores[baseQ3].point.toFixed(2);
+      if (baseQ3 + 1 < scores.length) {
+        q3 +=
+          (posQ3 - baseQ3) * (scores[baseQ3 + 1].point - scores[baseQ3].point);
+      }
       let x = 0;
       scores.map((e) => (x += Math.pow(e.point - mean, 2)));
       setSD(Math.sqrt(x / num).toFixed(2));
@@ -242,10 +243,14 @@ export default function StudentDashboard() {
   }
 
   return (
-    <>
+    <div className="my-5">
       {params.courseNo && (
         <div className={Student.MenuIndexLayout}>
-          <div className={Student.MenuNavigate}>
+          <div
+            className={
+              Student.MenuNavigate + " border-b-[1px] border-[#8084c8]"
+            }
+          >
             <p className={Student.MenuIndex}>
               <label
                 onClick={backToDashboard}
@@ -273,178 +278,207 @@ export default function StudentDashboard() {
           <div className={Student.lineIndex}></div>
         </div>
       )}
-      {params.scoreName && (
-        <Affix position={{ top: 150, right: 20 }}>
-          <Button
-            className={Student.showGraphBT}
-            onClick={changeView}
-            leftIcon={
-              isShowGraph ? (
-                <ImParagraphLeft size={20} />
-              ) : (
-                <VscGraph size={23} />
-              )
-            }
+      <div className=" mx-3 lg:mx-[15%]">
+        <div
+          className="px-7 py-5 text-maintext font-semibold"
+          style={{
+            fontFamily: "'SF PRo', sans-serif",
+          }}
+        >
+          <Text
+            // className={Student.coursetopictext}
+            className="text-3xl lg:text-5xl"
           >
-            {isShowGraph ? "Show Detail" : "Show Graph"}
-          </Button>
-        </Affix>
-      )}
-      <Text className={Student.coursetopictext}>
-        {!params.courseNo && "Dashboard"}
-        {params.courseNo && !params.scoreName && params.courseNo}
-        {params.scoreName && params.scoreName}
-      </Text>
-      <Text className={Student.datetext}>
-        {formatDate(currentDate)}
-      </Text>
-      <div className={Student.courseframewindow}>
-        {message && <Text className={Student.message}>{message}</Text>}
-        {!params.courseNo &&
-          courseList.map((item, key) => {
-            return (
-              <div
-                key={key}
-                className={Student.frameEachCourse}
-                onClick={() => onClickCourse(item.courseNo)}
-              >
-                <div className={Student.courseName}>
-                  <div className={Student.intoCourse}>
-                    {item.courseNo}
-                    {item.courseName ? ` - ${item.courseName}` : null}
-                    <Text
-                      color="#F7C878"
-                      ff="SF Pro"
-                      fz={isMobileOrTablet ? 16 : 20}
-                      ta="left"
-                      lh="normal"
-                    >
-                      Section: {item.section}
-                    </Text>
+            {!params.courseNo && "Dashboard"}
+            {params.courseNo && !params.scoreName && params.courseNo}
+            {params.scoreName && params.scoreName}
+          </Text>
+          <Text
+            // className={Student.datetext}
+            className="text-xl lg:text-2xl"
+          >
+            {formatDate(currentDate)}
+          </Text>
+        </div>
+
+        <div
+          // className={Student.courseframewindow}
+          className="p-12 border-[3px] border-primary rounded-2xl mx-3 shadow-xl"
+        >
+          {message && (
+            <Text
+              // className={Student.message}
+              className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl border-b-[1px] pb-2 border-primary/50"
+              style={{
+                fontFamily: "'SF PRo', sans-serif",
+              }}
+            >
+              {message}
+            </Text>
+          )}
+          {!params.courseNo &&
+            courseList.map((item, key) => {
+              return (
+                <div
+                  key={key}
+                  className={Student.frameEachCourse}
+                  onClick={() => onClickCourse(item.courseNo)}
+                >
+                  <div className={Student.courseName}>
+                    <div className={Student.intoCourse}>
+                      {item.courseNo}
+                      {item.courseName ? ` - ${item.courseName}` : null}
+                      <Text
+                        color="#F7C878"
+                        ff="SF Pro"
+                        fz={isMobileOrTablet ? 16 : 20}
+                        ta="left"
+                        lh="normal"
+                      >
+                        Section: {item.section}
+                      </Text>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        {params.courseNo &&
-          !params.scoreName &&
-          scoreList.map((item, key) => {
-            return (
-              <div
-                key={key}
-                className={Student.frameEachCourse}
-                onClick={() => onClickScore(item.scoreName)}
-              >
-                <div className={Student.courseName}>
-                  <div className={Student.intoCourse}>{item.scoreName}</div>
+              );
+            })}
+          {params.courseNo &&
+            !params.scoreName &&
+            scoreList.map((item, key) => {
+              return (
+                <div
+                  key={key}
+                  className={Student.frameEachCourse}
+                  onClick={() => onClickScore(item.scoreName)}
+                >
+                  <div className={Student.courseName}>
+                    <div className={Student.intoCourse}>{item.scoreName}</div>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        {params.scoreName  && (
-          <>
-            {!isShowGraph && (
-              <Flex direction="column" mt={15} gap={25}>
-                <Title
-                  ta="right"
-                  order={3}
-                  color="#696CA3"
-                  ff={"SF PRo, sans-serif"}
-                  fz={isMobileOrTablet ? 20 : 25}
-                >
-                  Full Score: {fullScore}
-                </Title>
-                {stat.map((e, i) => (
-                  <Flex key={i} direction="column" gap={12}>
-                    <Title
-                      mt={i === 0 ? (isMobileOrTablet ? -20 : -45) : 0}
-                      order={3}
-                      color={colorProgress[i]}
-                      ff={"SF PRo, sans-serif"}
-                      fz={
-                        isMobileOrTablet
-                          ? i === 0
+              );
+            })}
+          {params.scoreName && (
+            <>
+              {!isShowGraph && (
+                <Flex direction="column" mt={15} gap={25}>
+                  <Title
+                    ta="right"
+                    order={3}
+                    color="#696CA3"
+                    ff={"SF PRo, sans-serif"}
+                    fz={isMobileOrTablet ? 20 : 25}
+                  >
+                    Full Score: {fullScore}
+                  </Title>
+                  {stat.map((e, i) => (
+                    <Flex key={i} direction="column" gap={12}>
+                      <Title
+                        mt={i === 0 ? (isMobileOrTablet ? -20 : -45) : 0}
+                        order={3}
+                        color={colorProgress[i]}
+                        ff={"SF PRo, sans-serif"}
+                        fz={
+                          isMobileOrTablet
+                            ? i === 0
+                              ? 30
+                              : 20
+                            : i === 0
                             ? 30
-                            : 20
-                          : i === 0
-                          ? 30
-                          : 25
-                      }
-                      fw={i === 0 ? 700 : 500}
-                    >
-                      {title[i]}: {e}
-                    </Title>
-                    <Progress
-                      mt={-10}
-                      value={(e * 100) / fullScore}
-                      size={isMobileOrTablet ? 12 : 14}
-                      w={isMobileOrTablet ? 650 : 1430}
-                      radius={10}
-                      color={colorProgress[i]}
-                      bg="#D9D9D9"
-                    />
-                  </Flex>
-                ))}
-                <Title
-                  order={3}
-                  color="#696CA3"
-                  ff={"SF PRo, sans-serif"}
-                  fz={isMobileOrTablet ? 20 : 25}
-                >
-                  SD: {SD}
-                </Title>
-              </Flex>
-            )}
-            {isShowGraph && (
-              <Line
-                data={data}
-                options={{
-                  scales: {
-                    x: {
-                      type: "linear",
-                      position: "bottom",
-                      min: 0,
-                      max: fullScore,
+                            : 25
+                        }
+                        fw={i === 0 ? 700 : 500}
+                      >
+                        {title[i]}: {e}
+                      </Title>
+                      <Progress
+                        value={(e * 100) / fullScore}
+                        radius={10}
+                        color={colorProgress[i]}
+                        bg="#D9D9D9"
+                      />
+                    </Flex>
+                  ))}
+                  <Title
+                    order={3}
+                    color="#696CA3"
+                    ff={"SF PRo, sans-serif"}
+                    fz={isMobileOrTablet ? 20 : 25}
+                  >
+                    SD: {SD}
+                  </Title>
+                </Flex>
+              )}
+              {isShowGraph && (
+                <Line
+                  data={data}
+                  options={{
+                    scales: {
+                      x: {
+                        type: "linear",
+                        position: "bottom",
+                        min: 0,
+                        max: fullScore,
+                      },
+                      y: {
+                        type: "linear",
+                        position: "left",
+                      },
                     },
-                    y: {
-                      type: "linear",
-                      position: "left",
+                    layout: {
+                      padding: {
+                        // right: 25,
+                        // left: 25,
+                        // top: 100,
+                        // // bottom: -90,
+                      },
                     },
-                  },
-                  layout: {
-                    padding: {
-                      // right: 25,
-                      // left: 25,
-                      // top: 100,
-                      // // bottom: -90,
+                    plugins: {
+                      legend: {
+                        display: false,
+                      },
+                      annotation: {
+                        clip: false,
+                        annotations: statLine,
+                      },
                     },
-                  },
-                  plugins: {
-                    legend: {
-                      display: false,
+                    animation: false,
+                    elements: {
+                      point: {
+                        radius: 0,
+                      },
+                      line: {
+                        borderColor: "black",
+                        borderWidth: 1,
+                      },
                     },
-                    annotation: {
-                      clip: false,
-                      annotations: statLine,
-                    },
-                  },
-                  animation: false,
-                  elements: {
-                    point: {
-                      radius: 0,
-                    },
-                    line: {
-                      borderColor: "black",
-                      borderWidth: 1,
-                    },
-                  },
-                  events: [],
+                    events: [],
+                  }}
+                />
+              )}
+            </>
+          )}
+          {params.scoreName && (
+            <div className="flex justify-end items-center w-full">
+              <Button
+                className="text-primary border-primary border-2 rounded-lg hover:text-white hover:bg-primary duration-150"
+                style={{
+                  fontFamily: "'SF PRo', sans-serif",
                 }}
-              />
-            )}
-          </>
-        )}
+                onClick={changeView}
+                leftIcon={
+                  isShowGraph ? (
+                    <ImParagraphLeft size={20} />
+                  ) : (
+                    <VscGraph size={23} />
+                  )
+                }
+              >
+                {isShowGraph ? "Show Detail" : "Show Graph"}
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
-    </>
+    </div>
   );
 }

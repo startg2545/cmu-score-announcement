@@ -8,7 +8,7 @@
   margin-inline: 25px;
 }
 
-.MenuNavigate{
+.MenuNavigate {
   margin-top: -10px;
   display: flex;
   flex-direction: row;
@@ -27,26 +27,26 @@
   line-height: normal;
 }
 
-.date{
+.date {
   font-size: 19px;
 }
 
-.lineIndex {
+/* .lineIndex {
   height: 2px;
   background-color: #8084c8;
   opacity: 0.25;
   box-shadow: 0px 10px 4px 0px rgba(0, 0, 0, 0.25) inset;
   margin-top: -10px;
-}
+} */
 
-.showGraphBT {
+/* .showGraphBT {
   font-family: "SF PRo", sans-serif;
   border-radius: 10px;
   border: 3px solid;
   background-color: #ffffff;
   border-color: #8084c8;
   color: #8084c8;
-}
+} */
 
 .showGraphBT:hover {
   background-color: #8084c8;
@@ -81,7 +81,7 @@
   font-size: calc(15px + 2vw);
 }
 
-.courseframewindow {
+/* .courseframewindow {
   position: absolute;
   top: calc(125px + 40%);
   left: 50%;
@@ -97,7 +97,7 @@
   border-radius: 25px;
   border: 3px solid #696ca3;
   background: #ffffff;
-}
+} */
 
 .framewindow-container {
   /* Your existing styles */
@@ -153,7 +153,7 @@
 }
 
 .courseSection {
-  color: #F7C878;
+  color: #f7c878;
   font-family: SF Pro;
   font-size: 20px;
   font-style: normal;
@@ -172,14 +172,13 @@
   justify-content: center;
   pointer-events: none; /* Prevent the icon from interfering with mouse events */
   margin-top: 13px;
-  
 }
 
 .containerTitleDate {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; 
-  text-align: center; 
+  align-items: flex-start;
+  text-align: center;
 }
 
 .boxTop {
@@ -195,7 +194,7 @@
     width: 99%;
     height: calc(75vh - 20px);
     top: 240px;
-    gap: 26px
+    gap: 26px;
   }
 
   .coursetopictext {
@@ -228,7 +227,7 @@
     width: 96%;
     height: 73vh;
     top: 195px;
-    gap: 20px
+    gap: 20px;
   }
 
   .coursetopictext {
@@ -261,7 +260,7 @@
     width: 96%;
     height: 72vh;
     top: 190px;
-    gap: 20px
+    gap: 20px;
   }
 
   .coursetopictext {
@@ -294,7 +293,7 @@
     width: 92%;
     height: 82vh;
     top: 200px;
-    gap: 20px
+    gap: 20px;
   }
 
   .coursetopictext {
@@ -327,7 +326,7 @@
     width: 92%;
     height: calc(80vh - 20px);
     top: 200px;
-    gap: 20px
+    gap: 20px;
   }
 
   .coursetopictext {
@@ -360,7 +359,7 @@
     width: 92%;
     height: 80vh;
     top: 200px;
-    gap: 20px
+    gap: 20px;
   }
 
   .coursetopictext {
@@ -393,7 +392,7 @@
     width: 92%;
     height: calc(79vh - 60px);
     top: 180px;
-    gap: 15px
+    gap: 15px;
   }
 
   .coursetopictext {
@@ -427,7 +426,7 @@
     width: 92%;
     height: calc(79vh - 60px);
     top: 180px;
-    gap: 15px
+    gap: 15px;
   }
 
   .coursetopictext {
@@ -460,7 +459,7 @@
     width: 92%;
     height: 74vh;
     top: 170px;
-    gap: 15px
+    gap: 15px;
   }
 
   .coursetopictext {
@@ -493,7 +492,7 @@
     width: 92%;
     height: 74vh;
     top: 170px;
-    gap: 15px
+    gap: 15px;
   }
 
   .coursetopictext {
