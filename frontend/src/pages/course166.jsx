@@ -167,23 +167,13 @@ export default function Course166Container() {
     if (!searchParams.get("year") || !searchParams.get("semester")) {
       return navigate("/instructor-dashboard");
     }
-    setParams({
-      semester: searchParams.get("semester"),
-      year: searchParams.get("year"),
-      courseNo: searchParams.get("courseNo"),
-      section: searchParams.get("section"),
-    });
-  }, [searchParams]);
 
-  useEffect(() => {
     if (localStorage.getItem("Upload") !== null) {
       setUploadScore(false);
       localStorage.removeItem("Upload");
     }
 
-    if (!course.length) {
-      fetchData();
-    }
+    fetchData();
 
     if (params.courseNo) {
       setSelectedCourse(true);
@@ -212,6 +202,7 @@ export default function Course166Container() {
     location,
     getParams,
     params,
+    searchParams,
     setSearchParams,
     fetchData,
     showSection,
