@@ -58,20 +58,24 @@ const TableScore = ({ data }) => {
       e.results.map((e) => (x += Math.pow(e.point - meanS, 2)));
       data[i].SD = Math.sqrt(x / e.studentNumber).toFixed(2);
 
-      const Q1 = (e.studentNumber + 1) / 4;
-      const Q3 = (3 * (e.studentNumber + 1)) / 4;
+      const Q1 = ((e.studentNumber + 1) / 4)-1;
+      const Q3 = ((3 * (e.studentNumber + 1)) / 4)-1;
       const baseQ1 = Math.floor(Q1);
       const baseQ3 = Math.floor(Q3);
       //calculate Upper Quartile Q3
-      data[i].UpperQu = (
-        sortPoint[baseQ3 - 1].point +
-        (Q3 - baseQ3) * (sortPoint[baseQ3].point - sortPoint[baseQ3 - 1].point)
-      ).toFixed(2);
+      let temp = Number(sortPoint[baseQ3].point.toFixed(2));
+      if (baseQ3 + 1 < sortPoint.length) {
+       temp = (temp + ((Q3 - baseQ3) * (sortPoint[baseQ3 + 1].point - sortPoint[baseQ3].point))).toFixed(2);
+      }
+      data[i].UpperQu = temp;
+        
+      
       //calculate Lower Quartile Q1
       data[i].LowerQu = (
-        sortPoint[baseQ1 - 1].point +
-        (Q1 - baseQ1) * (sortPoint[baseQ1].point - sortPoint[baseQ1 - 1].point)
+        sortPoint[baseQ1].point +
+        (Q1 - baseQ1) * (sortPoint[baseQ1+1].point - sortPoint[baseQ1].point)
       ).toFixed(2);
+
     });
   };
 
