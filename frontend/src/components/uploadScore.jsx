@@ -189,9 +189,10 @@ export default function UploadScorePageContainer() {
                     download="Template"
                     target="_blank"
                     rel="noreferrer"
+                    style={{ color: "red", fontWeight: "bold" }}
                   
                   >
-                    <button>Template</button>
+                    Template
                   </a>
                 }{" "}
                 .xlsx and .xls format)
@@ -208,7 +209,7 @@ export default function UploadScorePageContainer() {
                 target="_blank"
                 rel="noreferrer"
               >
-                <button>Example</button>
+                Example
               </a>
             </p>
           </div>

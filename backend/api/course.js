@@ -25,6 +25,7 @@ router.post("/add", async (req, res) => {
         semester,
         sections: [
           {
+            section: null,
             instructor: user.cmuAccount,
           },
         ],
@@ -77,7 +78,12 @@ router.post("/add", async (req, res) => {
     await course.save();
     if (cannotAdd.length === 0)
       return res.send({ ok: true, message: "The sections have been added." });
-    else return res.send({ok: false, sectionAddEdit: canAdd, sectionCannotAddEdit: cannotAdd});
+    else
+      return res.send({
+        ok: false,
+        sectionAddEdit: canAdd,
+        sectionCannotAddEdit: cannotAdd,
+      });
   } catch (err) {
     return res
       .status(500)

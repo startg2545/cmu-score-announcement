@@ -8,7 +8,7 @@ const studentSchema = new mongoose.Schema(
     courseGrades: [
       {
         courseNo: String,
-        section: String,
+        section: Number,
         year: Number,
         semester: Number,
         scores: [
