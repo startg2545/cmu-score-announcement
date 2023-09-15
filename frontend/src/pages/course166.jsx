@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
-import { SideBar, UploadSc, DropDownCourse, DropDownSection } from "../components";
+import { SideBar, UploadSc, Management } from "../components";
 import { ShowSidebarContext } from "../context";
 import { addCourse, getAllCourses, getScores, getAllSections } from "../services";
 import { TextInput, Button, Flex, Modal } from "@mantine/core";
@@ -188,7 +188,7 @@ export default function Course166Container() {
     if (localStorage.getItem("page") === "management" && params.courseNo) {
       setManage(true);
       if (!section.length && course.length) {
-        // showSection();
+        showSection();
       }
     }
 
@@ -729,7 +729,7 @@ export default function Course166Container() {
                 {/* show Upload/Section/TableScore */}
               </div>
               {isUploadScore && <UploadSc />}
-              {/* {isManage && <Management data={section} />} */}
+              {isManage && <Management data={section} />}
             </div>
 
             <div
