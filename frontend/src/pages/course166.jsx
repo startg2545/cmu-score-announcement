@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useMemo,
+  useCallback,
+} from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import { SideBar, UploadSc, DropDownCourse, DropDownSection } from "../components";
@@ -8,7 +14,6 @@ import { TextInput, Button, Flex, Modal } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { IconAt } from "@tabler/icons-react";
-import Management from "../components/management";
 import { HiChevronRight } from "react-icons/hi";
 
 export default function Course166Container() {
@@ -19,7 +24,6 @@ export default function Course166Container() {
   const [isHovered2, setIsHovered2] = useState(false);
   const [isHovered3, setIsHovered3] = useState(false);
   const [isSelectedCourse, setSelectedCourse] = useState(false);
-  const [isShowTableScore, setShowTableScore] = useState(false);
   const [isUploadScore, setUploadScore] = useState(false);
   const [isManage, setManage] = useState(false);
   const [showPopupAddCourse, setShowPopupAddCourse] = useState(false);
@@ -35,13 +39,13 @@ export default function Course166Container() {
   const location = useLocation();
 
   const showSection = useCallback(() => {
-    const data = course.filter((e) => e.courseNo === params.courseNo)[0]
-      .sections.filter(e=>e.section);
+    const data = course
+      .filter((e) => e.courseNo === params.courseNo)[0]
+      .sections.filter((e) => e.section);
     setSections(data);
-    setManage(true);
-    setShowTableScore(false);
     setUploadScore(false);
-  },[course, params])
+    setManage(true);
+  }, [course, params]);
 
   const handleClickInstructor = () => {
     open();
@@ -157,31 +161,29 @@ export default function Course166Container() {
       }
       setCourse(data);
     }
-  }, [params])
+  }, [params]);
 
   useEffect(() => {
-    // if (isManage === true) {
-    //   document.getElementById("tab-menu").style.cursor = "pointer";
-    // }
+    if (!searchParams.get("year") || !searchParams.get("semester")) {
+      return navigate("/instructor-dashboard");
+    }
 
     if (localStorage.getItem("Upload") !== null) {
       setUploadScore(false);
       localStorage.removeItem("Upload");
     }
 
-    if (!course.length) {
-      fetchData();
-    }
+    fetchData();
 
     if (params.courseNo) {
       setSelectedCourse(true);
     }
 
-    if (localStorage.getItem("page") === "upload") {
+    if (localStorage.getItem("page") === "upload" && params.courseNo) {
       setUploadScore(true);
     }
 
-    if (localStorage.getItem("page") === "management") {
+    if (localStorage.getItem("page") === "management" && params.courseNo) {
       setManage(true);
       if (!section.length && course.length) {
         // showSection();
@@ -196,16 +198,14 @@ export default function Course166Container() {
   }, [
     course,
     section,
+    localStorage.getItem("Upload"),
     location,
-    isShowTableScore,
-    searchParams,
-    showPopupAddCourse,
     getParams,
     params,
+    searchParams,
     setSearchParams,
-    isManage,
     fetchData,
-    showSection
+    showSection,
   ]);
 
   const formatDate = (date) => {
@@ -216,7 +216,6 @@ export default function Course166Container() {
   const goToUpload = () => {
     setUploadScore(true);
     setManage(false);
-    setShowTableScore(false);
   };
 
   const goToManage = () => {
@@ -482,10 +481,12 @@ export default function Course166Container() {
                 />
                 <label
                   onClick={backToCourse}
-                  id="tab-menu"
                   className={` ${Course.date} ${
                     showSidebar ? Course.moveRight : ""
                   }`}
+                  style={{
+                    cursor: isUploadScore || isManage ? "pointer" : null,
+                  }}
                 >
                   {params.courseNo}
                 </label>
@@ -517,7 +518,9 @@ export default function Course166Container() {
                         showSidebar ? Course.moveRight : ""
                       }`}
                       onClick={backToSelectSec}
-                      style={{ cursor: "pointer" }}
+                      style={{
+                        cursor: searchParams.get("section") ? "pointer" : null,
+                      }}
                     >
                       Management
                     </label>
@@ -613,9 +616,6 @@ export default function Course166Container() {
                       onClick={() => {
                         localStorage.setItem("page", "upload");
                         setUploadScore(true);
-                        setShowTableScore(false);
-                        document.getElementById("tab-menu").style.cursor =
-                          "pointer";
                         goToUpload();
                       }}
                       onMouseEnter={() => setIsHovered(true)}
@@ -673,8 +673,6 @@ export default function Course166Container() {
                       onClick={() => {
                         localStorage.setItem("page", "management");
                         setManage(true);
-                        document.getElementById("tab-menu").style.cursor =
-                          "pointer";
                         goToManage();
                         showSection();
                       }}
