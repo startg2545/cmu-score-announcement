@@ -1,6 +1,6 @@
 import { ShowSidebarContext } from "../context";
 import { useSearchParams } from "react-router-dom";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { getScores, addStudentGrade } from "../services";
 import secMan from "./css/manage.module.css";
 import TableScore from "./TableScore";
@@ -16,33 +16,36 @@ const Management = ({ data }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [showPopup2, setShowPopup2] = useState(false);
   const [countChecked, setCountChecked] = useState(0);
+  const [selectedPublishEach, setSelectedPublishEach] = useState([])
 
-  const showTable = (sec) => {
+  const showTable = useCallback((sec) => {
     setDataTable(data.filter((e) => e.section === sec)[0].scores);
     searchParams.set("section", sec);
     setSearchParams(searchParams);
-  };
+  }, [data, searchParams, setSearchParams])
+
+  const fetchData = useCallback(async () => {
+    const resp = await getScores();
+    if (resp) {
+      resp.map(data => {
+        data.sections.shift() // delete cmu acc object
+        if (data.courseNo === searchParams.get('courseNo')) {
+          setSections(data.sections)
+        }
+      })
+    }
+  },[searchParams])
 
   useEffect(() => {
-    const fetchData = async () => {
-      const resp = await getScores();
-      if (resp) {
-        resp.map((data) => {
-          if (data.courseNo === searchParams.get("courseNo")) {
-            console.log(data.sections);
-            let sections = data.sections;
-            setSections(sections);
-          }
-        });
-      }
-    };
-    if (!sections) fetchData();
+    fetchData()
+    // if (!sections) fetchData();
+
     if (searchParams.get("section") && !dataTable.length && data.length) {
       showTable(searchParams.get("section"));
     }
 
     data.sort((a, b) => a.section - b.section);
-  }, [data, searchParams, sections, dataTable]);
+  }, [data, searchParams, sections, dataTable, showTable, fetchData]);
 
   const handlePublishAllClick = () => {
     setShowPopup2(true);
@@ -52,7 +55,7 @@ const Management = ({ data }) => {
     setShowPopup(true);
   };
 
-  const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = (e, value) => {
     if (e.target.checked === true) {
       setCountChecked(countChecked + 1);
     } else {
@@ -67,6 +70,7 @@ const Management = ({ data }) => {
   };
 
   const submitPublishAll = async () => {
+    setShowPopup2(false)
     const student_schema = {
       courseNo: searchParams.get("courseNo"),
       year: parseInt(searchParams.get("year")),
@@ -79,7 +83,8 @@ const Management = ({ data }) => {
     if (resp_student) console.log("response: ", resp_student);
   };
 
-  const submitPublishEach = async () => {
+  const submitPublishEach = async (selected_sections) => {
+    setShowPopup2(false)
     const student_schema = {
       courseNo: searchParams.get("courseNo"),
       year: searchParams.get("year"),
@@ -104,7 +109,7 @@ const Management = ({ data }) => {
             </div>
 
             <div>
-              {data.map((e, key) => (
+              {data.map((value, key) => (
                 <div
                   key={key}
                   style={{
@@ -116,15 +121,17 @@ const Management = ({ data }) => {
                   <Checkbox
                     color="indigo"
                     size="md"
-                    onChange={handleCheckboxChange}
+                    onChange={(e)=>handleCheckboxChange(e, value)}
+                    id="selected-section"
+                    name="selected-section"
                   />
                   <p style={{ marginLeft: "8px", fontSize: "21px" }}>
                     Section{" "}
-                    {e.section < 100
-                      ? `00${e.section}`
-                      : e.section < 1000
-                      ? `0${e.section}`
-                      : e.section}
+                    {value.section < 100
+                      ? `00${value.section}`
+                      : value.section < 1000
+                      ? `0${value.section}`
+                      : value.section}
                   </p>
                 </div>
               ))}
@@ -272,7 +279,7 @@ const Management = ({ data }) => {
                     backgroundColor: "#d499ff",
                   },
                 }}
-                onClick={() => setShowPopup2(false)}
+                onClick={() => submitPublishAll()}
                 radius="md"
               >
                 Confirm
