@@ -11,6 +11,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@keyframes fadeInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(-25px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-bottom {
+  animation: fadeInBottom 250ms ease-in;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

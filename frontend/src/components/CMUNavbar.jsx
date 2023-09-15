@@ -8,6 +8,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import cmulogo from "../image/cmulogo2.png";
 import style from "./css/component.module.css";
 import { FaSignOutAlt } from "react-icons/fa";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 const CMUNavbar = () => {
   const { handleSidebarClick } = useContext(ShowSidebarContext);
@@ -35,15 +36,10 @@ const CMUNavbar = () => {
   // },[pathname, userInfo, navigate])
 
   if (withoutNavbar.some((path) => pathname.includes(path))) return null;
+  const userRole = userInfo.itAccountType !== "MISEmpAcc" ? "hidden" : "flex";
 
   return (
     <div
-      // style={{
-      //   position: "relative",
-      //   height: 60,
-      //   background: "#8084c8",
-      //   paddingLeft: 50,
-      // }}
       className="flex justify-between items-center top-0 bg-primary px-5 lg:px-10 md:px-8"
       //navbar wrapper
     >
@@ -51,59 +47,34 @@ const CMUNavbar = () => {
         className="flex items-center gap-2 lg:gap-5 md:gap-4"
         //navbar left content
       >
-        {userInfo.itAccountType !== ROLE.STUDENT && (
-          <div
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            onClick={() => handleSidebarClick()}
-            // style={{
-            //   position: "absolute",
-            //   top: isMobileOrTablet ? "55%" : "42%",
-            //   left: 30,
-            //   transform: "translateY(-50%)",
-            //   height: 35,
-            //   cursor: "pointer",
-            // }}
-            className="flex items-center"
+        <div
+          onClick={() => handleSidebarClick()}
+          className={userRole + " items-center"}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-9 lg:w-12 py-2"
+            //sidebar icon size
+            viewBox="0 0 256 256"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-9 lg:w-12 py-2"
-              //sidebar icon size
-              viewBox="0 0 256 256"
-            >
-              <g>
-                <path
-                  fill="#8084C8"
-                  d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16Z"
-                />
-                <path
-                  fill={isHovered ? "black" : "white"}
-                  d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16Zm0 160H88V56h128v144Z"
-                />
-              </g>
-            </svg>
-          </div>
-        )}
+            <g>
+              <path
+                fill="#8084C8"
+                d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16Z"
+              />
+              <path
+                fill={isHovered ? "black" : "white"}
+                d="M216 40H40a16 16 0 0 0-16 16v144a16 16 0 0 0 16 16h176a16 16 0 0 0 16-16V56a16 16 0 0 0-16-16Zm0 160H88V56h128v144Z"
+              />
+            </g>
+          </svg>
+        </div>
         <a href="/">
           <img
             src={cmulogo}
             alt="CMULogo"
             className="w-32 lg:w-44 drop-shadow-lg"
             // CMU Logo Navbar
-            // style={{
-            //   position: "absolute",
-            //   top: "47%",
-            //   left: isMobileOrTablet
-            //     ? "20px"
-            //     : userInfo.itAccountType !== ROLE.STUDENT
-            //     ? "80px"
-            //     : "20px",
-            //   transform: "translateY(-50%)",
-            //   width: isMobileOrTablet ? "70px" : "90px",
-            //   height: isMobileOrTablet ? "70px" : "90px",
-            //   borderRadius: 4,
-            // }}
           />
         </a>
       </div>
@@ -114,127 +85,112 @@ const CMUNavbar = () => {
         {(userInfo &&
           userInfo.firstName &&
           userInfo.itAccountType === ROLE.STUDENT && (
-            <Menu
-              position="top-end"
-              radius={20}
-              width="fit-content"
-              sx={{
-                backgroundColor: "#D0CDFE",
-                "&:hover": {
-                  backgroundColor: "#ffffff",
-                },
-                cursor: "pointer",
-                position: "absolute",
-                padding: 8,
-                marginTop: isMobileOrTablet ? "8px" : "1px",
-                right: "20px",
-                borderRadius: "10px",
-              }}
-            >
+            <Menu>
               <Menu.Target>
-                <Flex gap="5px" align="flex-end" direction="column">
-                  <Text
-                    style={{
-                      color: "black",
-                      textShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-                      fontFamily: "'SF PRo', sans-serif",
-                      fontSize: isMobileOrTablet ? "12px" : "24px",
-                      fontWeight: 780,
-                      lineHeight: "normal",
-                    }}
-                  >
-                    Hello, {userInfo.firstName.charAt(0).toUpperCase()}
-                    {userInfo.firstName.slice(1).toLowerCase()}{" "}
-                    {userInfo.lastName &&
-                      userInfo.lastName.charAt(0).toUpperCase()}
-                    .
-                  </Text>
-                  <Text
-                    style={{
-                      color: "#696CA3",
-                      fontFamily: "'SF PRo', sans-serif",
-                      fontSize: isMobileOrTablet ? "11px" : "11px",
-                      fontWeight: 610,
-                      lineHeight: "normal",
-                    }}
-                  >
-                    1/66,{" "}
-                    {userInfo.itAccountType === "StdAcc"
-                      ? "Student"
-                      : "Instructor"}
-                  </Text>
+                <Flex
+                  gap="5px"
+                  align="flex-end"
+                  direction="column"
+                  className="cursor-pointer group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <Text
+                        className="text-white group-hover:text-gray-200 lg:text-xl md:text-lg font-bold drop-shadow"
+                        style={{
+                          fontFamily: "'SF PRo', sans-serif",
+                        }}
+                        //user info
+                      >
+                        Hello, {userInfo.firstName.charAt(0).toUpperCase()}
+                        {userInfo.firstName.slice(1).toLowerCase()}{" "}
+                        {userInfo.lastName &&
+                          userInfo.lastName.charAt(0).toUpperCase()}
+                        .
+                      </Text>
+                      <Text
+                        className="text-[#f7c878] group-hover:text-[#e6bd76] drop-shadow text-end"
+                        style={{
+                          fontFamily: "'SF PRo', sans-serif",
+                        }}
+                      >
+                        1/66,{" "}
+                        {userInfo.itAccountType === "StdAcc"
+                          ? "Student"
+                          : "Instructor"}
+                      </Text>
+                    </div>
+                    <IoMdArrowDropdown className="text-3xl text-white group-hover:text-gray-200" />
+                  </div>
                 </Flex>
               </Menu.Target>
-              <Menu.Dropdown>
+              <Menu.Dropdown className="border-red-500 fade-bottom transition-all border-[3px] p-0 m-3">
                 <Menu.Item
-                  bg="#f52a2a"
-                  ta="center"
-                  color="white"
                   ff={"SF PRo, sans-serif"}
-                  fw={750}
-                  fz={isMobileOrTablet ? "md" : "lg"}
-                  icon={<FaSignOutAlt size={isMobileOrTablet ? 20 : 24} />}
-                  sx={{
-                    "&:hover": {
-                      backgroundColor: "#f56464",
-                    },
-                  }}
                   onClick={() => signOut().finally(navigate("/sign-in"))}
+                  className="px-3 py-1"
                 >
-                  Log out
+                  <div className="text-lg font-bold text-red-500 flex items-center gap-3">
+                    Log out
+                    <FaSignOutAlt />
+                  </div>
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
           )) ||
           (userInfo.itAccountType === ROLE.INSTRUCTOR && (
-            <>
-              <Text
-                className="text-white lg:text-xl md:text-lg font-bold drop-shadow"
-                style={{
-                  fontFamily: "'SF PRo', sans-serif",
-                }}
-                //user info
-                // style={{
-                //   position: "absolute",
-                //   top: isMobileOrTablet ? "30px" : "20px",
-                //   right: 25,
-                //   color: "#fff",
-                //   textAlign: "right",
-                //   textShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",
-                //   fontFamily: "'SF PRo', sans-serif",
-                //   fontSize: isMobileOrTablet ? "12px" : "16px",
-                //   fontWeight: 780,
-                //   lineHeight: "normal",
-                //   transform: "translateY(-40%)",
-                // }}
-              >
-                Hello, {userInfo.firstName.charAt(0).toUpperCase()}
-                {userInfo.firstName.slice(1).toLowerCase()}{" "}
-                {userInfo.lastName && userInfo.lastName.charAt(0).toUpperCase()}
-                .
-              </Text>
-              <Text
-                className="text-[#f7c878] drop-shadow text-end"
-                style={{
-                  fontFamily: "'SF PRo', sans-serif",
-                }}
-                // style={{
-                //   position: "absolute",
-                //   top: isMobileOrTablet ? "28px" : "16px",
-                //   right: 30,
-                //   color: "#f7c878",
-                //   textAlign: "right",
-                //   fontFamily: "'SF PRo', sans-serif",
-                //   fontSize: isMobileOrTablet ? "14px" : "12px",
-                //   fontWeight: 610,
-                //   lineHeight: "normal",
-                //   transform: "translateY(120%)",
-                // }}
-              >
-                1/66,{" "}
-                {userInfo.itAccountType === "StdAcc" ? "Student" : "Instructor"}
-              </Text>
-            </>
+            <Menu>
+              <Menu.Target>
+                <Flex
+                  gap="5px"
+                  align="flex-end"
+                  direction="column"
+                  className="cursor-pointer group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <Text
+                        className="text-white group-hover:text-gray-200 lg:text-xl md:text-lg font-bold drop-shadow"
+                        style={{
+                          fontFamily: "'SF PRo', sans-serif",
+                        }}
+                        //user info
+                      >
+                        Hello, {userInfo.firstName.charAt(0).toUpperCase()}
+                        {userInfo.firstName.slice(1).toLowerCase()}{" "}
+                        {userInfo.lastName &&
+                          userInfo.lastName.charAt(0).toUpperCase()}
+                        .
+                      </Text>
+                      <Text
+                        className="text-[#f7c878] group-hover:text-[#e6bd76] drop-shadow text-end"
+                        style={{
+                          fontFamily: "'SF PRo', sans-serif",
+                        }}
+                      >
+                        1/66,{" "}
+                        {userInfo.itAccountType === "StdAcc"
+                          ? "Student"
+                          : "Instructor"}
+                      </Text>
+                    </div>
+                    <IoMdArrowDropdown className="text-3xl text-white group-hover:text-gray-200" />
+                  </div>
+                </Flex>
+              </Menu.Target>
+              <Menu.Dropdown className="border-red-500 fade-bottom transition-all border-[3px] p-0 m-3">
+                <Menu.Item
+                  ff={"SF PRo, sans-serif"}
+                  onClick={() => signOut().finally(navigate("/sign-in"))}
+                  className="px-3 py-1"
+                >
+                  <div className="text-lg font-bold text-red-500 flex items-center gap-3">
+                    Log out
+                    <FaSignOutAlt />
+                  </div>
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
           ))}
       </div>
     </div>

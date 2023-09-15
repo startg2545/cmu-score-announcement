@@ -282,30 +282,55 @@ export default function StudentDashboard() {
       )}
       <div className=" mx-3 lg:mx-[15%]">
         <div
-          className="px-7 py-5 text-maintext font-semibold"
+          className="py-5 text-maintext font-semibold"
           style={{
             fontFamily: "'SF PRo', sans-serif",
           }}
         >
-          <Text
-            // className={Student.coursetopictext}
-            className="text-3xl lg:text-5xl"
-          >
-            {!params.courseNo && "Dashboard"}
-            {params.courseNo && !params.scoreName && params.courseNo}
-            {params.scoreName && params.scoreName}
-          </Text>
-          <Text
-            // className={Student.datetext}
-            className="text-xl lg:text-2xl"
-          >
-            {formatDate(currentDate)}
-          </Text>
+          <div className="flex items-end">
+            <div>
+              <Text
+                // className={Student.coursetopictext}
+                className="text-3xl lg:text-5xl"
+              >
+                {!params.courseNo && "Dashboard"}
+                {params.courseNo && !params.scoreName && params.courseNo}
+                {params.scoreName && params.scoreName}
+              </Text>
+              <Text
+                // className={Student.datetext}
+                className="text-xl lg:text-2xl"
+              >
+                {formatDate(currentDate)}
+              </Text>
+            </div>
+
+            {params.scoreName && (
+              <div className="flex justify-end items-center w-full">
+                <Button
+                  className="text-primary border-primary border-2 rounded-lg hover:text-white hover:bg-primary duration-150"
+                  style={{
+                    fontFamily: "'SF PRo', sans-serif",
+                  }}
+                  onClick={changeView}
+                  leftIcon={
+                    isShowGraph ? (
+                      <ImParagraphLeft size={20} />
+                    ) : (
+                      <VscGraph size={23} />
+                    )
+                  }
+                >
+                  {isShowGraph ? "Show Detail" : "Show Graph"}
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
 
         <div
           // className={Student.courseframewindow}
-          className="p-12 border-[3px] border-primary rounded-2xl mx-3 shadow-xl"
+          className="p-12 border-[3px] border-primary rounded-2xl shadow-xl"
         >
           {message && (
             <Text
@@ -458,26 +483,6 @@ export default function StudentDashboard() {
                 />
               )}
             </>
-          )}
-          {params.scoreName && (
-            <div className="flex justify-end items-center w-full">
-              <Button
-                className="text-primary border-primary border-2 rounded-lg hover:text-white hover:bg-primary duration-150"
-                style={{
-                  fontFamily: "'SF PRo', sans-serif",
-                }}
-                onClick={changeView}
-                leftIcon={
-                  isShowGraph ? (
-                    <ImParagraphLeft size={20} />
-                  ) : (
-                    <VscGraph size={23} />
-                  )
-                }
-              >
-                {isShowGraph ? "Show Detail" : "Show Graph"}
-              </Button>
-            </div>
           )}
         </div>
       </div>
