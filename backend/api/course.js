@@ -88,7 +88,7 @@ router.post("/add", async (req, res) => {
     }
     await course.save();
     if (cannotAdd.length === 0)
-      return res.send({ ok: true, message: "The sections have been added." });
+      return res.send({ ok: true, message: "The score have been added/edit." });
     else
       return res.send({
         ok: false,

@@ -1,6 +1,7 @@
 const express = require("express");
 const { verifyAndValidateToken } = require("../jwtUtils");
 const scoreModel = require("../db/scoreSchema");
+const studentModel = require("../db/studentSchema");
 const router = express.Router();
 
 //get scores
@@ -75,6 +76,34 @@ router.delete("/", async (req, res) => {
     const type = req.query.type;
 
     if (type === "delete_one") {
+      const section = req.query.section;
+      const sections = await scoreModel.findOne({
+        courseNo,
+        year,
+        semester,
+      });
+      const results = sections.sections
+        .filter((e) => e.section === parseInt(section))[0]
+        .scores.filter((e) => e.scoreName === scoreName)[0].results;
+      for (let score in results) {
+        await studentModel.findOneAndUpdate(
+          {
+            studentId: results[score].studentId,
+            "courseGrades.courseNo": courseNo,
+            "courseGrades.year": year,
+            "courseGrades.semester": semester,
+            "courseGrades.scores.scoreName": scoreName,
+          },
+          {
+            $pull: {
+              "courseGrades.$.scores": {
+                scoreName: scoreName,
+              },
+            },
+          },
+          { new: true }
+        );
+      }
       await scoreModel.findOneAndUpdate(
         {
           courseNo,
@@ -96,7 +125,51 @@ router.delete("/", async (req, res) => {
         message: `score ${scoreName} delete in section ${req.query.section} deleted.`,
       });
     } else if (type === "delete_all") {
-      const test = await scoreModel.findOneAndUpdate(
+      const course = await scoreModel.findOne({
+        courseNo,
+        year,
+        semester,
+      });
+      const sections = course.sections
+        .filter(
+          (e) =>
+            e.instructor === user.cmuAccount ||
+            e.coInstructors.includes(user.cmuAccount)
+        )
+        .map((e) => {
+          const filteredScore = e.scores.filter(
+            (s) => s.scoreName === scoreName
+          );
+          if (filteredScore.length > 0) {
+            return { ...e._doc, scores: filteredScore };
+          }
+          return null;
+        })
+        .filter(Boolean);
+
+      for (let section in sections) {
+        const results = sections[section].scores[0].results
+        for (let score in results) {
+          await studentModel.findOneAndUpdate(
+            {
+              studentId: results[score].studentId,
+              "courseGrades.courseNo": courseNo,
+              "courseGrades.year": year,
+              "courseGrades.semester": semester,
+              "courseGrades.scores.scoreName": scoreName,
+            },
+            {
+              $pull: {
+                "courseGrades.$.scores": {
+                  scoreName: scoreName,
+                },
+              },
+            },
+            { new: true }
+          );
+        }
+      }
+      await scoreModel.findOneAndUpdate(
         {
           courseNo,
           year,
