@@ -64,9 +64,8 @@ export default function UploadScorePageContainer() {
       for (let j in keys) {
         obj[keys[j]] = list[i][j];
       }
-      if (list[i][0] !== "" || list[i][1] !== "" ) results_list[i] = obj;
+      if (list[i][0] !== "" || list[i][1] !== "") results_list[i] = obj;
     }
-    console.log(results_list);
     return results_list;
   }
 
@@ -82,7 +81,7 @@ export default function UploadScorePageContainer() {
         }
         num = 0;
       }
-      if(list[i][1] !== "") num++;
+      if (list[i][1] !== "") num++;
     }
     countStudent.push(num);
     return { sec_list, countStudent };
@@ -102,7 +101,12 @@ export default function UploadScorePageContainer() {
             lastName: results[k]["lastName"],
             point: results[k][keys[j + 4]],
           };
-          if (results[k]["section"] === sec[i]) {
+          if (
+            results[k]["section"] === sec[i] ||
+            (results[k]["section"] === "" &&
+              results_list.length &&
+              results_list.length < countStudent[i])
+          ) {
             results_list[num] = obj;
             num++;
           }
@@ -124,6 +128,7 @@ export default function UploadScorePageContainer() {
         scores: scores_list,
       };
     }
+    console.log(arr);
     setSections(arr);
   }
 
@@ -149,7 +154,7 @@ export default function UploadScorePageContainer() {
       } else {
         setIsFileUploaded(false);
       }
-    }else{
+    } else {
       setIsFileUploaded(false);
     }
   };
@@ -183,21 +188,25 @@ export default function UploadScorePageContainer() {
               className={upStyle.ScoreFileDescription}
               style={{ paddingTop: "4px" }}
             >
-              Click to download this Excel 
-              {" "}
-                {
-                  <a
-                    href={Template}
-                    download="Template"
-                    target="_blank"
-                    rel="noreferrer"
-                  
-                  >
-                    template
-                  </a>
-                }{" "}
-               file{" "}
-              <span style={{ color: "red",fontWeight: "bold", textAlign: "center"}}>
+              Click to download this Excel{" "}
+              {
+                <a
+                  href={Template}
+                  download="Template"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  template
+                </a>
+              }{" "}
+              file{" "}
+              <span
+                style={{
+                  color: "red",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                }}
+              >
                 (support only this template xlsx and .xls format)
               </span>{" "}
               and fill student code, score (numbers only).
@@ -281,47 +290,49 @@ export default function UploadScorePageContainer() {
               </div>
             </div>
             {isFileUploaded && (
-            <div
-              className={upStyle.ScoreConfirmButton}
-              onClick={confirmModal[1].open}
-            >
-              <p className={upStyle.ScoreConfirmText}>CONFIRM</p>
-              <div className={upStyle.ScoreConfirmButtonInner}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="21"
-                  height="15"
-                  viewBox="0 0 21 15"
-                  fill="none"
-                >
-                  <path
-                    d="M20.5189 0.434078C20.38 0.296534 20.2148 0.187361 20.0327 0.112859C19.8506 0.038357 19.6553 0 19.458 0C19.2608 0 19.0655 0.038357 18.8834 0.112859C18.7013 0.187361 18.536 0.296534 18.3971 0.434078L7.26494 11.3815L2.58793 6.7736C2.4437 6.63677 2.27344 6.52918 2.08688 6.45698C1.90031 6.38477 1.70109 6.34936 1.50059 6.35277C1.30009 6.35618 1.10224 6.39833 0.918332 6.47683C0.734422 6.55533 0.568056 6.66864 0.428734 6.81028C0.289412 6.95193 0.179863 7.11913 0.10634 7.30236C0.0328167 7.48558 -0.00324036 7.68123 0.000228499 7.87814C0.00369735 8.07505 0.0466239 8.26935 0.126557 8.44997C0.206489 8.63058 0.321863 8.79397 0.466091 8.93079L6.20402 14.5659C6.34293 14.7035 6.50819 14.8126 6.69028 14.8871C6.87237 14.9616 7.06768 15 7.26494 15C7.4622 15 7.6575 14.9616 7.83959 14.8871C8.02168 14.8126 8.18695 14.7035 8.32586 14.5659L20.5189 2.59128C20.6706 2.45386 20.7917 2.28708 20.8745 2.10144C20.9573 1.9158 21 1.71534 21 1.51268C21 1.31002 20.9573 1.10955 20.8745 0.923914C20.7917 0.738279 20.6706 0.571497 20.5189 0.434078Z"
-                    fill="white"
-                  />
-                </svg>
+              <div
+                className={upStyle.ScoreConfirmButton}
+                onClick={confirmModal[1].open}
+              >
+                <p className={upStyle.ScoreConfirmText}>CONFIRM</p>
+                <div className={upStyle.ScoreConfirmButtonInner}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="21"
+                    height="15"
+                    viewBox="0 0 21 15"
+                    fill="none"
+                  >
+                    <path
+                      d="M20.5189 0.434078C20.38 0.296534 20.2148 0.187361 20.0327 0.112859C19.8506 0.038357 19.6553 0 19.458 0C19.2608 0 19.0655 0.038357 18.8834 0.112859C18.7013 0.187361 18.536 0.296534 18.3971 0.434078L7.26494 11.3815L2.58793 6.7736C2.4437 6.63677 2.27344 6.52918 2.08688 6.45698C1.90031 6.38477 1.70109 6.34936 1.50059 6.35277C1.30009 6.35618 1.10224 6.39833 0.918332 6.47683C0.734422 6.55533 0.568056 6.66864 0.428734 6.81028C0.289412 6.95193 0.179863 7.11913 0.10634 7.30236C0.0328167 7.48558 -0.00324036 7.68123 0.000228499 7.87814C0.00369735 8.07505 0.0466239 8.26935 0.126557 8.44997C0.206489 8.63058 0.321863 8.79397 0.466091 8.93079L6.20402 14.5659C6.34293 14.7035 6.50819 14.8126 6.69028 14.8871C6.87237 14.9616 7.06768 15 7.26494 15C7.4622 15 7.6575 14.9616 7.83959 14.8871C8.02168 14.8126 8.18695 14.7035 8.32586 14.5659L20.5189 2.59128C20.6706 2.45386 20.7917 2.28708 20.8745 2.10144C20.9573 1.9158 21 1.71534 21 1.51268C21 1.31002 20.9573 1.10955 20.8745 0.923914C20.7917 0.738279 20.6706 0.571497 20.5189 0.434078Z"
+                      fill="white"
+                    />
+                  </svg>
+                </div>
               </div>
-            </div>
             )}
             {!isFileUploaded && (
-            <div
-              className={` ${upStyle.ScoreConfirmButtonDisable}`}
-            >
-              <p className={`${upStyle.ScoreConfirmText} ${upStyle.disable}`}>CONFIRM</p>
-              <div className={` ${upStyle.ScoreConfirmButtonInner} ${upStyle.disable}`}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="21"
-                  height="15"
-                  viewBox="0 0 21 15"
-                  fill="none"
+              <div className={` ${upStyle.ScoreConfirmButtonDisable}`}>
+                <p className={`${upStyle.ScoreConfirmText} ${upStyle.disable}`}>
+                  CONFIRM
+                </p>
+                <div
+                  className={` ${upStyle.ScoreConfirmButtonInner} ${upStyle.disable}`}
                 >
-                  <path
-                    d="M20.5189 0.434078C20.38 0.296534 20.2148 0.187361 20.0327 0.112859C19.8506 0.038357 19.6553 0 19.458 0C19.2608 0 19.0655 0.038357 18.8834 0.112859C18.7013 0.187361 18.536 0.296534 18.3971 0.434078L7.26494 11.3815L2.58793 6.7736C2.4437 6.63677 2.27344 6.52918 2.08688 6.45698C1.90031 6.38477 1.70109 6.34936 1.50059 6.35277C1.30009 6.35618 1.10224 6.39833 0.918332 6.47683C0.734422 6.55533 0.568056 6.66864 0.428734 6.81028C0.289412 6.95193 0.179863 7.11913 0.10634 7.30236C0.0328167 7.48558 -0.00324036 7.68123 0.000228499 7.87814C0.00369735 8.07505 0.0466239 8.26935 0.126557 8.44997C0.206489 8.63058 0.321863 8.79397 0.466091 8.93079L6.20402 14.5659C6.34293 14.7035 6.50819 14.8126 6.69028 14.8871C6.87237 14.9616 7.06768 15 7.26494 15C7.4622 15 7.6575 14.9616 7.83959 14.8871C8.02168 14.8126 8.18695 14.7035 8.32586 14.5659L20.5189 2.59128C20.6706 2.45386 20.7917 2.28708 20.8745 2.10144C20.9573 1.9158 21 1.71534 21 1.51268C21 1.31002 20.9573 1.10955 20.8745 0.923914C20.7917 0.738279 20.6706 0.571497 20.5189 0.434078Z"
-                    fill="white"
-                  />
-                </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="21"
+                    height="15"
+                    viewBox="0 0 21 15"
+                    fill="none"
+                  >
+                    <path
+                      d="M20.5189 0.434078C20.38 0.296534 20.2148 0.187361 20.0327 0.112859C19.8506 0.038357 19.6553 0 19.458 0C19.2608 0 19.0655 0.038357 18.8834 0.112859C18.7013 0.187361 18.536 0.296534 18.3971 0.434078L7.26494 11.3815L2.58793 6.7736C2.4437 6.63677 2.27344 6.52918 2.08688 6.45698C1.90031 6.38477 1.70109 6.34936 1.50059 6.35277C1.30009 6.35618 1.10224 6.39833 0.918332 6.47683C0.734422 6.55533 0.568056 6.66864 0.428734 6.81028C0.289412 6.95193 0.179863 7.11913 0.10634 7.30236C0.0328167 7.48558 -0.00324036 7.68123 0.000228499 7.87814C0.00369735 8.07505 0.0466239 8.26935 0.126557 8.44997C0.206489 8.63058 0.321863 8.79397 0.466091 8.93079L6.20402 14.5659C6.34293 14.7035 6.50819 14.8126 6.69028 14.8871C6.87237 14.9616 7.06768 15 7.26494 15C7.4622 15 7.6575 14.9616 7.83959 14.8871C8.02168 14.8126 8.18695 14.7035 8.32586 14.5659L20.5189 2.59128C20.6706 2.45386 20.7917 2.28708 20.8745 2.10144C20.9573 1.9158 21 1.71534 21 1.51268C21 1.31002 20.9573 1.10955 20.8745 0.923914C20.7917 0.738279 20.6706 0.571497 20.5189 0.434078Z"
+                      fill="white"
+                    />
+                  </svg>
+                </div>
               </div>
-            </div>
             )}
           </div>
         </div>
@@ -405,7 +416,6 @@ export default function UploadScorePageContainer() {
         </div>
       </Modal>
 
-     
       <Modal
         opened={confirmModal[0]}
         onClose={confirmModal[1].close}
@@ -522,7 +532,6 @@ export default function UploadScorePageContainer() {
           </div>
         </div>
       </Modal>
-
     </>
   );
 }
