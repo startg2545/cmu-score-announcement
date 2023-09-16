@@ -27,14 +27,21 @@ export default function StudentDashboard() {
     "(max-width: 1024px) and (max-height: 1400px)"
   );
   const title = [
-    "Your Score",
+    "YOUR SCORE",
     "Mean",
     "Max",
     "Median",
     "Lower Quartile",
     "Upper Quartile",
   ];
-  const colorProgress = ["blue", "red", "#429195", "green", "purple", "orange"];
+  const colorProgress = [
+    "#0014c7",
+    "red",
+    "#429195",
+    "brown",
+    "green",
+    "purple",
+  ];
   let mean = 0,
     max = 0,
     median = 0,
@@ -225,14 +232,15 @@ export default function StudentDashboard() {
         label: {
           content: title[i],
           display: true,
-          position: "end",
-          // yAdjust: -100,
+          position: "start",
+          yAdjust: i === 3 ? 20 : i === 0 ? -20 : 0,
           xAdjust: 8,
-          rotation: 90,
+          // rotation: i === 0 ? 90 : 0,
           color: colorProgress[i],
           backgroundColor: "rgb(0,0,0,0)",
           font: {
-            size: 15,
+            // size: 15,
+            // fontFamily: "SF PRo, sans-serif",
           },
         },
         value: stat[i],
@@ -245,15 +253,11 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="my-5">
+    <div className="my-20 lg:my-24">
       {params.courseNo && (
-        <div className={Student.MenuIndexLayout}>
-          <div
-            className={
-              Student.MenuNavigate + " border-b-[1px] border-[#8084c8]"
-            }
-          >
-            <p className={Student.MenuIndex}>
+        <div className="mx-[2%]">
+          <div className=" border-b-[1px] pb-2 border-[#8084c8]">
+            <p className="flex flex-row items-center font-semibold text-primary gap-2">
               <label
                 onClick={backToDashboard}
                 style={{ cursor: "pointer" }}
@@ -261,7 +265,7 @@ export default function StudentDashboard() {
               >
                 Dashboard
               </label>
-              <HiChevronRight />
+              <HiChevronRight className="text-xl" />
               <label
                 onClick={backToCourse}
                 style={{ cursor: params.scoreName ? "pointer" : null }}
@@ -271,70 +275,60 @@ export default function StudentDashboard() {
               </label>
               {params.scoreName && (
                 <>
-                  <HiChevronRight />
+                  <HiChevronRight className="text-xl" />
                   <label className={Student.date}>{params.scoreName}</label>
                 </>
               )}
             </p>
           </div>
-          <div className={Student.lineIndex}></div>
         </div>
       )}
-      <div className=" mx-3 lg:mx-[15%]">
-        <div
-          className="py-5 text-maintext font-semibold"
-          style={{
-            fontFamily: "'SF PRo', sans-serif",
-          }}
-        >
+      {/* MENU */}
+      <div className="mx-3 lg:mx-[2%] ">
+        <div className="py-5 text-maintext font-semibold ">
           <div className="flex items-end">
-            <div>
-              <Text
-                // className={Student.coursetopictext}
-                className="text-3xl lg:text-5xl"
+            <div
+              className="flex-col flex w-full"
+              style={{
+                fontFamily: "'SF PRo', sans-serif",
+              }}
+            >
+              <span //big text topic
+                className="text-3xl md:text-4xl lg:text-5xl "
               >
                 {!params.courseNo && "Dashboard"}
                 {params.courseNo && !params.scoreName && params.courseNo}
                 {params.scoreName && params.scoreName}
-              </Text>
-              <Text
-                // className={Student.datetext}
-                className="text-xl lg:text-2xl"
-              >
+              </span>
+              <span className="text-xl lg:text-2xl">
                 {formatDate(currentDate)}
-              </Text>
+              </span>
             </div>
 
             {params.scoreName && (
               <div className="flex justify-end items-center w-full">
-                <Button
-                  className="text-primary border-primary border-2 rounded-lg hover:text-white hover:bg-primary duration-150"
+                <div
+                  className="text-primary flex lg:text-xl text-md border-primary border-2 px-3 py-2 rounded-xl hover:text-white hover:bg-primary duration-150 "
                   style={{
                     fontFamily: "'SF PRo', sans-serif",
                   }}
                   onClick={changeView}
-                  leftIcon={
-                    isShowGraph ? (
-                      <ImParagraphLeft size={20} />
-                    ) : (
-                      <VscGraph size={23} />
-                    )
-                  }
                 >
+                  {isShowGraph ? (
+                    <ImParagraphLeft className="lg:text-3xl text-xl mr-2" />
+                  ) : (
+                    <VscGraph className="lg:text-3xl text-xl mr-2" />
+                  )}
                   {isShowGraph ? "Show Detail" : "Show Graph"}
-                </Button>
+                </div>
               </div>
             )}
           </div>
         </div>
 
-        <div
-          // className={Student.courseframewindow}
-          className="p-12 border-[3px] border-primary rounded-2xl shadow-xl"
-        >
+        <div className="p-5 flex-col flex gap-3 border-[3px] border-primary rounded-2xl shadow-xl lg:max-h-full md:max-h-full max-h-[400px] lg:overflow-visible overflow-x-auto">
           {message && (
             <Text
-              // className={Student.message}
               className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl border-b-[1px] pb-2 border-primary/50"
               style={{
                 fontFamily: "'SF PRo', sans-serif",
@@ -348,22 +342,31 @@ export default function StudentDashboard() {
               return (
                 <div
                   key={key}
-                  className={Student.frameEachCourse}
+                  className="bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary"
                   onClick={() => onClickCourse(item.courseNo)}
                 >
-                  <div className={Student.courseName}>
-                    <div className={Student.intoCourse}>
-                      {item.courseNo}
-                      {item.courseName ? ` - ${item.courseName}` : null}
-                      <Text
-                        color="#F7C878"
-                        ff="SF Pro"
-                        fz={isMobileOrTablet ? 16 : 20}
-                        ta="left"
-                        lh="normal"
+                  {/* <div className={Student.courseName}> */}
+                  <div className=" px-5 py-1 font-semibold group-hover:cursor-pointer">
+                    <div className="flex justify-between items-center">
+                      <div
+                        className="text-white lg:text-2xl text-lg"
+                        style={{
+                          fontFamily: "'SF PRo', sans-serif",
+                        }} //not global font**
                       >
-                        Section: {item.section}
-                      </Text>
+                        {item.courseNo}
+                        {item.courseName ? ` - ${item.courseName}` : null}
+                        <div
+                          className=" text-[#F7C878] lg:text-[20px] text-[16px] font-normal"
+                          style={{
+                            fontFamily: "'SF PRo', sans-serif",
+                          }}
+                        >
+                          Section {item.section}
+                        </div>
+                      </div>
+
+                      <HiChevronRight className="text-4xl text-white" />
                     </div>
                   </div>
                 </div>
@@ -375,11 +378,23 @@ export default function StudentDashboard() {
               return (
                 <div
                   key={key}
-                  className={Student.frameEachCourse}
+                  className="bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary"
                   onClick={() => onClickScore(item.scoreName)}
                 >
-                  <div className={Student.courseName}>
-                    <div className={Student.intoCourse}>{item.scoreName}</div>
+                  {/* <div className={Student.courseName}> */}
+                  <div className=" px-5 py-1 font-semibold group-hover:cursor-pointer">
+                    <div className="flex justify-between items-center">
+                      <div
+                        className="text-white lg:text-2xl text-lg"
+                        style={{
+                          fontFamily: "'SF PRo', sans-serif",
+                        }} //not global font**
+                      >
+                        {item.scoreName}
+                      </div>
+
+                      <HiChevronRight className="text-4xl text-white" />
+                    </div>
                   </div>
                 </div>
               );
@@ -387,100 +402,73 @@ export default function StudentDashboard() {
           {params.scoreName && (
             <>
               {!isShowGraph && (
-                <Flex direction="column" mt={15} gap={25}>
-                  <Title
-                    ta="right"
-                    order={3}
-                    color="#696CA3"
-                    ff={"SF PRo, sans-serif"}
-                    fz={isMobileOrTablet ? 20 : 25}
-                  >
+                <div className="py-3">
+                  <div className="flex w-full justify-end text-maintext lg:text-3xl text-2xl font-bold">
                     Full Score: {fullScore}
-                  </Title>
+                  </div>
                   {stat.map((e, i) => (
-                    <Flex key={i} direction="column" gap={12}>
-                      <Title
-                        mt={i === 0 ? (isMobileOrTablet ? -20 : -45) : 0}
-                        order={3}
-                        color={colorProgress[i]}
-                        ff={"SF PRo, sans-serif"}
-                        fz={
-                          isMobileOrTablet
-                            ? i === 0
-                              ? 30
-                              : 20
-                            : i === 0
-                            ? 30
-                            : 25
-                        }
-                        fw={i === 0 ? 700 : 500}
+                    <div key={i} className="py-2">
+                      <div
+                        // className="  "
+                        className={`${
+                          i === 0 ? "lg:text-3xl text-2xl" : "text-xl"
+                        } py-2 font-semibold`}
+                        style={{ color: colorProgress[i] }}
                       >
-                        {title[i]}: {e}
-                      </Title>
+                        {title[i]} : <span className="font-normal">{e}</span>
+                      </div>
                       <Progress
                         value={(e * 100) / fullScore}
                         radius={10}
                         color={colorProgress[i]}
                         bg="#D9D9D9"
                       />
-                    </Flex>
+                    </div>
                   ))}
-                  <Title
-                    order={3}
-                    color="#696CA3"
-                    ff={"SF PRo, sans-serif"}
-                    fz={isMobileOrTablet ? 20 : 25}
-                  >
-                    SD: {SD}
-                  </Title>
-                </Flex>
+                  <div className="text-black text-xl pt-4 font-semibold">
+                    SD : <span className="font-normal">{SD}</span>
+                  </div>
+                </div>
               )}
               {isShowGraph && (
-                <Line
-                  data={data}
-                  options={{
-                    scales: {
-                      x: {
-                        type: "linear",
-                        position: "bottom",
-                        min: 0,
-                        max: fullScore,
+                <div>
+                  <Line
+                    data={data}
+                    redraw={true}
+                    options={{
+                      scales: {
+                        x: {
+                          type: "linear",
+                          position: "bottom",
+                        },
+                        y: {
+                          type: "linear",
+                          position: "left",
+                        },
                       },
-                      y: {
-                        type: "linear",
-                        position: "left",
+                      plugins: {
+                        legend: {
+                          display: false,
+                        },
+                        annotation: {
+                          clip: false,
+                          annotations: statLine,
+                        },
                       },
-                    },
-                    layout: {
-                      padding: {
-                        // right: 25,
-                        // left: 25,
-                        // top: 100,
-                        // // bottom: -90,
+                      animation: false,
+                      elements: {
+                        point: {
+                          radius: 0,
+                        },
+                        line: {
+                          borderColor: "black",
+                          borderWidth: 1,
+                        },
                       },
-                    },
-                    plugins: {
-                      legend: {
-                        display: false,
-                      },
-                      annotation: {
-                        clip: false,
-                        annotations: statLine,
-                      },
-                    },
-                    animation: false,
-                    elements: {
-                      point: {
-                        radius: 0,
-                      },
-                      line: {
-                        borderColor: "black",
-                        borderWidth: 1,
-                      },
-                    },
-                    events: [],
-                  }}
-                />
+                      events: [],
+                    }}
+                  />
+                </div>
               )}
             </>
           )}

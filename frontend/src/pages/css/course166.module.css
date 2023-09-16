@@ -6,7 +6,7 @@
 
 .courseframewindow {
   position: absolute;
-  top: calc(125px + 50%); 
+  top: calc(125px + 50%);
   left: 50%;
   transform: translate(-50%, -3%);
   width: 100vw;
@@ -146,14 +146,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color:#7579c1;
+  color: #7579c1;
   border: #7579c1 3px solid;
   text-indent: -5px;
   font-size: 18px;
   transition: background-color 0.3s ease;
-  position:fixed;
-  right: calc(25px); 
-  top: 90px; 
+  position: fixed;
+  right: calc(25px);
+  top: 90px;
   cursor: pointer;
 }
 
@@ -179,10 +179,9 @@
   max-width: 96.6%;
   left: 50%;
   align-content: center;
-  
 }
 
-.MenuNavigate{
+.MenuNavigate {
   margin-top: 5px;
   display: flex;
   flex-direction: row;
@@ -191,8 +190,8 @@
   left: 50%;
   transform: translate(0px, 0px);
 }
-.MenuNavigate.moveRight{
-  width: calc(79vw); 
+.MenuNavigate.moveRight {
+  width: calc(79vw);
   transform: translate(115px, 0px);
   transition: transform 0.4s ease;
   margin-inline: auto;
@@ -210,21 +209,20 @@
   transform: translate(0px, 0px);
 }
 
-.lineIndex.moveRight{
-  width: calc(79vw); 
+.lineIndex.moveRight {
+  width: calc(79vw);
   transform: translate(115px, 0px);
   transition: transform 0.4s ease;
   margin-inline: auto;
 }
 
-.date{
+.date {
   font-size: 19px;
   /* transition: transform 0.3s ease; */
 }
 
-.date.moveRight{
+.date.moveRight {
   /* transform: translateX(260px); */
-
 }
 
 .MenuIndex {
@@ -249,8 +247,8 @@
 .containerTitleDate {
   display: flex;
   flex-direction: column;
-  align-items: center; 
-  text-align: center; 
+  align-items: center;
+  text-align: center;
 }
 
 .Title {
@@ -288,16 +286,13 @@
   justify-content: space-between;
 }
 
-
 .boxdrop {
   display: flex;
-  flex-direction:row;
+  flex-direction: row;
   align-items: flex-start;
   margin-top: 20px;
   gap: 20px;
 }
-
-
 
 .box_upload,
 .manageButton,
@@ -324,7 +319,6 @@
 
 .box_upload {
   width: 150px;
-  
 }
 
 .manageButton {
@@ -335,7 +329,7 @@
   width: 120px;
 }
 
-.box_upload:hover{
+.box_upload:hover {
   background-color: #d8dbe4;
   color: #000000;
 }
@@ -344,15 +338,11 @@
   transform: scale(1.1);
 }
 
-.box_upload.moveLeft
-.manageButton.moveLeft
-.instructorButton.moveLeft
-{
+.box_upload.moveLeft .manageButton.moveLeft .instructorButton.moveLeft {
   transform: translate(-40px);
 }
 
-
-.manageButton:hover{
+.manageButton:hover {
   background-color: #d8dbe4;
   color: #000000;
 }
@@ -361,15 +351,13 @@
   transform: scale(1.1);
 }
 
-
-.instructorButton:hover{
+.instructorButton:hover {
   background-color: #d8dbe4;
   color: #000000;
 }
 
 .instructorButtonsvg {
-transform: scale(1.1);
-
+  transform: scale(1.1);
 }
 
 .showUpload {
@@ -391,7 +379,6 @@ transform: scale(1.1);
 }
 
 .AddCoursePopup-Content {
-
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -429,7 +416,6 @@ transform: scale(1.1);
   font-family: "SF Pro", sans-serif;
 }
 
-
 .AddCoursePopupButtons {
   display: flex;
   font-family: "SF Pro", sans-serif;
@@ -438,7 +424,6 @@ transform: scale(1.1);
 
 .AddCourseCancelButton,
 .AddCourseConfirmButton {
-
   cursor: pointer;
   font-family: "SF Pro", sans-serif;
 }
@@ -451,7 +436,7 @@ transform: scale(1.1);
   background: #fff;
   box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.15);
   font-size: 18px;
-  margin:  10px;
+  margin: 10px;
   margin-top: 5px;
   cursor: pointer;
   font-family: "SF Pro", sans-serif;
@@ -467,23 +452,20 @@ transform: scale(1.1);
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
-  margin:  10px;
+  margin: 10px;
   margin-top: 5px;
   cursor: pointer;
   font-family: "SF Pro", sans-serif;
 }
 
 .AddCourseInlineContainer {
-  display: flex; 
+  display: flex;
   align-items: center;
   margin-bottom: 30px;
   transition: transform 0.3s ease;
   margin-top: -15px;
   font-family: "SF Pro", sans-serif;
 }
-
-
-
 
 .frameCourseDash {
   font-family: "SF Pro", sans-serif;
@@ -496,20 +478,18 @@ transform: scale(1.1);
   height: calc(87vh - 70px);
   flex-direction: column;
   border-radius: 25px;
-  border: 4px solid #9F9EDA;
+  border: 4px solid #9f9eda;
   background: #fff;
   align-items: center;
-  display:flex;
+  display: flex;
   border-radius: 20px 20px 20px 20px;
   transition: width 0.4s ease, margin-left 0.4s ease;
 }
 
 .frameCourseDash.shrink {
   align-items: center;
-  width: calc(
-    79vw 
-  ); 
-  margin-left: 122px; 
+  width: calc(79vw);
+  margin-left: 122px;
 }
 
 .navbarCourseDash {
@@ -523,22 +503,18 @@ transform: scale(1.1);
   align-items: center; /* Vertically center align elements */
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  border: 3px ;
+  border: 3px;
   background: #8584c5;
   z-index: 1;
   transition: width 0.4s ease, margin-left 0.4s ease;
 }
 
 .navbarCourseDash.shrink {
-  width: calc(
-    79.3vw 
-  ); 
+  width: calc(79.3vw);
 }
 
-
-.desText
-{
-  color: #696CA3;
+.desText {
+  color: #696ca3;
   text-align: center;
   font-family: "SF Pro", sans-serif;
   font-size: 36px;
@@ -594,7 +570,7 @@ transform: scale(1.1);
 
 .ScoreCancelText {
   position: absolute;
-  right:65px;
+  right: 65px;
   margin: 0;
   font-weight: 700;
   font-size: 14px;
