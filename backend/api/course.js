@@ -35,17 +35,6 @@ router.post("/add", async (req, res) => {
       course.sections = course.sections.filter(
         (section) => section.section !== null
       );
-      const section = course.sections.find(
-        (s) =>
-          s.instructor === user.cmuAccount ||
-          s.coInstructors.includes(user.cmuAccount)
-      );
-      if (!section) {
-        course.sections.push({
-          section: null,
-          instructor: user.cmuAccount,
-        });
-      }
       await course.save();
     }
     // Update sections
@@ -87,6 +76,18 @@ router.post("/add", async (req, res) => {
       }
     }
     await course.save();
+    const section = course.sections.find(
+      (s) =>
+        s.instructor === user.cmuAccount ||
+        s.coInstructors.includes(user.cmuAccount)
+    );
+    if (!section) {
+      course.sections.push({
+        section: null,
+        instructor: user.cmuAccount,
+      });
+      await course.save();
+    }
     if (cannotAdd.length === 0)
       return res.send({ ok: true, message: "The score have been added/edit." });
     else

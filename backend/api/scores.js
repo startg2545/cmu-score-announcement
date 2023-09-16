@@ -75,7 +75,7 @@ router.delete("/", async (req, res) => {
     const scoreName = req.query.scoreName;
     const type = req.query.type;
 
-    if (type === "delete_one") {
+    if (type === "delete_one" || type === "unpublish") {
       const section = req.query.section;
       const sections = await scoreModel.findOne({
         courseNo,
@@ -104,25 +104,31 @@ router.delete("/", async (req, res) => {
           { new: true }
         );
       }
-      await scoreModel.findOneAndUpdate(
-        {
-          courseNo,
-          year,
-          semester,
-          "sections.section": req.query.section,
-        },
-        {
-          $pull: {
-            "sections.$.scores": {
-              scoreName: scoreName,
+      if (type === "delete_one") {
+        await scoreModel.findOneAndUpdate(
+          {
+            courseNo,
+            year,
+            semester,
+            "sections.section": req.query.section,
+          },
+          {
+            $pull: {
+              "sections.$.scores": {
+                scoreName: scoreName,
+              },
             },
           },
-        },
-        { new: true }
-      );
+          { new: true }
+        );
+        return res.send({
+          ok: true,
+          message: `score ${scoreName} delete in section ${req.query.section} deleted.`,
+        });
+      }
       return res.send({
         ok: true,
-        message: `score ${scoreName} delete in section ${req.query.section} deleted.`,
+        message: `score ${scoreName} in section ${req.query.section} unpublished.`,
       });
     } else if (type === "delete_all") {
       const course = await scoreModel.findOne({
@@ -148,7 +154,7 @@ router.delete("/", async (req, res) => {
         .filter(Boolean);
 
       for (let section in sections) {
-        const results = sections[section].scores[0].results
+        const results = sections[section].scores[0].results;
         for (let score in results) {
           await studentModel.findOneAndUpdate(
             {

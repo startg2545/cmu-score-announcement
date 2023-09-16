@@ -9,7 +9,6 @@ import Course from "../pages/css/course166.module.css";
 import upStyle from "./css/uploadScore.module.css";
 
 const TableScore = ({ data }) => {
-  const [isPublic, setIsPublic] = useState(false);
   const [islog, setlog] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -102,13 +101,27 @@ const TableScore = ({ data }) => {
       results: el.results,
       type: "publish_one",
     };
-    setIsPublished(!isPublished);
-    console.log("send", student_schema);
-    let resp_student = await addStudentGrade(student_schema);
-    if (resp_student) console.log("response: ", resp_student);
+    setIsPublished((prev) => ({
+      ...prev,
+      [el.scoreName]: true,
+    }));
+    await addStudentGrade(student_schema);
+  };
 
-    const buttonElement = document.getElementById("toggleButton");
-    buttonElement.classList.toggle("active");
+  const unPublish = async (name) => {
+    const scoreDelete = {
+      courseNo: searchParams.get("courseNo"),
+      year: parseInt(searchParams.get("year")),
+      semester: parseInt(searchParams.get("semester")),
+      section: parseInt(searchParams.get("section")),
+      scoreName: name,
+      type: "unpublish",
+    };
+    setIsPublished((prev) => ({
+      ...prev,
+      [name]: false,
+    }));
+    await deleteScores(scoreDelete);
   };
 
   const deleteOne = async (name) => {
@@ -169,11 +182,15 @@ const TableScore = ({ data }) => {
       <td>
         <center>
           <div
-            id="toggleButton"
+            key={element.scoreName}
             className={` ${tabStyle.publicBT} ${
-              isPublished ? tabStyle.active : ""
+              isPublished[element.scoreName] ? tabStyle.active : null
             }`}
-            onClick={() => publish(element)}
+            onClick={() =>
+              !isPublished[element.scoreName]
+                ? publish(element)
+                : unPublish(element.scoreName)
+            }
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
