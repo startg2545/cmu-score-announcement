@@ -8,14 +8,16 @@ router.post("/add", async (req, res) => {
   try {
     const token = req.cookies.token;
     const user = await verifyAndValidateToken(token);
-
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
 
-    const { courseNo, semester, year } = req.body;
+    const courseNo = req.body.courseNo;
+    const semester = req.body.semester;
+    const year = req.body.year;
 
     if (req.body.type == "publish_many") {
+      const test_arr = [];
       const sections = req.body.sections;
       for (let section in sections) {
         const scores = sections[section].scores;
@@ -35,10 +37,10 @@ router.post("/add", async (req, res) => {
 
             const req_section = sections[section].section;
             const courseGrade = {
-              courseNo,
-              year,
-              semester,
+              courseNo: courseNo,
               section: req_section,
+              year: year,
+              semester: semester,
               scores: [
                 {
                   scoreName: scoreName,
@@ -129,10 +131,10 @@ router.post("/add", async (req, res) => {
         });
 
         const courseGrade = {
-          courseNo,
-          year,
-          semester,
+          courseNo: courseNo,
           section: section,
+          year: year,
+          semester: semester,
           scores: [
             {
               scoreName: scoreName,
@@ -203,7 +205,9 @@ router.post("/add", async (req, res) => {
       return res.send("publish_one succeeded");
     }
   } catch (err) {
-    return err;
+    return res
+      .status(500)
+      .send({ ok: false, message: "Internal Server Error" });
   }
 });
 
@@ -225,7 +229,9 @@ router.get("/", async (req, res) => {
       return res.send({ ok: false, message: "You don't have any score" });
     return res.send({ ok: true, scores });
   } catch (err) {
-    return err;
+    return res
+      .status(500)
+      .send({ ok: false, message: "Internal Server Error" });
   }
 });
 

@@ -53,7 +53,6 @@ router.get("/", async (req, res) => {
         return res.send({ ok: false, message: "You don't have any course." });
     }
   } catch (err) {
-    console.log(err);
     return res
       .status(500)
       .send({ ok: false, message: "Internal Server Error" });
@@ -205,7 +204,6 @@ router.delete("/", async (req, res) => {
       });
     }
   } catch (err) {
-    console.log(err);
     return res
       .status(500)
       .send({ ok: false, message: "Internal Server Error" });

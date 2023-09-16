@@ -26,7 +26,9 @@ router.get("/", async (req, res) => {
           itAccountType: user.itAccountType,
         });
   } catch (err) {
-    return res.status(500).send({ ok: false, message: "Internal Server Error" });
+    return res
+      .status(500)
+      .send({ ok: false, message: "Internal Server Error" });
   }
 });
 

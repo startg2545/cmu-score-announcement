@@ -28,7 +28,11 @@ router.get("/course", async (req, res) => {
 
     res.send({ ok: true, courseDetails: course });
   } catch (err) {
-    return res.send(err.response.data);
+    if (err.response.data) return res.send(err.response.data);
+    return res.send({
+      ok: false,
+      message: "Cannot connect to CPE API Server. Please try again later.",
+    });
   }
 });
 
