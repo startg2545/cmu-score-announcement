@@ -114,12 +114,12 @@ router.put("/", async (req, res) => {
 
     await courseModel.findOneAndUpdate(
       {
-        courseNo: req.query.courseNo,
-        year: req.query.year,
-        semester: req.query.semester,
+        courseNo: req.body.courseNo,
+        year: req.body.year,
+        semester: req.body.semester,
         "sections.instructor": user.cmuAccount,
       },
-      { $addToSet: { "sections.$[].coInstructors": req.query.coInstructors } },
+      { $addToSet: { "sections.$[].coInstructors": req.body.coInstructors } },
       { new: true }
     );
     return res.send("Co-Instructor have been added.");

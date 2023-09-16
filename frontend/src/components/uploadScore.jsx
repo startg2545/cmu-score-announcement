@@ -64,8 +64,9 @@ export default function UploadScorePageContainer() {
       for (let j in keys) {
         obj[keys[j]] = list[i][j];
       }
-      if (list[i][0] !== "") results_list[i] = obj;
+      if (list[i][0] !== "" || list[i][1] !== "" ) results_list[i] = obj;
     }
+    console.log(results_list);
     return results_list;
   }
 
@@ -81,7 +82,7 @@ export default function UploadScorePageContainer() {
         }
         num = 0;
       }
-      num++;
+      if(list[i][1] !== "") num++;
     }
     countStudent.push(num);
     return { sec_list, countStudent };

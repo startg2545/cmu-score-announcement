@@ -9,7 +9,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import { SideBar, UploadSc, Management } from "../components";
 import { ShowSidebarContext } from "../context";
-import { addCourse, getAllCourses, getScores } from "../services";
+import {
+  addCoInstructors,
+  addCourse,
+  getAllCourses,
+  getScores,
+} from "../services";
 import { TextInput, Button, Flex, Modal } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
@@ -29,7 +34,7 @@ export default function Course166Container() {
   const [isManage, setManage] = useState(false);
   const [params, setParams] = useState({});
   const [sections, setSections] = useState([]);
-  const [isEmailValid, setIsEmailNoValid] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const [opened, { open, close }] = useDisclosure(false);
   const { showSidebar } = useContext(ShowSidebarContext);
   const navigate = useNavigate();
@@ -39,12 +44,20 @@ export default function Course166Container() {
     open();
   };
 
-  const instructorClosePopup = () => {
+  const instructorClosePopup = async (coInstructors) => {
     if (!isEmailValid) {
       return;
     }
+    const data = {
+      courseNo: params.courseNo,
+      year: parseInt(params.year),
+      semester: parseInt(params.semester),
+      coInstructors: coInstructors,
+    };
+    const resp = await addCoInstructors(data);
     close();
     emailform.reset();
+    return resp;
   };
 
   const emailform = useForm({
@@ -54,11 +67,11 @@ export default function Course166Container() {
     validate: {
       email: (value) => {
         if (!value) {
-          setIsEmailNoValid(false);
+          setIsEmailValid(false);
           return "Email is required";
         }
         const isValid = /^\S+@cmu\.ac\.th$/i.test(value);
-        setIsEmailNoValid(isValid);
+        setIsEmailValid(isValid);
         return isValid
           ? null
           : "Please enter a valid email address ending with @cmu.ac.th";
@@ -239,12 +252,12 @@ export default function Course166Container() {
   };
 
   const ConfirmhandleClosePopup = async (data) => {
-    let req = await addCourse({
+    let resp = await addCourse({
       year: parseInt(params.year),
       semester: parseInt(params.semester),
       courseNo: params.courseNo ? params.courseNo : data.courseNo,
     });
-    console.log(req);
+    console.log(resp);
     courseForm.reset();
     fetchData();
   };
@@ -433,8 +446,7 @@ export default function Course166Container() {
           </p>
           <form
             onSubmit={emailform.onSubmit((data) => {
-              console.log(data);
-              instructorClosePopup();
+              instructorClosePopup(data.email);
             })}
           >
             <TextInput
