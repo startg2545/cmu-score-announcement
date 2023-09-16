@@ -117,7 +117,7 @@ body {
 
 .sidebar {
   position: fixed;
-  top: 69px; /* Position the sidebar below the navbar with 80px distance from the top */
+  top: 70px; /* Position the sidebar below the navbar with 80px distance from the top */
   left: -300px; /* Initially hide the sidebar off the left side of the screen */
   width: 240px; /* Adjust the width as needed */
   height: calc(100vh); /* Set the maximum height based on the distance from the top */
