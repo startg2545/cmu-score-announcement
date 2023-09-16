@@ -493,9 +493,14 @@ export default function Course166Container() {
       </Modal>
 
       {isSelectedCourse && (
-        <div className={Course.MenuIndexLayout}>
+        <div className={` ${Course.MenuIndexLayout} ${
+          showSidebar ? Course.moveRight : ""
+        }`}
+        >
           <>
-            <div className={Course.MenuNavigate}>
+            <div  className={` ${Course.MenuNavigate} ${
+          showSidebar ? Course.moveRight : ""}`}
+            >
               <p className={Course.MenuIndex}>
                 <label
                   onClick={backToDashboard}
@@ -577,7 +582,9 @@ export default function Course166Container() {
                   </>
                 )}
               </p>
-              <div
+            </div>
+            
+            <div
                 className={`${Course.frameCourseDash} ${
                   showSidebar ? Course.shrink : ""
                 }`}
@@ -763,7 +770,6 @@ export default function Course166Container() {
               </div>
               {isUploadScore && <UploadSc />}
               {isManage && <Management data={sections} />}
-            </div>
 
             <div
               className={` ${Course.lineIndex} ${
