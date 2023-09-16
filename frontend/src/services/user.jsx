@@ -10,7 +10,7 @@ export async function getUserInfo() {
     );
     return resp.data;
   } catch (err) {
-    return err.response;
+    return err.response.data;
   }
 }
 

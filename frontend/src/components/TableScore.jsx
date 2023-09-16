@@ -1,9 +1,9 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Center, Table, Button, Modal } from "@mantine/core";
-import { addStudentGrade } from "../services";
+import { Table, Button, Modal } from "@mantine/core";
+import { addStudentGrade, deleteScores } from "../services";
 import tabStyle from "./css/tableScore.module.css";
 import Course from "../pages/css/course166.module.css";
 import upStyle from "./css/uploadScore.module.css";
@@ -87,7 +87,9 @@ const TableScore = ({ data }) => {
   };
 
   useEffect(() => {
-    calStat();
+    if (data.length) {
+      calStat();
+    }
   }, [data]);
 
   const publish = async (el) => {
@@ -107,6 +109,31 @@ const TableScore = ({ data }) => {
 
     const buttonElement = document.getElementById("toggleButton");
     buttonElement.classList.toggle("active");
+  };
+
+  const deleteOne = async (name) => {
+    const scoreDelete = {
+      courseNo: searchParams.get("courseNo"),
+      year: parseInt(searchParams.get("year")),
+      semester: parseInt(searchParams.get("semester")),
+      section: parseInt(searchParams.get("section")),
+      scoreName: name,
+      type: "delete_one",
+    };
+    await deleteScores(scoreDelete);
+    localStorage.setItem("delete score", true);
+  };
+
+  const deleteAll = async (name) => {
+    const scoreDelete = {
+      courseNo: searchParams.get("courseNo"),
+      year: parseInt(searchParams.get("year")),
+      semester: parseInt(searchParams.get("semester")),
+      scoreName: name,
+      type: "delete_all",
+    };
+    await deleteScores(scoreDelete);
+    localStorage.setItem("delete score", true);
   };
 
   const rows = data.map((element, key) => (
@@ -174,9 +201,9 @@ const TableScore = ({ data }) => {
           <div className={tabStyle.manageBtDisplay}>
             <div
               className={`${tabStyle.manageBT} ${tabStyle.editBT}`}
-              // onClick={() => {
-              //   localStorage.setItem("Upload", true);
-              // }}
+              onClick={() => {
+                localStorage.setItem("Upload", true);
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -309,7 +336,10 @@ const TableScore = ({ data }) => {
             </Button>
             <Button
               className={tabStyle.secondaryButton}
-              onClick={handleClose}
+              onClick={() => {
+                handleClose();
+                deleteOne(scoreName);
+              }}
               sx={{
                 color: "black",
                 "&:hover": {
@@ -320,7 +350,13 @@ const TableScore = ({ data }) => {
             >
               This section
             </Button>
-            <Button className={tabStyle.primaryButton} onClick={handleClose}>
+            <Button
+              className={tabStyle.primaryButton}
+              onClick={() => {
+                handleClose();
+                deleteAll(scoreName);
+              }}
+            >
               All sections
             </Button>
           </div>

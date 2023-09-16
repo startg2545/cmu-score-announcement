@@ -128,7 +128,6 @@ export default function UploadScorePageContainer() {
 
   const handleFile = async (e) => {
     const file = e.target.files[0];
-    console.log(file);
     if (file) {
       const data = await file.arrayBuffer();
       const workbook = XLSX.read(data);

@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useCallback,
 } from "react";
-import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
 import { SideBar, UploadSc, Management } from "../components";
 import { ShowSidebarContext } from "../context";
@@ -33,7 +33,6 @@ export default function Course166Container() {
   const [opened, { open, close }] = useDisclosure(false);
   const { showSidebar } = useContext(ShowSidebarContext);
   const navigate = useNavigate();
-  const location = useLocation();
   const addCourseButton = useDisclosure();
 
   const handleClickInstructor = () => {
@@ -44,11 +43,6 @@ export default function Course166Container() {
     if (!isEmailValid) {
       return;
     }
-    close();
-    emailform.reset();
-  };
-
-  const instructorCancelClosePopup = () => {
     close();
     emailform.reset();
   };
@@ -130,7 +124,7 @@ export default function Course166Container() {
     setSearchParams(searchParams);
   };
 
-  const fetchData = useCallback(async () => {
+  const fetchData = async () => {
     const allCourses = await getAllCourses();
     const resp = await getScores(params.year, params.semester);
     if (resp.ok) {
@@ -147,20 +141,21 @@ export default function Course166Container() {
     } else {
       setNoCourse(resp.message);
     }
-  }, [params.year, params.semester]);
+  };
 
-  const showSection = useCallback(() => {
+  const showSection = () => {
     const data = course
       .filter((e) => e.courseNo === params.courseNo)[0]
       .sections.filter((e) => e.section);
     setSections(data);
     setUploadScore(false);
     setManage(true);
-  }, [course, params.courseNo]);
+  };
 
   useEffect(() => {
     setCourse([]);
     setNoCourse();
+    localStorage.clear();
   }, [params.year, params.semester]);
 
   useEffect(() => {
@@ -168,7 +163,16 @@ export default function Course166Container() {
       return navigate("/instructor-dashboard");
     }
 
+    if (localStorage.getItem("delete score")) {
+      setCourse([]);
+      setNoCourse();
+      setSections([]);
+      localStorage.removeItem("delete score");
+    }
+
     if (localStorage.getItem("Upload") !== null) {
+      setCourse([]);
+      setSections([]);
       setUploadScore(false);
       localStorage.removeItem("Upload");
       localStorage.removeItem("page");
@@ -184,14 +188,14 @@ export default function Course166Container() {
       setManage(false);
     }
 
-    if (localStorage.getItem("page") === "upload" && params.courseNo) {
-      setUploadScore(true);
-    }
-
-    if (localStorage.getItem("page") === "management" && params.courseNo) {
-      setManage(true);
-      if (!sections.length && course.length) {
-        showSection();
+    if (params.courseNo) {
+      if (localStorage.getItem("page") === "upload") {
+        setUploadScore(true);
+      } else if (localStorage.getItem("page") === "management") {
+        setManage(true);
+        if (!sections.length && course.length) {
+          showSection();
+        }
       }
     }
 
@@ -204,13 +208,11 @@ export default function Course166Container() {
     course,
     sections,
     localStorage.getItem("Upload"),
-    location,
+    localStorage.getItem("delete score"),
     getParams,
     params,
     searchParams,
     setSearchParams,
-    fetchData,
-    showSection,
   ]);
 
   const formatDate = (date) => {
@@ -342,9 +344,6 @@ export default function Course166Container() {
                     size="md"
                     radius="md"
                   />
-                  {/* <div className={Course.DropDownContainer}>
-                      <DropDownCourse parentToChild={allCourses} />
-                    </div> */}
                 </div>
                 <div className={Course.AddCoursePopupButtons}>
                   <Button
@@ -452,7 +451,10 @@ export default function Course166Container() {
             <Flex className={Course.instructorPopupButtons}>
               <Button
                 className={Course.CancelPopupButton}
-                onClick={instructorCancelClosePopup}
+                onClick={() => {
+                  close();
+                  emailform.reset();
+                }}
                 sx={{
                   color: "black",
                   "&:hover": {
