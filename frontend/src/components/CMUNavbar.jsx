@@ -50,7 +50,7 @@ const CMUNavbar = () => {
         <div
           onClick={() => handleSidebarClick()}
           className={userRole + " items-center"}
-          style={{cursor: "pointer"}}
+          style={{ cursor: "pointer" }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -103,7 +103,6 @@ const CMUNavbar = () => {
                         style={{
                           fontFamily: "'SF PRo', sans-serif",
                         }}
-                        //user info
                       >
                         Hello, {userInfo.firstName.charAt(0).toUpperCase()}
                         {userInfo.firstName.slice(1).toLowerCase()}{" "}
@@ -112,7 +111,7 @@ const CMUNavbar = () => {
                         .
                       </Text>
                       <Text
-                        className="text-[#f7c878] group-hover:text-[#e6bd76] drop-shadow text-end"
+                        className="text-[#f7c878] group-hover:text-[#e6bd76] lg:text-xl md:text-lg drop-shadow text-end"
                         style={{
                           fontFamily: "'SF PRo', sans-serif",
                         }}
@@ -150,7 +149,7 @@ const CMUNavbar = () => {
                   <div className="flex items-center gap-3">
                     <div>
                       <Text
-                        className="text-white  lg:text-xl md:text-lg font-bold drop-shadow"
+                        className="text-white 2xl:text-2xl xl:text-xl lg:text-lg font-bold drop-shadow"
                         style={{
                           fontFamily: "'SF PRo', sans-serif",
                         }}
@@ -162,10 +161,10 @@ const CMUNavbar = () => {
                         .
                       </Text>
                       <Text
-                        className="text-[#f7c878] group-hover:text-[#e6bd76] drop-shadow text-end"
+                        className="text-[#f7c878] group-hover:text-[#e6bd76] 2xl:text-xl xl:text-lg lg:text-md md:text-sm drop-shadow text-end"
                         style={{
                           fontFamily: "'SF PRo', sans-serif",
-                          fontWeight: "500"
+                          fontWeight: "500",
                         }}
                       >
                         1/66,{" Instructor"}
