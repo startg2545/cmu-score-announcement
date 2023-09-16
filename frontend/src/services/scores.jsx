@@ -36,3 +36,25 @@ export async function getScoresCourse(data) {
     return err.response.data;
   }
 }
+
+export async function deleteScores(data) {
+  try {
+    const resp = await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/scores`,
+      {
+        params: {
+          courseNo: data.courseNo,
+          year: data.year,
+          semester: data.semester,
+          section: data.section,
+          scoreName: data.scoreName,
+          type: data.type,
+        },
+        withCredentials: true,
+      }
+    );
+    return resp.data;
+  } catch (err) {
+    return err.response.data;
+  }
+}

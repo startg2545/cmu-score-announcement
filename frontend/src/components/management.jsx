@@ -13,47 +13,38 @@ const Management = ({ data }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { showSidebar } = useContext(ShowSidebarContext);
   const [dataTable, setDataTable] = useState([]);
-  const [sections, setSections] = useState([]);
   const [countChecked, setCountChecked] = useState(0);
   const [selectedPublishEach, setSelectedPublishEach] = useState([]);
   const publishEach = useDisclosure();
   const publishAll = useDisclosure();
   const [checkedSections, setCheckedSections] = useState([]);
 
-  const showTable = useCallback(
-    (sec) => {
-      setDataTable(data.filter((e) => e.section === parseInt(sec))[0].scores);
-      searchParams.set("section", sec);
-      setSearchParams(searchParams);
-    },
-    [data, searchParams, setSearchParams]
-  );
-
-  const fetchData = useCallback(async () => {
-    const resp = await getScores(
-      searchParams.get("year"),
-      searchParams.get("semester")
-    );
-    console.log(resp.course)
-    if (resp.ok) {
-      resp.course.map((data) => {
-        data.sections.shift(); // delete cmu acc object
-        if (data.courseNo === searchParams.get("courseNo")) {
-          setSections(data.sections);
-        }
-      });
-    }
-  }, [searchParams.get("courseNo")]);
+  const showTable = (sec) => {
+    setDataTable(data.filter((e) => e.section === parseInt(sec))[0].scores);
+    searchParams.set("section", sec);
+    setSearchParams(searchParams);
+  };
 
   useEffect(() => {
-    if (data.length ) {
-      if (!sections.length) fetchData();
+    if (
+      localStorage.getItem("delete score") ||
+      localStorage.getItem("Upload")
+    ) {
+      setDataTable([]);
+    }
+    if (data.length) {
       if (searchParams.get("section") && !dataTable.length) {
         showTable(searchParams.get("section"));
       }
     }
     data.sort((a, b) => a.section - b.section);
-  }, [data, searchParams, sections, dataTable, showTable, fetchData]);
+  }, [
+    data,
+    searchParams,
+    dataTable,
+    localStorage.getItem("Upload"),
+    localStorage.getItem("delete score"),
+  ]);
 
   const handleCheckboxChange = (e, value) => {
     if (e.target.checked === true) {
@@ -83,11 +74,11 @@ const Management = ({ data }) => {
   };
 
   const submitPublishEach = async () => {
-    const section_arr = []
-    for (let checked in checkedSections ) {
-      data.map(e=>{
-        if (e.section == checkedSections[checked]) section_arr.push(e)
-      })
+    const section_arr = [];
+    for (let checked in checkedSections) {
+      data.map((e) => {
+        if (e.section == checkedSections[checked]) section_arr.push(e);
+      });
     }
     const student_schema = {
       courseNo: searchParams.get("courseNo"),
@@ -186,7 +177,6 @@ const Management = ({ data }) => {
                   backgroundColor: "#F0EAEA",
                 },
               }}
-            
             >
               Cancel
             </Button>
@@ -202,7 +192,7 @@ const Management = ({ data }) => {
               onClick={() => {
                 publishEach[1].close();
                 setCheckedSections([]);
-                submitPublishEach()
+                submitPublishEach();
               }}
               radius="md"
               disabled={countChecked === 0}
@@ -373,7 +363,7 @@ const Management = ({ data }) => {
           {searchParams.get("section") && <TableScore data={dataTable} />}
         </div>
       </div>
-      {!searchParams.get("section") && sections.length > 0 &&  (
+      {!searchParams.get("section") && data.length > 0 && (
         <div
           className={` ${secMan.publishSec}  ${
             showSidebar ? secMan.shrink : ""
@@ -394,26 +384,26 @@ const Management = ({ data }) => {
           </div>
         </div>
       )}
-      {sections.length === 0 && (
+      {data.length === 0 && (
         <div
-        className={` ${secMan.publishSec}  ${
-          showSidebar ? secMan.shrink : ""
-        }`}
-      >
-        <div className={secMan.publishEachDisable}>
-          <p className={secMan.fontp} style={{ fontWeight: "600" }}>
-            Publish Each Section
-          </p>
+          className={` ${secMan.publishSec}  ${
+            showSidebar ? secMan.shrink : ""
+          }`}
+        >
+          <div className={secMan.publishEachDisable}>
+            <p className={secMan.fontp} style={{ fontWeight: "600" }}>
+              Publish Each Section
+            </p>
+          </div>
+          <div className={secMan.publishlAllDisable}>
+            <p
+              className={secMan.fontp}
+              style={{ fontWeight: "600", textDecoration: "underline" }}
+            >
+              Publish All Sections
+            </p>
+          </div>
         </div>
-        <div className={secMan.publishlAllDisable}>
-          <p
-            className={secMan.fontp}
-            style={{ fontWeight: "600", textDecoration: "underline" }}
-          >
-            Publish All Sections
-          </p>
-        </div>
-      </div>
       )}
     </>
   );

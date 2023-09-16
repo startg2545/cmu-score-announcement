@@ -35,6 +35,17 @@ router.post("/add", async (req, res) => {
       course.sections = course.sections.filter(
         (section) => section.section !== null
       );
+      const section = course.sections.find(
+        (s) =>
+          s.instructor === user.cmuAccount ||
+          s.coInstructors.includes(user.cmuAccount)
+      );
+      if (!section) {
+        course.sections.push({
+          section: null,
+          instructor: user.cmuAccount,
+        });
+      }
       await course.save();
     }
     // Update sections
@@ -45,7 +56,7 @@ router.post("/add", async (req, res) => {
         (s) =>
           s.section === reqSection.section &&
           (s.instructor === user.cmuAccount ||
-            s.coInstructors.includes(user.cmuAccount))
+            s.coInstructors?.includes(user.cmuAccount))
       );
 
       if (section) {
@@ -101,7 +112,7 @@ router.put("/", async (req, res) => {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
 
-    const result = await courseModel.findOneAndUpdate(
+    await courseModel.findOneAndUpdate(
       {
         courseNo: req.query.courseNo,
         year: req.query.year,
@@ -111,8 +122,6 @@ router.put("/", async (req, res) => {
       { $addToSet: { "sections.$[].coInstructors": req.query.coInstructors } },
       { new: true }
     );
-
-    await result.save();
     return res.send("Co-Instructor have been added.");
   } catch (err) {
     return res
