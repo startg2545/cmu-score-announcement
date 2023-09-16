@@ -19,18 +19,12 @@ export async function addCourse(data) {
   }
 }
 
-export async function addCoInstructors(req, coInstructors) {
+export async function addCoInstructors(data) {
   try {
     const resp = await axios.put(
       `${process.env.REACT_APP_BASE_URL}/api/v1/course`,
+      data,
       {
-        params: {
-          courseNo: req.courseNo,
-          year: req.year,
-          semester: req.semester,
-          coInstructors: coInstructors,
-        },
-        timeout: 5000,
         withCredentials: true,
       }
     );
