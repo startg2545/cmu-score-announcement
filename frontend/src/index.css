@@ -14,7 +14,37 @@ body {
 @keyframes fadeInBottom {
   0% {
     opacity: 0;
-    transform: translateY(-25px);
+    transform: translateY(-15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeInTop {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-15px);
   }
   100% {
     opacity: 1;
@@ -23,7 +53,16 @@ body {
 }
 
 .fade-bottom {
-  animation: fadeInBottom 250ms ease-in;
+  animation: fadeInBottom 500ms ease-in;
+}
+.fade-top {
+  animation: fadeInTop 500ms ease-in;
+}
+.fade-right {
+  animation: fadeInRight 500ms ease-in;
+}
+.fade-left {
+  animation: fadeInLeft 500ms ease-in;
 }
 
 code {
