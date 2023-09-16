@@ -50,6 +50,9 @@ const CMUNavbar = () => {
         <div
           onClick={() => handleSidebarClick()}
           className={userRole + " items-center"}
+          style={{cursor: "pointer"}}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -114,10 +117,7 @@ const CMUNavbar = () => {
                           fontFamily: "'SF PRo', sans-serif",
                         }}
                       >
-                        1/66,{" "}
-                        {userInfo.itAccountType === "StdAcc"
-                          ? "Student"
-                          : "Instructor"}
+                        1/66,{" Student"}
                       </Text>
                     </div>
                     <IoMdArrowDropdown className="text-3xl text-white group-hover:text-gray-200" />
@@ -145,16 +145,15 @@ const CMUNavbar = () => {
                   gap="5px"
                   align="flex-end"
                   direction="column"
-                  className="cursor-pointer group"
+                  className="cursor-default"
                 >
                   <div className="flex items-center gap-3">
                     <div>
                       <Text
-                        className="text-white group-hover:text-gray-200 lg:text-xl md:text-lg font-bold drop-shadow"
+                        className="text-white  lg:text-xl md:text-lg font-bold drop-shadow"
                         style={{
                           fontFamily: "'SF PRo', sans-serif",
                         }}
-                        //user info
                       >
                         Hello, {userInfo.firstName.charAt(0).toUpperCase()}
                         {userInfo.firstName.slice(1).toLowerCase()}{" "}
@@ -166,30 +165,15 @@ const CMUNavbar = () => {
                         className="text-[#f7c878] group-hover:text-[#e6bd76] drop-shadow text-end"
                         style={{
                           fontFamily: "'SF PRo', sans-serif",
+                          fontWeight: "500"
                         }}
                       >
-                        1/66,{" "}
-                        {userInfo.itAccountType === "StdAcc"
-                          ? "Student"
-                          : "Instructor"}
+                        1/66,{" Instructor"}
                       </Text>
                     </div>
-                    <IoMdArrowDropdown className="text-3xl text-white group-hover:text-gray-200" />
                   </div>
                 </Flex>
               </Menu.Target>
-              <Menu.Dropdown className="border-red-500 fade-bottom transition-all border-[3px] p-0 m-3">
-                <Menu.Item
-                  ff={"SF PRo, sans-serif"}
-                  onClick={() => signOut().finally(navigate("/sign-in"))}
-                  className="px-3 py-1"
-                >
-                  <div className="text-lg font-bold text-red-500 flex items-center gap-3">
-                    Log out
-                    <FaSignOutAlt />
-                  </div>
-                </Menu.Item>
-              </Menu.Dropdown>
             </Menu>
           ))}
       </div>
