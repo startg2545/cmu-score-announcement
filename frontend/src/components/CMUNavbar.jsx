@@ -1,48 +1,29 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Flex, Text, Menu } from "@mantine/core";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROLE, ShowSidebarContext, UserInfoContext } from "../context";
-import { CheckPermission } from "../utility/main";
 import { signOut } from "../services";
-import { useMediaQuery } from "@mantine/hooks";
 import cmulogo from "../image/cmulogo2.png";
-import style from "./css/component.module.css";
 import { FaSignOutAlt } from "react-icons/fa";
-import { BsSunFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { PiSidebarSimpleFill } from "react-icons/pi";
-import { Link } from "react-router-dom";
 import { HiChevronRight } from "react-icons/hi";
 
 const CMUNavbar = () => {
   const { handleSidebarClick } = useContext(ShowSidebarContext);
-  const { userInfo, setUserInfo } = useContext(UserInfoContext);
+  const { userInfo } = useContext(UserInfoContext);
   const { pathname } = useLocation();
   const withoutNavbar = ["/sign-in", "/cmuOAuthCallback", "/errorView"];
-  const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
-  const isMobileOrTablet = useMediaQuery(
-    "(max-width: 1024px) and (max-height: 1400px)"
-  );
-  const svgWidth = isMobileOrTablet ? "24px" : "40px";
+  const [mobileSidebar, setMobileSidebar] = useState(false);
 
-  // useEffect(() => {
-  //   if(userInfo.itAccountType) {
-  //     const check = async () => {
-  //       const isPermission = await CheckPermission(userInfo.itAccountType, pathname);
-  //       if (!isPermission) {
-  //         setUserInfo(null);
-  //         await signOut().finally(navigate("/sign-in"));
-  //       };
-  //     };
-  //     check();
-  //   }
-  // },[pathname, userInfo, navigate])
-  const [sidebar, setSidebar] = useState(false);
+  // Sidebar
   const handleSidebar = () => {
-    setSidebar(!sidebar);
+    setMobileSidebar(!mobileSidebar);
     handleSidebarClick(true);
   };
+  // Sidebar
+
   const navToSemesterYear = (semester, year) => {
     navigate({
       pathname: "/course",
@@ -50,7 +31,7 @@ const CMUNavbar = () => {
     });
   };
   const handleSemesterYear = (semester, year) => {
-    setSidebar(!sidebar);
+    setMobileSidebar(!mobileSidebar);
     handleSidebarClick(true);
     navToSemesterYear(semester, year);
   };
@@ -66,21 +47,22 @@ const CMUNavbar = () => {
 
   return (
     <>
-      <div
+      <nav
         className="flex w-full fixed justify-between items-center top-0 bg-primary px-5 lg:px-10 md:px-8 "
         //navbar wrapper
       >
         <div
           className={
-            sidebar
-              ? "absolute left-0 top-[65px] md:top-[60px] lg:top-[76px] justify-center lg:w-[14%] md:w-[20%] w-full h-max items-center z-50 drop-shadow-xl duration-[600ms] bg-white"
-              : "absolute -left-[150%] top-[65px] md:top-[60px] lg:top-[76px] lg:w-[17%] w-full h-max z-50 duration-[2000ms]"
+            mobileSidebar
+              ? "absolute lg:hidden md::hidden left-0 top-[65px] md:top-[60px] lg:top-[76px] justify-center w-full h-max items-center z-50 drop-shadow-xl duration-[600ms] bg-white"
+              : "absolute lg:hidden md::hidden -left-[150%] top-[65px] md:top-[60px] lg:top-[76px] w-full h-max z-50 duration-[2000ms]"
           }
           style={{
             boxShadow: "5px 3px 10px rgba(0,0,0,0.25)",
           }}
+          //Mobile Only Sidebar
         >
-          <div className="flex flex-col rounded-md min-h-screen h-full">
+          <div className="flex flex-col rounded-md min-h-screen h-full justify-between">
             <div className="flex flex-col py-2">
               <ul className="flex flex-col gap-3 pt-5 pb-10 text-gray-800 justify-center text-center items-center font-semibold mx-3">
                 {courseData.map((data, i) => (
@@ -100,28 +82,18 @@ const CMUNavbar = () => {
                 ))}
               </ul>
             </div>
-            <div
-              onClick={() => signOut().finally(navigate("/sign-in"))}
-              className={style.logoutButton}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="26"
-                height="22"
-                viewBox="0 0 29 25"
-                fill="none"
+            <div className="cursor-pointer mb-28 px-14">
+              <div
+                onClick={() => signOut().finally(navigate("/sign-in"))}
+                className="text-2xl font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-lg mt-5 px-12 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
               >
-                <path
-                  d="M28.5986 13.6059L18.9315 24.5416C18.0684 25.518 16.5723 24.8345 16.5723 23.435V17.186H8.74647C7.98115 17.186 7.36544 16.4895 7.36544 15.6238V9.37483C7.36544 8.50909 7.98115 7.81259 8.74647 7.81259H16.5723V1.56362C16.5723 0.170627 18.0626 -0.519362 18.9315 0.457038L28.5986 11.3927C29.1338 12.0046 29.1338 12.994 28.5986 13.6059ZM11.0482 24.2161V21.6124C11.0482 21.1828 10.7374 20.8313 10.3577 20.8313H5.52408C4.50558 20.8313 3.68272 19.9004 3.68272 18.7483V6.25035C3.68272 5.09819 4.50558 4.16736 5.52408 4.16736H10.3577C10.7374 4.16736 11.0482 3.81585 11.0482 3.38624V0.782505C11.0482 0.352889 10.7374 0.00138444 10.3577 0.00138444H5.52408C2.47433 0.00138444 0 2.8004 0 6.25035V18.7483C0 22.1982 2.47433 24.9972 5.52408 24.9972H10.3577C10.7374 24.9972 11.0482 24.6457 11.0482 24.2161Z"
-                  fill={isHovered ? "#fff" : "#ed4040"}
-                />
-              </svg>
-              Log out
+                Log out
+                <FaSignOutAlt />
+              </div>
             </div>
           </div>
         </div>
+
         <div
           className="flex items-center gap-2 lg:gap-5 md:gap-4"
           //navbar left content
@@ -136,7 +108,7 @@ const CMUNavbar = () => {
             <img
               src={cmulogo}
               alt="CMULogo"
-              className="w-32 lg:w-52 md:w-44 w-36 drop-shadow-lg"
+              className="lg:w-52 md:w-44 w-36 drop-shadow-lg"
               // CMU Logo Navbar
             />
           </a>
@@ -179,21 +151,23 @@ const CMUNavbar = () => {
                           1/66,{" Student"}
                         </Text>
                       </div>
-                      <IoMdArrowDropdown className="text-3xl text-white group-hover:text-gray-200" />
+                      <IoMdArrowDropdown className="text-3xl text-white " />
                     </div>
                   </Flex>
                 </Menu.Target>
-                <Menu.Dropdown className="border-red-500 fade-bottom transition-all border-[3px] p-0 m-3">
-                  <Menu.Item
-                    ff={"SF PRo, sans-serif"}
+                <Menu.Dropdown className="border-red-500 fade-bottom transition-all hover:bg-red-500 border-[3px] rounded-xl p-0 m-3 group">
+                  <button
+                    style={{
+                      fontFamily: "'SF PRo', sans-serif",
+                    }}
                     onClick={() => signOut().finally(navigate("/sign-in"))}
                     className="px-3 py-1"
                   >
-                    <div className="text-lg font-bold text-red-500 flex items-center gap-3">
+                    <div className="text-xl font-bold text-red-500 group-hover:text-white flex items-center gap-3 px-10">
                       Log out
                       <FaSignOutAlt />
                     </div>
-                  </Menu.Item>
+                  </button>
                 </Menu.Dropdown>
               </Menu>
             )) ||
@@ -204,7 +178,7 @@ const CMUNavbar = () => {
                     gap="5px"
                     align="flex-end"
                     direction="column"
-                    className="cursor-default"
+                    className="cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
                       <div>
@@ -236,7 +210,7 @@ const CMUNavbar = () => {
               </Menu>
             ))}
         </div>
-      </div>
+      </nav>
     </>
   );
 };
