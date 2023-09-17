@@ -87,6 +87,13 @@ const TableScore = ({ data }) => {
 
   useEffect(() => {
     if (data.length) {
+      console.log(data);
+      data.map((e) => {
+        setIsPublished((prev) => ({
+          ...prev,
+          [e.scoreName]: e.isPublish,
+        }));
+      });
       calStat();
     }
   }, [data]);
@@ -101,11 +108,8 @@ const TableScore = ({ data }) => {
       results: el.results,
       type: "publish_one",
     };
-    setIsPublished((prev) => ({
-      ...prev,
-      [el.scoreName]: true,
-    }));
     await addStudentGrade(student_schema);
+    localStorage.setItem("publish score", true);
   };
 
   const unPublish = async (name) => {
@@ -117,11 +121,8 @@ const TableScore = ({ data }) => {
       scoreName: name,
       type: "unpublish",
     };
-    setIsPublished((prev) => ({
-      ...prev,
-      [name]: false,
-    }));
     await deleteScores(scoreDelete);
+    localStorage.setItem("publish score", false);
   };
 
   const deleteOne = async (name) => {
