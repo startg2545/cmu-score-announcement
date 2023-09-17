@@ -134,6 +134,9 @@ export default function Course166Container() {
   };
 
   const backToSelectSec = () => {
+    setCourse([]);
+    setSections([]);
+    fetchData();
     searchParams.delete("section");
     setSearchParams(searchParams);
   };
