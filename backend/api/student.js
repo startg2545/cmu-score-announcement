@@ -214,16 +214,13 @@ router.post("/add", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const token = req.cookies.token;
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-      if (err)
-        return res.status(401).send({ ok: false, message: "Invalid token" });
-      else if (!user.cmuAccount)
-        return res.status(403).send({ ok: false, message: "Invalid token" });
-    });
-    const decoded = jwt.decode(token);
+    const user = await verifyAndValidateToken(token);
+    if (!user.cmuAccount) {
+      return res.status(403).send({ ok: false, message: "Invalid token" });
+    }
 
     const scores = await studentModel.findOne({
-      studentId: decoded.studentId,
+      studentId: user.studentId,
     });
     if (!scores)
       return res.send({ ok: false, message: "You don't have any score" });
