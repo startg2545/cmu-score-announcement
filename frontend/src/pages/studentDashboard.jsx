@@ -284,7 +284,7 @@ export default function StudentDashboard() {
         </div>
       )}
       {/* MENU */}
-      <div className="mx-3 lg:mx-[2%] ">
+      <div className="mx-30 lg:mx-[2%] ">
         <div className="py-5 text-maintext font-semibold ">
           <div className="flex items-end">
             <div
