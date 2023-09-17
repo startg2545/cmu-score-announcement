@@ -28,11 +28,13 @@ router.get("/course", async (req, res) => {
 
     res.send({ ok: true, courseDetails: course });
   } catch (err) {
-    if (err.response.data) return res.send(err.response.data);
-    return res.send({
-      ok: false,
-      message: "Cannot connect to CPE API Server. Please try again later.",
-    });
+    if (!err.response) {
+      return res.send({
+        ok: false,
+        message: "Cannot connect to API Server. Please try again later.",
+      });
+    } else if (!err.response.data.ok) return err.response.data;
+    else return err;
   }
 });
 
@@ -60,11 +62,13 @@ router.get("/sections", async (req, res) => {
 
     res.send(response.data);
   } catch (err) {
-    if (err.response.data) return res.send(err.response.data);
-    return res.send({
-      ok: false,
-      message: "Cannot connect to CPE API Server. Please try again later.",
-    });
+    if (!err.response) {
+      return res.send({
+        ok: false,
+        message: "Cannot connect to API Server. Please try again later.",
+      });
+    } else if (!err.response.data.ok) return err.response.data;
+    else return err;
   }
 });
 

@@ -124,11 +124,33 @@ router.delete("/", async (req, res) => {
           ok: true,
           message: `score ${scoreName} delete in section ${req.query.section} deleted.`,
         });
+      } else if (type === "unpublish") {
+        await scoreModel.findOneAndUpdate(
+          {
+            courseNo,
+            year,
+            semester,
+            "sections.section": section,
+            "sections.scores.scoreName": scoreName,
+          },
+          {
+            $set: {
+              "sections.$[section].scores.$[score].isPublish": false,
+            },
+          },
+          {
+            new: true,
+            arrayFilters: [
+              { "section.section": section },
+              { "score.scoreName": scoreName },
+            ],
+          }
+        );
+        return res.send({
+          ok: true,
+          message: `score ${scoreName} in section ${req.query.section} unpublished.`,
+        });
       }
-      return res.send({
-        ok: true,
-        message: `score ${scoreName} in section ${req.query.section} unpublished.`,
-      });
     } else if (type === "delete_all") {
       const course = await scoreModel.findOne({
         courseNo,
