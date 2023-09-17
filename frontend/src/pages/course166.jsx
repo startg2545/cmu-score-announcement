@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Course from "./css/course166.module.css";
-import { SideBar, UploadSc, Management } from "../components";
+import { UploadSc, Management } from "../components";
 import { ShowSidebarContext } from "../context";
 import {
   addCoInstructors,
@@ -381,8 +381,10 @@ export default function Course166Container() {
             </form>
           </Modal>
 
+
           <div className=" mx-3 lg:mx-[1.5%] ">
             <div className=" flex-col flex gap-2 border-[3px] min-h-full border-primary rounded-2xl shadow-xl ">
+
               {noCourse && (
                 <div
                   className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl border-b-[1px] pb-2 border-primary/50"
