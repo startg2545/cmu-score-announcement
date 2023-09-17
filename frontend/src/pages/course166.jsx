@@ -169,7 +169,6 @@ export default function Course166Container() {
   useEffect(() => {
     setCourse([]);
     setNoCourse();
-    localStorage.clear();
   }, [params.year, params.semester]);
 
   useEffect(() => {
@@ -182,6 +181,12 @@ export default function Course166Container() {
       setNoCourse();
       setSections([]);
       localStorage.removeItem("delete score");
+    }
+    if (localStorage.getItem("publish score")) {
+      setCourse([]);
+      setNoCourse();
+      setSections([]);
+      localStorage.removeItem("publish score");
     }
 
     if (localStorage.getItem("Upload") !== null) {
@@ -200,6 +205,7 @@ export default function Course166Container() {
       setSelectedCourse(false);
       setUploadScore(false);
       setManage(false);
+      localStorage.clear();
     }
 
     if (params.courseNo) {
@@ -223,6 +229,7 @@ export default function Course166Container() {
     sections,
     localStorage.getItem("Upload"),
     localStorage.getItem("delete score"),
+    localStorage.getItem("publish score"),
     getParams,
     params,
     searchParams,
@@ -258,8 +265,9 @@ export default function Course166Container() {
       semester: parseInt(params.semester),
       courseNo: params.courseNo ? params.courseNo : data.courseNo,
     });
-    console.log(resp);
     courseForm.reset();
+    setNoCourse();
+    setCourse([]);
     fetchData();
   };
 
@@ -268,11 +276,12 @@ export default function Course166Container() {
       {/* <SideBar /> */}
 
       {isSelectedCourse ? null : (
-        <div>
-          <div className="py-5 px-12 text-maintext font-semibold">
+        <div className="mt-20">
+          <div className="py-5 px-10 text-maintext font-semibold ">
+
             <div className="flex w-full justify-between">
               <div
-                className="flex-col flex"
+                className="flex-col flex gap-1"
                 style={{
                   fontFamily: "'SF PRo', sans-serif",
                 }}
@@ -281,50 +290,24 @@ export default function Course166Container() {
                   Course {params.semester}/
                   {params.year ? params.year.slice(2) : params.year}
                 </span>
-                <span className="text-xl lg:text-2xl">
+                <span className="text-xl lg:text-2xl ml-1">
                   {formatDate(currentDate)}
                 </span>
               </div>
+              
               <Button
-                className="text-primary border-primary border-2 rounded-xl hover:text-white hover:bg-primary duration-150 font-semibold"
+                className= "flex items-center text-primary text-[18px] border-primary border-[3px] rounded-xl hover:text-white hover:bg-primary duration-150 font-semibold w-45 h-10 mt-5"
                 style={{
                   fontFamily: "'SF PRo', sans-serif",
                 }}
                 onClick={addCourseButton[1].open}
               >
-                <FiPlus className="text-xl mr-1 " />
-                Add Course
+                <div className="flex items-center justify-between  w-full">
+                <FiPlus className="text-3xl " />
+                <span className="mx-2">Add Course</span>
+                </div>
               </Button>
-              {/* <div
-                className={Course.AddCourseButton}
-                onClick={addCourseButton[1].open}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-              >
-                <div>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="22"
-                    height="22"
-                    viewBox="0 0 30 29"
-                    fill="none"
-                  >
-                    <path
-                      d="M29.8438 14.5C29.8438 14.96 29.6561 15.4011 29.322 15.7264C28.988 16.0516 28.5349 16.2344 28.0625 16.2344H16.7812V27.2188C16.7812 27.6787 16.5936 28.1199 16.2595 28.4451C15.9255 28.7704 15.4724 28.9531 15 28.9531C14.5276 28.9531 14.0745 28.7704 13.7405 28.4451C13.4064 28.1199 13.2188 27.6787 13.2188 27.2188V16.2344H1.9375C1.46508 16.2344 1.01202 16.0516 0.677966 15.7264C0.343917 15.4011 0.15625 14.96 0.15625 14.5C0.15625 14.04 0.343917 13.5989 0.677966 13.2736C1.01202 12.9484 1.46508 12.7656 1.9375 12.7656H13.2188V1.78125C13.2188 1.32127 13.4064 0.88012 13.7405 0.554862C14.0745 0.229603 14.5276 0.046875 15 0.046875C15.4724 0.046875 15.9255 0.229603 16.2595 0.554862C16.5936 0.88012 16.7812 1.32127 16.7812 1.78125V12.7656H28.0625C28.5349 12.7656 28.988 12.9484 29.322 13.2736C29.6561 13.5989 29.8438 14.04 29.8438 14.5Z"
-                      fill={isHovered ? "white" : "#8084C8"}
-                    />
-                  </svg>
-                </div>
-                <div
-                  style={{
-                    fontSize: "20px",
-                    fontWeight: "600",
-                    textIndent: "35px",
-                  }}
-                >
-                  Add Course
-                </div>
-              </div> */}
+
             </div>
           </div>
 
@@ -397,8 +380,11 @@ export default function Course166Container() {
               </div>
             </form>
           </Modal>
-          <div className="mx-3">
-            <div className="p-4  flex-col flex gap-2 border-[3px] min-h-full border-primary rounded-2xl shadow-xl">
+
+
+          <div className=" mx-3 lg:mx-[1.5%] ">
+            <div className=" flex-col flex gap-2 border-[3px] min-h-full border-primary rounded-2xl shadow-xl ">
+
               {noCourse && (
                 <div
                   className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl border-b-[1px] pb-2 border-primary/50"

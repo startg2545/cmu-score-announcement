@@ -18,7 +18,6 @@ export default function UploadScorePageContainer() {
   const [courseNo, setCourseNo] = useState(0);
   const [year, setYear] = useState(0);
   const [semester, setSemester] = useState(0);
-  const [note, setNote] = useState("");
   const [isFileUploaded, setIsFileUploaded] = useState(false);
   const cancleModal = useDisclosure();
   const confirmModal = useDisclosure();
@@ -116,7 +115,7 @@ export default function UploadScorePageContainer() {
             scoreName: keys[j + 4],
             fullScore: full_score[j + 4],
             studentNumber: countStudent[i],
-            note: note,
+            isPublish: false,
             results: results_list,
           };
           scores_list[j] = obj;

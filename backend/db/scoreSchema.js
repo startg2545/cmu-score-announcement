@@ -15,7 +15,7 @@ const scoreSchema = new mongoose.Schema(
             scoreName: String,
             studentNumber: Number,
             fullScore: Number,
-            note: String,
+            isPublish: Boolean,
             results: [
               {
                 studentId: Number,

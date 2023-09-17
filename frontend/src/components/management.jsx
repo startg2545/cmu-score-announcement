@@ -28,6 +28,7 @@ const Management = ({ data }) => {
   useEffect(() => {
     if (
       localStorage.getItem("delete score") ||
+      localStorage.getItem("publish score") ||
       localStorage.getItem("Upload")
     ) {
       setDataTable([]);
@@ -44,6 +45,7 @@ const Management = ({ data }) => {
     dataTable,
     localStorage.getItem("Upload"),
     localStorage.getItem("delete score"),
+    localStorage.getItem("publish score"),
   ]);
 
   const handleCheckboxChange = (e, value) => {
@@ -71,6 +73,7 @@ const Management = ({ data }) => {
     console.log("send", student_schema);
     let resp_student = await addStudentGrade(student_schema);
     if (resp_student) console.log("response: ", resp_student);
+    localStorage.setItem("publish score", true);
   };
 
   const submitPublishEach = async () => {
@@ -90,6 +93,7 @@ const Management = ({ data }) => {
     console.log("send", student_schema);
     let resp_student = await addStudentGrade(student_schema);
     if (resp_student) console.log("response: ", resp_student);
+    localStorage.setItem("publish score", true);
   };
 
   return (
