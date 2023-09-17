@@ -169,7 +169,6 @@ export default function Course166Container() {
   useEffect(() => {
     setCourse([]);
     setNoCourse();
-    localStorage.clear();
   }, [params.year, params.semester]);
 
   useEffect(() => {
@@ -182,6 +181,12 @@ export default function Course166Container() {
       setNoCourse();
       setSections([]);
       localStorage.removeItem("delete score");
+    }
+    if (localStorage.getItem("publish score")) {
+      setCourse([]);
+      setNoCourse();
+      setSections([]);
+      localStorage.removeItem("publish score");
     }
 
     if (localStorage.getItem("Upload") !== null) {
@@ -200,6 +205,7 @@ export default function Course166Container() {
       setSelectedCourse(false);
       setUploadScore(false);
       setManage(false);
+      localStorage.clear();
     }
 
     if (params.courseNo) {
@@ -223,6 +229,7 @@ export default function Course166Container() {
     sections,
     localStorage.getItem("Upload"),
     localStorage.getItem("delete score"),
+    localStorage.getItem("publish score"),
     getParams,
     params,
     searchParams,
