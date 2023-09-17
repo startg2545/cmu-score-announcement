@@ -258,8 +258,9 @@ export default function Course166Container() {
       semester: parseInt(params.semester),
       courseNo: params.courseNo ? params.courseNo : data.courseNo,
     });
-    console.log(resp);
     courseForm.reset();
+    setNoCourse();
+    setCourse([]);
     fetchData();
   };
 

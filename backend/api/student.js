@@ -1,5 +1,6 @@
 const express = require("express");
 const { verifyAndValidateToken } = require("../jwtUtils");
+const scoreModel = require("../db/scoreSchema");
 const studentModel = require("../db/studentSchema");
 const router = express.Router();
 
@@ -17,9 +18,27 @@ router.post("/add", async (req, res) => {
     const year = req.body.year;
 
     if (req.body.type == "publish_many") {
-      const test_arr = [];
       const sections = req.body.sections;
       for (let section in sections) {
+        await scoreModel.findOneAndUpdate(
+          {
+            courseNo,
+            year,
+            semester,
+            "sections.section": sections[section].section
+          },
+          {
+            $set: {
+              "sections.$[section].scores.$[].isPublish": true,
+            },
+          },
+          {
+            new: true,
+            arrayFilters: [
+              { "section.section": sections[section].section },
+            ],
+          }
+        );
         const scores = sections[section].scores;
         for (let score in scores) {
           const results = scores[score].results;
@@ -118,6 +137,27 @@ router.post("/add", async (req, res) => {
       let section = req.body.section;
       let results = req.body.results;
       let scoreName = req.body.scoreName;
+      await scoreModel.findOneAndUpdate(
+        {
+          courseNo,
+          year,
+          semester,
+          "sections.section": req.body.section,
+          "sections.scores.scoreName": req.body.scoreName,
+        },
+        {
+          $set: {
+            "sections.$[section].scores.$[score].isPublish": true,
+          },
+        },
+        {
+          new: true,
+          arrayFilters: [
+            { "section.section": req.body.section },
+            { "score.scoreName": req.body.scoreName },
+          ],
+        }
+      );
       for (let i in results) {
         let student_obj = {
           studentId: results[i].studentId,
