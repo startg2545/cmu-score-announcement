@@ -256,12 +256,12 @@ export default function StudentDashboard() {
     <div className="my-20 lg:my-24">
       {params.courseNo && (
         <div className="mx-[2%]">
-          <div className=" border-b-[1px] pb-2 border-[#8084c8]">
+          <div className="border-b-[1px] pb-2 border-[#8084c8]">
             <p className="flex flex-row items-center font-semibold text-primary gap-2">
               <label
                 onClick={backToDashboard}
                 style={{ cursor: "pointer" }}
-                className={Student.date}
+                className="text-[19px] md:text-[22px] lg:text-[25px]"
               >
                 Dashboard
               </label>
@@ -269,14 +269,16 @@ export default function StudentDashboard() {
               <label
                 onClick={backToCourse}
                 style={{ cursor: params.scoreName ? "pointer" : null }}
-                className={Student.date}
+                className="text-[19px] md:text-[22px] lg:text-[25px]"
               >
                 {params.courseNo}
               </label>
               {params.scoreName && (
                 <>
                   <HiChevronRight className="text-xl" />
-                  <label className={Student.date}>{params.scoreName}</label>
+                  <label className="text-[19px] md:text-[22px] lg:text-[25px]">
+                    {params.scoreName}
+                  </label>
                 </>
               )}
             </p>
@@ -434,7 +436,6 @@ export default function StudentDashboard() {
                 <div>
                   <Line
                     data={data}
-                    redraw={true}
                     options={{
                       scales: {
                         x: {

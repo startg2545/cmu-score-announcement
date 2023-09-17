@@ -108,13 +108,13 @@ const CMUNavbar = () => {
             onClick={() => handleSidebar()}
             className={userRole + " items-center cursor-pointer"}
           >
-            <PiSidebarSimpleFill className="text-white text-4xl hover:text-black" />
+            <PiSidebarSimpleFill className="text-white text-4xl md:text-[42px] lg:text-5xl hover:text-black" />
           </div>
           <a href="/">
             <img
               src={cmulogo}
               alt="CMULogo"
-              className="w-32 lg:w-44 drop-shadow-lg"
+              className="w-32 lg:w-52 md:w-44 w-36 drop-shadow-lg"
               // CMU Logo Navbar
             />
           </a>
@@ -137,7 +137,7 @@ const CMUNavbar = () => {
                     <div className="flex items-center gap-3">
                       <div>
                         <Text
-                          className="text-white group-hover:text-gray-200 lg:text-xl md:text-lg font-bold drop-shadow"
+                          className="text-white group-hover:text-gray-200 lg:text-xl md:text-lg text-xs font-bold drop-shadow"
                           style={{
                             fontFamily: "'SF PRo', sans-serif",
                           }}
