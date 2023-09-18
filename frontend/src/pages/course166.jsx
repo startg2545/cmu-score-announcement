@@ -6,7 +6,6 @@ import React, {
   useCallback,
 } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Course from "./css/course166.module.css";
 import { UploadSc, Management } from "../components";
 import { ShowSidebarContext } from "../context";
 import {
@@ -15,10 +14,9 @@ import {
   getAllCourses,
   getScores,
 } from "../services";
-import { TextInput, Button, Flex, Modal } from "@mantine/core";
+import { Modal } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import { IconAt } from "@tabler/icons-react";
 import { HiChevronRight } from "react-icons/hi";
 import { FaChevronRight } from "react-icons/fa";
 import { IoPersonAddOutline } from "react-icons/io5";
@@ -295,15 +293,14 @@ export default function Course166Container() {
       {/* <SideBar /> */}
       <div className="flex flex-row gap-3 justify-center">
         <div
-          className={
+          className={`hidden lg:flex lg:overflow-hidden lg:flex-col pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen duration-500  ${
             showSidebar
-              ? "hidden lg:flex lg:flex-col ease-in transition-transform pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen "
-              : "hidden lg:hidden -left-[100%] pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen "
-          }
-          //Large Only Sidebar
+              ? "transform translate-x-0 w-[300px]"
+              : "transform -translate-x-full w-0"
+          }`}
         >
-          <div className="flex flex-col px-5 py-14">
-            <ul className="flex flex-col gap-3 pt-5 pb-10 text-gray-800 justify-center text-center items-center font-semibold mx-3 transition-all duration-1000">
+          <div className="flex flex-col px-3 py-14">
+            <ul className="flex flex-col gap-3 pt-2 pb-10 text-gray-800 justify-center text-center items-center font-semibold ">
               {courseData.map((data, i) => (
                 <li
                   className="w-full flex flex-row cursor-pointer justify-center gap-2 text-2xl items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl "
@@ -313,10 +310,10 @@ export default function Course166Container() {
                   }}
                 >
                   <FaChevronRight className="text-xl" />
-                  <span className="flex flex-row items-center">
-                    <span className="mr-2">Course </span>
+                  <div className="flex flex-row items-center">
+                    <div className="mr-2">Course </div>
                     {data.semester}/{data.year}
-                  </span>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -324,7 +321,7 @@ export default function Course166Container() {
           <div className="cursor-pointer px-5">
             <div
               onClick={() => signOut().finally(navigate("/sign-in"))}
-              className="text-2xl font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-2xl mt-5 py-2 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
+              className="text-2xl font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-3xl mt-5 py-2 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
             >
               Log out
               <FaSignOutAlt />
@@ -379,7 +376,6 @@ export default function Course166Container() {
                       ConfirmhandleClosePopup(data);
                       addCourseButton[1].close();
                     })}
-                    className="overflow-hidden "
                   >
                     <div className="overflow-hidden">
                       <div className="bg-primary flex justify-center py-2 shadow-lg">
@@ -461,91 +457,71 @@ export default function Course166Container() {
               yOffset={0}
               xOffset={0}
               padding={0}
-              radius={10}
-              closeOnClickOutside={false}
-              closeOnEscape={false}
+              radius={20}
             >
-              <div className={Course["ScorePopup-Content"]}>
-                <div className={Course["ScorePopup-ContentInner"]}>
-                  <p style={{ color: "white", fontWeight: "600" }}>
+              <div className="flex flex-col">
+                <div className="bg-primary flex justify-center py-3 shadow-xl">
+                  <p className="text-white text-2xl">
                     {`Add Co-Instructor ${params.courseNo}`}
                   </p>
                 </div>
-                <p
-                  style={{
-                    marginTop: "-10px",
-                    fontSize: "15px",
-                    color: "#676666",
-                    fontFamily: "SF Pro",
-                  }}
-                >
+                <div className="text-gray-600 text-[18px] px-10 text-center py-5 max-w-lg">
                   Co-Instructors have full access to edit and change scores in
                   all documents. Input an email with the domain cmu.ac.th to
                   invite.
-                </p>
+                </div>
                 <form
                   onSubmit={emailform.onSubmit((data) => {
                     instructorClosePopup(data.email);
                   })}
+                  className="px-10 lg:px-24"
                 >
-                  <TextInput
+                  <input
+                    type="email"
+                    min="0"
+                    required
                     placeholder="Type email to add co-instructor"
-                    className={Course.instructorNameInput}
-                    fs={20}
-                    w={450}
-                    mt={5}
-                    radius="md"
-                    ta="center"
-                    icon={<IconAt size="1.1rem" />}
-                    {...emailform.getInputProps("email")}
+                    {...courseForm.getInputProps("Email")}
+                    className="rounded-lg w-full focus:border-blue active:border-blue px-4 py-2 lg:border-2 border-[1px] border-primary my-2"
                   />
-                  <Flex className={Course.instructorPopupButtons}>
-                    <Button
-                      className={Course.CancelPopupButton}
-                      onClick={() => {
-                        close();
-                        emailform.reset();
-                      }}
-                      sx={{
-                        color: "black",
-                        "&:hover": {
-                          backgroundColor: "#F0EAEA",
-                        },
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      className={Course.AddPopupButton}
-                      type="submit"
-                      sx={{
-                        "&:hover": {
-                          backgroundColor: "#d499ff",
-                        },
-                      }}
-                    >
-                      Add
-                    </Button>
-                  </Flex>
+                  <div className="overflow-hidden">
+                    <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-4 py-1">
+                      <button
+                        className="border-[1px] font-semibold border-gray-100 hover:bg-gray-100 active:bg-gray-200 active:border-gray-200 shadow-md rounded-xl px-5 py-2"
+                        onClick={() => {
+                          close();
+                          emailform.reset();
+                        }}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="text-white font-semibold border-2 border-primary bg-primary hover:border-secondary hover:bg-secondary active:border-maintext active:bg-maintext shadow-md rounded-xl px-5 py-2"
+                        type="submit"
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                  </div>
                 </form>
               </div>
             </Modal>
             {/* Pop up */}
             {isSelectedCourse && (
-              <div className="mx-[2%] lg:mt-24 mt-16">
+              <div className="mx-[2%] lg:mt-24 mt-20">
                 <div className=" border-b-[1px] pb-2 border-primary mb-5">
                   <p className="flex flex-row items-center font-semibold text-primary gap-2">
                     <p
                       onClick={backToDashboard}
-                      className="text-primary text-2xl cursor-pointer"
+                      className="text-primary lg:text-2xl text-md cursor-pointer"
                     >
                       Course {params.semester}/{params.year.slice(2)}
                     </p>
 
-                    <HiChevronRight className="lg:text-3xl text-lg" />
+                    <HiChevronRight className="lg:text-3xl text-md" />
                     <p
                       onClick={backToCourse}
-                      className="text-primary text-2xl cursor-pointer"
+                      className="text-primary lg:text-2xl text-md cursor-pointer"
                       style={{
                         cursor: isUploadScore || isManage ? "pointer" : null,
                       }}
@@ -554,17 +530,17 @@ export default function Course166Container() {
                     </p>
                     {isUploadScore && !isManage && (
                       <>
-                        <HiChevronRight className="lg:text-3xl text-lg" />
-                        <p className="text-primary text-2xl cursor-pointer">
+                        <HiChevronRight className="lg:text-3xl text-md" />
+                        <p className="text-primary lg:text-2xl text-md cursor-pointer">
                           Upload Score
                         </p>
                       </>
                     )}
                     {isManage && (
                       <>
-                        <HiChevronRight className="lg:text-3xl text-lg" />
+                        <HiChevronRight className="lg:text-3xl text-md" />
                         <p
-                          className="text-primary text-2xl cursor-pointer"
+                          className="text-primary lg:text-2xl text-md cursor-pointer"
                           onClick={backToSelectSec}
                           style={{
                             cursor: searchParams.get("section")
@@ -578,9 +554,9 @@ export default function Course166Container() {
                     )}
                     {searchParams.get("section") && (
                       <>
-                        <HiChevronRight className="lg:text-3xl text-lg" />
+                        <HiChevronRight className="lg:text-3xl text-md" />
                         <p
-                          className="text-primary text-2xl cursor-pointer"
+                          className="text-primary lg:text-2xl text-md cursor-pointer"
                           onClick={showSection}
                         >
                           Section {`00${searchParams.get("section")}`}
@@ -592,9 +568,9 @@ export default function Course166Container() {
 
                 <div className="lg:rounded-3xl rounded-xl overflow-hidden border-[3px] border-primary">
                   <div className="flex flex-col">
-                    <div className="bg-primary py-3 px-5 flex flex-row w-full justify-between">
-                      <div className="flex items-start flex-col justify-center">
-                        <p className="text-white font-semibold text-xl lg:text-4xl">
+                    <div className="bg-primary lg:py-3 py-2 lg:px-5 px-3 flex flex-row w-full justify-between">
+                      <div className="flex items-start flex-col justify-start">
+                        <p className="text-white font-semibold text-3xl lg:text-4xl">
                           {isSelectedCourse &&
                             !isManage &&
                             !isUploadScore &&
@@ -605,14 +581,14 @@ export default function Course166Container() {
                           {isManage && `Management ${params.courseNo}`}
                           {/* {isShowTableScore && <TableScore data={tableData} />} */}
                         </p>
-                        <p className="text-white font-semibold text-md lg:text-xl">
+                        <p className="text-white font-semibold text-lg lg:text-2xl">
                           {formatDate(currentDate)}
                         </p>
                       </div>
 
-                      <div className="flex flex-row gap-3 py-4 text-xl text-white font-medium">
+                      <div className="flex lg:flex-row flex-col lg:gap-4 gap-1 lg:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
                         <div
-                          className="px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-maintext hover:bg-white hover:shadow-md"
+                          className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-maintext hover:bg-white hover:shadow-md"
                           onClick={handleClickInstructor}
                         >
                           <IoPersonAddOutline />
@@ -620,7 +596,14 @@ export default function Course166Container() {
                         </div>
 
                         <div
-                          className="px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-maintext hover:bg-white hover:shadow-md"
+                          style={{
+                            background:
+                              isUploadScore && !isManage ? "white" : "",
+                            color: isUploadScore && !isManage ? "#8084C8" : "",
+                          }}
+                          className={
+                            "lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-maintext hover:bg-white hover:shadow-md"
+                          }
                           onClick={() => {
                             localStorage.setItem("page", "upload");
                             setUploadScore(true);
@@ -628,17 +611,16 @@ export default function Course166Container() {
                           }}
                         >
                           <BiPlus />
-                          <p
-                            style={{
-                              color: isUploadScore && !isManage ? "black" : "",
-                            }}
-                          >
-                            Upload Score
-                          </p>
+                          <p>Upload Score</p>
                         </div>
 
                         <div
-                          className="px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-maintext hover:bg-white hover:shadow-md"
+                          className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-maintext hover:bg-white hover:shadow-md"
+                          style={{
+                            background:
+                              !isUploadScore && isManage ? "white" : "",
+                            color: !isUploadScore && isManage ? "#8084C8" : "",
+                          }}
                           onClick={() => {
                             localStorage.setItem("page", "management");
                             setManage(true);
@@ -647,30 +629,22 @@ export default function Course166Container() {
                           }}
                         >
                           <GoGear />
-                          <p style={{ color: isManage ? "black" : "" }}>
-                            Management
-                          </p>
+                          <p>Management</p>
                         </div>
                       </div>
                     </div>
                     <div className="flex items-center justify-center text-center">
                       {!isUploadScore && !isManage && (
-                        <p
-                          style={{
-                            fontFamily: "SF Pro",
-                          }}
-                          className="text-3xl text-center text-maintext font-semibold my-52"
-                        >
+                        <p className="text-3xl text-center text-maintext font-semibold my-52">
                           Please select menu in the navigation bar
                         </p>
                       )}
                     </div>
                     {/* show Upload/Section/TableScore */}
                   </div>
+                  {isUploadScore && <UploadSc />}
+                  {isManage && <Management data={sections} />}
                 </div>
-
-                {isUploadScore && <UploadSc />}
-                {isManage && <Management data={sections} />}
               </div>
             )}
           </div>

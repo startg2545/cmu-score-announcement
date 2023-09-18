@@ -48,21 +48,21 @@ const CMUNavbar = () => {
   return (
     <>
       <nav
-        className="flex w-full fixed justify-between items-center top-0 bg-primary px-3 lg:px-10 md:px-8 "
+        className="flex w-full fixed justify-between items-center top-0 bg-primary px-3 lg:px-10 md:px-8 z-50"
         //navbar wrapper
       >
         <div
           className={
             mobileSidebar
-              ? "absolute lg:hidden md::hidden left-0 top-[65px] md:top-[60px] lg:top-[76px] justify-center w-full h-max items-center z-50 drop-shadow-xl duration-[600ms] bg-white"
-              : "absolute lg:hidden md::hidden -left-[150%] top-[65px] md:top-[60px] lg:top-[76px] w-full h-max z-50 duration-[2000ms]"
+              ? "absolute lg:hidden left-0 top-[65px] md:top-[60px] lg:top-[76px] justify-center w-full h-max  items-center drop-shadow-xl duration-[600ms] transition-all bg-white"
+              : "absolute lg:hidden -left-[150%] top-[65px] md:top-[60px] lg:top-[76px] w-full h-max duration-[2000ms] transition-all"
           }
           style={{
             boxShadow: "5px 3px 10px rgba(0,0,0,0.25)",
           }}
           //Mobile Only Sidebar
         >
-          <div className="flex flex-col rounded-md min-h-screen h-full justify-between">
+          <div className="flex flex-col rounded-md min-h-screen h-full justify-between bg-white">
             <div className="flex flex-col py-2">
               <ul className="flex flex-col gap-3 pt-5 pb-10 text-gray-800 justify-center text-center items-center font-semibold mx-3">
                 {courseData.map((data, i) => (

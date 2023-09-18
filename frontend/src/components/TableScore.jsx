@@ -5,7 +5,6 @@ import { useDisclosure } from "@mantine/hooks";
 import { Table, Button, Modal } from "@mantine/core";
 import { addStudentGrade, deleteScores } from "../services";
 import tabStyle from "./css/tableScore.module.css";
-import Course from "../pages/css/course166.module.css";
 import upStyle from "./css/uploadScore.module.css";
 
 const TableScore = ({ data }) => {
