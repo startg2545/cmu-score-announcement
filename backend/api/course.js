@@ -40,42 +40,44 @@ router.post("/add", async (req, res) => {
     // Update sections
     let canAdd = [];
     let cannotAdd = [];
-    for (const reqSection of sections) {
-      const section = course.sections.find(
-        (s) =>
-          s.section === reqSection.section &&
-          (s.instructor === user.cmuAccount ||
-            s.coInstructors?.includes(user.cmuAccount))
-      );
+    if (sections) {
+      for (const reqSection of sections) {
+        const section = course.sections.find(
+          (s) =>
+            s.section === reqSection.section &&
+            (s.instructor === user.cmuAccount ||
+              s.coInstructors?.includes(user.cmuAccount))
+        );
 
-      if (section) {
-        for (const newScore of reqSection.scores) {
-          const existingScore = section.scores.find(
-            (score) => score.scoreName === newScore.scoreName
+        if (section) {
+          for (const newScore of reqSection.scores) {
+            const existingScore = section.scores.find(
+              (score) => score.scoreName === newScore.scoreName
+            );
+
+            if (existingScore) {
+              // Update existing score
+              Object.assign(existingScore, newScore);
+            } else {
+              // Add new score
+              section.scores.push(newScore);
+            }
+          }
+          canAdd.push(reqSection.section);
+        } else {
+          //have section but user not instructor / co-instructor
+          const alreadySection = course.sections.find(
+            (s) => s.section === reqSection.section
           );
-
-          if (existingScore) {
-            // Update existing score
-            Object.assign(existingScore, newScore);
-          } else {
-            // Add new score
-            section.scores.push(newScore);
+          if (alreadySection) cannotAdd.push(reqSection.section);
+          else {
+            course.sections.push(reqSection);
+            canAdd.push(reqSection.section);
           }
         }
-        canAdd.push(reqSection.section);
-      } else {
-        //have section but user not instructor / co-instructor
-        const alreadySection = course.sections.find(
-          (s) => s.section === reqSection.section
-        );
-        if (alreadySection) cannotAdd.push(reqSection.section);
-        else {
-          course.sections.push(reqSection);
-          canAdd.push(reqSection.section);
-        }
       }
+      await course.save();
     }
-    await course.save();
     const section = course.sections.find(
       (s) =>
         s.instructor === user.cmuAccount ||
