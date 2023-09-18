@@ -20,16 +20,20 @@ import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { IconAt } from "@tabler/icons-react";
 import { HiChevronRight } from "react-icons/hi";
+import { FaChevronRight } from "react-icons/fa";
+import { IoPersonAddOutline } from "react-icons/io5";
 import { FiPlus } from "react-icons/fi";
+import { BiPlus } from "react-icons/bi";
+import { GoGear } from "react-icons/go";
+import courseData from "./courseData";
+import { FaSignOutAlt } from "react-icons/fa";
+import { signOut } from "../services";
 
 export default function Course166Container() {
   const [noCourse, setNoCourse] = useState();
   const [course, setCourse] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [isHovered, setIsHovered] = useState(false);
-  const [isHovered2, setIsHovered2] = useState(false);
-  const [isHovered3, setIsHovered3] = useState(false);
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isUploadScore, setUploadScore] = useState(false);
   const [isManage, setManage] = useState(false);
@@ -37,7 +41,8 @@ export default function Course166Container() {
   const [sections, setSections] = useState([]);
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [opened, { open, close }] = useDisclosure(false);
-  const { showSidebar } = useContext(ShowSidebarContext);
+  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
+  const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
 
@@ -45,6 +50,17 @@ export default function Course166Container() {
     open();
   };
 
+  const navToSemesterYear = (semester, year) => {
+    navigate({
+      pathname: "/course",
+      search: `?semester=${semester}&year=${year}`,
+    });
+  };
+  const handleSemesterYear = (semester, year) => {
+    setLgSidebar(!sidebar);
+    handleSidebarClick(true);
+    navToSemesterYear(semester, year);
+  };
   const instructorClosePopup = async (coInstructors) => {
     if (!isEmailValid) {
       return;
@@ -277,517 +293,389 @@ export default function Course166Container() {
   return (
     <>
       {/* <SideBar /> */}
-
-      {isSelectedCourse ? null : (
-        <div className="mt-20">
-          <div className="py-5 px-10 text-maintext font-semibold ">
-
-            <div className="flex w-full justify-between">
-              <div
-                className="flex-col flex gap-1"
-                style={{
-                  fontFamily: "'SF PRo', sans-serif",
-                }}
-              >
-                <span className="text-3xl lg:text-5xl">
-                  Course {params.semester}/
-                  {params.year ? params.year.slice(2) : params.year}
-                </span>
-                <span className="text-xl lg:text-2xl ml-1">
-                  {formatDate(currentDate)}
-                </span>
-              </div>
-              
-              <Button
-                className= "flex items-center text-primary text-[18px] border-primary border-[3px] rounded-xl hover:text-white hover:bg-primary duration-150 font-semibold w-45 h-10 mt-5"
-                style={{
-                  fontFamily: "'SF PRo', sans-serif",
-                }}
-                onClick={addCourseButton[1].open}
-              >
-                <div className="flex items-center justify-between  w-full">
-                <FiPlus className="text-3xl " />
-                <span className="mx-2">Add Course</span>
-                </div>
-              </Button>
-
-            </div>
-          </div>
-
-          <Modal
-            opened={addCourseButton[0]}
-            onClose={addCourseButton[1].close}
-            centered
-            withCloseButton={false}
-            size="auto"
-            display="flex"
-            yOffset={0}
-            xOffset={0}
-            padding={0}
-            radius={10}
-            closeOnClickOutside={false}
-            closeOnEscape={false}
-          >
-            <form
-              onSubmit={courseForm.onSubmit((data) => {
-                ConfirmhandleClosePopup(data);
-                addCourseButton[1].close();
-              })}
-            >
-              <div className={Course["AddCoursePopup-Content"]}>
-                <div className={Course["AddCoursePopup-ContentInner"]}>
-                  <p style={{ color: "white", fontWeight: "600" }}>
-                    Add Course
-                  </p>
-                </div>
-                <div className={Course.AddCourseInlineContainer}>
-                  <p
-                    style={{
-                      marginRight: "20px",
-                      fontSize: "28px",
-                      transform: "translateY(-5px)",
-                    }}
-                  >
-                    Course:
-                  </p>
-                  <TextInput
-                    placeholder="Type Course No"
-                    {...courseForm.getInputProps("courseNo")}
-                    size="md"
-                    radius="md"
-                  />
-                </div>
-                <div className={Course.AddCoursePopupButtons}>
-                  <Button
-                    className={Course.AddCourseCancelButton}
-                    onClick={() => {
-                      CancelhandleClosePopup();
-                      addCourseButton[1].close();
-                    }}
-                    sx={{
-                      color: "black",
-                      "&:hover": {
-                        backgroundColor: "#F0EAEA",
-                      },
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    className={Course.AddCourseConfirmButton}
-                    type="submit"
-                  >
-                    Confirm
-                  </Button>
-                </div>
-              </div>
-            </form>
-          </Modal>
-
-
-          <div className=" mx-3 lg:mx-[1.5%] ">
-            <div className=" flex-col flex gap-2 border-[3px] min-h-full border-primary rounded-2xl shadow-xl ">
-
-              {noCourse && (
-                <div
-                  className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl border-b-[1px] pb-2 border-primary/50"
-                  style={{
-                    fontFamily: "'SF PRo', sans-serif",
+      <div className="flex flex-row gap-3 justify-center">
+        <div
+          className={
+            showSidebar
+              ? "hidden lg:flex lg:flex-col ease-in transition-transform pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen "
+              : "hidden lg:hidden -left-[100%] pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen "
+          }
+          //Large Only Sidebar
+        >
+          <div className="flex flex-col px-5 py-14">
+            <ul className="flex flex-col gap-3 pt-5 pb-10 text-gray-800 justify-center text-center items-center font-semibold mx-3 transition-all duration-1000">
+              {courseData.map((data, i) => (
+                <li
+                  className="w-full flex flex-row cursor-pointer justify-center gap-2 text-2xl items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl "
+                  key={i}
+                  onClick={() => {
+                    handleSemesterYear(data.semester, `25${data.year}`);
                   }}
                 >
-                  {noCourse}
-                </div>
-              )}
-              {course.map((item, key) => {
-                return (
-                  <div
-                    key={key}
-                    className={Course.frameEachCourse}
-                    onClick={() => onClickCourse(item)}
-                  >
-                    <div className={Course.courseName}>
-                      <div className={Course.intoCourse}>
-                        {item.courseNo}
-                        {item.courseName ? ` - ${item.courseName}` : null}
-                      </div>
+                  <FaChevronRight className="text-xl" />
+                  <span className="flex flex-row items-center">
+                    <span className="mr-2">Course </span>
+                    {data.semester}/{data.year}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="cursor-pointer px-5">
+            <div
+              onClick={() => signOut().finally(navigate("/sign-in"))}
+              className="text-2xl font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-2xl mt-5 py-2 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
+            >
+              Log out
+              <FaSignOutAlt />
+            </div>
+          </div>
+        </div>
+        <div
+          className={
+            showSidebar ? "w-full flex lg:px-5" : "w-full flex lg:px-20"
+          }
+        >
+          <div className="flex w-full flex-col h-full">
+            {isSelectedCourse ? null : (
+              <>
+                <div className="py-4 lg:mt-20 md:mt-16 mt-16 px-5 lg:px-10 text-maintext font-semibold ">
+                  {/* header courses : courses number, date, add course button */}
+                  <div className="flex w-full justify-between">
+                    <div className="flex-col flex lg:gap-1">
+                      <span className="text-2xl md:text-4xl lg:text-5xl">
+                        Course {params.semester}/
+                        {params.year ? params.year.slice(2) : params.year}
+                      </span>
+                      <span className="text-md lg:text-2xl">
+                        {formatDate(currentDate)}
+                      </span>
+                    </div>
+                    <div className="flex items-end">
+                      <button
+                        className="text-primary px-2 py-[6px] items-center flex lg:text-xl text-sm border-primary border-2 lg:px-3 lg:py-1 rounded-xl hover:text-white hover:bg-primary duration-150 "
+                        onClick={addCourseButton[1].open}
+                      >
+                        <FiPlus className="lg:text-3xl text-xl" />
+                        <span>Add Course</span>
+                      </button>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      )}
-
-      <Modal
-        opened={opened}
-        onClose={() => {
-          close();
-        }}
-        centered
-        withCloseButton={false}
-        size="auto"
-        display="flex"
-        yOffset={0}
-        xOffset={0}
-        padding={0}
-        radius={10}
-        closeOnClickOutside={false}
-        closeOnEscape={false}
-      >
-        <div className={Course["ScorePopup-Content"]}>
-          <div className={Course["ScorePopup-ContentInner"]}>
-            <p style={{ color: "white", fontWeight: "600" }}>
-              {`Add Co-Instructor ${params.courseNo}`}
-            </p>
-          </div>
-          <p
-            style={{
-              marginTop: "-10px",
-              fontSize: "15px",
-              color: "#676666",
-              fontFamily: "SF Pro",
-            }}
-          >
-            Co-Instructors have full access to edit and change scores in all
-            documents. Input an email with the domain cmu.ac.th to invite.
-          </p>
-          <form
-            onSubmit={emailform.onSubmit((data) => {
-              instructorClosePopup(data.email);
-            })}
-          >
-            <TextInput
-              placeholder="Type email to add co-instructor"
-              className={Course.instructorNameInput}
-              fs={20}
-              w={450}
-              mt={5}
-              radius="md"
-              ta="center"
-              icon={<IconAt size="1.1rem" />}
-              {...emailform.getInputProps("email")}
-            />
-            <Flex className={Course.instructorPopupButtons}>
-              <Button
-                className={Course.CancelPopupButton}
-                onClick={() => {
-                  close();
-                  emailform.reset();
-                }}
-                sx={{
-                  color: "black",
-                  "&:hover": {
-                    backgroundColor: "#F0EAEA",
-                  },
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                className={Course.AddPopupButton}
-                type="submit"
-                sx={{
-                  "&:hover": {
-                    backgroundColor: "#d499ff",
-                  },
-                }}
-              >
-                Add
-              </Button>
-            </Flex>
-          </form>
-        </div>
-      </Modal>
-      {/* Pop up */}
-
-      {isSelectedCourse && (
-        <div
-          className={` ${Course.MenuIndexLayout} ${
-            showSidebar ? Course.moveRight : ""
-          }`}
-        >
-          <>
-            <div
-              className={` ${Course.MenuNavigate} ${
-                showSidebar ? Course.moveRight : ""
-              }`}
-            >
-              <p className={Course.MenuIndex}>
-                <label
-                  onClick={backToDashboard}
-                  style={{ cursor: "pointer" }}
-                  className={` ${Course.date} ${
-                    showSidebar ? Course.moveRight : ""
-                  }`}
+                </div>
+                <Modal
+                  opened={addCourseButton[0]}
+                  onClose={addCourseButton[1].close}
+                  centered
+                  withCloseButton={false}
+                  size="auto"
+                  display="flex"
+                  yOffset={0}
+                  xOffset={0}
+                  padding={0}
+                  radius={20}
                 >
-                  Course {params.semester}/{params.year.slice(2)}
-                </label>
-
-                <HiChevronRight
-                  className={` ${Course.date} ${
-                    showSidebar ? Course.moveRight : ""
-                  }`}
-                />
-                <label
-                  onClick={backToCourse}
-                  className={` ${Course.date} ${
-                    showSidebar ? Course.moveRight : ""
-                  }`}
+                  <form
+                    onSubmit={courseForm.onSubmit((data) => {
+                      ConfirmhandleClosePopup(data);
+                      addCourseButton[1].close();
+                    })}
+                    className="overflow-hidden "
+                  >
+                    <div className="overflow-hidden">
+                      <div className="bg-primary flex justify-center py-2 shadow-lg">
+                        <p className="text-white font-semibold text-lg md:text-xl lg:text-2xl">
+                          Add Course
+                        </p>
+                      </div>
+                      <div className="flex gap-5 p-5 items-center justify-between">
+                        <p className="font-semibold text-lg md:text-xl lg:text-2xl">
+                          Course :
+                        </p>
+                        <input
+                          type="text"
+                          min="0"
+                          required
+                          pattern="\d{6}"
+                          placeholder="Type Course No"
+                          {...courseForm.getInputProps("courseNo")}
+                          className="rounded-lg focus:border-blue active:border-blue px-4 py-2 lg:border-2 border-[1px] border-primary my-2"
+                        />
+                      </div>
+                      <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-2 py-1">
+                        <button
+                          className="border-[1px] font-semibold border-gray-100 hover:bg-gray-100 active:bg-gray-200 active:border-gray-200 shadow-md rounded-xl px-5 py-2"
+                          onClick={() => {
+                            CancelhandleClosePopup();
+                            addCourseButton[1].close();
+                          }}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          className="text-white font-semibold border-2 border-primary bg-primary hover:border-secondary hover:bg-secondary active:border-maintext active:bg-maintext shadow-md rounded-xl px-5 py-2"
+                          type="submit"
+                        >
+                          Confirm
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                </Modal>
+                <div className="mx-3 py-3 lg:mx-[1.5%]">
+                  <div className="p-5 flex-col flex gap-3 border-[3px] border-primary rounded-2xl shadow-xl lg:max-h-full md:max-h-full max-h-[400px] lg:overflow-visible overflow-x-auto">
+                    {noCourse && (
+                      <div className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl transition-all duration-100 fade-bottom my-32">
+                        {noCourse}
+                      </div>
+                    )}
+                    {course.map((item, key) => {
+                      return (
+                        <div
+                          key={key}
+                          className="bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary items-center transition-all duration-100 fade-bottom"
+                          onClick={() => onClickCourse(item)}
+                        >
+                          <div className="lg:px-5 px-3 py-1 font-semibold group-hover:cursor-pointer flex justify-between items-center">
+                            <div className="text-white lg:text-2xl text-lg">
+                              {item.courseNo}
+                              {item.courseName ? ` - ${item.courseName}` : null}
+                            </div>
+                            <HiChevronRight className="lg:text-3xl text-xl mx-3 text-white" />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </>
+            )}
+            <Modal
+              opened={opened}
+              onClose={() => {
+                close();
+              }}
+              centered
+              withCloseButton={false}
+              size="auto"
+              display="flex"
+              yOffset={0}
+              xOffset={0}
+              padding={0}
+              radius={10}
+              closeOnClickOutside={false}
+              closeOnEscape={false}
+            >
+              <div className={Course["ScorePopup-Content"]}>
+                <div className={Course["ScorePopup-ContentInner"]}>
+                  <p style={{ color: "white", fontWeight: "600" }}>
+                    {`Add Co-Instructor ${params.courseNo}`}
+                  </p>
+                </div>
+                <p
                   style={{
-                    cursor: isUploadScore || isManage ? "pointer" : null,
+                    marginTop: "-10px",
+                    fontSize: "15px",
+                    color: "#676666",
+                    fontFamily: "SF Pro",
                   }}
                 >
-                  {params.courseNo}
-                </label>
-                {isUploadScore && !isManage && (
-                  <>
-                    <HiChevronRight
-                      className={` ${Course.date} ${
-                        showSidebar ? Course.moveRight : ""
-                      }`}
-                    />
-                    <label
-                      className={` ${Course.date} ${
-                        showSidebar ? Course.moveRight : ""
-                      }`}
-                    >
-                      Upload Score
-                    </label>
-                  </>
-                )}
-                {isManage && (
-                  <>
-                    <HiChevronRight
-                      className={` ${Course.date} ${
-                        showSidebar ? Course.moveRight : ""
-                      }`}
-                    />
-                    <label
-                      className={` ${Course.date} ${
-                        showSidebar ? Course.moveRight : ""
-                      }`}
-                      onClick={backToSelectSec}
-                      style={{
-                        cursor: searchParams.get("section") ? "pointer" : null,
+                  Co-Instructors have full access to edit and change scores in
+                  all documents. Input an email with the domain cmu.ac.th to
+                  invite.
+                </p>
+                <form
+                  onSubmit={emailform.onSubmit((data) => {
+                    instructorClosePopup(data.email);
+                  })}
+                >
+                  <TextInput
+                    placeholder="Type email to add co-instructor"
+                    className={Course.instructorNameInput}
+                    fs={20}
+                    w={450}
+                    mt={5}
+                    radius="md"
+                    ta="center"
+                    icon={<IconAt size="1.1rem" />}
+                    {...emailform.getInputProps("email")}
+                  />
+                  <Flex className={Course.instructorPopupButtons}>
+                    <Button
+                      className={Course.CancelPopupButton}
+                      onClick={() => {
+                        close();
+                        emailform.reset();
+                      }}
+                      sx={{
+                        color: "black",
+                        "&:hover": {
+                          backgroundColor: "#F0EAEA",
+                        },
                       }}
                     >
-                      Management
-                    </label>
-                  </>
-                )}
-                {searchParams.get("section") && (
-                  <>
-                    <HiChevronRight
-                      className={` ${Course.date} ${
-                        showSidebar ? Course.moveRight : ""
-                      }`}
-                    />
-                    <label
-                      className={` ${Course.date} ${
-                        showSidebar ? Course.moveRight : ""
-                      }`}
-                      onClick={showSection}
+                      Cancel
+                    </Button>
+                    <Button
+                      className={Course.AddPopupButton}
+                      type="submit"
+                      sx={{
+                        "&:hover": {
+                          backgroundColor: "#d499ff",
+                        },
+                      }}
                     >
-                      Section {`00${searchParams.get("section")}`}
-                    </label>
-                  </>
-                )}
-              </p>
-            </div>
-            {/* Navigate */}
-
-            <div
-              className={`${Course.frameCourseDash} ${
-                showSidebar ? Course.shrink : ""
-              }`}
-            >
-              <div
-                className={`${Course.navbarCourseDash} ${
-                  showSidebar ? Course.shrink : ""
-                }`}
-              >
-                <div className=" containerTitleDate">
-                  <div
-                    className={`${Course.Title} ${
-                      showSidebar ? Course.moveRight : ""
-                    }`}
-                  >
-                    {isSelectedCourse &&
-                      !isManage &&
-                      !isUploadScore &&
-                      params.courseNo}
-                    {isUploadScore &&
-                      !isManage &&
-                      `Upload Score ${params.courseNo}`}
-                    {isManage && `Management ${params.courseNo}`}
-                    {/* {isShowTableScore && <TableScore data={tableData} />} */}
-                  </div>
-                  <div
-                    className={` ${Course.Date} ${
-                      showSidebar ? Course.moveRight : ""
-                    }`}
-                  >
-                    {formatDate(currentDate)}
-                  </div>
-                </div>
-
-                {/*button choice addCo/Upload/Manage */}
-                <div className="button-container">
-                  <div
-                    className={` ${Course.instructorButton} ${
-                      showSidebar ? Course.moveLeft : ""
-                    }`}
-                    style={{ transform: "translate(-30px, 1px)" }}
-                    onMouseEnter={() => setIsHovered3(true)}
-                    onMouseLeave={() => setIsHovered3(false)}
-                    onClick={handleClickInstructor}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="19"
-                      height="20"
-                      viewBox="0 0 24 25"
-                      fill="none"
-                    >
-                      <path
-                        d="M17.75 18.75H17.5913C17.4041 17.8385 17.0745 17.0003 16.6025 16.2354C16.1305 15.4704 15.5568 14.8112 14.8813 14.2578C14.2059 13.7044 13.445 13.2731 12.5986 12.9639C11.7523 12.6546 10.8652 12.5 9.9375 12.5C9.22135 12.5 8.52962 12.5936 7.8623 12.7808C7.19499 12.9679 6.57243 13.2284 5.99463 13.562C5.41683 13.8957 4.89193 14.3026 4.41992 14.7827C3.94792 15.2629 3.54102 15.7918 3.19922 16.3696C2.85742 16.9474 2.59294 17.57 2.40576 18.2373C2.21859 18.9046 2.125 19.5964 2.125 20.3125H0.5625C0.5625 19.3359 0.704915 18.396 0.989746 17.4927C1.27458 16.5894 1.68555 15.7552 2.22266 
-                    14.9902C2.75977 14.2253 3.39453 13.5457 4.12695 12.9517C4.85938 12.3576 5.68945 11.8896 6.61719 11.5479C5.69759 10.9456 4.98145 10.1888 4.46875 9.27734C3.95605 8.36589 3.69564 7.35677 3.6875 6.25C3.6875 5.38737 3.85026 4.57764 4.17578 3.8208C4.5013 3.06396 4.94482 2.40072 5.50635 1.83105C6.06787 1.26139 6.73112 0.813802 7.49609 0.488281C8.26107 0.16276 9.07487 0 9.9375 0C10.8001 0 11.6099 0.16276 12.3667 0.488281C13.1235 0.813802 13.7868 1.25732 14.3564 1.81885C14.9261 2.38037 15.3737 3.04362 15.6992 3.80859C16.0247 
-                    4.57357 16.1875 5.38737 16.1875 6.25C16.1875 6.78711 16.1224 7.31201 15.9922 7.82471C15.862 8.3374 15.6667 8.82161 15.4062 9.27734C15.1458 9.73307 14.8407 10.1522 14.4907 10.5347C14.1408 10.9172 13.7298 11.2549 13.2578 11.5479C14.1693 11.8978 15.0075 12.3779 15.7725 12.9883C16.5374 13.5986 17.1966 14.3148 17.75 15.1367V18.75ZM5.25 6.25C5.25 6.90104 5.37207 7.50732 5.61621 8.06885C5.86035 8.63037 6.19401 9.12679 6.61719 9.55811C7.04036 9.98942 7.53678 10.3271 8.10645 10.5713C8.67611 10.8154 9.28646 10.9375 9.9375 10.9375C10.5804 10.9375 11.1867 10.8154 11.7563 10.5713C12.326 10.3271 12.8224 9.99349 13.2456 9.57031C13.6688 9.14714 14.0065 8.65072 14.2588 8.08105C14.5111 7.51139 14.6331 6.90104 14.625 6.25C14.625 5.6071 14.5029 5.00081 14.2588 4.43115C14.0146 3.86149 13.681 3.36507 13.2578 2.94189C12.8346 2.51872 12.3341 2.18099 11.7563 1.92871C11.1785 1.67643 10.5723 1.55436 9.9375 1.5625C9.28646 1.5625 8.68018 1.68457 8.11865 1.92871C7.55713 2.17285 7.06071 2.50651 6.62939 2.92969C6.19808 3.35286 5.86035 3.85335 5.61621 4.43115C5.37207 
-                    5.00895 5.25 5.61523 5.25 6.25ZM20.875 20.3125H24V21.875H20.875V25H19.3125V21.875H16.1875V20.3125H19.3125V17.1875H20.875V20.3125Z"
-                        fill={isHovered3 ? "black" : "#ffffff"}
-                      />
-                    </svg>
-                    <p>Instructor</p>
-                  </div>
-
-                  <div
-                    className={` ${Course.box_upload} ${
-                      showSidebar ? Course.moveLeft : ""
-                    }`}
-                    onClick={() => {
-                      localStorage.setItem("page", "upload");
-                      setUploadScore(true);
-                      goToUpload();
-                    }}
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                    style={{
-                      boxShadow:
-                        isUploadScore && !isManage
-                          ? "0px 4px 4px 0px rgba(0, 0, 0, 0.55) inset"
-                          : "",
-                      backgroundColor:
-                        isUploadScore && !isManage ? "white" : "",
-                    }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="17"
-                      height="17"
-                      viewBox="0 0 30 29"
-                      fill="none"
-                    >
-                      <path
-                        d="M29.8438 14.5C29.8438 14.96 29.6561 15.4011 29.322 15.7264C28.988 16.0516 28.5349 16.2344 28.0625 16.2344H16.7812V27.2188C16.7812 27.6787 16.5936 28.1199 16.2595 28.4451C15.9255 28.7704 15.4724 28.9531 15 28.9531C14.5276 28.9531 14.0745 28.7704 13.7405 28.4451C13.4064 28.1199 13.2188 27.6787 13.2188 27.2188V16.2344H1.9375C1.46508 16.2344 1.01202 16.0516 0.677966 15.7264C0.343917 15.4011 0.15625 14.96 0.15625 14.5C0.15625 14.04 0.343917 13.5989 0.677966 13.2736C1.01202 12.9484 1.46508 12.7656 1.9375 12.7656H13.2188V1.78125C13.2188 1.32127 13.4064 0.88012 13.7405 0.554862C14.0745 0.229603 14.5276 0.046875 15 0.046875C15.4724 0.046875 15.9255 0.229603 16.2595 0.554862C16.5936 0.88012 16.7812 1.32127 16.7812 1.78125V12.7656H28.0625C28.5349 12.7656 28.988 12.9484 29.322 13.2736C29.6561 13.5989 29.8438 14.04 29.8438 14.5Z"
-                        fill={
-                          isHovered
-                            ? "black"
-                            : isUploadScore && !isManage
-                            ? "black"
-                            : "#ffffff"
-                        }
-                      />
-                    </svg>
+                      Add
+                    </Button>
+                  </Flex>
+                </form>
+              </div>
+            </Modal>
+            {/* Pop up */}
+            {isSelectedCourse && (
+              <div className="mx-[2%] lg:mt-24 mt-16">
+                <div className=" border-b-[1px] pb-2 border-primary mb-5">
+                  <p className="flex flex-row items-center font-semibold text-primary gap-2">
                     <p
+                      onClick={backToDashboard}
+                      className="text-primary text-2xl cursor-pointer"
+                    >
+                      Course {params.semester}/{params.year.slice(2)}
+                    </p>
+
+                    <HiChevronRight className="lg:text-3xl text-lg" />
+                    <p
+                      onClick={backToCourse}
+                      className="text-primary text-2xl cursor-pointer"
                       style={{
-                        color: isUploadScore && !isManage ? "black" : "",
+                        cursor: isUploadScore || isManage ? "pointer" : null,
                       }}
                     >
-                      Upload Score
+                      {params.courseNo}
                     </p>
-                  </div>
-                  {/* {isShowTableScore && <TableScore data={section} />} */}
+                    {isUploadScore && !isManage && (
+                      <>
+                        <HiChevronRight className="lg:text-3xl text-lg" />
+                        <p className="text-primary text-2xl cursor-pointer">
+                          Upload Score
+                        </p>
+                      </>
+                    )}
+                    {isManage && (
+                      <>
+                        <HiChevronRight className="lg:text-3xl text-lg" />
+                        <p
+                          className="text-primary text-2xl cursor-pointer"
+                          onClick={backToSelectSec}
+                          style={{
+                            cursor: searchParams.get("section")
+                              ? "pointer"
+                              : null,
+                          }}
+                        >
+                          Management
+                        </p>
+                      </>
+                    )}
+                    {searchParams.get("section") && (
+                      <>
+                        <HiChevronRight className="lg:text-3xl text-lg" />
+                        <p
+                          className="text-primary text-2xl cursor-pointer"
+                          onClick={showSection}
+                        >
+                          Section {`00${searchParams.get("section")}`}
+                        </p>
+                      </>
+                    )}
+                  </p>
+                </div>
 
-                  <div
-                    className={` ${Course.manageButton} ${
-                      showSidebar ? Course.moveLeft : ""
-                    }`}
-                    onMouseEnter={() => setIsHovered2(true)}
-                    onMouseLeave={() => setIsHovered2(false)}
-                    style={{
-                      boxShadow: isManage
-                        ? "0px 4px 4px 0px rgba(0, 0, 0, 0.55) inset"
-                        : "",
-                      backgroundColor: isManage ? "white" : "",
-                      transform: "translate(-20px, 1px)",
-                    }}
-                    onClick={() => {
-                      localStorage.setItem("page", "management");
-                      setManage(true);
-                      goToManage();
-                      showSection();
-                    }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <path
-                        d="M19.8999 12.6604C19.7396 12.4779 19.6512 12.2433 19.6512 12.0004C19.6512 11.7575 19.7396 11.5229 19.8999 11.3404L21.1799 9.90038C21.3209 9.74305 21.4085 9.54509 21.4301 9.33489C21.4516 9.12469 21.4061 8.91307 21.2999 8.73038L19.2999 5.27038C19.1948 5.0879 19.0348 4.94326 18.8426 4.85707C18.6505 4.77088 18.4361 4.74754 18.2299 4.79038L16.3499 5.17038C16.1107 5.21981 15.8616 5.17997 15.6498 5.05838C15.4379 4.93679 15.2779 4.74187 15.1999 4.51038L14.5899 2.68038C14.5228 2.48176 14.395 2.30925 14.2245 2.18723C14.0541 2.0652 13.8495 1.99984 13.6399 2.00038H9.6399C9.42183 1.989 9.20603 2.04931 9.02546 2.1721C8.84489 2.29489 8.70948 2.4734 8.6399 2.68038L8.0799 4.51038C8.0019 4.74187 7.84187 4.93679 7.63001 5.05838C7.41815 5.17997 7.16911 5.21981 6.9299 5.17038L4.9999 4.79038C4.80445 4.76276 4.6052 4.79361 4.42724 4.87902C4.24929 4.96444 4.1006 5.10061 3.9999 5.27038L1.9999 8.73038C1.89106 8.91103 1.84212 9.12147 1.86008 9.33161C1.87804 9.54174 1.96198 9.74082 2.0999 9.90038L3.3699 11.3404C3.53022 11.5229 3.61863 11.7575 3.61863 12.0004C3.61863 12.2433 3.53022 12.4779 3.3699 12.6604L2.0999 14.1004C1.96198 14.2599 1.87804 14.459 1.86008 14.6692C1.84212 14.8793 1.89106 15.0897 1.9999 15.2704L3.9999 18.7304C4.10499 18.9129 4.26502 19.0575 4.45715 19.1437C4.64928 19.2299 4.86372 19.2532 5.0699 19.2104L6.9499 18.8304C7.18911 18.781 7.43815 18.8208 7.65001 18.9424C7.86187 19.064 8.0219 19.2589 8.0999 19.4904L8.7099 21.3204C8.77948 21.5274 8.91489 21.7059 9.09546 21.8287C9.27603 21.9515 9.49183 22.0118 9.7099 22.0004H13.7099C13.9195 22.0009 14.1241 21.9356 14.2945 21.8135C14.465 21.6915 14.5928 21.519 14.6599 21.3204L15.2699 19.4904C15.3479 19.2589 15.5079 19.064 15.7198 18.9424C15.9316 18.8208 16.1807 18.781 16.4199 18.8304L18.2999 19.2104C18.5061 19.2532 18.7205 19.2299 18.9126 19.1437C19.1048 19.0575 19.2648 18.9129 19.3699 18.7304L21.3699 15.2704C21.4761 15.0877 21.5216 14.8761 21.5001 14.6659C21.4785 14.4557 21.3909 14.2577 21.2499 14.1004L19.8999 12.6604ZM18.4099 14.0004L19.2099 14.9004L17.9299 17.1204L16.7499 16.8804C16.0297 16.7332 15.2805 16.8555 14.6445 17.2242C14.0085 17.5929 13.53 18.1822 13.2999 18.8804L12.9199 20.0004H10.3599L9.9999 18.8604C9.76975 18.1622 9.29128 17.5729 8.6553 17.2042C8.01932 16.8355 7.27012 16.7132 6.5499 16.8604L5.3699 17.1004L4.0699 14.8904L4.8699 13.9904C5.36185 13.4404 5.63383 
-                      12.7283 5.63383 11.9904C5.63383 11.2525 5.36185 10.5404 4.8699 9.99038L4.0699 9.09038L5.3499 6.89038L6.5299 7.13038C7.25012 7.27761 7.99932 7.15526 8.6353 6.78658C9.27128 6.4179 9.74975 5.82854 9.9799 5.13038L10.3599 4.00038H12.9199L13.2999 5.14038C13.53 5.83854 14.0085 6.4279 14.6445 6.79658C15.2805 7.16526 16.0297 7.28761 16.7499 7.14038L17.9299 6.90038L19.2099 9.12038L18.4099 10.0204C17.9235 10.5691 17.6549 11.2771 17.6549 12.0104C17.6549 12.7437 17.9235 13.4516 18.4099 14.0004ZM11.6399 8.00038C10.8488 8.00038 10.0754 8.23498 9.41761 8.67451C8.75982 9.11403 8.24713 9.73874 7.94438 10.4696C7.64163 11.2006 7.56241 12.0048 7.71675 12.7807C7.8711 13.5567 8.25206 14.2694 8.81147 14.8288C9.37088 15.3882 10.0836 15.7692 10.8595 15.9235C11.6355 16.0779 12.4397 15.9987 13.1706 15.6959C13.9015 15.3932 14.5262 14.8805 14.9658 14.2227C15.4053 13.5649 15.6399 12.7915 15.6399 12.0004C15.6399 10.9395 15.2185 9.9221 14.4683 9.17196C13.7182 8.42181 12.7008 8.00038 11.6399 8.00038ZM11.6399 14.0004C11.2443 14.0004 10.8577 13.8831 10.5288 13.6633C10.1999 13.4436 9.94351 13.1312 9.79214 12.7657C9.64076 12.4003 9.60116 11.9982 9.67833 11.6102C9.7555 11.2222 9.94598 10.8659 10.2257 10.5862C10.5054 10.3065 10.8618 10.116 11.2497 10.0388C11.6377 9.96164 12.0398 10.0012 12.4053 10.1526C12.7707 10.304 13.0831 10.5603 13.3028 10.8892C13.5226 11.2181 13.6399 11.6048 13.6399 12.0004C13.6399 12.5308 13.4292 13.0395 13.0541 13.4146C12.679 13.7897 12.1703 14.0004 11.6399 14.0004Z"
-                        fill={
-                          isHovered2 ? "black" : isManage ? "black" : "#ffffff"
-                        }
-                      />
-                    </svg>
-                    <p style={{ color: isManage ? "black" : "" }}>Management</p>
+                <div className="lg:rounded-3xl rounded-xl overflow-hidden border-[3px] border-primary">
+                  <div className="flex flex-col">
+                    <div className="bg-primary py-3 px-5 flex flex-row w-full justify-between">
+                      <div className="flex items-start flex-col justify-center">
+                        <p className="text-white font-semibold text-xl lg:text-4xl">
+                          {isSelectedCourse &&
+                            !isManage &&
+                            !isUploadScore &&
+                            params.courseNo}
+                          {isUploadScore &&
+                            !isManage &&
+                            `Upload Score ${params.courseNo}`}
+                          {isManage && `Management ${params.courseNo}`}
+                          {/* {isShowTableScore && <TableScore data={tableData} />} */}
+                        </p>
+                        <p className="text-white font-semibold text-md lg:text-xl">
+                          {formatDate(currentDate)}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-row gap-3 py-4 text-xl text-white font-medium">
+                        <div
+                          className="px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-maintext hover:bg-white hover:shadow-md"
+                          onClick={handleClickInstructor}
+                        >
+                          <IoPersonAddOutline />
+                          <p>Instructor</p>
+                        </div>
+
+                        <div
+                          className="px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-maintext hover:bg-white hover:shadow-md"
+                          onClick={() => {
+                            localStorage.setItem("page", "upload");
+                            setUploadScore(true);
+                            goToUpload();
+                          }}
+                        >
+                          <BiPlus />
+                          <p
+                            style={{
+                              color: isUploadScore && !isManage ? "black" : "",
+                            }}
+                          >
+                            Upload Score
+                          </p>
+                        </div>
+
+                        <div
+                          className="px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-maintext hover:bg-white hover:shadow-md"
+                          onClick={() => {
+                            localStorage.setItem("page", "management");
+                            setManage(true);
+                            goToManage();
+                            showSection();
+                          }}
+                        >
+                          <GoGear />
+                          <p style={{ color: isManage ? "black" : "" }}>
+                            Management
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-center text-center">
+                      {!isUploadScore && !isManage && (
+                        <p
+                          style={{
+                            fontFamily: "SF Pro",
+                          }}
+                          className="text-3xl text-center text-maintext font-semibold my-52"
+                        >
+                          Please select menu in the navigation bar
+                        </p>
+                      )}
+                    </div>
+                    {/* show Upload/Section/TableScore */}
                   </div>
                 </div>
-              </div>
 
-              <div
-                style={{
-                  margin: "auto",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  display: "flex",
-                }}
-              >
-                {!isUploadScore && !isManage && (
-                  <p
-                    style={{
-                      fontSize: "30px",
-                      textAlign: "center",
-                      alignItems: "center",
-                      fontStyle: "normal",
-                      color: "#696CA3",
-                      fontWeight: "590",
-                      fontFamily: "SF Pro",
-                    }}
-                  >
-                    Please select menu in the navigation bar
-                  </p>
-                )}
+                {isUploadScore && <UploadSc />}
+                {isManage && <Management data={sections} />}
               </div>
-              {/* show Upload/Section/TableScore */}
-            </div>
-            {isUploadScore && <UploadSc />}
-            {isManage && <Management data={sections} />}
-
-            <div
-              className={` ${Course.lineIndex} ${
-                showSidebar ? Course.moveRight : ""
-              }`}
-            >
-              {" "}
-            </div>
-          </>
+            )}
+          </div>
         </div>
-      )}
+      </div>
     </>
   );
 }

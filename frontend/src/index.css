@@ -53,16 +53,16 @@ body {
 }
 
 .fade-bottom {
-  animation: fadeInBottom 500ms ease-in;
+  animation: fadeInBottom 200ms ease-in;
 }
 .fade-top {
-  animation: fadeInTop 500ms ease-in;
+  animation: fadeInTop 200ms ease-in;
 }
 .fade-right {
-  animation: fadeInRight 500ms ease-in;
+  animation: fadeInRight 200ms ease-in;
 }
 .fade-left {
-  animation: fadeInLeft 500ms ease-in;
+  animation: fadeInLeft 200ms ease-in;
 }
 
 code {

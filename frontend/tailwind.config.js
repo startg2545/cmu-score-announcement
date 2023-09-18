@@ -5,9 +5,9 @@ module.exports = {
     extend: {
       colors: {
         // Define your custom colors here
-        primary: "#8084c8",
+        primary: "#8084C8",
         secondary: "#777ABA",
-        maintext: "#696ca3",
+        maintext: "#696CA3",
       },
     },
   },

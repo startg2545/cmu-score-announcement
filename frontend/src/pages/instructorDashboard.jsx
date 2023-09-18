@@ -6,16 +6,9 @@ import { signOut } from "../services";
 import { FaChevronRight } from "react-icons/fa";
 
 const Dashboard = () => {
-  const { showSidebar,  handleSidebarClick  } = useContext(ShowSidebarContext);
+  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const navigate = useNavigate();
   const [sidebar, setLgSidebar] = useState(false);
-
-  //LgSidebar
-  const handleLgSidebar = () => {
-    setLgSidebar(!sidebar);
-    handleSidebarClick(true);
-  };
-  //LgSidebar
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -40,8 +33,8 @@ const Dashboard = () => {
       <div
         className={
           showSidebar
-            ? "hidden lg:hidden pt-32 pb-8 duration-1000 transition-all delay-700 lg:pt-10 lg:left-0 justify-between -translate-x-[100%] shadow-gray-500 shadow-xl min-h-screen h-screen "
-            : "hidden lg:flex-col lg:flex pt-32 pb-8 duration-1000 transition-all delay-700 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen "
+            ? "hidden lg:flex lg:flex-col ease-in transition-transform pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen "
+            : "hidden lg:hidden -left-[100%] pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen "
         }
         //Large Only Sidebar
       >
@@ -76,12 +69,6 @@ const Dashboard = () => {
       </div>
       <div className="p-5 mt-20 lg:mt-24 mx-3 lg:mr-5 w-full flex-col flex gap-3 border-[3px] border-primary rounded-2xl shadow-xl lg:h-[86vh] md:h-[86vh] h-[70vh] lg:overflow-visible overflow-x-auto">
         <div className="flex flex-col w-full h-full justify-center items-center">
-          <div
-            onClick={handleLgSidebar}
-            className="rounded-xl border-2 border-primary text-maintext p-2 font-black cursor-pointer"
-          >
-            TEMPORARY Larger Only Sidebar Button
-          </div>
           <p className="flex justify-center lg:text-3xl text-xl items-center text-center text-maintext font-semibold">
             {showSidebar
               ? "Please select an academic year"

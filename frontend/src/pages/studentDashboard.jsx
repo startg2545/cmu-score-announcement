@@ -253,15 +253,14 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="my-20 lg:my-24">
+    <div className="my-20 lg:my-24 lg:px-20">
       {params.courseNo && (
         <div className="mx-[2%]">
-          <div className="border-b-[1px] pb-2 border-[#8084c8]">
+          <div className="border-b-[1px] pb-2 border-primary">
             <p className="flex flex-row items-center font-semibold text-primary gap-2">
               <label
                 onClick={backToDashboard}
-                style={{ cursor: "pointer" }}
-                className="text-[19px] md:text-[22px] lg:text-[25px]"
+                className="text-[19px] md:text-[22px] lg:text-[25px] cursor-pointer"
               >
                 Dashboard
               </label>
@@ -296,7 +295,7 @@ export default function StudentDashboard() {
               }}
             >
               <span //big text topic
-                className="text-3xl md:text-4xl lg:text-5xl "
+                className="text-3xl md:text-4xl lg:text-5xl"
               >
                 {!params.courseNo && "Dashboard"}
                 {params.courseNo && !params.scoreName && params.courseNo}
@@ -311,9 +310,6 @@ export default function StudentDashboard() {
               <div className="flex justify-end items-center w-full">
                 <div
                   className="text-primary flex lg:text-xl text-md border-primary border-2 px-3 py-2 rounded-xl hover:text-white hover:bg-primary duration-150 "
-                  style={{
-                    fontFamily: "'SF PRo', sans-serif",
-                  }}
                   onClick={changeView}
                 >
                   {isShowGraph ? (
@@ -350,12 +346,7 @@ export default function StudentDashboard() {
                   {/* <div className={Student.courseName}> */}
                   <div className=" px-5 py-1 font-semibold group-hover:cursor-pointer">
                     <div className="flex justify-between items-center">
-                      <div
-                        className="text-white lg:text-2xl text-lg"
-                        style={{
-                          fontFamily: "'SF PRo', sans-serif",
-                        }} //not global font**
-                      >
+                      <div className="text-white lg:text-2xl text-lg">
                         {item.courseNo}
                         {item.courseName ? ` - ${item.courseName}` : null}
                         <div
@@ -394,7 +385,6 @@ export default function StudentDashboard() {
                       >
                         {item.scoreName}
                       </div>
-
                       <HiChevronRight className="text-4xl text-white" />
                     </div>
                   </div>
