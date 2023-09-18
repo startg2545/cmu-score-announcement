@@ -509,19 +509,19 @@ export default function Course166Container() {
             {/* Pop up */}
             {isSelectedCourse && (
               <div className="mx-[2%] lg:mt-24 mt-20">
-                <div className=" border-b-[1px] pb-2 border-primary mb-5">
+                <div className=" pb-2  -mt-2 mb-5">
                   <p className="flex flex-row items-center font-semibold text-primary gap-2">
                     <p
                       onClick={backToDashboard}
-                      className="text-primary lg:text-2xl text-md cursor-pointer"
+                      className="text-primary lg:text-xl text-md cursor-pointer"
                     >
                       Course {params.semester}/{params.year.slice(2)}
                     </p>
 
-                    <HiChevronRight className="lg:text-3xl text-md" />
+                    <HiChevronRight className="lg:text-2xl text-md" />
                     <p
                       onClick={backToCourse}
-                      className="text-primary lg:text-2xl text-md cursor-pointer"
+                      className="text-primary lg:text-xl text-md cursor-pointer"
                       style={{
                         cursor: isUploadScore || isManage ? "pointer" : null,
                       }}
@@ -530,17 +530,17 @@ export default function Course166Container() {
                     </p>
                     {isUploadScore && !isManage && (
                       <>
-                        <HiChevronRight className="lg:text-3xl text-md" />
-                        <p className="text-primary lg:text-2xl text-md cursor-pointer">
+                        <HiChevronRight className="lg:text-2xl text-md" />
+                        <p className="text-primary lg:text-xl text-md cursor-pointer">
                           Upload Score
                         </p>
                       </>
                     )}
                     {isManage && (
                       <>
-                        <HiChevronRight className="lg:text-3xl text-md" />
+                        <HiChevronRight className="lg:text-2xl text-md" />
                         <p
-                          className="text-primary lg:text-2xl text-md cursor-pointer"
+                          className="text-primary lg:text-xl text-md cursor-pointer"
                           onClick={backToSelectSec}
                           style={{
                             cursor: searchParams.get("section")
@@ -554,9 +554,9 @@ export default function Course166Container() {
                     )}
                     {searchParams.get("section") && (
                       <>
-                        <HiChevronRight className="lg:text-3xl text-md" />
+                        <HiChevronRight className="lg:text-2xl text-md" />
                         <p
-                          className="text-primary lg:text-2xl text-md cursor-pointer"
+                          className="text-primary lg:text-xl text-md cursor-pointer"
                           onClick={showSection}
                         >
                           Section {`00${searchParams.get("section")}`}
@@ -564,6 +564,7 @@ export default function Course166Container() {
                       </>
                     )}
                   </p>
+                  <div className="mt-1 border-b-[3px] border-primary shadow-inset-md opacity-25"></div>
                 </div>
 
                 <div className="lg:rounded-3xl rounded-xl overflow-hidden border-[3px] border-primary">
