@@ -50,7 +50,7 @@ router.get("/", async (req, res) => {
 
       if (sections.length) return res.send({ ok: true, course: sections });
       else
-        return res.send({ ok: false, message: "You don't have any course." });
+        return res.send({ ok: false, message: "No Course" });
     }
   } catch (err) {
     return res
