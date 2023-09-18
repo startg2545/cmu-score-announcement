@@ -108,7 +108,7 @@ const Management = ({ data }) => {
         yOffset={0}
         xOffset={0}
         padding={0}
-        radius={10}
+        radius={20}
         overlayProps={{
           opacity: 0.55,
           blur: 3,
@@ -116,22 +116,15 @@ const Management = ({ data }) => {
         closeOnClickOutside={false}
         closeOnEscape={false}
       >
-        <div className={secMan.managePopupContent}>
-          <div className={secMan.managePopupContentInner}>
-            <p style={{ color: "white", fontWeight: "600" }}>
+        <div className="">
+          <div className="bg-primary py-3 px-5">
+            <p className="text-white lg:text-2xl font-semibold text-center">
               Select section to publish
             </p>
           </div>
-          <div>
+          <div className="flex flex-col items-center justify-center pt-5 max-h-52 overflow-y-auto">
             {data.map((value, key) => (
-              <div
-                key={key}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginTop: "-22px",
-                }}
-              >
+              <div key={key} className="flex items-center justify-center py-2">
                 <Checkbox
                   color="indigo"
                   size="md"
@@ -139,8 +132,8 @@ const Management = ({ data }) => {
                   id="selected-section"
                   name="selected-section"
                 />
-                <p style={{ marginLeft: "16px", fontSize: "22px" }}>
-                  Section{" "}
+                <p className="text-maintext px-4 font-semibold lg:text-xl">
+                  Section
                   {value.section < 100
                     ? `00${value.section}`
                     : value.section < 1000
@@ -152,57 +145,43 @@ const Management = ({ data }) => {
           </div>
           {checkedSections.length > 0 && (
             <>
-              <p className={secMan.inline}>
-                {checkedSections.length > 0 && <p>Score in&nbsp;</p>}
-
+              <p className="grid grid-cols-3 justify-center items-center flex-col p-5 max-h-52 overflow-y-auto">
+                {checkedSections.length > 0 && (
+                  <p className="font-semibold text-lg">Score in :</p>
+                )}
                 {checkedSections.map((section, i) => (
-                  <p key={section}>section {section}&nbsp;</p>
+                  <p key={section}> Section {section},</p>
                 ))}
               </p>
             </>
           )}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <Button
-              style={{ marginRight: "20px" }}
-              className={Course.CancelPopupButton}
+          <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-4 py-1">
+            <button
+              className="border-[1px] font-semibold border-gray-100 hover:bg-gray-100 active:bg-gray-200 active:border-gray-200 shadow-md rounded-xl px-5 py-2"
               onClick={() => {
                 publishEach[1].close();
                 setCheckedSections([]);
               }}
-              radius="md"
-              sx={{
-                color: "black",
-                "&:hover": {
-                  backgroundColor: "#F0EAEA",
-                },
-              }}
             >
               Cancel
-            </Button>
-            <Button
-              style={{ marginLeft: "20px" }}
-              className={Course.AddPopupButton}
+            </button>
+            <button
+              className={`text-white font-semibold border-2  shadow-md rounded-xl px-5 py-2
+              ${
+                countChecked === 0
+                  ? "border-gray-400 bg-gray-400"
+                  : "border-primary bg-primary hover:border-secondary hover:bg-secondary active:border-maintext active:bg-maintext"
+              }`}
               type="submit"
-              sx={{
-                "&:hover": {
-                  backgroundColor: "#d499ff",
-                },
-              }}
               onClick={() => {
                 publishEach[1].close();
                 setCheckedSections([]);
                 submitPublishEach();
               }}
-              radius="md"
               disabled={countChecked === 0}
             >
               Confirm
-            </Button>
+            </button>
           </div>
         </div>
       </Modal>
@@ -216,7 +195,7 @@ const Management = ({ data }) => {
         yOffset={0}
         xOffset={0}
         padding={0}
-        radius={10}
+        radius={20}
         overlayProps={{
           opacity: 0.55,
           blur: 3,
@@ -224,13 +203,11 @@ const Management = ({ data }) => {
         closeOnClickOutside={false}
         closeOnEscape={false}
       >
-        <div className={secMan.managePopupContent}>
-          <div className={secMan.managePopupContentInner}>
-            <p style={{ color: "white", fontWeight: "600" }}>
-              Publish All Sections?
-            </p>
+        <div className="overflow-hidden">
+          <div className="bg-primary py-3 flex justify-center text-2xl font-semibold text-white">
+            <p>Publish All Sections?</p>
           </div>
-          <div className={upStyle.ScoreSvgInline}>
+          <div className="flex justify-center items-center py-5">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="53"
@@ -294,60 +271,36 @@ const Management = ({ data }) => {
               </defs>
             </svg>
           </div>
-          <p>Scores in all sections will be published</p>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginTop: "10px",
-            }}
-          >
-            <Button
-              style={{ marginRight: "20px" }}
-              className={Course.CancelPopupButton}
+          <p className="text-gray-600 text-center mx-5">
+            Scores in all sections will be published
+          </p>
+          <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-4 py-1">
+            <button
+              className="border-[1px] font-semibold border-gray-100 hover:bg-gray-100 active:bg-gray-200 active:border-gray-200 shadow-md rounded-xl px-5 py-2"
               onClick={() => {
                 publishAll[1].close();
               }}
-              radius="md"
-              sx={{
-                color: "black",
-                "&:hover": {
-                  backgroundColor: "#F0EAEA",
-                },
-              }}
             >
               Cancel
-            </Button>
-            <Button
-              style={{ marginLeft: "20px" }}
-              className={Course.AddPopupButton}
-              type="submit"
-              sx={{
-                "&:hover": {
-                  backgroundColor: "#d499ff",
-                },
-              }}
+            </button>
+            <button
+              className="text-white font-semibold border-2 border-primary bg-primary hover:border-secondary hover:bg-secondary active:border-maintext active:bg-maintext shadow-md rounded-xl px-5 py-2"
               onClick={() => {
                 publishAll[1].close();
                 submitPublishAll();
               }}
-              radius="md"
             >
               Confirm
-            </Button>
+            </button>
           </div>
         </div>
       </Modal>
-      <div
-        className={` ${secMan.Managecourseframewindow}  ${
-          showSidebar ? secMan.shrink : ""
-        }`}
-      >
+      <div className=" p-5">
         {!searchParams.get("section") && (
-          <div className={secMan.frameTableSc}>
+          <div className="flex flex-col px-5 lg:px-14 gap-3 my-3">
             {data.map((e, key) => (
               <p
-                className={secMan.secBox}
+                className="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 shadow-md lg:text-2xl px-5 py-3 rounded-xl text-maintext font-semibold"
                 key={key}
                 onClick={() => {
                   showTable(e.section);
@@ -363,52 +316,54 @@ const Management = ({ data }) => {
             ))}
           </div>
         )}
-        <div className={secMan.frameTableSc}>
+        <div className="md:max-w-full lg:max-w-full max-w-32 overflow-auto">
           {searchParams.get("section") && <TableScore data={dataTable} />}
         </div>
       </div>
-      {!searchParams.get("section") && data.length > 0 && (
-        <div
-          className={` ${secMan.publishSec}  ${
-            showSidebar ? secMan.shrink : ""
-          }`}
-        >
-          <div className={secMan.publishlEach} onClick={publishEach[1].open}>
-            <p className={secMan.fontp} style={{ fontWeight: "600" }}>
+      {!searchParams.get("section") && (
+        <div className="flex w-full justify-between gap-1">
+          <button
+            className={`w-full h-full  py-3
+            ${
+              data.length === 0
+                ? "bg-gray-400 cursor-default"
+                : "bg-primary hover:bg-maintext cursor-pointer"
+            }`}
+            disabled={data.length === 0 ? true : false}
+            onClick={publishEach[1].open}
+          >
+            <p className="text-center lg:text-3xl text-white">
+              Publish Each Section
+            </p>
+          </button>
+          <button
+            className={`w-full h-full  py-3
+            ${
+              data.length === 0
+                ? "bg-gray-400 cursor-default"
+                : "bg-primary hover:bg-maintext cursor-pointer"
+            }`}
+            disabled={data.length === 0 ? true : false}
+            onClick={publishAll[1].open}
+          >
+            <p className="text-center lg:text-3xl text-white">
+              Publish All Sections
+            </p>
+          </button>
+        </div>
+      )}
+      {/* {data.length === 0 && (
+        <div className="bg-green-400">
+          <div className="bg-red-400">
+            <p className="bg-sky-400" style={{ fontWeight: "600" }}>
               Publish Each Section
             </p>
           </div>
-          <div className={secMan.publishlAll} onClick={publishAll[1].open}>
-            <p
-              className={secMan.fontp}
-              style={{ fontWeight: "600", textDecoration: "underline" }}
-            >
-              Publish All Sections
-            </p>
+          <div className="bg-emerald-400">
+            <p className="bg-yellow-400">Publish All Sections</p>
           </div>
         </div>
-      )}
-      {data.length === 0 && (
-        <div
-          className={` ${secMan.publishSec}  ${
-            showSidebar ? secMan.shrink : ""
-          }`}
-        >
-          <div className={secMan.publishEachDisable}>
-            <p className={secMan.fontp} style={{ fontWeight: "600" }}>
-              Publish Each Section
-            </p>
-          </div>
-          <div className={secMan.publishlAllDisable}>
-            <p
-              className={secMan.fontp}
-              style={{ fontWeight: "600", textDecoration: "underline" }}
-            >
-              Publish All Sections
-            </p>
-          </div>
-        </div>
-      )}
+      )} */}
     </>
   );
 };

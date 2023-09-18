@@ -31,15 +31,14 @@ const Dashboard = () => {
   return (
     <div className="flex flex-row gap-3 justify-center">
       <div
-        className={
+        className={`hidden lg:flex lg:overflow-hidden lg:flex-col pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen duration-500  ${
           showSidebar
-            ? "hidden lg:flex lg:flex-col ease-in transition-transform pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen "
-            : "hidden lg:hidden -left-[100%] pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen "
-        }
-        //Large Only Sidebar
+            ? "transform translate-x-0 w-[300px]"
+            : "transform -translate-x-full w-0"
+        }`}
       >
-        <div className="flex flex-col px-5 py-14">
-          <ul className="flex flex-col gap-3 pt-5 pb-10 text-gray-800 justify-center text-center items-center font-semibold mx-3">
+        <div className="flex flex-col px-3 py-14">
+          <ul className="flex flex-col gap-3 pt-2 pb-10 text-gray-800 justify-center text-center items-center font-semibold ">
             {courseData.map((data, i) => (
               <li
                 className="w-full flex flex-row cursor-pointer justify-center gap-2 text-2xl items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl "
@@ -49,10 +48,10 @@ const Dashboard = () => {
                 }}
               >
                 <FaChevronRight className="text-xl" />
-                <span className="flex flex-row items-center">
-                  <span className="mr-2">Course </span>
+                <div className="flex flex-row items-center">
+                  <div className="mr-2">Course </div>
                   {data.semester}/{data.year}
-                </span>
+                </div>
               </li>
             ))}
           </ul>
@@ -60,7 +59,7 @@ const Dashboard = () => {
         <div className="cursor-pointer px-5">
           <div
             onClick={() => signOut().finally(navigate("/sign-in"))}
-            className="text-2xl font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-2xl mt-5 py-2 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
+            className="text-2xl font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-3xl mt-5 py-2 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
           >
             Log out
             <FaSignOutAlt />
@@ -72,7 +71,7 @@ const Dashboard = () => {
           <p className="flex justify-center lg:text-3xl text-xl items-center text-center text-maintext font-semibold">
             {showSidebar
               ? "Please select an academic year"
-              : "Click the icon at the top left corner"}
+              : "Click icon at the top left corner"}
             <br />
             {showSidebar && "in the sidebar menu"}
             {!showSidebar && "to select an academic year"}
