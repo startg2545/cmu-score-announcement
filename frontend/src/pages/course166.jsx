@@ -26,6 +26,8 @@ import { GoGear } from "react-icons/go";
 import courseData from "./courseData";
 import { FaSignOutAlt } from "react-icons/fa";
 import { signOut } from "../services";
+import { TextInput, Button, Flex } from "@mantine/core";
+import Course from "./css/course166.module.css";
 
 export default function Course166Container() {
   const [noCourse, setNoCourse] = useState();
@@ -330,7 +332,7 @@ export default function Course166Container() {
         </div>
         <div
           className={
-            showSidebar ? "w-full flex lg:px-5" : "w-full flex lg:px-20"
+            showSidebar ? "w-full flex lg:px-5" : "w-full flex "
           }
         >
           <div className="flex w-full flex-col h-full">
@@ -458,6 +460,8 @@ export default function Course166Container() {
               xOffset={0}
               padding={0}
               radius={20}
+              closeOnClickOutside={false}
+              closeOnEscape={false}
             >
               <div className="flex flex-col">
                 <div className="bg-primary flex justify-center py-3 shadow-xl">
@@ -476,31 +480,41 @@ export default function Course166Container() {
                   })}
                   className="px-10 lg:px-24"
                 >
-                  <input
-                    type="email"
-                    min="0"
-                    required
+                  <TextInput
                     placeholder="Type email to add co-instructor"
-                    {...courseForm.getInputProps("Email")}
-                    className="rounded-lg w-full focus:border-blue active:border-blue px-4 py-2 lg:border-2 border-[1px] border-primary my-2"
+                    required
+                    {...emailform.getInputProps("email")}
                   />
                   <div className="overflow-hidden">
                     <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-4 py-1">
-                      <button
-                        className="border-[1px] font-semibold border-gray-100 hover:bg-gray-100 active:bg-gray-200 active:border-gray-200 shadow-md rounded-xl px-5 py-2"
+                      <Button
+                        //className="border-[1px] font-semibold border-gray-100 hover:bg-gray-100 active:bg-gray-200 active:border-gray-200 shadow-md rounded-xl px-5 py-2"
+                        className={Course.CancelPopupButton}
                         onClick={() => {
                           close();
                           emailform.reset();
                         }}
+                        sx={{
+                          color: "black",
+                          "&:hover": {
+                            backgroundColor: "#F0EAEA",
+                          },
+                        }}
                       >
                         Cancel
-                      </button>
-                      <button
-                        className="text-white font-semibold border-2 border-primary bg-primary hover:border-secondary hover:bg-secondary active:border-maintext active:bg-maintext shadow-md rounded-xl px-5 py-2"
+                      </Button>
+                      <Button
+                        //className="text-white font-semibold border-2 border-primary bg-primary hover:border-secondary hover:bg-secondary active:border-maintext active:bg-maintext shadow-md rounded-xl px-5 py-2"
+                        className={Course.AddPopupButton}
                         type="submit"
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: "#d499ff",
+                          },
+                        }}
                       >
-                        Confirm
-                      </button>
+                        Add
+                      </Button>
                     </div>
                   </div>
                 </form>
@@ -508,9 +522,11 @@ export default function Course166Container() {
             </Modal>
             {/* Pop up */}
             {isSelectedCourse && (
-              <div className="mx-[2%] lg:mt-24 mt-20">
-                <div className=" pb-2  -mt-2 mb-5">
-                  <p className="flex flex-row items-center font-semibold text-primary gap-2">
+
+              <div className="mx-[2%] lg:mt-24 mt-20 max-h-screen">
+                <div className=" border-b-[2px] pb-2 border-primary mb-5">
+                  <p className="flex flex-row items-center font-semibold text-primary gap-3">
+
                     <p
                       onClick={backToDashboard}
                       className="text-primary lg:text-xl text-md cursor-pointer"
@@ -567,9 +583,9 @@ export default function Course166Container() {
                   <div className="mt-1 border-b-[3px] border-primary shadow-inset-md opacity-25"></div>
                 </div>
 
-                <div className="lg:rounded-3xl rounded-xl overflow-hidden border-[3px] border-primary">
+                <div className="lg:rounded-2xl rounded-xl overflow-hidden border-[3px] border-primary">
                   <div className="flex flex-col">
-                    <div className="bg-primary lg:py-3 py-2 lg:px-5 px-3 flex flex-row w-full justify-between">
+                    <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full justify-between">
                       <div className="flex items-start flex-col justify-start">
                         <p className="text-white font-semibold text-3xl lg:text-4xl">
                           {isSelectedCourse &&
@@ -582,12 +598,12 @@ export default function Course166Container() {
                           {isManage && `Management ${params.courseNo}`}
                           {/* {isShowTableScore && <TableScore data={tableData} />} */}
                         </p>
-                        <p className="text-white font-semibold text-lg lg:text-2xl">
+                        <p className="text-white font-semibold text-lg lg:text-md">
                           {formatDate(currentDate)}
                         </p>
                       </div>
 
-                      <div className="flex lg:flex-row flex-col lg:gap-4 gap-1 lg:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
+                      <div className="flex lg:flex-row flex-col gap-1 lg:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
                         <div
                           className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-maintext hover:bg-white hover:shadow-md"
                           onClick={handleClickInstructor}
