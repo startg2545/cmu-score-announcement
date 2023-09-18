@@ -6,8 +6,7 @@ import { signOut } from "../services";
 import { FaChevronRight } from "react-icons/fa";
 
 const Dashboard = () => {
-  const { showSidebar } = useContext(ShowSidebarContext);
-  const { handleSidebarClick } = useContext(ShowSidebarContext);
+  const { showSidebar,  handleSidebarClick  } = useContext(ShowSidebarContext);
   const navigate = useNavigate();
   const [sidebar, setLgSidebar] = useState(false);
 
@@ -40,7 +39,7 @@ const Dashboard = () => {
     <div className="flex flex-row gap-3 justify-center">
       <div
         className={
-          sidebar
+          showSidebar
             ? "hidden lg:hidden pt-32 pb-8 duration-1000 transition-all delay-700 lg:pt-10 lg:left-0 justify-between -translate-x-[100%] shadow-gray-500 shadow-xl min-h-screen h-screen "
             : "hidden lg:flex-col lg:flex pt-32 pb-8 duration-1000 transition-all delay-700 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen "
         }
