@@ -263,7 +263,7 @@ router.get("/", async (req, res) => {
       studentId: user.studentId,
     });
     if (!scores)
-      return res.send({ ok: false, message: "You don't have any score" });
+      return res.send({ ok: false, message: "No Course" });
     return res.send({ ok: true, scores });
   } catch (err) {
     return res
