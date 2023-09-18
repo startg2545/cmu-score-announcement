@@ -48,7 +48,7 @@ const CMUNavbar = () => {
   return (
     <>
       <nav
-        className="flex w-full fixed justify-between items-center top-0 bg-primary px-5 lg:px-10 md:px-8 "
+        className="flex w-full fixed justify-between items-center top-0 bg-primary px-3 lg:px-10 md:px-8 "
         //navbar wrapper
       >
         <div
@@ -130,24 +130,14 @@ const CMUNavbar = () => {
                   >
                     <div className="flex items-center gap-3">
                       <div>
-                        <Text
-                          className="text-white group-hover:text-gray-200 lg:text-xl md:text-lg text-xs font-bold drop-shadow"
-                          style={{
-                            fontFamily: "'SF PRo', sans-serif",
-                          }}
-                        >
+                        <Text className="text-white group-hover:text-gray-200 lg:text-xl md:text-lg text-xs font-bold drop-shadow">
                           Hello, {userInfo.firstName.charAt(0).toUpperCase()}
                           {userInfo.firstName.slice(1).toLowerCase()}{" "}
                           {userInfo.lastName &&
                             userInfo.lastName.charAt(0).toUpperCase()}
                           .
                         </Text>
-                        <Text
-                          className="text-[#f7c878] group-hover:text-[#e6bd76] lg:text-xl md:text-lg drop-shadow text-end"
-                          style={{
-                            fontFamily: "'SF PRo', sans-serif",
-                          }}
-                        >
+                        <Text className="text-[#f7c878] group-hover:text-[#e6bd76] lg:text-xl md:text-lg drop-shadow text-end">
                           1/66,{" Student"}
                         </Text>
                       </div>
@@ -157,9 +147,6 @@ const CMUNavbar = () => {
                 </Menu.Target>
                 <Menu.Dropdown className="border-red-500 fade-bottom transition-all hover:bg-red-500 border-[3px] rounded-xl p-0 m-3 group">
                   <button
-                    style={{
-                      fontFamily: "'SF PRo', sans-serif",
-                    }}
                     onClick={() => signOut().finally(navigate("/sign-in"))}
                     className="px-3 py-1"
                   >
@@ -182,25 +169,14 @@ const CMUNavbar = () => {
                   >
                     <div className="flex items-center gap-3">
                       <div>
-                        <Text
-                          className="text-white 2xl:text-2xl xl:text-xl lg:text-lg font-bold drop-shadow"
-                          style={{
-                            fontFamily: "'SF PRo', sans-serif",
-                          }}
-                        >
+                        <Text className="text-white 2xl:text-2xl xl:text-xl lg:text-lg font-bold drop-shadow">
                           Hello, {userInfo.firstName.charAt(0).toUpperCase()}
                           {userInfo.firstName.slice(1).toLowerCase()}{" "}
                           {userInfo.lastName &&
                             userInfo.lastName.charAt(0).toUpperCase()}
                           .
                         </Text>
-                        <Text
-                          className="text-[#f7c878] group-hover:text-[#e6bd76] 2xl:text-xl xl:text-lg lg:text-md md:text-sm drop-shadow text-end"
-                          style={{
-                            fontFamily: "'SF PRo', sans-serif",
-                            fontWeight: "500",
-                          }}
-                        >
+                        <Text className="text-[#f7c878] group-hover:text-[#e6bd76] 2xl:text-xl xl:text-lg lg:text-md md:text-sm drop-shadow text-end">
                           1/66,{" Instructor"}
                         </Text>
                       </div>
