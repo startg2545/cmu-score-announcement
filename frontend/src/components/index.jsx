@@ -2,9 +2,9 @@ import CMUNavbar from "../components/CMUNavbar";
 import DropDownCourse from "./DropDownCourse";
 import DropDownSection from "./DropDownSection";
 import Management from "./management";
-import StudentSidebar from "../components/StudentSidebar";
 import UploadSc from "../components/uploadScore";
 import TableScore from "../components/TableScore";
+
 
 export {
   CMUNavbar,
@@ -12,6 +12,5 @@ export {
   DropDownSection,
   Management,
   UploadSc,
-  StudentSidebar,
   TableScore,
 };
