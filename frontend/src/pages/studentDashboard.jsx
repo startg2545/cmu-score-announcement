@@ -257,32 +257,33 @@ export default function StudentDashboard() {
   return (
     <div className="mt-20 lg:mt-24 lg:px-20">
       {params.courseNo && (
-        <div className="mx-[2%]">
-          <div className="border-b-[1px] pb-2 border-primary">
-            <p className="flex flex-row items-center font-semibold text-primary gap-2">
+        <div className="mx-[2%] lg:mt-24 mt-20 max-h-screen">
+          <div className=" pb-2 lg:-mt-5 md:-mt-4 -mt-3 ">
+            <p className="flex flex-row items-center justify-content font-semibold text-primary gap-3 ">
               <label
                 onClick={backToDashboard}
                 className="text-[19px] md:text-[22px] lg:text-[25px] cursor-pointer"
               >
                 Dashboard
               </label>
-              <HiChevronRight className="text-xl" />
+              <HiChevronRight className="text-2xl" />
               <label
                 onClick={backToCourse}
                 style={{ cursor: params.scoreName ? "pointer" : null }}
-                className="text-[19px] md:text-[22px] lg:text-[25px]"
+                className="text-[17px] md:text-[20px] lg:text-[23px]"
               >
                 {params.courseNo}
               </label>
               {params.scoreName && (
                 <>
-                  <HiChevronRight className="text-xl" />
-                  <label className="text-[19px] md:text-[22px] lg:text-[25px]">
+                  <HiChevronRight className="text-2xl" />
+                  <label className="text-[17px] md:text-[20px] lg:text-[23px]">
                     {params.scoreName}
                   </label>
                 </>
               )}
             </p>
+            <div className=" border-b-[3px] border-primary shadow-inset-md opacity-25"></div>
           </div>
         </div>
       )}
