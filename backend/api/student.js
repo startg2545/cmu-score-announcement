@@ -136,7 +136,7 @@ router.post("/add", async (req, res) => {
                         // this student has existing score in this course
                         student.courseGrades[grade].scores[score].point =
                           student_obj.point;
-                        await student.save();
+                        // await student.save();
                       }
                     }
                   }
@@ -149,15 +149,18 @@ router.post("/add", async (req, res) => {
                       };
                       // this student doesn't have existing score in this course
                       student.courseGrades[grade].scores.push(send_obj);
-                      await student.save();
+                      // await student.save();
                     }
                   }
                 }
               } else {
                 // this student doesn't have this course
                 student.courseGrades.push(courseGrade);
-                await student.save();
+                // await student.save();
               }
+
+              await student.save();
+
             } else {
               // this student hasn't been graded yet
               let studentGrade = {
@@ -250,7 +253,7 @@ router.post("/add", async (req, res) => {
                     student.courseGrades[x].scores[y].scoreName == scoreName
                   )
                     student.courseGrades[x].scores[y].point = student_obj.point;
-                  await student.save();
+                  // await student.save();
                 }
               }
             } else {
@@ -261,15 +264,17 @@ router.post("/add", async (req, res) => {
               for (let x in student.courseGrades) {
                 if (student.courseGrades[x].courseNo == courseNo) {
                   student.courseGrades[x].scores.push(req_score);
-                  await student.save();
+                  // await student.save();
                 }
               }
             }
           } else {
             // this student doesn't have this course
             student.courseGrades.push(courseGrade);
-            await student.save();
+            // await student.save();
           }
+
+          await student.save();
           
         } else {
           // this student hasn't been graded yet
