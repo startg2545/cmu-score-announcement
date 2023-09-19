@@ -134,6 +134,7 @@ router.delete("/", async (req, res) => {
             "sections.scores.scoreName": scoreName,
           },
           {
+            
             $set: {
               "sections.$[section].scores.$[score].isPublish": false,
             },
@@ -148,7 +149,7 @@ router.delete("/", async (req, res) => {
         );
         return res.send({
           ok: true,
-          message: `score ${scoreName} in section ${req.query.section} unpublished.`,
+          message: `unpublished ${scoreName} succeeded.`,
         });
       }
     } else if (type === "delete_all") {
