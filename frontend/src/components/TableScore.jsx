@@ -1,5 +1,5 @@
 import React from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { Table, Button, Modal } from "@mantine/core";
@@ -15,6 +15,8 @@ const TableScore = ({ data }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadComplete, setShowLoadComplete] = useState(false);
   const [message, setMessage] = useState();
+
+  const navigate = useNavigate();
 
   const handleClickDelete = () => {
     open();
@@ -259,7 +261,14 @@ const TableScore = ({ data }) => {
             <div
               className={`${tabStyle.manageBT} ${tabStyle.editBT}`}
               onClick={() => {
-                localStorage.setItem("Upload", true);
+                localStorage.setItem("Edit", JSON.stringify({
+                  courseNo: searchParams.get('courseNo'),
+                  semester: parseInt(searchParams.get('semester')),
+                  year: parseInt(searchParams.get('year')),
+                  section: parseInt(searchParams.get('section')),
+                  scoreName: element.scoreName
+                }));
+                navigate("/edit-student")
               }}
             >
               <svg

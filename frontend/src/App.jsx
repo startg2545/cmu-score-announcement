@@ -13,6 +13,7 @@ import CourseDetail from "./pages/courseDetail";
 import CMUOAuthCallback from "./pages/cmuOAuthCallback";
 import Course166 from "./pages/course166";
 import ErrorView from "./pages/errorView";
+import EditStudent from "./components/editStudent";
 
 function App() {
   const [userInfo, setUserInfo] = useState(null);
@@ -119,6 +120,7 @@ function App() {
               <Route path="/course" element={<Course166 />} />
               <Route exact path="/table-score" element={<TableScore />} />
               <Route path="/course-detail" element={<CourseDetail />} />
+              <Route path="/edit-student" element={<EditStudent />} />
             </Routes>
           </Router>
         </UserInfoContext.Provider>
