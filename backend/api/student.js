@@ -25,7 +25,7 @@ router.post("/add", async (req, res) => {
             courseNo,
             year,
             semester,
-            "sections.section": sections[section].section
+            "sections.section": sections[section].section,
           },
           {
             $set: {
@@ -34,9 +34,7 @@ router.post("/add", async (req, res) => {
           },
           {
             new: true,
-            arrayFilters: [
-              { "section.section": sections[section].section },
-            ],
+            arrayFilters: [{ "section.section": sections[section].section }],
           }
         );
         const scores = sections[section].scores;
@@ -132,7 +130,7 @@ router.post("/add", async (req, res) => {
           }
         }
       }
-      return res.send("publish all succeeded");
+      return res.send("Publish all completed");
     } else if (req.body.type == "publish_one") {
       let section = req.body.section;
       let results = req.body.results;
@@ -230,7 +228,6 @@ router.post("/add", async (req, res) => {
             student.courseGrades.push(courseGrade);
             await student.save();
           }
-          
         } else {
           // this student hasn't been graded yet
           let studentGrade = {
@@ -263,8 +260,7 @@ router.get("/", async (req, res) => {
     const scores = await studentModel.findOne({
       studentId: user.studentId,
     });
-    if (!scores)
-      return res.send({ ok: false, message: "No Course" });
+    if (!scores) return res.send({ ok: false, message: "No Course" });
     return res.send({ ok: true, scores });
   } catch (err) {
     return res
