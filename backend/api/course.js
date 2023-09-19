@@ -12,7 +12,7 @@ router.post("/add", async (req, res) => {
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
-
+    
     const { courseNo, year, semester, sections } = req.body;
 
     // Find the course
@@ -21,6 +21,7 @@ router.post("/add", async (req, res) => {
     if (!course) {
       course = await courseModel.create({
         courseNo,
+        courseName: req.body.courseName,
         year,
         semester,
         sections: [
@@ -31,11 +32,6 @@ router.post("/add", async (req, res) => {
         ],
       });
       return res.send({ ok: true, message: "The course have been added." });
-    } else {
-      course.sections = course.sections.filter(
-        (section) => section.section !== null
-      );
-      await course.save();
     }
     // Update sections
     let canAdd = [];

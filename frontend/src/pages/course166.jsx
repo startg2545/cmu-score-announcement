@@ -11,7 +11,7 @@ import { ShowSidebarContext } from "../context";
 import {
   addCoInstructors,
   addCourse,
-  getAllCourses,
+  getCourseName,
   getScores,
 } from "../services";
 import { Modal } from "@mantine/core";
@@ -46,10 +46,6 @@ export default function Course166Container() {
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
-
-  const handleClickInstructor = () => {
-    open();
-  };
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -159,18 +155,8 @@ export default function Course166Container() {
   };
 
   const fetchData = async () => {
-    const allCourses = await getAllCourses();
     const resp = await getScores(params.year, params.semester);
     if (resp.ok) {
-      if (allCourses.ok) {
-        resp.course.forEach((e, index) => {
-          allCourses.courseDetails.forEach((all) => {
-            if (e.courseNo === all.courseNo) {
-              resp.course[index].courseName = all.courseNameEN;
-            }
-          });
-        });
-      }
       setCourse(resp.course);
     } else {
       setNoCourse(resp.message);
@@ -280,11 +266,15 @@ export default function Course166Container() {
   };
 
   const ConfirmhandleClosePopup = async (data) => {
-    let resp = await addCourse({
-      year: parseInt(params.year),
-      semester: parseInt(params.semester),
-      courseNo: params.courseNo ? params.courseNo : data.courseNo,
-    });
+    const allCourses = await getCourseName(data.courseNo);
+    if (allCourses.ok) {
+      let resp = await addCourse({
+        year: parseInt(params.year),
+        semester: parseInt(params.semester),
+        courseNo: params.courseNo ? params.courseNo : data.courseNo,
+        courseName: allCourses.courseDetails[0].courseNameEN,
+      });
+    }
     courseForm.reset();
     setNoCourse();
     setCourse([]);
@@ -477,7 +467,7 @@ export default function Course166Container() {
                   })}
                   className="px-10 lg:px-24"
                 >
-                 <TextInput
+                  <TextInput
                     placeholder="Type email to add co-instructor"
                     required
                     {...emailform.getInputProps("email")}
@@ -601,7 +591,7 @@ export default function Course166Container() {
                       <div className="flex lg:flex-row flex-col gap-1 lg:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
                         <div
                           className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
-                          onClick={handleClickInstructor}
+                          onClick={() => open()}
                         >
                           <IoPersonAddOutline />
                           <p>Instructor</p>
@@ -612,7 +602,10 @@ export default function Course166Container() {
                             background:
                               isUploadScore && !isManage ? "white" : "",
                             color: isUploadScore && !isManage ? "black" : "",
-                            boxShadow: isUploadScore && !isManage ? "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset" : "none",
+                            boxShadow:
+                              isUploadScore && !isManage
+                                ? "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset"
+                                : "none",
                           }}
                           className={
                             "lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
@@ -633,7 +626,10 @@ export default function Course166Container() {
                             background:
                               !isUploadScore && isManage ? "white" : "",
                             color: !isUploadScore && isManage ? "black" : "",
-                            boxShadow: !isUploadScore && isManage ? "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset" : "none",
+                            boxShadow:
+                              !isUploadScore && isManage
+                                ? "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset"
+                                : "none",
                           }}
                           onClick={() => {
                             localStorage.setItem("page", "management");

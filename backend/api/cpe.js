@@ -8,7 +8,6 @@ router.get("/course", async (req, res) => {
   try {
     const token = req.cookies.token;
     const user = await verifyAndValidateToken(token);
-
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
@@ -16,17 +15,14 @@ router.get("/course", async (req, res) => {
     const response = await axios.get(
       `${process.env.URL_PATH_CPE}/course/detail`,
       {
+        params: {
+          courseNo: req.query.courseNo,
+        },
         headers: { Authorization: "Bearer " + process.env.TOKEN_API_CPE },
       }
     );
 
-    const course = response.data.courseDetails.filter(
-      (e) =>
-        e.courseNo.substring(0, 3) === "261" ||
-        e.courseNo.substring(0, 3) === "269"
-    );
-
-    res.send({ ok: true, courseDetails: course });
+    return res.send(response.data);
   } catch (err) {
     if (!err.response) {
       return res.send({
@@ -60,7 +56,7 @@ router.get("/sections", async (req, res) => {
       }
     );
 
-    res.send(response.data);
+    return res.send(response.data);
   } catch (err) {
     if (!err.response) {
       return res.send({
