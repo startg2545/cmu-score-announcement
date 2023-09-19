@@ -134,6 +134,7 @@ router.delete("/", async (req, res) => {
             "sections.scores.scoreName": scoreName,
           },
           {
+            
             $set: {
               "sections.$[section].scores.$[score].isPublish": false,
             },

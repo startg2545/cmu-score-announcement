@@ -230,6 +230,7 @@ router.post("/add", async (req, res) => {
             student.courseGrades.push(courseGrade);
             await student.save();
           }
+          
         } else {
           // this student hasn't been graded yet
           let studentGrade = {

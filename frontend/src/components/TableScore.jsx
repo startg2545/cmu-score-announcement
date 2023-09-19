@@ -265,6 +265,7 @@ const TableScore = ({ data }) => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
+                
               </svg>
             </div>
             <div
