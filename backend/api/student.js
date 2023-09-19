@@ -4,6 +4,46 @@ const scoreModel = require("../db/scoreSchema");
 const studentModel = require("../db/studentSchema");
 const router = express.Router();
 
+// update student grade
+router.put("/update", async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const user = await verifyAndValidateToken(token);
+    if (!user.cmuAccount) {
+      return res.status(403).send({ ok: false, message: "Invalid token" });
+    }
+
+    const { courseNo, section, year, semester, studentId, scoreName, point } = req.body
+
+    const student = await studentModel.findOneAndUpdate({
+      studentId: studentId,
+      "courseGrades.courseNo": courseNo,
+      "courseGrades.year": year,
+      "courseGrades.semester": semester,
+      "courseGrades.scores.scoreName": scoreName,
+    },
+    {
+      $set: {
+        "courseGrades.$.scores.$[scoreElem].point": point,
+      },
+    },
+    { 
+      new: true,
+      arrayFilters: [
+        { "scoreElem.scoreName": scoreName },
+      ], 
+    }
+  )
+
+    return res.send(student)
+
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ ok: false, message: "Internal Server Error" });
+  }
+})
+
 // add student grade
 router.post("/add", async (req, res) => {
   try {
@@ -259,12 +299,27 @@ router.get("/", async (req, res) => {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
 
-    const scores = await studentModel.findOne({
-      studentId: user.studentId,
-    });
-    if (!scores)
-      return res.send({ ok: false, message: "No Course" });
-    return res.send({ ok: true, scores });
+    const { courseNo, year, semester, section, scoreName } = req.query.obj;
+
+    const course = await scoreModel.findOne({
+      courseNo,
+      year,
+      semester,
+      'sections.section': section,
+      'sections.scores.scoreName': scoreName
+    })
+    
+    const student_list = course.sections
+    .filter(
+      e =>
+      e.section == section 
+    )[0].scores
+    .filter(
+      e =>
+      e.scoreName == scoreName
+    )[0].results
+
+    return res.send(student_list)
   } catch (err) {
     return res
       .status(500)
