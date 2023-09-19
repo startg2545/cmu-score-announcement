@@ -65,7 +65,7 @@ const CMUNavbar = () => {
   return (
     <>
       <nav
-        className="flex w-full fixed justify-between items-center top-0 bg-primary px-3 lg:px-10 md:px-8 "
+        className="flex w-full fixed justify-between items-center top-0 bg-primary px-3 lg:px-10 md:px-8 z-50"
         //navbar wrapper
       >
         <div
