@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Student from "./css/studentDashboard.module.css";
-import { getStudentScores, getAllCourses, getScoresCourse } from "../services";
+import { getStudentScores, getCourseName, getScoresCourse } from "../services";
 import { HiChevronRight } from "react-icons/hi";
 import { VscGraph } from "react-icons/vsc";
 import { ImParagraphLeft } from "react-icons/im";
@@ -60,7 +60,7 @@ export default function StudentDashboard() {
     }, 1000);
 
     const fetchData = async () => {
-      const allCourse = await getAllCourses();
+      const allCourse = await getCourseName();
       const data = await getStudentScores();
       if (data) {
         if (data.ok) {

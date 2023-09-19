@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const scoreSchema = new mongoose.Schema(
   {
     courseNo: String,
+    courseName: String,
     year: Number,
     semester: Number,
     sections: [

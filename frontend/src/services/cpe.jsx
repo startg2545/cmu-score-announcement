@@ -1,10 +1,13 @@
 import axios from "axios";
 
-export async function getAllCourses() {
+export async function getCourseName(courseNo) {
   try {
     const resp = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/api/v1/cpe/course`,
       {
+        params: {
+          courseNo: courseNo,
+        },
         withCredentials: true,
       }
     );
