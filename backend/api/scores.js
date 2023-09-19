@@ -122,7 +122,7 @@ router.delete("/", async (req, res) => {
         );
         return res.send({
           ok: true,
-          message: `score ${scoreName} delete in section ${req.query.section} deleted.`,
+          message: `${scoreName} in section ${req.query.section} deleted.`,
         });
       } else if (type === "unpublish") {
         await scoreModel.findOneAndUpdate(
@@ -149,7 +149,7 @@ router.delete("/", async (req, res) => {
         );
         return res.send({
           ok: true,
-          message: `unpublished ${scoreName} succeeded.`,
+          message: `${scoreName} hidden`,
         });
       }
     } else if (type === "delete_all") {
@@ -223,7 +223,7 @@ router.delete("/", async (req, res) => {
       );
       return res.send({
         ok: true,
-        message: `score ${scoreName} deleted in all section of you.`,
+        message: `${scoreName} deleted in all sections`,
       });
     }
   } catch (err) {

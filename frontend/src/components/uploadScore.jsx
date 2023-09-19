@@ -20,7 +20,6 @@ export default function UploadScorePageContainer() {
   const [year, setYear] = useState(0);
   const [semester, setSemester] = useState(0);
   const [isFileUploaded, setIsFileUploaded] = useState(false);
-  const cancleModal = useDisclosure();
   const confirmModal = useDisclosure();
   const theme = useMantineTheme();
 
@@ -223,7 +222,9 @@ export default function UploadScorePageContainer() {
         <div className="flex flex-row w-full p-3 gap-3 ">
           <button
             className="flex flex-row justify-between items-center rounded-xl overflow-hidden border-red-500 border-2 group cursor-pointer drop-shadow-lg"
-            onClick={cancleModal[1].open}
+            onClick={() => {
+              localStorage.setItem("Upload", true);
+            }}
           >
             <p className="text-red-500 px-3 text-center items-center flex font-semibold group-hover:bg-red-500 group-hover:text-white duration-150 transition-all bg-white h-full w-30">
               CANCEL
@@ -236,7 +237,7 @@ export default function UploadScorePageContainer() {
             className={`flex flex-row justify-between items-center rounded-xl overflow-hidden group border-2 drop-shadow-lg
               ${
                 isFileUploaded
-                  ? " border-green-500 cursor-pointer "
+                  ? " border-[#1b7744] cursor-pointer "
                   : " border-gray-500 cursor-normal opacity-50"
               }`}
             disabled={!isFileUploaded}
@@ -246,7 +247,7 @@ export default function UploadScorePageContainer() {
               className={`px-3 text-center items-center flex font-semibold duration-150 transition-all bg-white h-full w-30
                 ${
                   isFileUploaded
-                    ? " text-green-500 group-hover:bg-green-500 group-hover:text-white "
+                    ? " text-[#1b7744] group-hover:bg-[#1b7744] group-hover:text-white "
                     : " text-gray-500 "
                 }`}
             >
@@ -254,7 +255,7 @@ export default function UploadScorePageContainer() {
             </p>
             <div
               className={`items-center flex p-2 
-                ${isFileUploaded ? " bg-green-500" : " bg-gray-500"}`}
+                ${isFileUploaded ? " bg-[#1b7744]" : " bg-gray-500"}`}
             >
               <AiOutlineCheck className="text-white text-xl" />
             </div>
@@ -262,83 +263,6 @@ export default function UploadScorePageContainer() {
         </div>
       </div>
 
-      <Modal
-        opened={cancleModal[0]}
-        onClose={cancleModal[1].close}
-        centered
-        withCloseButton={false}
-        size="auto"
-        display="flex"
-        yOffset={0}
-        xOffset={0}
-        padding={0}
-        radius={10}
-        overlayProps={{
-          color:
-            theme.colorScheme === "dark"
-              ? theme.colors.dark[9]
-              : theme.colors.gray[10],
-          opacity: 0.55,
-          blur: 3,
-        }}
-      >
-        <div className={upStyle["ScorePopup-Content"]}>
-          <div className={upStyle["ScorePopup-ContentInner"]}>
-            <p style={{ color: "white", fontWeight: "600" }}>
-              Leave this page?
-            </p>
-          </div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="75"
-            height="76"
-            viewBox="0 0 55 96"
-            fill="none"
-          >
-            <path
-              d="M4.58729 22.8892C0.420621 21.175 -1.35021 16.1837 1.14979 12.5537C6.20187 5.29375 14.6394 0 25.7852 0C38.0248 0 46.4102 5.39458 50.681 12.1504C54.3269 17.9483 56.4623 28.7879 50.8373 36.8546C44.5873 45.7783 38.5977 48.5008 35.3685 54.2483C34.5873 55.6096 34.1185 56.7187 33.806 58.9875C33.3373 62.6679 30.2123 65.5417 26.3581 65.5417C21.8269 65.5417 18.129 61.7604 18.6498 57.3742C18.9623 54.8029 19.5873 52.1308 21.0456 49.61C25.056 42.6021 32.7644 38.4679 37.2435 32.2667C41.9831 25.7629 39.3269 13.6125 25.8894 13.6125C19.7956 13.6125 15.8373 16.6879 13.3894 20.3683C11.5665 23.2421 7.76437 24.1496 4.58729 22.8892ZM36.254 85.7083C36.254 91.2542 31.5665 95.7917 25.8373 95.7917C20.1081 95.7917 15.4206 91.2542 15.4206 85.7083C15.4206 80.1625 20.1081 75.625 25.8373 75.625C31.5665 75.625 36.254 80.1625 36.254 85.7083Z"
-              fill="url(#paint0_linear_599_1105)"
-            />
-            <defs>
-              <linearGradient
-                id="paint0_linear_599_1105"
-                x1="27.1437"
-                y1="0"
-                x2="27.1437"
-                y2="95.7917"
-                gradientUnits="userSpaceOnUse"
-              >
-                <stop stopColor="#8084C8" stopOpacity="0.53" />
-                <stop offset="1" stopColor="#8084C8" />
-              </linearGradient>
-            </defs>
-          </svg>
-          <p style={{marginTop:'10px'}}>This data will be discarded</p>
-          <div className={upStyle.ScorePopupButtons}>
-            <Button
-              className={Course.CancelPopupButton}
-              onClick={cancleModal[1].close}
-              sx={{
-                color: "black",
-                "&:hover": {
-                  backgroundColor: "#F0EAEA",
-                },
-              }}
-            >
-              Stay
-            </Button>
-            <Button
-              className={Course.AddPopupButton}
-              onClick={() => {
-                localStorage.setItem("Upload", true);
-                cancleModal[1].close();
-              }}
-            >
-              Yes, leave
-            </Button>
-          </div>
-        </div>
-      </Modal>
       <Modal
         opened={confirmModal[0]}
         onClose={confirmModal[1].close}

@@ -243,7 +243,7 @@ router.post("/add", async (req, res) => {
           new_student.save();
         }
       }
-      return res.send(`published ${scoreName} succeeded `);
+      return res.send(`${scoreName} published`);
     }
   } catch (err) {
     return res
