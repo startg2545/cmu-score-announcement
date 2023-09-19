@@ -28,6 +28,7 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { signOut } from "../services";
 import { TextInput, Button, Flex } from "@mantine/core";
 import Course from "./css/course166.module.css";
+import { IconAt } from "@tabler/icons-react";
 
 export default function Course166Container() {
   const [noCourse, setNoCourse] = useState();
@@ -305,13 +306,13 @@ export default function Course166Container() {
             <ul className="flex flex-col gap-3 pt-2 pb-10 text-gray-800 justify-center text-center items-center font-semibold ">
               {courseData.map((data, i) => (
                 <li
-                  className="w-full flex flex-row cursor-pointer justify-center gap-2 text-2xl items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl "
+                  className="w-full flex flex-row cursor-pointer justify-center gap-2 text-lg items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl mr-3"
                   key={i}
                   onClick={() => {
                     handleSemesterYear(data.semester, `25${data.year}`);
                   }}
                 >
-                  <FaChevronRight className="text-xl" />
+                  <FaChevronRight className="text-lg" />
                   <div className="flex flex-row items-center">
                     <div className="mr-2">Course </div>
                     {data.semester}/{data.year}
@@ -323,18 +324,14 @@ export default function Course166Container() {
           <div className="cursor-pointer px-5">
             <div
               onClick={() => signOut().finally(navigate("/sign-in"))}
-              className="text-2xl font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-3xl mt-5 py-2 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
+              className="text-lg font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-3xl mt-5 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
             >
               Log out
               <FaSignOutAlt />
             </div>
           </div>
         </div>
-        <div
-          className={
-            showSidebar ? "w-full flex lg:px-5" : "w-full flex "
-          }
-        >
+        <div className={showSidebar ? "w-full flex lg:px-5" : "w-full flex "}>
           <div className="flex w-full flex-col h-full">
             {isSelectedCourse ? null : (
               <>
@@ -420,9 +417,9 @@ export default function Course166Container() {
                   </form>
                 </Modal>
                 <div className="mx-3 py-3 lg:mx-[1.5%]">
-                  <div className="p-5 flex-col flex gap-3 border-[3px] border-primary rounded-2xl shadow-xl lg:max-h-full md:max-h-full max-h-[400px] lg:overflow-visible overflow-x-auto">
+                  <div className="p-5 flex-col flex gap-5  border-[3px] border-primary rounded-2xl shadow-xl lg:max-h-full md:max-h-full max-h-[400px] lg:overflow-visible overflow-x-auto">
                     {noCourse && (
-                      <div className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl transition-all duration-100 fade-bottom my-32">
+                      <div className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl transition-all duration-100 fade-bottom my-32 ">
                         {noCourse}
                       </div>
                     )}
@@ -430,10 +427,10 @@ export default function Course166Container() {
                       return (
                         <div
                           key={key}
-                          className="bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary items-center transition-all duration-100 fade-bottom"
+                          className="bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary items-center transition-all duration-100 fade-bottom "
                           onClick={() => onClickCourse(item)}
                         >
-                          <div className="lg:px-5 px-3 py-1 font-semibold group-hover:cursor-pointer flex justify-between items-center">
+                          <div className="lg:px-5 px-3 py-2 font-medium group-hover:cursor-pointer flex justify-between items-center">
                             <div className="text-white lg:text-2xl text-lg">
                               {item.courseNo}
                               {item.courseName ? ` - ${item.courseName}` : null}
@@ -459,13 +456,13 @@ export default function Course166Container() {
               yOffset={0}
               xOffset={0}
               padding={0}
-              radius={20}
+              radius={10}
               closeOnClickOutside={false}
               closeOnEscape={false}
             >
               <div className="flex flex-col">
                 <div className="bg-primary flex justify-center py-3 shadow-xl">
-                  <p className="text-white text-2xl">
+                  <p className="text-white font-semibold text-2xl">
                     {`Add Co-Instructor ${params.courseNo}`}
                   </p>
                 </div>
@@ -480,7 +477,7 @@ export default function Course166Container() {
                   })}
                   className="px-10 lg:px-24"
                 >
-                  <TextInput
+                 <TextInput
                     placeholder="Type email to add co-instructor"
                     required
                     {...emailform.getInputProps("email")}
@@ -522,11 +519,9 @@ export default function Course166Container() {
             </Modal>
             {/* Pop up */}
             {isSelectedCourse && (
-
               <div className="mx-[2%] lg:mt-24 mt-20 max-h-screen">
-                <div className=" border-b-[2px] pb-2 border-primary mb-5">
+                <div className="  pb-2 border-primary mb-5">
                   <p className="flex flex-row items-center font-semibold text-primary gap-3">
-
                     <p
                       onClick={backToDashboard}
                       className="text-primary lg:text-xl text-md cursor-pointer"
@@ -605,7 +600,7 @@ export default function Course166Container() {
 
                       <div className="flex lg:flex-row flex-col gap-1 lg:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
                         <div
-                          className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-maintext hover:bg-white hover:shadow-md"
+                          className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
                           onClick={handleClickInstructor}
                         >
                           <IoPersonAddOutline />
@@ -616,10 +611,11 @@ export default function Course166Container() {
                           style={{
                             background:
                               isUploadScore && !isManage ? "white" : "",
-                            color: isUploadScore && !isManage ? "#8084C8" : "",
+                            color: isUploadScore && !isManage ? "black" : "",
+                            boxShadow: isUploadScore && !isManage ? "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset" : "none",
                           }}
                           className={
-                            "lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-maintext hover:bg-white hover:shadow-md"
+                            "lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
                           }
                           onClick={() => {
                             localStorage.setItem("page", "upload");
@@ -632,11 +628,12 @@ export default function Course166Container() {
                         </div>
 
                         <div
-                          className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-maintext hover:bg-white hover:shadow-md"
+                          className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
                           style={{
                             background:
                               !isUploadScore && isManage ? "white" : "",
-                            color: !isUploadScore && isManage ? "#8084C8" : "",
+                            color: !isUploadScore && isManage ? "black" : "",
+                            boxShadow: !isUploadScore && isManage ? "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset" : "none",
                           }}
                           onClick={() => {
                             localStorage.setItem("page", "management");

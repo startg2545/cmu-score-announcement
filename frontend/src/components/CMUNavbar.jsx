@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Flex, Text, Menu } from "@mantine/core";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROLE, ShowSidebarContext, UserInfoContext } from "../context";
@@ -8,14 +8,31 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { PiSidebarSimpleFill } from "react-icons/pi";
 import { HiChevronRight } from "react-icons/hi";
+import { CheckPermission } from "../utility/main";
 
 const CMUNavbar = () => {
   const { handleSidebarClick } = useContext(ShowSidebarContext);
-  const { userInfo } = useContext(UserInfoContext);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const { pathname } = useLocation();
   const withoutNavbar = ["/sign-in", "/cmuOAuthCallback", "/errorView"];
   const navigate = useNavigate();
   const [mobileSidebar, setMobileSidebar] = useState(false);
+
+  //  useEffect(() => {
+  //   if(userInfo.itAccountType ) {
+  //     const check = async () => {
+  //       const isPermission = await CheckPermission(userInfo.itAccountType, pathname);
+  //       if (!isPermission) {
+  //         setUserInfo(null);
+  //         await signOut().finally(navigate("/sign-in"));
+  //       };
+  //     };
+  //     check();
+  //   }
+  //   else if (!withoutNavbar.includes(pathname)){
+  //     navigate('/sign-in')
+  //   }
+  // },[pathname, userInfo, navigate])
 
   // Sidebar
   const handleSidebar = () => {
@@ -48,21 +65,21 @@ const CMUNavbar = () => {
   return (
     <>
       <nav
-        className="flex w-full fixed justify-between items-center top-0 bg-primary px-3 lg:px-10 md:px-8 z-50"
+        className="flex w-full fixed justify-between items-center top-0 bg-primary px-3 lg:px-10 md:px-8 "
         //navbar wrapper
       >
         <div
           className={
             mobileSidebar
-              ? "absolute lg:hidden left-0 top-[65px] md:top-[60px] lg:top-[76px] justify-center w-full h-max  items-center drop-shadow-xl duration-[600ms] transition-all bg-white"
-              : "absolute lg:hidden -left-[150%] top-[65px] md:top-[60px] lg:top-[76px] w-full h-max duration-[2000ms] transition-all"
+              ? "absolute lg:hidden md::hidden left-0 top-[65px] md:top-[60px] lg:top-[76px] justify-center w-full h-max items-center z-50 drop-shadow-xl duration-[600ms] bg-white"
+              : "absolute lg:hidden md::hidden -left-[150%] top-[65px] md:top-[60px] lg:top-[76px] w-full h-max z-50 duration-[2000ms]"
           }
           style={{
             boxShadow: "5px 3px 10px rgba(0,0,0,0.25)",
           }}
           //Mobile Only Sidebar
         >
-          <div className="flex flex-col rounded-md min-h-screen h-full justify-between bg-white">
+          <div className="flex flex-col rounded-md min-h-screen h-full justify-between">
             <div className="flex flex-col py-2">
               <ul className="flex flex-col gap-3 pt-5 pb-10 text-gray-800 justify-center text-center items-center font-semibold mx-3">
                 {courseData.map((data, i) => (

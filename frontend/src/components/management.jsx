@@ -343,10 +343,10 @@ const Management = ({ data }) => {
       </Modal>
       <div className=" p-5">
         {!searchParams.get("section") && (
-          <div className="flex flex-col px-5 lg:px-14 gap-3 my-3">
+          <div className="flex flex-col px-5 lg:px-14 gap-5 my-3">
             {data.map((e, key) => (
               <p
-                className="bg-gray-100 hover:bg-gray-200 active:bg-gray-300 shadow-md lg:text-2xl px-5 py-3 rounded-xl text-maintext font-semibold"
+                className="bg-gray-180 hover:bg-gray-200 active:bg-gray-300 shadow-lg lg:text-2xl px-5 py-4 rounded-xl text-black"
                 key={key}
                 onClick={() => {
                   showTable(e.section);
@@ -378,7 +378,7 @@ const Management = ({ data }) => {
             disabled={data.length === 0 ? true : false}
             onClick={publishEach[1].open}
           >
-            <p className="text-center lg:text-3xl text-white">
+            <p className="text-center lg:text-2xl text-white">
               Publish Each Section
             </p>
           </button>
@@ -392,7 +392,7 @@ const Management = ({ data }) => {
             disabled={data.length === 0 ? true : false}
             onClick={publishAll[1].open}
           >
-            <p className="text-center lg:text-3xl text-white">
+            <p className="text-center lg:text-2xl text-white font-semibold ">
               Publish All Sections
             </p>
           </button>
