@@ -417,7 +417,8 @@
 .AddCoursePopupButtons {
   display: flex;
   font-family: "SF Pro", sans-serif;
-  margin-top: 0px;
+  justify-content: center;
+  margin-top: 9px;
 }
 
 .AddCourseCancelButton,
@@ -715,3 +716,8 @@
   display: flex;
   justify-content: center;
 }
+
+
+.errorMessage {
+  color: red;
+  font-size: 14px;}
