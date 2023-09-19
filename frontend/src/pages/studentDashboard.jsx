@@ -5,7 +5,6 @@ import { getStudentScores, getCourseName, getScoresCourse } from "../services";
 import { HiChevronRight } from "react-icons/hi";
 import { VscGraph } from "react-icons/vsc";
 import { ImParagraphLeft } from "react-icons/im";
-import { useMediaQuery } from "@mantine/hooks";
 import { Flex, Title, Text, Progress, Button, Affix } from "@mantine/core";
 import { Chart } from "chart.js/auto";
 import annotationPlugin from "chartjs-plugin-annotation";
@@ -23,9 +22,6 @@ export default function StudentDashboard() {
   const [searchParams, setSearchParams] = useSearchParams({});
   const [params, setParams] = useState({});
   const [isShowGraph, setIsShowGraph] = useState(false);
-  const isMobileOrTablet = useMediaQuery(
-    "(max-width: 1024px) and (max-height: 1400px)"
-  );
   const title = [
     "YOUR SCORE",
     "Mean",
@@ -134,6 +130,9 @@ export default function StudentDashboard() {
   };
 
   const backToDashboard = () => {
+    setCourseList([]);
+    setScoreList([]);
+    setStat([]);
     searchParams.delete("courseNo");
     searchParams.delete("scoreName");
     setSearchParams(searchParams);
@@ -146,6 +145,9 @@ export default function StudentDashboard() {
   };
 
   const backToCourse = () => {
+    setCourseList([]);
+    setScoreList([]);
+    setStat([]);
     searchParams.delete("scoreName");
     setSearchParams(searchParams);
   };
@@ -230,7 +232,7 @@ export default function StudentDashboard() {
       statLine.push({
         type: "line",
         label: {
-          content: title[i],
+          content: `${title[i]} ${stat[i]}`,
           display: true,
           position: "start",
           yAdjust: i === 3 ? 20 : i === 0 ? -20 : 0,
@@ -253,7 +255,7 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="my-20 lg:my-24 lg:px-20">
+    <div className="mt-20 lg:mt-24 lg:px-20">
       {params.courseNo && (
         <div className="mx-[2%]">
           <div className="border-b-[1px] pb-2 border-primary">
@@ -285,8 +287,8 @@ export default function StudentDashboard() {
         </div>
       )}
       {/* MENU */}
-      <div className="mx-[2%]">
-        <div className="py-5 text-maintext font-semibold ">
+      <div className="mx-[2%] max-h-fit">
+        <div className="py-4 text-maintext font-semibold">
           <div className="flex items-end">
             <div
               className="flex-col flex w-full"
@@ -324,7 +326,11 @@ export default function StudentDashboard() {
           </div>
         </div>
 
-        <div className="p-5 flex-col flex gap-3 border-[3px] border-primary rounded-2xl shadow-xl lg:max-h-full md:max-h-full max-h-[400px] lg:overflow-visible overflow-x-auto">
+        <div
+          className={
+            "p-5 flex flex-col gap-3 border-[3px] border-primary rounded-2xl shadow-xl lg:h-[65vh] md:h-[65vh] h-[66vh] overflow-x-auto"
+          }
+        >
           {message && (
             <Text
               className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl border-b-[1px] pb-2 border-primary/50"
@@ -401,7 +407,6 @@ export default function StudentDashboard() {
                   {stat.map((e, i) => (
                     <div key={i} className="py-2">
                       <div
-                        // className="  "
                         className={`${
                           i === 0 ? "lg:text-3xl text-2xl" : "text-xl"
                         } py-2 font-semibold`}
@@ -423,7 +428,7 @@ export default function StudentDashboard() {
                 </div>
               )}
               {isShowGraph && (
-                <div>
+                <div className="lg:h-full">
                   <Line
                     data={data}
                     options={{
@@ -437,6 +442,7 @@ export default function StudentDashboard() {
                           position: "left",
                         },
                       },
+                      maintainAspectRatio: false,
                       plugins: {
                         legend: {
                           display: false,
