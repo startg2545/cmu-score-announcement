@@ -46,8 +46,8 @@ export default function Course166Container() {
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
-  const [courseNo, setCourseNo] = useState('');
-  const [courseNoError, setCourseNoError] = useState('');
+  const [courseNo, setCourseNo] = useState("");
+  const [courseNoError, setCourseNoError] = useState("");
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -273,16 +273,29 @@ export default function Course166Container() {
     courseForm.reset();
   };
 
-  const ConfirmhandleClosePopup = async (data) => {
-    const allCourses = await getCourseName(data.courseNo);
-    if (allCourses.ok) {
-      let resp = await addCourse({
-        year: parseInt(params.year),
-        semester: parseInt(params.semester),
-        courseNo: params.courseNo ? params.courseNo : data.courseNo,
-        courseName: allCourses.courseDetails[0].courseNameEN,
-      });
+  const handleCourseNoChange = async (value) => {
+    courseForm.setValues({...courseForm.values, courseName: ""})
+    if (value) {
+      const courseName = await getCourseName(value);
+      if (courseName.ok) {
+        if (courseName.courseDetails.length) {
+          console.log(courseName.courseDetails[0].courseNameEN);
+          courseForm.setValues({
+            ...courseForm.values,
+            courseName: courseName.courseDetails[0].courseNameEN
+          }, );
+        }
+      }
     }
+  };
+
+  const ConfirmhandleClosePopup = async (data) => {
+    let resp = await addCourse({
+      year: parseInt(params.year),
+      semester: parseInt(params.semester),
+      courseNo: data.courseNo,
+      courseName: data.courseName,
+    });
     courseForm.reset();
     setNoCourse();
     setCourse([]);
@@ -386,22 +399,24 @@ export default function Course166Container() {
                           Course No:
                         </p>
                         <TextInput
-                    placeholder="Type Course No"
-                    {...courseForm.getInputProps("courseNo")}
-                    size="md"
-                    radius="md"
-                  />
+                          placeholder="Type Course No"
+                          {...courseForm.getInputProps("courseNo")}
+                          size="md"
+                          radius="md"
+                          onBlur={(e) => handleCourseNoChange(e.target.value)}
+                        />
                       </div>
                       <div className="flex gap-5 p-5 pt-0 items-center justify-between">
                         <p className="font-semibold text-sm md:text-md lg:text-2xl">
                           Course Name:
                         </p>
                         <TextInput
-                    placeholder="Type Course Name"
-                    {...courseForm.getInputProps("courseName")}
-                    size="md"
-                    radius="md"
-                  />
+                          placeholder="Type Course Name"
+                          {...courseForm.getInputProps("courseName")}
+                          size="md"
+                          radius="md"
+                          value={courseForm.values.courseName}
+                        />
                       </div>
                       <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-2 py-1">
                         <Button
