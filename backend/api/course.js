@@ -12,7 +12,7 @@ router.post("/add", async (req, res) => {
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
-    
+
     const { courseNo, year, semester, sections } = req.body;
 
     // Find the course
@@ -33,6 +33,7 @@ router.post("/add", async (req, res) => {
       });
       return res.send({ ok: true, message: "The course have been added." });
     }
+
     // Update sections
     let canAdd = [];
     let cannotAdd = [];
@@ -67,6 +68,12 @@ router.post("/add", async (req, res) => {
           );
           if (alreadySection) cannotAdd.push(reqSection.section);
           else {
+            const coIns = course.sections.find(
+              (s) =>
+                s.instructor === user.cmuAccount ||
+                s.coInstructors.includes(user.cmuAccount)
+            ).coInstructors;
+            reqSection["coInstructors"] = coIns;
             course.sections.push(reqSection);
             canAdd.push(reqSection.section);
           }
@@ -84,8 +91,13 @@ router.post("/add", async (req, res) => {
         section: null,
         instructor: user.cmuAccount,
       });
-      await course.save();
+    } else {
+      course.sections = course.sections.filter(
+        (section) => section.section !== null
+      );
     }
+    await course.save();
+
     if (cannotAdd.length === 0)
       return res.send({ ok: true, message: "The score have been added/edit." });
     else
@@ -95,6 +107,7 @@ router.post("/add", async (req, res) => {
         sectionCannotAddEdit: cannotAdd,
       });
   } catch (err) {
+    console.log(err);
     return res
       .status(500)
       .send({ ok: false, message: "Internal Server Error" });

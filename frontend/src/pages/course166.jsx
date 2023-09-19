@@ -46,6 +46,8 @@ export default function Course166Container() {
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
+  const [courseNo, setCourseNo] = useState("");
+  const [courseNoError, setCourseNoError] = useState("");
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -98,14 +100,20 @@ export default function Course166Container() {
   const courseForm = useForm({
     initialValues: {
       courseNo: "",
+      courseName: "",
     },
     validate: {
       courseNo: (value) => {
         if (!value) {
-          return "Course no. is required";
+          return "Course No. is required";
         }
         const isValid = /^\d{6}$/.test(value);
         return isValid ? null : "Please enter a valid course no";
+      },
+      courseName: (value) => {
+        if (!value) {
+          return "Course Name is required";
+        }
       },
     },
     validateInputOnBlur: true,
@@ -265,16 +273,29 @@ export default function Course166Container() {
     courseForm.reset();
   };
 
-  const ConfirmhandleClosePopup = async (data) => {
-    const allCourses = await getCourseName(data.courseNo);
-    if (allCourses.ok) {
-      let resp = await addCourse({
-        year: parseInt(params.year),
-        semester: parseInt(params.semester),
-        courseNo: params.courseNo ? params.courseNo : data.courseNo,
-        courseName: allCourses.courseDetails[0].courseNameEN,
-      });
+  const handleCourseNoChange = async (value) => {
+    courseForm.setValues({...courseForm.values, courseName: ""})
+    if (value) {
+      const courseName = await getCourseName(value);
+      if (courseName.ok) {
+        if (courseName.courseDetails.length) {
+          console.log(courseName.courseDetails[0].courseNameEN);
+          courseForm.setValues({
+            ...courseForm.values,
+            courseName: courseName.courseDetails[0].courseNameEN
+          }, );
+        }
+      }
     }
+  };
+
+  const ConfirmhandleClosePopup = async (data) => {
+    let resp = await addCourse({
+      year: parseInt(params.year),
+      semester: parseInt(params.semester),
+      courseNo: data.courseNo,
+      courseName: data.courseName,
+    });
     courseForm.reset();
     setNoCourse();
     setCourse([]);
@@ -359,6 +380,7 @@ export default function Course166Container() {
                   xOffset={0}
                   padding={0}
                   radius={20}
+                  closeOnClickOutside={false}
                 >
                   <form
                     onSubmit={courseForm.onSubmit((data) => {
@@ -368,40 +390,56 @@ export default function Course166Container() {
                   >
                     <div className="overflow-hidden">
                       <div className="bg-primary flex justify-center py-2 shadow-lg">
-                        <p className="text-white font-semibold text-lg md:text-xl lg:text-2xl">
+                        <p className="text-white font-semibold text-lg md:text-xl lg:text-2xl ">
                           Add Course
                         </p>
                       </div>
                       <div className="flex gap-5 p-5 items-center justify-between">
-                        <p className="font-semibold text-lg md:text-xl lg:text-2xl">
-                          Course :
+                        <p className="font-semibold text-sm md:text-xl lg:text-2xl">
+                          Course No:
                         </p>
-                        <input
-                          type="text"
-                          min="0"
-                          required
-                          pattern="\d{6}"
+                        <TextInput
                           placeholder="Type Course No"
                           {...courseForm.getInputProps("courseNo")}
-                          className="rounded-lg focus:border-blue active:border-blue px-4 py-2 lg:border-2 border-[1px] border-primary my-2"
+                          size="md"
+                          radius="md"
+                          onBlur={(e) => handleCourseNoChange(e.target.value)}
+                        />
+                      </div>
+                      <div className="flex gap-5 p-5 pt-0 items-center justify-between">
+                        <p className="font-semibold text-sm md:text-md lg:text-2xl">
+                          Course Name:
+                        </p>
+                        <TextInput
+                          placeholder="Type Course Name"
+                          {...courseForm.getInputProps("courseName")}
+                          size="md"
+                          radius="md"
+                          value={courseForm.values.courseName}
                         />
                       </div>
                       <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-2 py-1">
-                        <button
-                          className="border-[1px] font-semibold border-gray-100 hover:bg-gray-100 active:bg-gray-200 active:border-gray-200 shadow-md rounded-xl px-5 py-2"
+                        <Button
+                          className={Course.AddCourseCancelButton}
                           onClick={() => {
                             CancelhandleClosePopup();
                             addCourseButton[1].close();
                           }}
+                          sx={{
+                            color: "black",
+                            "&:hover": {
+                              backgroundColor: "#F0EAEA",
+                            },
+                          }}
                         >
                           Cancel
-                        </button>
-                        <button
-                          className="text-white font-semibold border-2 border-primary bg-primary hover:border-secondary hover:bg-secondary active:border-maintext active:bg-maintext shadow-md rounded-xl px-5 py-2"
+                        </Button>
+                        <Button
+                          className={Course.AddCourseConfirmButton}
                           type="submit"
                         >
-                          Confirm
-                        </button>
+                          Add
+                        </Button>
                       </div>
                     </div>
                   </form>
