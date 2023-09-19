@@ -17,6 +17,10 @@ const course = require("./api/course");
 const student = require("./api/student");
 const scores = require("./api/scores");
 
+
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb'}));
+
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(cookieParser());
 app.use(bodyParser.json());
