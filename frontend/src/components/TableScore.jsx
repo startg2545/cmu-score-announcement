@@ -115,7 +115,7 @@ const TableScore = ({ data }) => {
     setShowLoadComplete(true);
     setTimeout(() => {
       setShowLoadComplete(false);
-    }, 1700);
+    }, 700);
     setIsPublished((prev) => ({
       ...prev,
       [el.scoreName]: true,
