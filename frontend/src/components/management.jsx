@@ -101,8 +101,15 @@ const Management = ({ data }) => {
       sections: section_arr,
       type: "publish_many",
     };
-    console.log("send", student_schema);
+    setIsLoading(true);
+
     let resp_student = await addStudentGrade(student_schema);
+    setMessage(resp_student);
+    setIsLoading(false);
+    setShowLoadComplete(true);
+    setTimeout(() => {
+      setShowLoadComplete(false);
+    }, 700);
     if (resp_student) console.log("response: ", resp_student);
     localStorage.setItem("publish score", true);
   };

@@ -170,7 +170,7 @@ router.post("/add", async (req, res) => {
           }
         }
       }
-      return res.send("Publish all completed");
+      return res.send("Completed");
     } else if (req.body.type == "publish_one") {
       let section = req.body.section;
       let results = req.body.results;
