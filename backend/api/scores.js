@@ -68,11 +68,7 @@ router.delete("/", async (req, res) => {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
 
-    const courseNo = req.query.courseNo;
-    const year = req.query.year;
-    const semester = req.query.semester;
-    const scoreName = req.query.scoreName;
-    const type = req.query.type;
+    const { courseNo, year, semester, scoreName, type } = req.query;
 
     if (type === "delete_one" || type === "unpublish") {
       const section = req.query.section;
@@ -122,7 +118,7 @@ router.delete("/", async (req, res) => {
         );
         return res.send({
           ok: true,
-          message: `${scoreName} in section ${req.query.section} deleted.`,
+          message: `${scoreName} in section ${section} deleted.`,
         });
       } else if (type === "unpublish") {
         await scoreModel.findOneAndUpdate(
