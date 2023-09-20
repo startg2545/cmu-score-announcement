@@ -29,20 +29,3 @@ export async function addStudentGrade(data) {
     return err.response.data;
   }
 }
-
-export async function getStudentScores(obj) {
-  try {
-    const resp = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/student`,
-      {
-        params: {
-          obj: obj
-        },
-        withCredentials: true,
-      }
-    );
-    return resp.data;
-  } catch (err) {
-    return err.response.data;
-  }
-}

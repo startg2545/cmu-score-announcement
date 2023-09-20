@@ -1,7 +1,7 @@
 import { addCourse, addCoInstructors } from "./course";
 import { getCourseName, getAllSections } from "./cpe";
-import { getScores, getScoresCourse, deleteScores } from "./scores";
-import { getStudentScores, addStudentGrade } from "./student";
+import { getScores, getScoresCourse, getStudentScores, deleteScores } from "./scores";
+import { addStudentGrade, putStudentGrade } from "./student";
 import { getUserInfo, signOut } from "./user";
 
 export {
@@ -11,9 +11,10 @@ export {
   getAllSections,
   getScores,
   getScoresCourse,
+  getStudentScores,
   deleteScores,
   addStudentGrade,
-  getStudentScores,
+  putStudentGrade,
   getUserInfo,
   signOut,
 };

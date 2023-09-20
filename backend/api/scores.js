@@ -59,6 +59,43 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/students", async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const user = await verifyAndValidateToken(token);
+    if (!user.cmuAccount) {
+      return res.status(403).send({ ok: false, message: "Invalid token" });
+    }
+
+    const { courseNo, year, semester, section, scoreName } = req.query.obj;
+
+    const course = await scoreModel.findOne({
+      courseNo,
+      year,
+      semester,
+      'sections.section': section,
+      'sections.scores.scoreName': scoreName
+    })
+    
+    const student_list = course.sections
+    .filter(
+      e =>
+      e.section == section 
+    )[0].scores
+    .filter(
+      e =>
+      e.scoreName == scoreName
+    )[0].results
+
+    return res.send(student_list)
+
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ ok: false, message: "Internal Server Error" });
+  }
+});
+
 //delete scores
 router.delete("/", async (req, res) => {
   try {
@@ -130,7 +167,6 @@ router.delete("/", async (req, res) => {
             "sections.scores.scoreName": scoreName,
           },
           {
-            
             $set: {
               "sections.$[section].scores.$[score].isPublish": false,
             },
