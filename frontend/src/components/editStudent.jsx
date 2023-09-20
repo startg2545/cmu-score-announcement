@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import editStu from './css/editStudent.module.css';
 import { Table, Input } from "@mantine/core";
-import { getStudentScores, putStudentGrade } from '../services/student';
+import { getListStudentScores, putStudentGrade } from '../services';
 
 const EditStudent = () => {
     const [data, setData] = useState([])
@@ -19,7 +19,7 @@ const EditStudent = () => {
 
     useEffect(()=>{
         const showData = async () => {
-            const resp =  await getStudentScores(editObj);
+            const resp =  await getListStudentScores(editObj);
             console.log(resp)
             setData(resp)
         }
@@ -63,7 +63,7 @@ const EditStudent = () => {
             section: editObj.section,
             year: editObj.year,
             scoreName: editObj.scoreName,
-            point: parseInt(point)
+            point: parseFloat(point)
         }
         console.log('send', send_obj)
         const resp = await putStudentGrade(send_obj);

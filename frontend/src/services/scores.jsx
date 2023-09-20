@@ -37,6 +37,23 @@ export async function getScoresCourse(data) {
   }
 }
 
+export async function getListStudentScores(obj) {
+  try {
+    const resp = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/scores/students`,
+      {
+        params: {
+          obj: obj
+        },
+        withCredentials: true,
+      }
+    );
+    return resp.data;
+  } catch (err) {
+    return err.response.data;
+  }
+}
+
 export async function deleteScores(data) {
   try {
     const resp = await axios.delete(

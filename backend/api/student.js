@@ -13,36 +13,59 @@ router.put("/update", async (req, res) => {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
 
-    const { courseNo, section, year, semester, studentId, scoreName, point } = req.body
+    const { courseNo, section, year, semester, studentId, scoreName, point } =
+      req.body;
 
-    const student = await studentModel.findOneAndUpdate({
-      studentId: studentId,
-      "courseGrades.courseNo": courseNo,
-      "courseGrades.year": year,
-      "courseGrades.semester": semester,
-      "courseGrades.scores.scoreName": scoreName,
-    },
-    {
-      $set: {
-        "courseGrades.$.scores.$[scoreElem].point": point,
+    const student = await studentModel.findOneAndUpdate(
+      {
+        studentId: studentId,
+        "courseGrades.courseNo": courseNo,
+        "courseGrades.year": year,
+        "courseGrades.semester": semester,
+        "courseGrades.scores.scoreName": scoreName,
       },
-    },
-    { 
-      new: true,
-      arrayFilters: [
-        { "scoreElem.scoreName": scoreName },
-      ], 
-    }
-  )
+      {
+        $set: {
+          "courseGrades.$.scores.$[scoreElem].point": point,
+        },
+      },
+      {
+        new: true,
+        arrayFilters: [{ "scoreElem.scoreName": scoreName }],
+      }
+    );
 
-    return res.send(student)
+    const course = await scoreModel.findOneAndUpdate(
+      {
+        courseNo,
+        year,
+        semester,
+        "sections.section": section,
+        "sections.scores.scoreName": scoreName,
+      },
+      {
+        $set: {
+          "sections.$[section].scores.$[score].results.$[student].point": point,
+        },
+      },
+      {
+        new: true,
+        arrayFilters: [
+          { "section.section": section },
+          { "score.scoreName": scoreName },
+          { "student.studentId": studentId },
+        ],
+      }
+    );
 
+    return res.send("success");
   } catch (err) {
+    console.log(err);
     return res
       .status(500)
       .send({ ok: false, message: "Internal Server Error" });
   }
-})
+});
 
 // add student grade
 router.post("/add", async (req, res) => {
@@ -65,7 +88,7 @@ router.post("/add", async (req, res) => {
             courseNo,
             year,
             semester,
-            "sections.section": sections[section].section
+            "sections.section": sections[section].section,
           },
           {
             $set: {
@@ -74,9 +97,7 @@ router.post("/add", async (req, res) => {
           },
           {
             new: true,
-            arrayFilters: [
-              { "section.section": sections[section].section },
-            ],
+            arrayFilters: [{ "section.section": sections[section].section }],
           }
         );
         const scores = sections[section].scores;
@@ -175,7 +196,7 @@ router.post("/add", async (req, res) => {
           }
         }
       }
-      return res.send("publish all succeeded");
+      return res.send("Completed");
     } else if (req.body.type == "publish_one") {
       let section = req.body.section;
       let results = req.body.results;
@@ -297,6 +318,7 @@ router.post("/add", async (req, res) => {
   }
 });
 
+// get scores of each student
 router.get("/", async (req, res) => {
   try {
     const token = req.cookies.token;
@@ -305,27 +327,11 @@ router.get("/", async (req, res) => {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
 
-    const { courseNo, year, semester, section, scoreName } = req.query.obj;
-
-    const course = await scoreModel.findOne({
-      courseNo,
-      year,
-      semester,
-      'sections.section': section,
-      'sections.scores.scoreName': scoreName
-    })
-    
-    const student_list = course.sections
-    .filter(
-      e =>
-      e.section == section 
-    )[0].scores
-    .filter(
-      e =>
-      e.scoreName == scoreName
-    )[0].results
-
-    return res.send(student_list)
+    const scores = await studentModel.findOne({
+      studentId: user.studentId,
+    });
+    if (!scores) return res.send({ ok: false, message: "No Course" });
+    return res.send({ ok: true, scores });
   } catch (err) {
     return res
       .status(500)
