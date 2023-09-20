@@ -171,10 +171,10 @@ export default function Course166Container() {
   };
 
   const showSection = () => {
-    // const data = course
-    //   .filter((e) => e.courseNo === params.courseNo)[0]
-    //   .sections.filter((e) => e.section);
-    // setSections(data);
+    const data = course
+      .filter((e) => e.courseNo === params.courseNo)[0]
+      .sections.filter((e) => e.section);
+    setSections(data);
     setUploadScore(false);
   };
 
@@ -554,7 +554,9 @@ export default function Course166Container() {
                     <HiChevronRight className="lg:text-2xl text-md" />
                     <p
                       onClick={() => {
+                        localStorage.setItem("page", "management");
                         backToCourse();
+                        showSection();
                       }}
                       className="text-primary lg:text-xl text-md cursor-pointer"
                       style={{
@@ -650,14 +652,14 @@ export default function Course166Container() {
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center justify-center  text-center bg-red-100">
+                    {/* <div className="flex items-center justify-center  text-center bg-red-100">
                       {!isUploadScore && sections.length === 0 && (
                         <p className="text-3xl text-center text-maintext font-semibold ">
                           Please select menu in the navigation bar
   
                         </p>
                       )}
-                    </div>
+                    </div> */}
                     {/* show Upload/Section/TableScore */}
                   </div>
                   {isUploadScore && <UploadSc />}

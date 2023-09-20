@@ -75,7 +75,6 @@ const Management = ({ data }) => {
     };
     setIsLoading(true);
 
-
     let resp_student = await addStudentGrade(student_schema);
     setMessage(resp_student);
     setIsLoading(false);
@@ -116,7 +115,7 @@ const Management = ({ data }) => {
 
   return (
     <>
-     <Modal
+      <Modal
         opened={publishEach[0]}
         onClose={publishEach[1].close}
         centered
@@ -140,7 +139,7 @@ const Management = ({ data }) => {
               Select section to publish
             </p>
           </div>
-          <div style={{marginTop: "-20px"}}>
+          <div style={{ marginTop: "-20px" }}>
             {data.map((value, key) => (
               <div
                 key={key}
@@ -148,7 +147,6 @@ const Management = ({ data }) => {
                   alignItems: "center",
                   marginTop: "10px",
                   display: "flex",
-                
                 }}
               >
                 <Checkbox
@@ -157,9 +155,8 @@ const Management = ({ data }) => {
                   onChange={(e) => handleCheckboxChange(e, value)}
                   id="selected-section"
                   name="selected-section"
-          
                 />
-                <p style={{ marginLeft: "16px", fontSize: "22px"}}>
+                <p style={{ marginLeft: "16px", fontSize: "22px" }}>
                   Section{" "}
                   {value.section < 100
                     ? `00${value.section}`
@@ -185,7 +182,7 @@ const Management = ({ data }) => {
             style={{
               display: "flex",
               alignItems: "center",
-              marginTop: "20px"
+              marginTop: "20px",
             }}
           >
             <Button
@@ -315,7 +312,9 @@ const Management = ({ data }) => {
               </defs>
             </svg>
           </div>
-          <p style={{marginTop: "20px"}}>Scores in all sections will be published</p>
+          <p style={{ marginTop: "20px" }}>
+            Scores in all sections will be published
+          </p>
           <div
             style={{
               display: "flex",
@@ -359,77 +358,41 @@ const Management = ({ data }) => {
           </div>
         </div>
       </Modal>
-      <div className=" p-5">
+      <div
+        className={`overflow-auto
+                      ${
+                        searchParams.get("section")
+                          ? "xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-160px)] h-[calc(85vh-145px)]"
+                          : "xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)]"
+                      }`}
+      >
         {!searchParams.get("section") && (
-          <div className="flex flex-col px-5 lg:px-14 gap-5 my-3">
+          <div className="flex flex-col py-5 px-5 lg:px-14 gap-5 ">
             {data.map((e, key) => (
-              <p
-                className="bg-gray-180 hover:bg-gray-200 active:bg-gray-300 shadow-lg lg:text-2xl px-5 py-4 rounded-xl text-black"
-                key={key}
-                onClick={() => {
-                  showTable(e.section);
-                }}
-              >
-                Section{" "}
-                {e.section < 100
-                  ? `00${e.section}`
-                  : e.section < 100
-                  ? `0${e.section}`
-                  : e.section}
-              </p>
+                <p
+                  className="bg-gray-180 hover:bg-gray-200 active:bg-gray-300 shadow-lg lg:text-2xl px-5 py-4 rounded-xl text-black"
+                  key={key}
+                  onClick={() => {
+                    showTable(e.section);
+                  }}
+                >
+                  Section{" "}
+                  {e.section < 100
+                    ? `00${e.section}`
+                    : e.section < 100
+                    ? `0${e.section}`
+                    : e.section}
+                </p>
+               
             ))}
           </div>
         )}
-        <div className="md:max-w-full lg:max-w-full max-w-32 overflow-auto">
+        <div className="xl:m-5 lg:m-5 md:m-6 m-8 md:max-w-full lg:max-w-full max-w-32 ">
           {searchParams.get("section") && <TableScore data={dataTable} />}
         </div>
       </div>
-      <div>
-      {(isLoading || showLoadComplete) && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75  z-50">
-          {/* <div class="custom-box h-200 w-200 p-4 rounded-lg shadow-md inline-flex items-center bg-white "> */}
-          {isLoading && (
-            <div role="status" className="flex flex-col gap-5  items-center">
-              <svg
-                aria-hidden="true"
-                class="inline w-20 h-20 mr-2  text-gray-200 animate-spin dark:text-white-600 fill-blue-600"
-                viewBox="0 0 100 101"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                  fill="white"
-                />
-                <path
-                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                  fill="#8084c8"
-                />
-              </svg>
-              <span className="text-white font-semibold lg:text-2xl text-md">Loading...</span>
-            </div>
-          )}
-          {showLoadComplete && (
-            <div class="flex flex-col gap-5 items-center">
-              <svg
-                class="w-20 h-20 mr-2 text-green-500 dark:text-green-400 flex-shrink-0"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-              </svg>
-              <span className="text-white font-semibold lg:text-2xl text-md">
-                {message}
-              </span>
-            </div>
-          )}
-        </div>
-      )}
-      </div>
       {!searchParams.get("section") && (
-        <div className="flex w-full justify-between gap-1">
+        <div className="flex w-full justify-between gap-1 ">
           <button
             className={`w-full h-full  py-3
             ${
@@ -460,6 +423,53 @@ const Management = ({ data }) => {
           </button>
         </div>
       )}
+      <div>
+        {(isLoading || showLoadComplete) && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75  z-50">
+            {/* <div class="custom-box h-200 w-200 p-4 rounded-lg shadow-md inline-flex items-center bg-white "> */}
+            {isLoading && (
+              <div role="status" className="flex flex-col gap-5  items-center">
+                <svg
+                  aria-hidden="true"
+                  class="inline w-20 h-20 mr-2  text-gray-200 animate-spin dark:text-white-600 fill-blue-600"
+                  viewBox="0 0 100 101"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="white"
+                  />
+                  <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="#8084c8"
+                  />
+                </svg>
+                <span className="text-white font-semibold lg:text-2xl text-md">
+                  Loading...
+                </span>
+              </div>
+            )}
+            {showLoadComplete && (
+              <div class="flex flex-col gap-5 items-center">
+                <svg
+                  class="w-20 h-20 mr-2 text-green-500 dark:text-green-400 flex-shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                </svg>
+                <span className="text-white font-semibold lg:text-2xl text-md">
+                  {message}
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
       {/* {data.length === 0 && (
         <div className="bg-green-400">
           <div className="bg-red-400">
