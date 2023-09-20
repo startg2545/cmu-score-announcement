@@ -37,7 +37,6 @@ export default function Course166Container() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isUploadScore, setUploadScore] = useState(false);
-  const [isManage, setManage] = useState(false);
   const [params, setParams] = useState({});
   const [sections, setSections] = useState([]);
   const [isEmailValid, setIsEmailValid] = useState(true);
@@ -129,8 +128,10 @@ export default function Course166Container() {
 
   const onClickCourse = (item) => {
     let courseNo = item.courseNo;
+    const data = item
+      .sections.filter((e) => e.section);
+    setSections(data);
     setUploadScore(false);
-    setManage(false);
     setSelectedCourse(true);
     searchParams.set("courseNo", courseNo);
     setSearchParams(searchParams);
@@ -139,7 +140,6 @@ export default function Course166Container() {
   const backToDashboard = () => {
     localStorage.removeItem("page");
     setUploadScore(false);
-    setManage(false);
     setSelectedCourse(false);
     searchParams.delete("courseNo");
     searchParams.delete("section");
@@ -149,7 +149,6 @@ export default function Course166Container() {
   const backToCourse = () => {
     localStorage.removeItem("page");
     setUploadScore(false);
-    setManage(false);
     searchParams.delete("section");
     setSearchParams(searchParams);
   };
@@ -172,12 +171,11 @@ export default function Course166Container() {
   };
 
   const showSection = () => {
-    const data = course
-      .filter((e) => e.courseNo === params.courseNo)[0]
-      .sections.filter((e) => e.section);
-    setSections(data);
+    // const data = course
+    //   .filter((e) => e.courseNo === params.courseNo)[0]
+    //   .sections.filter((e) => e.section);
+    // setSections(data);
     setUploadScore(false);
-    setManage(true);
   };
 
   useEffect(() => {
@@ -218,7 +216,6 @@ export default function Course166Container() {
     } else {
       setSelectedCourse(false);
       setUploadScore(false);
-      setManage(false);
       localStorage.clear();
     }
 
@@ -226,7 +223,6 @@ export default function Course166Container() {
       if (localStorage.getItem("page") === "upload") {
         setUploadScore(true);
       } else if (localStorage.getItem("page") === "management") {
-        setManage(true);
         if (!sections.length && course.length) {
           showSection();
         }
@@ -257,13 +253,11 @@ export default function Course166Container() {
 
   const goToUpload = () => {
     setUploadScore(true);
-    setManage(false);
     searchParams.delete("section");
     setSearchParams(searchParams);
   };
 
   const goToManage = () => {
-    setManage(true);
     setUploadScore(false);
   };
 
@@ -274,7 +268,7 @@ export default function Course166Container() {
   };
 
   const handleCourseNoChange = async (value) => {
-    courseForm.setValues({...courseForm.values, courseName: ""})
+    courseForm.setValues({ ...courseForm.values, courseName: "" });
     if (value) {
       const courseName = await getCourseName(value);
       if (courseName.ok) {
@@ -282,8 +276,8 @@ export default function Course166Container() {
           console.log(courseName.courseDetails[0].courseNameEN);
           courseForm.setValues({
             ...courseForm.values,
-            courseName: courseName.courseDetails[0].courseNameEN
-          }, );
+            courseName: courseName.courseDetails[0].courseNameEN,
+          });
         }
       }
     }
@@ -346,7 +340,7 @@ export default function Course166Container() {
           <div className="flex w-full flex-col h-full">
             {isSelectedCourse ? null : (
               <>
-                <div className="py-4 lg:mt-20 md:mt-16 mt-16 px-5 lg:px-10 text-maintext font-semibold ">
+                <div className=" py-4 lg:mt-20 md:mt-16 mt-16 px-5 lg:px-10 text-maintext font-semibold ">
                   {/* header courses : courses number, date, add course button */}
                   <div className="flex w-full justify-between">
                     <div className="flex-col flex lg:gap-1">
@@ -548,8 +542,8 @@ export default function Course166Container() {
             {/* Pop up */}
             {isSelectedCourse && (
               <div className="mx-[2%] lg:mt-24 mt-20 max-h-screen">
-                <div className="  pb-2 border-primary mb-5">
-                  <p className="flex flex-row items-center font-semibold text-primary gap-3">
+                <div className="  pb-2 mb-5   ">
+                  <p className="flex flex-row items-center font-semibold text-primary gap-3 xl:-mt-2.5 lg:-mt-5 md:-mt-2.5  -mt-1 ">
                     <p
                       onClick={backToDashboard}
                       className="text-primary lg:text-xl text-md cursor-pointer"
@@ -559,15 +553,17 @@ export default function Course166Container() {
 
                     <HiChevronRight className="lg:text-2xl text-md" />
                     <p
-                      onClick={backToCourse}
+                      onClick={() => {
+                        backToCourse();
+                      }}
                       className="text-primary lg:text-xl text-md cursor-pointer"
                       style={{
-                        cursor: isUploadScore || isManage ? "pointer" : null,
+                        cursor: isUploadScore ? "pointer" : null,
                       }}
                     >
                       {params.courseNo}
                     </p>
-                    {isUploadScore && !isManage && (
+                    {isUploadScore && (
                       <>
                         <HiChevronRight className="lg:text-2xl text-md" />
                         <p className="text-primary lg:text-xl text-md cursor-pointer">
@@ -575,7 +571,7 @@ export default function Course166Container() {
                         </p>
                       </>
                     )}
-                    {isManage && (
+                    {/* {isManage && (
                       <>
                         <HiChevronRight className="lg:text-2xl text-md" />
                         <p
@@ -590,7 +586,7 @@ export default function Course166Container() {
                           Management
                         </p>
                       </>
-                    )}
+                    )} */}
                     {searchParams.get("section") && (
                       <>
                         <HiChevronRight className="lg:text-2xl text-md" />
@@ -603,22 +599,19 @@ export default function Course166Container() {
                       </>
                     )}
                   </p>
-                  <div className="mt-1 border-b-[3px] border-primary shadow-inset-md opacity-25"></div>
+                  <div className="mt-3 border-b-[3px] border-primary shadow-inset-md opacity-25"></div>
                 </div>
 
-                <div className="lg:rounded-2xl rounded-xl overflow-hidden border-[3px] border-primary">
+                <div className="lg:rounded-2xl rounded-xl xl:h-[calc(84vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary">
                   <div className="flex flex-col">
                     <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full justify-between">
                       <div className="flex items-start flex-col justify-start">
                         <p className="text-white font-semibold text-3xl lg:text-4xl">
                           {isSelectedCourse &&
-                            !isManage &&
                             !isUploadScore &&
                             params.courseNo}
-                          {isUploadScore &&
-                            !isManage &&
-                            `Upload Score ${params.courseNo}`}
-                          {isManage && `Management ${params.courseNo}`}
+                          {isUploadScore && `Upload Score ${params.courseNo}`}
+                          {/* {`Management ${params.courseNo}`} */}
                           {/* {isShowTableScore && <TableScore data={tableData} />} */}
                         </p>
                         <p className="text-white font-semibold text-lg lg:text-md">
@@ -637,13 +630,11 @@ export default function Course166Container() {
 
                         <div
                           style={{
-                            background:
-                              isUploadScore && !isManage ? "white" : "",
-                            color: isUploadScore && !isManage ? "black" : "",
-                            boxShadow:
-                              isUploadScore && !isManage
-                                ? "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset"
-                                : "none",
+                            background: isUploadScore ? "white" : "",
+                            color: isUploadScore ? "black" : "",
+                            boxShadow: isUploadScore
+                              ? "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset"
+                              : "none",
                           }}
                           className={
                             "lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
@@ -657,41 +648,20 @@ export default function Course166Container() {
                           <BiPlus />
                           <p>Upload Score</p>
                         </div>
-
-                        <div
-                          className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
-                          style={{
-                            background:
-                              !isUploadScore && isManage ? "white" : "",
-                            color: !isUploadScore && isManage ? "black" : "",
-                            boxShadow:
-                              !isUploadScore && isManage
-                                ? "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset"
-                                : "none",
-                          }}
-                          onClick={() => {
-                            localStorage.setItem("page", "management");
-                            setManage(true);
-                            goToManage();
-                            showSection();
-                          }}
-                        >
-                          <GoGear />
-                          <p>Management</p>
-                        </div>
                       </div>
                     </div>
-                    <div className="flex items-center justify-center text-center">
-                      {!isUploadScore && !isManage && (
-                        <p className="text-3xl text-center text-maintext font-semibold my-52">
+                    <div className="flex items-center justify-center  text-center bg-red-100">
+                      {!isUploadScore && sections.length === 0 && (
+                        <p className="text-3xl text-center text-maintext font-semibold ">
                           Please select menu in the navigation bar
+  
                         </p>
                       )}
                     </div>
                     {/* show Upload/Section/TableScore */}
                   </div>
                   {isUploadScore && <UploadSc />}
-                  {isManage && <Management data={sections} />}
+                  {!isUploadScore && <Management data={sections} />}
                 </div>
               </div>
             )}
