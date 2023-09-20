@@ -37,7 +37,7 @@ export async function getScoresCourse(data) {
   }
 }
 
-export async function getStudentScores(obj) {
+export async function getListStudentScores(obj) {
   try {
     const resp = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/api/v1/scores/students`,

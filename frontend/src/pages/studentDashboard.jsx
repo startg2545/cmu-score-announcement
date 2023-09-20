@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import Student from "./css/studentDashboard.module.css";
-import { getStudentScores, getCourseName, getScoresCourse } from "../services";
+import { getStudentScores, getScoresCourse } from "../services";
 import { HiChevronRight } from "react-icons/hi";
 import { VscGraph } from "react-icons/vsc";
 import { ImParagraphLeft } from "react-icons/im";
-import { Flex, Title, Text, Progress, Button, Affix } from "@mantine/core";
+import { Text, Progress } from "@mantine/core";
 import { Chart } from "chart.js/auto";
 import annotationPlugin from "chartjs-plugin-annotation";
 import { Line } from "react-chartjs-2";
@@ -56,19 +55,9 @@ export default function StudentDashboard() {
     }, 1000);
 
     const fetchData = async () => {
-      const allCourse = await getCourseName();
       const data = await getStudentScores();
       if (data) {
         if (data.ok) {
-          if (allCourse.ok) {
-            data.scores.courseGrades.forEach((e, index) => {
-              allCourse.courseDetails.forEach((all) => {
-                if (e.courseNo === all.courseNo) {
-                  data.scores.courseGrades[index].courseName = all.courseNameEN;
-                }
-              });
-            });
-          }
           setCourseList(data.scores.courseGrades);
         } else {
           setMessage(data.message);
@@ -354,8 +343,7 @@ export default function StudentDashboard() {
                   <div className=" px-5 py-1 font-semibold group-hover:cursor-pointer">
                     <div className="flex justify-between items-center">
                       <div className="text-white lg:text-2xl text-lg">
-                        {item.courseNo}
-                        {item.courseName ? ` - ${item.courseName}` : null}
+                        {item.courseNo} - {item.courseName}
                         <div
                           className=" text-[#F7C878] lg:text-[20px] text-[16px] font-normal"
                           style={{
@@ -429,7 +417,7 @@ export default function StudentDashboard() {
                 </div>
               )}
               {isShowGraph && (
-                <div className="lg:h-full">
+                <div className="lg:h-full md:h-full">
                   <Line
                     data={data}
                     options={{
