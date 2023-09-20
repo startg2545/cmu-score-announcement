@@ -359,32 +359,42 @@ const Management = ({ data }) => {
         </div>
       </Modal>
       <div
-        className={`overflow-auto
+        className={`overflow-auto  
                       ${
                         searchParams.get("section")
                           ? "xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-160px)] h-[calc(85vh-145px)]"
                           : "xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)]"
-                      }`}
+                      }
+                      ${data.length === 0 && "overflow-hidden"}
+                      `}
+                     
       >
-        {!searchParams.get("section") && (
+        {!searchParams.get("section") && data.length !== 0 && (
           <div className="flex flex-col py-5 px-5 lg:px-14 gap-5 ">
             {data.map((e, key) => (
-                <p
-                  className="bg-gray-180 hover:bg-gray-200 active:bg-gray-300 shadow-lg lg:text-2xl px-5 py-4 rounded-xl text-black"
-                  key={key}
-                  onClick={() => {
-                    showTable(e.section);
-                  }}
-                >
-                  Section{" "}
-                  {e.section < 100
-                    ? `00${e.section}`
-                    : e.section < 100
-                    ? `0${e.section}`
-                    : e.section}
-                </p>
-               
+              <p
+                className="bg-gray-180 hover:bg-gray-200 active:bg-gray-300 shadow-lg lg:text-2xl px-5 py-4 rounded-xl text-black"
+                key={key}
+                onClick={() => {
+                  showTable(e.section);
+                }}
+              >
+                Section{" "}
+                {e.section < 100
+                  ? `00${e.section}`
+                  : e.section < 100
+                  ? `0${e.section}`
+                  : e.section}
+              </p>
             ))}
+          </div>
+        )}
+        {data.length === 0 && (
+          <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
+            <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
+            No section 
+            </p>
+            <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 " >Section will show when file is uploaded</span>
           </div>
         )}
         <div className="xl:m-5 lg:m-5 md:m-6 m-8 md:max-w-full lg:max-w-full max-w-32 ">
