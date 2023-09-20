@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import editStu from './css/editStudent.module.css';
 import { Table, Input } from "@mantine/core";
-import { getStudentScores, putStudentGrade } from '../services/student';
+import { getStudentScores, putStudentGrade } from '../services';
 
 const EditStudent = () => {
     const [data, setData] = useState([])
