@@ -256,7 +256,6 @@ export default function Course166Container() {
     setSearchParams(searchParams);
   };
 
-
   const CancelhandleClosePopup = () => {
     searchParams.delete("courseNo");
     setSearchParams(searchParams);
@@ -608,8 +607,20 @@ export default function Course166Container() {
                           {isSelectedCourse &&
                             !isUploadScore &&
                             params.courseNo}
-                          <p className=" xl:text-4xl lg:text-4xl md:text-3xl text-2xl  lg:w-[400px] md:w-[400px] w-[176px] ">{isUploadScore && `Upload Score ${params.courseNo}`}</p>
-                        </p>
+                     
+                            {isUploadScore && (
+                              <>
+                                <p className="xl:hidden lg:hidden md:hidden sm:block sm:text-3xl text-2xl">
+                                  Upload Score
+                                </p>
+                                <p className="xl:text-4xl lg:text-4xl md:text-3xl 
+                                              xl:block lg:block md:block sm:hidden hidden">
+                                  {`Upload Score ${params.courseNo}`}
+                                </p>
+                              </>
+                            )}
+                          </p>
+                  
                         <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
                           {formatDate(currentDate)}
                         </p>
