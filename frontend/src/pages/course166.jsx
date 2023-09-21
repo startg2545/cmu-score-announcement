@@ -128,8 +128,7 @@ export default function Course166Container() {
 
   const onClickCourse = (item) => {
     let courseNo = item.courseNo;
-    const data = item
-      .sections.filter((e) => e.section);
+    const data = item.sections.filter((e) => e.section);
     setSections(data);
     setUploadScore(false);
     setSelectedCourse(true);
@@ -606,24 +605,23 @@ export default function Course166Container() {
 
                 <div className="lg:rounded-2xl rounded-xl xl:h-[calc(84vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary">
                   <div className="flex flex-col">
-                    <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full justify-between">
-                      <div className="flex items-start flex-col justify-start">
-                        <p className="text-white font-semibold text-3xl lg:text-4xl">
+                    <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between">
+                      <div className="flex items-start flex-col justify-center ">
+                        <p className=" text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
                           {isSelectedCourse &&
                             !isUploadScore &&
                             params.courseNo}
-                          {isUploadScore && `Upload Score ${params.courseNo}`}
-                          {/* {`Management ${params.courseNo}`} */}
-                          {/* {isShowTableScore && <TableScore data={tableData} />} */}
+                          <p className=" xl:text-4xl lg:text-4xl md:text-3xl text-2xl  lg:w-[400px] md:w-[400px] w-[176px] ">{isUploadScore && `Upload Score ${params.courseNo}`}</p>
                         </p>
-                        <p className="text-white font-semibold text-lg lg:text-md">
+                        <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
                           {formatDate(currentDate)}
                         </p>
                       </div>
 
-                      <div className="flex lg:flex-row flex-col gap-1 lg:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
+                      <div className=" flex lg:flex-row  md:flex-row flex-col gap-1 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
                         <div
-                          className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
+                          className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-end md:justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md
+                                    "
                           onClick={() => open()}
                         >
                           <IoPersonAddOutline />
