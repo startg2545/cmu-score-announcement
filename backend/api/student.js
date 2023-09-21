@@ -79,8 +79,13 @@ router.post("/add", async (req, res) => {
     const courseNo = req.body.courseNo;
     const semester = parseInt(req.body.semester);
     const year = parseInt(req.body.year);
-
+    
     if (req.body.type == "publish_one") {
+
+      const section = parseInt(req.body.section);
+      const scoreName = req.body.scoreName;
+      const results = req.body.results;
+      
       await scoreModel.findOneAndUpdate(
         {
           courseNo,
@@ -103,9 +108,6 @@ router.post("/add", async (req, res) => {
         }
       );
 
-      const section = parseInt(req.body.section);
-      const scoreName = req.body.scoreName;
-      const results = req.body.results;
 
       results.map(async (result) => {
         const student = await studentModel.findOne({
