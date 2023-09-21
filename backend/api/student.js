@@ -159,22 +159,22 @@ router.post("/add", async (req, res) => {
     } else if (req.body.type == "publish_many") {
       const sections = req.body.sections;
       const courseUpdates = [];
-      const studentMap = new Map();
+      const studentUpdates = [];
       for (const section of sections) {
         const req_section = section.section;
         for (const score of section.scores) {
-          const { scoreName, results } = score;
+          const {scoreName, results} = score;
           for (const result of results) {
             const { studentId, firstName, lastName, point } = result;
-            let student = studentMap.get(studentId);
+            let student = await studentModel.findOne({ studentId });
             if (!student) {
-              student = {
+              const studentGrade = {
                 studentId,
                 firstName,
                 lastName,
                 courseGrades: [],
               };
-              studentMap.set(studentId, student);
+              student = await studentModel.create(studentGrade);
             }
             // Find or create the course grade
             const courseGrade = {
@@ -184,7 +184,7 @@ router.post("/add", async (req, res) => {
               semester,
               scores: [{ scoreName, point }],
             };
-
+      
             const existingCourseIndex = student.courseGrades.findIndex(
               (grade) =>
                 grade.courseNo === courseNo &&
@@ -192,14 +192,14 @@ router.post("/add", async (req, res) => {
                 grade.year === year &&
                 grade.semester === semester
             );
-
+      
             if (existingCourseIndex !== -1) {
               // Update existing course grade
               const existingGrade = student.courseGrades[existingCourseIndex];
               const existingScoreIndex = existingGrade.scores.findIndex(
                 (s) => s.scoreName === scoreName
               );
-
+      
               if (existingScoreIndex !== -1) {
                 // Update existing score
                 existingGrade.scores[existingScoreIndex].point = point;
@@ -211,6 +211,8 @@ router.post("/add", async (req, res) => {
               // Add new course grade
               student.courseGrades.push(courseGrade);
             }
+      
+            studentUpdates.push(student.save());
           }
         }
         courseUpdates.push({
@@ -230,17 +232,8 @@ router.post("/add", async (req, res) => {
           },
         });
       }
-      const studentUpdates = Array.from(studentMap.values());
-      await Promise.all([
-        studentModel.bulkWrite(studentUpdates.map((student) => ({
-          replaceOne: {
-            filter: { studentId: student.studentId },
-            replacement: student,
-            upsert: true,
-          },
-        }))),
-        scoreModel.bulkWrite(courseUpdates),
-      ])
+      await Promise.all(studentUpdates);
+      await scoreModel.bulkWrite(courseUpdates);
       return res.send("Completed");
     }
   } catch (err) {
