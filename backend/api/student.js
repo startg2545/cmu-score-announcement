@@ -76,41 +76,42 @@ router.post("/add", async (req, res) => {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
 
-    if (req.body.type == "publish_one") {
-      
+    const courseNo = req.body.courseNo;
+    const semester = parseInt(req.body.semester);
+    const year = parseInt(req.body.year);
 
-      // await scoreModel.findOneAndUpdate(
-      //   {
-      //     courseNo,
-      //     year,
-      //     semester,
-      //     "sections.section": section,
-      //     "sections.scores.scoreName": scoreName,
-      //   },
-      //   {
-      //     $set: {
-      //       "sections.$[section].scores.$[score].isPublish": true,
-      //     },
-      //   },
-      //   {
-      //     new: true,
-      //     arrayFilters: [
-      //       { "section.section": section },
-      //       { "score.scoreName": section },
-      //     ],
-      //   }
-      // );
-      
-      const courseNo = req.body.courseNo;
-      const semester = parseInt(req.body.semester);
-      const year = parseInt(req.body.year);
+    if (req.body.type == "publish_one") {
+      await scoreModel.findOneAndUpdate(
+        {
+          courseNo,
+          year,
+          semester,
+          "sections.section": section,
+          "sections.scores.scoreName": scoreName,
+        },
+        {
+          $set: {
+            "sections.$[section].scores.$[score].isPublish": true,
+          },
+        },
+        {
+          new: true,
+          arrayFilters: [
+            { "section.section": section },
+            { "score.scoreName": section },
+          ],
+        }
+      );
+
       const section = parseInt(req.body.section);
       const scoreName = req.body.scoreName;
       const results = req.body.results;
 
-      results.map(async result=>{
-        const student = await studentModel.findOne({ studentId: result.studentId });
-        
+      results.map(async (result) => {
+        const student = await studentModel.findOne({
+          studentId: result.studentId,
+        });
+
         const courseGrade = {
           courseNo,
           section,
@@ -126,12 +127,12 @@ router.post("/add", async (req, res) => {
               course.year === year &&
               course.semester === semester
           );
-      
+
           if (reqCourse) {
             const scoreIndex = reqCourse.scores.findIndex(
               (score) => score.scoreName === scoreName
             );
-      
+
             if (scoreIndex !== -1) {
               reqCourse.scores[scoreIndex].point = result.point;
             } else {
@@ -140,7 +141,7 @@ router.post("/add", async (req, res) => {
           } else {
             student.courseGrades.push(courseGrade);
           }
-      
+
           await student.save();
         } else {
           const studentGrade = {
@@ -149,137 +150,101 @@ router.post("/add", async (req, res) => {
             lastName: result.lastName,
             courseGrades: [courseGrade],
           };
-      
+
           await studentModel.create(studentGrade);
         }
-      })
-      
-      
+      });
+
       return res.send(`${scoreName} published`);
-
     } else if (req.body.type == "publish_many") {
-      const courseNo = req.body.courseNo;
-      const semester = req.body.semester;
-      const year = req.body.year;
       const sections = req.body.sections;
-      for (let section in sections) {
-        await scoreModel.findOneAndUpdate(
-          {
-            courseNo,
-            year,
-            semester,
-            "sections.section": sections[section].section,
-          },
-          {
-            $set: {
-              "sections.$[section].scores.$[].isPublish": true,
-            },
-          },
-          {
-            new: true,
-            arrayFilters: [{ "section.section": sections[section].section }],
-          }
-        );
-        const scores = sections[section].scores;
-        for (let score in scores) {
-          const results = scores[score].results;
-          const scoreName = scores[score].scoreName;
-          for (let result in results) {
-            const student_obj = {
-              studentId: results[result].studentId,
-              firstName: results[result].firstName,
-              lastName: results[result].lastName,
-              point: results[result].point,
-            };
-            const student = await studentModel.findOne({
-              studentId: student_obj.studentId,
-            });
-
-            const req_section = sections[section].section;
-            const courseGrade = {
-              courseNo: courseNo,
-              section: req_section,
-              year: year,
-              semester: semester,
-              scores: [
-                {
-                  scoreName: scoreName,
-                  point: student_obj.point,
-                },
-              ],
-            };
-
-            if (student) {
-              // this student has been graded
-              const course_model = await studentModel.findOne({
-                studentId: student_obj.studentId,
-                "courseGrades.courseNo": courseNo,
-                "courseGrades.year": year,
-                "courseGrades.semester": semester,
-                "courseGrades.section": req_section,
-              });
-              if (course_model) {
-                // this student has this course
-                const score_model = await studentModel.findOne({
-                  studentId: student_obj.studentId,
-                  "courseGrades.courseNo": courseNo,
-                  "courseGrades.scores.scoreName": scoreName,
-                });
-
-                if (score_model) {
-                  for (let grade in student.courseGrades) {
-                    for (let score in student.courseGrades[grade].scores) {
-                      if (
-                        student.courseGrades[grade].courseNo == courseNo &&
-                        student.courseGrades[grade].scores[score].scoreName ==
-                          scoreName
-                      ) {
-                        // this student has existing score in this course
-                        student.courseGrades[grade].scores[score].point =
-                          student_obj.point;
-                        // await student.save();
-                      }
-                    }
-                  }
-                } else {
-                  for (let grade in student.courseGrades) {
-                    if (student.courseGrades[grade].courseNo == courseNo) {
-                      let send_obj = {
-                        scoreName: scoreName,
-                        point: student_obj.point,
-                      };
-                      // this student doesn't have existing score in this course
-                      student.courseGrades[grade].scores.push(send_obj);
-                      // await student.save();
-                    }
-                  }
-                }
-              } else {
-                // this student doesn't have this course
-                student.courseGrades.push(courseGrade);
-                // await student.save();
-              }
-
-              await student.save();
-
-            } else {
-              // this student hasn't been graded yet
-              let studentGrade = {
-                studentId: student_obj.studentId,
-                firstName: student_obj.firstName,
-                lastName: student_obj.lastName,
-                courseGrades: [courseGrade],
+      const courseUpdates = [];
+      const studentMap = new Map();
+      for (const section of sections) {
+        const req_section = section.section;
+        for (const score of section.scores) {
+          const { scoreName, results } = score;
+          for (const result of results) {
+            const { studentId, firstName, lastName, point } = result;
+            let student = studentMap.get(studentId);
+            if (!student) {
+              student = {
+                studentId,
+                firstName,
+                lastName,
+                courseGrades: [],
               };
-              const new_student = await studentModel.create(studentGrade);
-              new_student.save();
+              studentMap.set(studentId, student);
+            }
+            // Find or create the course grade
+            const courseGrade = {
+              courseNo,
+              section: req_section,
+              year,
+              semester,
+              scores: [{ scoreName, point }],
+            };
+
+            const existingCourseIndex = student.courseGrades.findIndex(
+              (grade) =>
+                grade.courseNo === courseNo &&
+                grade.section === req_section &&
+                grade.year === year &&
+                grade.semester === semester
+            );
+
+            if (existingCourseIndex !== -1) {
+              // Update existing course grade
+              const existingGrade = student.courseGrades[existingCourseIndex];
+              const existingScoreIndex = existingGrade.scores.findIndex(
+                (s) => s.scoreName === scoreName
+              );
+
+              if (existingScoreIndex !== -1) {
+                // Update existing score
+                existingGrade.scores[existingScoreIndex].point = point;
+              } else {
+                // Add new score
+                existingGrade.scores.push({ scoreName, point });
+              }
+            } else {
+              // Add new course grade
+              student.courseGrades.push(courseGrade);
             }
           }
         }
+        courseUpdates.push({
+          updateMany: {
+            filter: {
+              courseNo,
+              year,
+              semester,
+              "sections.section": req_section,
+            },
+            update: {
+              $set: {
+                "sections.$[section].scores.$[].isPublish": true,
+              },
+            },
+            arrayFilters: [{ "section.section": req_section }],
+          },
+        });
       }
+      const studentUpdates = Array.from(studentMap.values());
+      await Promise.all([
+        studentModel.bulkWrite(studentUpdates.map((student) => ({
+          replaceOne: {
+            filter: { studentId: student.studentId },
+            replacement: student,
+            upsert: true,
+          },
+        }))),
+        scoreModel.bulkWrite(courseUpdates),
+      ])
       return res.send("Completed");
     }
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return res
       .status(500)
       .send({ ok: false, message: "Internal Server Error" });
