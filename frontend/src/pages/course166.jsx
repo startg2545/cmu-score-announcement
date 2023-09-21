@@ -128,8 +128,7 @@ export default function Course166Container() {
 
   const onClickCourse = (item) => {
     let courseNo = item.courseNo;
-    const data = item
-      .sections.filter((e) => e.section);
+    const data = item.sections.filter((e) => e.section);
     setSections(data);
     setUploadScore(false);
     setSelectedCourse(true);
@@ -257,9 +256,6 @@ export default function Course166Container() {
     setSearchParams(searchParams);
   };
 
-  const goToManage = () => {
-    setUploadScore(false);
-  };
 
   const CancelhandleClosePopup = () => {
     searchParams.delete("courseNo");

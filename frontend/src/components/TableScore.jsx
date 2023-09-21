@@ -6,6 +6,7 @@ import { Table, Button, Modal } from "@mantine/core";
 import { addStudentGrade, deleteScores } from "../services";
 import tabStyle from "./css/tableScore.module.css";
 import upStyle from "./css/uploadScore.module.css";
+import EditStudent from "./editStudent";
 
 const TableScore = ({ data }) => {
   const [isPublished, setIsPublished] = useState(false);
@@ -15,6 +16,7 @@ const TableScore = ({ data }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadComplete, setShowLoadComplete] = useState(false);
   const [message, setMessage] = useState();
+  const [isEditScore, setEditScore] = useState(false);
 
   const navigate = useNavigate();
 
@@ -257,6 +259,9 @@ const TableScore = ({ data }) => {
       </td>
       <td>
         <center>
+        {isEditScore ? (
+        <EditStudent  />
+      ) : (
           <div className={tabStyle.manageBtDisplay}>
             <div
               className={`${tabStyle.manageBT} ${tabStyle.editBT}`}
@@ -316,7 +321,9 @@ const TableScore = ({ data }) => {
               </svg>
             </div>
           </div>
+          )}
         </center>
+        
       </td>
     </tr>
   ));
@@ -533,6 +540,7 @@ const TableScore = ({ data }) => {
               className={`${tabStyle.colBig} ${tabStyle.back} ${tabStyle.eachCl}`}
             >
               <center>Management</center>
+ 
             </th>
           </tr>
         </thead>
