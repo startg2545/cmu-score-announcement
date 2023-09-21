@@ -399,6 +399,7 @@ const Management = ({ data }) => {
         )}
         <div className="xl:m-5 lg:m-5 md:m-6 m-8 md:max-w-full lg:max-w-full max-w-32 ">
           {searchParams.get("section") && <TableScore data={dataTable} />}
+          {}
         </div>
       </div>
       {!searchParams.get("section") && (

@@ -256,9 +256,6 @@ export default function Course166Container() {
     setSearchParams(searchParams);
   };
 
-  const goToManage = () => {
-    setUploadScore(false);
-  };
 
   const CancelhandleClosePopup = () => {
     searchParams.delete("courseNo");
