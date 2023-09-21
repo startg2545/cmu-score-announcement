@@ -1,7 +1,6 @@
-import { ShowSidebarContext } from "../context";
 import { useSearchParams } from "react-router-dom";
-import React, { useState, useEffect, useContext, useCallback } from "react";
-import { getScores, addStudentGrade } from "../services";
+import React, { useState, useEffect, } from "react";
+import { addStudentGrade } from "../services";
 import secMan from "./css/manage.module.css";
 import TableScore from "./TableScore";
 import Course from "../pages/css/course166.module.css";
@@ -11,10 +10,8 @@ import { useDisclosure } from "@mantine/hooks";
 
 const Management = ({ data }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { showSidebar } = useContext(ShowSidebarContext);
   const [dataTable, setDataTable] = useState([]);
   const [countChecked, setCountChecked] = useState(0);
-  const [selectedPublishEach, setSelectedPublishEach] = useState([]);
   const publishEach = useDisclosure();
   const publishAll = useDisclosure();
   const [checkedSections, setCheckedSections] = useState([]);
@@ -32,7 +29,7 @@ const Management = ({ data }) => {
     if (
       localStorage.getItem("delete score") ||
       localStorage.getItem("publish score") ||
-      localStorage.getItem("Upload")
+      localStorage.getItem("Upload") 
     ) {
       setDataTable([]);
     }
@@ -370,7 +367,7 @@ const Management = ({ data }) => {
                      
       >
         {!searchParams.get("section") && data.length !== 0 && (
-          <div className="flex flex-col py-5 px-5 lg:px-14 gap-5 ">
+          <div className="flex flex-col py-5 px-5 lg:px-14 gap-5 cursor-pointer ">
             {data.map((e, key) => (
               <p
                 className="bg-gray-180 hover:bg-gray-200 active:bg-gray-300 shadow-lg lg:text-2xl px-5 py-4 rounded-xl text-black"
@@ -380,7 +377,7 @@ const Management = ({ data }) => {
                 }}
               >
                 Section{" "}
-                {e.section < 100
+                {e.section < 10
                   ? `00${e.section}`
                   : e.section < 100
                   ? `0${e.section}`
@@ -389,7 +386,7 @@ const Management = ({ data }) => {
             ))}
           </div>
         )}
-        {data.length === 0 && (
+        {data.length === 0 && !searchParams.get('section') && (
           <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
             <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
             No section 

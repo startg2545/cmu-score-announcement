@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
 import { ShowSidebarContext } from "../context";
@@ -137,7 +131,10 @@ export default function Course166Container() {
   };
 
   const backToDashboard = () => {
+    setCourse([]);
+    setNoCourse();
     localStorage.removeItem("page");
+    localStorage.removeItem("Edit");
     setUploadScore(false);
     setSelectedCourse(false);
     searchParams.delete("courseNo");
@@ -146,18 +143,22 @@ export default function Course166Container() {
   };
 
   const backToCourse = () => {
+    setCourse([]);
+    setNoCourse();
+    setSections([]);
     localStorage.removeItem("page");
+    localStorage.removeItem("Edit");
     setUploadScore(false);
     searchParams.delete("section");
     setSearchParams(searchParams);
   };
 
-  const backToSelectSec = () => {
+  const backToSec = () => {
     setCourse([]);
     setSections([]);
     fetchData();
-    searchParams.delete("section");
-    setSearchParams(searchParams);
+    localStorage.removeItem("Edit");
+    localStorage.removeItem("editScore");
   };
 
   const fetchData = async () => {
@@ -180,6 +181,7 @@ export default function Course166Container() {
   useEffect(() => {
     setCourse([]);
     setNoCourse();
+    setSections([]);
   }, [params.year, params.semester]);
 
   useEffect(() => {
@@ -187,16 +189,13 @@ export default function Course166Container() {
       return navigate("/instructor-dashboard");
     }
 
-    if (localStorage.getItem("delete score")) {
+    if (
+      localStorage.getItem("delete score") ||
+      localStorage.getItem("publish score")
+    ) {
       setCourse([]);
-      setNoCourse();
       setSections([]);
       localStorage.removeItem("delete score");
-    }
-    if (localStorage.getItem("publish score")) {
-      setCourse([]);
-      setNoCourse();
-      setSections([]);
       localStorage.removeItem("publish score");
     }
 
@@ -221,10 +220,9 @@ export default function Course166Container() {
     if (params.courseNo) {
       if (localStorage.getItem("page") === "upload") {
         setUploadScore(true);
-      } else if (localStorage.getItem("page") === "management") {
-        if (!sections.length && course.length) {
-          showSection();
-        }
+      }
+      if (!sections.length && course.length) {
+        showSection();
       }
     }
 
@@ -255,7 +253,6 @@ export default function Course166Container() {
     searchParams.delete("section");
     setSearchParams(searchParams);
   };
-
 
   const CancelhandleClosePopup = () => {
     searchParams.delete("courseNo");
@@ -550,13 +547,15 @@ export default function Course166Container() {
                     <HiChevronRight className="lg:text-2xl text-md" />
                     <p
                       onClick={() => {
-                        localStorage.setItem("page", "management");
                         backToCourse();
                         showSection();
                       }}
-                      className="text-primary lg:text-xl text-md cursor-pointer"
+                      className="text-primary lg:text-xl text-md"
                       style={{
-                        cursor: isUploadScore ? "pointer" : null,
+                        cursor:
+                          isUploadScore || searchParams.get("section")
+                            ? "pointer"
+                            : null,
                       }}
                     >
                       {params.courseNo}
@@ -564,35 +563,31 @@ export default function Course166Container() {
                     {isUploadScore && (
                       <>
                         <HiChevronRight className="lg:text-2xl text-md" />
-                        <p className="text-primary lg:text-xl text-md cursor-pointer">
+                        <p className="text-primary lg:text-xl text-md">
                           Upload Score
                         </p>
                       </>
                     )}
-                    {/* {isManage && (
-                      <>
-                        <HiChevronRight className="lg:text-2xl text-md" />
-                        <p
-                          className="text-primary lg:text-xl text-md cursor-pointer"
-                          onClick={backToSelectSec}
-                          style={{
-                            cursor: searchParams.get("section")
-                              ? "pointer"
-                              : null,
-                          }}
-                        >
-                          Management
-                        </p>
-                      </>
-                    )} */}
                     {searchParams.get("section") && (
                       <>
                         <HiChevronRight className="lg:text-2xl text-md" />
                         <p
-                          className="text-primary lg:text-xl text-md cursor-pointer"
-                          onClick={showSection}
+                          className="text-primary lg:text-xl text-md"
+                          style={{
+                            cursor:
+                              searchParams.get("section") &&
+                              localStorage.getItem("editScore")
+                                ? "pointer"
+                                : null,
+                          }}
+                          onClick={backToSec}
                         >
-                          Section {`00${searchParams.get("section")}`}
+                          Section{" "}
+                          {searchParams.get("section") < 10
+                            ? `00${searchParams.get("section")}`
+                            : searchParams.get("section") < 100
+                            ? `0${searchParams.get("section")}`
+                            : searchParams.get("section")}
                         </p>
                       </>
                     )}
@@ -608,7 +603,9 @@ export default function Course166Container() {
                           {isSelectedCourse &&
                             !isUploadScore &&
                             params.courseNo}
-                          <p className=" xl:text-4xl lg:text-4xl md:text-3xl text-2xl  lg:w-[400px] md:w-[400px] w-[176px] ">{isUploadScore && `Upload Score ${params.courseNo}`}</p>
+                          <p className=" xl:text-4xl lg:text-4xl md:text-3xl text-2xl  lg:w-[400px] md:w-[400px] w-[176px] ">
+                            {isUploadScore && `Upload Score ${params.courseNo}`}
+                          </p>
                         </p>
                         <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
                           {formatDate(currentDate)}
