@@ -102,7 +102,7 @@ router.post("/add", async (req, res) => {
           new: true,
           arrayFilters: [
             { "section.section": section },
-            { "score.scoreName": section },
+            { "score.scoreName": scoreName },
           ],
         }
       );

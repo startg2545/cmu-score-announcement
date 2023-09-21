@@ -4,19 +4,7 @@
   /* You can specify other font formats (e.g., woff, woff2) as needed */
 }
 
-.editStudentFrameWindow {
-  position: absolute;
-  top: calc(175px + 50%);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90vw;
-  max-width: 96.6%;
-  height: calc(87vh - 165px);
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  transition: width 0.4s ease, margin-left 0.4s ease;
-}
+
 
 .sizeTa {
   height: 200px;
