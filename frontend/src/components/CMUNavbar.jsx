@@ -122,7 +122,7 @@ const CMUNavbar = () => {
             <PiSidebarSimpleFill className="text-white text-4xl md:text-[42px] lg:text-5xl hover:text-black" />
           </div>
           <a href="/">
-            <img
+          <img
               src={cmulogo}
               alt="CMULogo"
               className="lg:w-52 md:w-44 w-36 drop-shadow-lg"
@@ -186,7 +186,7 @@ const CMUNavbar = () => {
                   >
                     <div className="flex items-center gap-3">
                       <div>
-                        <Text className="text-white 2xl:text-2xl xl:text-xl lg:text-lg font-bold drop-shadow">
+                        <Text className="text-white 2xl:text-2xl xl:text-xl lg:text-lg md:text-base text-xs font-bold drop-shadow">
                           Hello, {userInfo.firstName.charAt(0).toUpperCase()}
                           {userInfo.firstName.slice(1).toLowerCase()}{" "}
                           {userInfo.lastName &&

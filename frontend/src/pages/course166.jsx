@@ -542,8 +542,8 @@ export default function Course166Container() {
             {/* Pop up */}
             {isSelectedCourse && (
               <div className="mx-[2%] lg:mt-24 mt-20 max-h-screen">
-                <div className="  pb-2 mb-5   ">
-                  <p className="flex flex-row items-center font-semibold text-primary gap-3 xl:-mt-2.5 lg:-mt-5 md:-mt-2.5  -mt-1 ">
+                <div className="  pb-2 xl:mb-5 lg:mb-4 md:mb-3 mb-2  ">
+                  <p className="flex flex-row items-center font-semibold text-primary gap-3 xl:-mt-2.5 lg:-mt-5 md:-mt-2.5 -mt-2 ">
                     <p
                       onClick={backToDashboard}
                       className="text-primary lg:text-xl text-md cursor-pointer"
