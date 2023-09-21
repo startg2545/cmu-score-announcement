@@ -32,6 +32,7 @@ export default function Course166Container() {
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isUploadScore, setUploadScore] = useState(false);
   const [params, setParams] = useState({});
+  const [noSections, setNoSections] = useState();
   const [sections, setSections] = useState([]);
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [opened, { open, close }] = useDisclosure(false);
@@ -39,8 +40,6 @@ export default function Course166Container() {
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
-  const [courseNo, setCourseNo] = useState("");
-  const [courseNoError, setCourseNoError] = useState("");
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -174,7 +173,8 @@ export default function Course166Container() {
     const data = course
       .filter((e) => e.courseNo === params.courseNo)[0]
       .sections.filter((e) => e.section);
-    setSections(data);
+    if(!data.length) setNoSections("No section");
+    else setSections(data);
     setUploadScore(false);
   };
 
@@ -221,7 +221,7 @@ export default function Course166Container() {
       if (localStorage.getItem("page") === "upload") {
         setUploadScore(true);
       }
-      if (!sections.length && course.length) {
+      if ((!sections.length || !noSections) && course.length) {
         showSection();
       }
     }
@@ -249,6 +249,7 @@ export default function Course166Container() {
   };
 
   const goToUpload = () => {
+    localStorage.setItem("page", "upload");
     setUploadScore(true);
     searchParams.delete("section");
     setSearchParams(searchParams);
@@ -604,20 +605,21 @@ export default function Course166Container() {
                             !isUploadScore &&
                             params.courseNo}
 
-          
-                            {isUploadScore && (
-                              <>
-                                <p className="xl:hidden lg:hidden md:hidden sm:block sm:text-3xl text-2xl">
-                                  Upload Score
-                                </p>
-                                <p className="xl:text-4xl lg:text-4xl md:text-3xl 
-                                              xl:block lg:block md:block sm:hidden hidden">
-                                  {`Upload Score ${params.courseNo}`}
-                                </p>
-                              </>
-                            )}
-                          </p>
-                  
+                          {isUploadScore && (
+                            <>
+                              <p className="xl:hidden lg:hidden md:hidden sm:block sm:text-3xl text-2xl">
+                                Upload Score
+                              </p>
+                              <p
+                                className="xl:text-4xl lg:text-4xl md:text-3xl 
+                                              xl:block lg:block md:block sm:hidden hidden"
+                              >
+                                {`Upload Score ${params.courseNo}`}
+                              </p>
+                            </>
+                          )}
+                        </p>
+
                         <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
                           {formatDate(currentDate)}
                         </p>
@@ -644,11 +646,7 @@ export default function Course166Container() {
                           className={
                             "lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
                           }
-                          onClick={() => {
-                            localStorage.setItem("page", "upload");
-                            setUploadScore(true);
-                            goToUpload();
-                          }}
+                          onClick={goToUpload}
                         >
                           <BiPlus />
                           <p>Upload Score</p>
