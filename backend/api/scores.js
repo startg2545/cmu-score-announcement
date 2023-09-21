@@ -49,8 +49,7 @@ router.get("/", async (req, res) => {
         .filter(Boolean);
 
       if (sections.length) return res.send({ ok: true, course: sections });
-      else
-        return res.send({ ok: false, message: "No Course" });
+      else return res.send({ ok: false, message: "No Course" });
     }
   } catch (err) {
     return res
@@ -73,22 +72,15 @@ router.get("/students", async (req, res) => {
       courseNo,
       year,
       semester,
-      'sections.section': section,
-      'sections.scores.scoreName': scoreName
-    })
-    
+      "sections.section": section,
+      "sections.scores.scoreName": scoreName,
+    });
+
     const student_list = course.sections
-    .filter(
-      e =>
-      e.section == section 
-    )[0].scores
-    .filter(
-      e =>
-      e.scoreName == scoreName
-    )[0].results
+      .filter((e) => e.section == section)[0]
+      .scores.filter((e) => e.scoreName == scoreName)[0].results;
 
-    return res.send(student_list)
-
+    return res.send(student_list);
   } catch (err) {
     return res
       .status(500)
@@ -114,105 +106,32 @@ router.delete("/", async (req, res) => {
         year,
         semester,
       });
-      const results = sections.sections
-        .filter((e) => e.section === parseInt(section))[0]
-        .scores.filter((e) => e.scoreName === scoreName)[0].results;
-      for (let score in results) {
-        await studentModel.findOneAndUpdate(
-          {
-            studentId: results[score].studentId,
-            "courseGrades.courseNo": courseNo,
-            "courseGrades.year": year,
-            "courseGrades.semester": semester,
-            "courseGrades.scores.scoreName": scoreName,
-          },
-          {
-            $pull: {
-              "courseGrades.$.scores": {
-                scoreName: scoreName,
-              },
-            },
-          },
-          { new: true }
-        );
-      }
-      if (type === "delete_one") {
-        await scoreModel.findOneAndUpdate(
-          {
-            courseNo,
-            year,
-            semester,
-            "sections.section": req.query.section,
-          },
-          {
-            $pull: {
-              "sections.$.scores": {
-                scoreName: scoreName,
-              },
-            },
-          },
-          { new: true }
-        );
-        return res.send({
-          ok: true,
-          message: `${scoreName} in section ${section} deleted.`,
-        });
-      } else if (type === "unpublish") {
-        await scoreModel.findOneAndUpdate(
-          {
-            courseNo,
-            year,
-            semester,
-            "sections.section": section,
-            "sections.scores.scoreName": scoreName,
-          },
-          {
-            $set: {
-              "sections.$[section].scores.$[score].isPublish": false,
-            },
-          },
-          {
-            new: true,
-            arrayFilters: [
-              { "section.section": section },
-              { "score.scoreName": scoreName },
-            ],
-          }
-        );
-        return res.send({
-          ok: true,
-          message: `${scoreName} hidden`,
+      const sectionToModify = sections.sections.find(
+        (e) => e.section === parseInt(section)
+      );
+      if (!sectionToModify) {
+        return res.status(404).send({
+          ok: false,
+          message: "Section not found",
         });
       }
-    } else if (type === "delete_all") {
-      const course = await scoreModel.findOne({
-        courseNo,
-        year,
-        semester,
-      });
-      const sections = course.sections
-        .filter(
-          (e) =>
-            e.instructor === user.cmuAccount ||
-            e.coInstructors.includes(user.cmuAccount)
-        )
-        .map((e) => {
-          const filteredScore = e.scores.filter(
-            (s) => s.scoreName === scoreName
-          );
-          if (filteredScore.length > 0) {
-            return { ...e._doc, scores: filteredScore };
-          }
-          return null;
-        })
-        .filter(Boolean);
-
-      for (let section in sections) {
-        const results = sections[section].scores[0].results;
-        for (let score in results) {
+      const scoreToRemove = sectionToModify.scores.find(
+        (e) => e.scoreName === scoreName
+      );
+      if (!scoreToRemove) {
+        return res.status(404).send({
+          ok: false,
+          message: "Score not found",
+        });
+      }
+      const studentIdsToRemove = scoreToRemove.results.map(
+        (score) => score.studentId
+      );
+      await Promise.all(
+        studentIdsToRemove.map(async (studentId) => {
           await studentModel.findOneAndUpdate(
             {
-              studentId: results[score].studentId,
+              studentId,
               "courseGrades.courseNo": courseNo,
               "courseGrades.year": year,
               "courseGrades.semester": semester,
@@ -226,6 +145,71 @@ router.delete("/", async (req, res) => {
               },
             },
             { new: true }
+          );
+        })
+      );
+      if (type === "delete_one") {
+        sectionToModify.scores = sectionToModify.scores.filter(
+          (e) => e.scoreName !== scoreName
+        );
+        await sections.save();
+        return res.send({
+          ok: true,
+          message: `${scoreName} in section ${section} deleted.`,
+        });
+      } else if (type === "unpublish") {
+        scoreToRemove.isPublish = false;
+        await sections.save();
+        return res.send({
+          ok: true,
+          message: `${scoreName} hidden`,
+        });
+      }
+    } else if (type === "delete_all") {
+      const course = await scoreModel.findOne({
+        courseNo,
+        year,
+        semester,
+      });
+      if (!course) {
+        return res.status(404).send({
+          ok: false,
+          message: "Course not found",
+        });
+      }
+      const sectionsToRemoveFrom = course.sections.filter(
+        (e) =>
+          e.instructor === user.cmuAccount ||
+          e.coInstructors.includes(user.cmuAccount)
+      );
+      for (const section of sectionsToRemoveFrom) {
+        const scoreToRemove = section.scores.find(
+          (e) => e.scoreName === scoreName
+        );
+        if (scoreToRemove) {
+          const studentIdsToRemove = scoreToRemove.results.map(
+            (score) => score.studentId
+          );
+          await Promise.all(
+            studentIdsToRemove.map(async (studentId) => {
+              await studentModel.findOneAndUpdate(
+                {
+                  studentId,
+                  "courseGrades.courseNo": courseNo,
+                  "courseGrades.year": year,
+                  "courseGrades.semester": semester,
+                  "courseGrades.scores.scoreName": scoreName,
+                },
+                {
+                  $pull: {
+                    "courseGrades.$.scores": {
+                      scoreName: scoreName,
+                    },
+                  },
+                },
+                { new: true }
+              );
+            })
           );
         }
       }
