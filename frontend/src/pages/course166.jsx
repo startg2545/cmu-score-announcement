@@ -2,13 +2,14 @@ import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
 import { ShowSidebarContext } from "../context";
+import secMan from "../components/css/manage.module.css";
 import {
   addCoInstructors,
   addCourse,
   getCourseName,
   getScores,
 } from "../services";
-import { Modal } from "@mantine/core";
+import { Modal, Checkbox } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { HiChevronRight } from "react-icons/hi";
@@ -17,6 +18,7 @@ import { IoPersonAddOutline } from "react-icons/io5";
 import { FiPlus } from "react-icons/fi";
 import { BiPlus } from "react-icons/bi";
 import { GoGear } from "react-icons/go";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import courseData from "./courseData";
 import { FaSignOutAlt } from "react-icons/fa";
 import { signOut } from "../services";
@@ -40,6 +42,9 @@ export default function Course166Container() {
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
+  const deleteCourse = useDisclosure();
+  const [checkedCourses, setCheckedCourse] = useState([]);
+  const [countChecked, setCountChecked] = useState(0);
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -66,6 +71,20 @@ export default function Course166Container() {
     close();
     emailform.reset();
     return resp;
+  };
+
+  const handleCheckboxChange = (e, value) => {
+    if (e.target.checked === true) {
+      setCountChecked(countChecked + 1);
+    } else {
+      setCountChecked(countChecked - 1);
+    }
+    const courseNo = value.course;
+    if (e.target.checked) {
+      setCheckedCourse([...checkedCourses, courseNo]);
+    } else {
+      setCheckedCourse(checkedCourses.filter((c) => c !== courseNo));
+    }
   };
 
   const emailform = useForm({
@@ -173,7 +192,7 @@ export default function Course166Container() {
     const data = course
       .filter((e) => e.courseNo === params.courseNo)[0]
       .sections.filter((e) => e.section);
-    if(!data.length) setNoSections("No section");
+    if (!data.length) setNoSections("No section");
     else setSections(data);
     setUploadScore(false);
   };
@@ -348,7 +367,14 @@ export default function Course166Container() {
                         {formatDate(currentDate)}
                       </span>
                     </div>
-                    <div className="flex items-end">
+                    <div className="flex items-end gap-5">
+                      <button
+                        className="px-2 text-red-500 py-[6px] items-center flex lg:text-xl text-sm border-red-500 border-2 lg:px-4 lg:py-1 rounded-xl hover:text-white hover:bg-red-500 duration-150 gap-2"
+                        onClick={deleteCourse[1].open}
+                      >
+                        <RiDeleteBin6Line className="lg:text-3xl text-xl" />
+                        <span>Delete</span>
+                      </button>
                       <button
                         className="text-primary px-2 py-[6px] items-center flex lg:text-xl text-sm border-primary border-2 lg:px-3 lg:py-1 rounded-xl hover:text-white hover:bg-primary duration-150 "
                         onClick={addCourseButton[1].open}
@@ -359,6 +385,98 @@ export default function Course166Container() {
                     </div>
                   </div>
                 </div>
+                <Modal
+                  opened={deleteCourse[0]}
+                  onClose={deleteCourse[1].close}
+                  centered
+                  withCloseButton={false}
+                  size="auto"
+                  display="flex"
+                  yOffset={0}
+                  xOffset={0}
+                  padding={0}
+                  radius={10}
+                  overlayProps={{
+                    opacity: 0.55,
+                    blur: 3,
+                  }}
+                  closeOnClickOutside={false}
+                  closeOnEscape={false}
+                >
+                  <div className={secMan.managePopupContent}>
+                    <div className={secMan.managePopupContentInner}>
+                      <p style={{ color: "white", fontWeight: "600" }}>
+                        Select course to delete
+                      </p>
+                    </div>
+                    <div style={{ marginTop: "-20px" }}>
+                      {course.map((value, key) => (
+                        <div
+                          key={key}
+                          style={{
+                            alignItems: "center",
+                            marginTop: "10px",
+                            display: "flex",
+                          }}
+                        >
+                          <Checkbox
+                            color="indigo"
+                            size="md"
+                            onChange={(e) => handleCheckboxChange(e, value)}
+                            id="selected-course"
+                            name="selected-course"
+                          />
+                          <p style={{ marginLeft: "16px", fontSize: "22px" }}>
+                            {value.courseNo}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginTop: "20px",
+                      }}
+                    >
+                      <Button
+                        style={{ marginRight: "20px" }}
+                        className={Course.CancelPopupButton}
+                        onClick={() => {
+                          deleteCourse[1].close();
+                          setCheckedCourse([]);
+                        }}
+                        radius="md"
+                        sx={{
+                          color: "black",
+                          "&:hover": {
+                            backgroundColor: "#F0EAEA",
+                          },
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        style={{ marginLeft: "20px" }}
+                        className={Course.AddPopupButton}
+                        type="submit"
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: "#d499ff",
+                          },
+                        }}
+                        onClick={() => {
+                          deleteCourse[1].close();
+                          setCheckedCourse([]);
+                        }}
+                        radius="md"
+                        disabled={countChecked === 0}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </Modal>
                 <Modal
                   opened={addCourseButton[0]}
                   onClose={addCourseButton[1].close}
@@ -408,7 +526,7 @@ export default function Course166Container() {
                           value={courseForm.values.courseName}
                         />
                       </div>
-                      <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-2 py-1">
+                      <div className="flex text-black justify-center text-md md:text-lg lg:text-xl my-2 py-1">
                         <Button
                           className={Course.AddCourseCancelButton}
                           onClick={() => {
