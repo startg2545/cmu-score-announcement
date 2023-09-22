@@ -1,8 +1,14 @@
 import { addCourse, addCoInstructors, deleteCourseReally } from "./course";
 import { getCourseName, getAllSections } from "./cpe";
-import { getScores, getScoresCourse, getListStudentScores, deleteScores } from "./scores";
+import {
+  getScores,
+  getScoresCourse,
+  getListStudentScores,
+  deleteScores,
+} from "./scores";
 import { getStudentScores, addStudentGrade, putStudentGrade } from "./student";
 import { getUserInfo, signOut } from "./user";
+import { socket } from "./socket";
 
 export {
   addCourse,
@@ -19,4 +25,5 @@ export {
   putStudentGrade,
   getUserInfo,
   signOut,
+  socket,
 };
