@@ -376,8 +376,8 @@ const TableScore = ({ data, courseName }) => {
         closeOnEscape={false}
       >
         <div className="overflow-hidden lg:h-fit-content sm:w-[400px]">
-          <div className="bg-primary py-1 flex justify-center text-2xl font-semibold text-white mb-3">
-            <p className="text-white lg:text-2xl font-semibold text-center">
+          <div className="bg-primary py-1.5 flex justify-center text-2xl font-semibold text-white mb-3">
+            <p className="text-white lg:text-2xl align-middle items-center justify-center text-justify font-semibold">
               Delete {scoreName}?
             </p>
           </div>

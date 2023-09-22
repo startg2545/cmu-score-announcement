@@ -145,7 +145,7 @@ const EditStudent = () => {
         closeOnEscape={false}
       >
         <div className="flex flex-col">
-          <div className="bg-primary py-1 flex justify-center text-2xl font-semibold text-white mb-3">
+          <div className="bg-primary py-1.5 flex justify-center text-2xl font-semibold text-white mb-3">
             <p className="text-white lg:text-2xl font-semibold text-center">
               Edit Score {studentId}?
             </p>
