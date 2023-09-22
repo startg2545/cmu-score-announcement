@@ -8,6 +8,7 @@ import tabStyle from "./css/tableScore.module.css";
 import upStyle from "./css/uploadScore.module.css";
 import EditStudent from "./editStudent";
 
+
 const TableScore = ({ data, courseName }) => {
   const [isPublished, setIsPublished] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -183,33 +184,30 @@ const TableScore = ({ data, courseName }) => {
 
   const rows = data.map((element, key) => (
     <tr key={key}>
-      <td>{element.scoreName}</td>
+      <td ><div className={`${tabStyle.child}`}>{element.scoreName}</div></td>
       <td>
-        <center>{element.studentNumber}</center>
+        <center className={`${tabStyle.child}`}>{element.studentNumber}</center>
       </td>
       <td>
-        <center>{element.fullScore}</center>
+        <center className={`${tabStyle.child}`}>{element.fullScore}</center>
       </td>
       <td>
-        <center>{element.meanSec}</center>
-      </td>
-      {/* <td>
-        <center>{element.meanCou}</center>
-      </td> */}
-      <td>
-        <center>{element.Median}</center>
+        <center className={`${tabStyle.child}`}>{element.meanSec}</center>
       </td>
       <td>
-        <center>{element.Max}</center>
+        <center className={`${tabStyle.child}`}>{element.Median}</center>
       </td>
       <td>
-        <center>{element.SD}</center>
+        <center className={`${tabStyle.child}`}>{element.Max}</center>
       </td>
       <td>
-        <center>{element.UpperQu}</center>
+        <center className={`${tabStyle.child}`}>{element.SD}</center>
       </td>
       <td>
-        <center>{element.LowerQu}</center>
+        <center className={`${tabStyle.child}`}>{element.UpperQu}</center>
+      </td>
+      <td>
+        <center className={`${tabStyle.child}`}>{element.LowerQu}</center>
       </td>
       <td>
         <center>
@@ -226,8 +224,6 @@ const TableScore = ({ data, courseName }) => {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="30"
               viewBox="0 0 20 20"
               fill="none"
             >
@@ -267,8 +263,6 @@ const TableScore = ({ data, courseName }) => {
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
                 viewBox="0 0 15 15"
                 fill="none"
               >
@@ -477,8 +471,8 @@ const TableScore = ({ data, courseName }) => {
           withColumnBorders
           verticalSpacing="md"
           striped
-          className={` ${tabStyle.sizeTa} ${tabStyle.font}`}
-          fontSize={18.5}
+          className={` ${tabStyle.sizeTa}`}
+          // fontSize={18.5}
         >
           <thead>
             <tr>
@@ -532,7 +526,7 @@ const TableScore = ({ data, courseName }) => {
               </th>
             </tr>
           </thead>
-          <tbody className={`${tabStyle.Stbody} ${tabStyle.child}`}>
+          <tbody className={`${tabStyle.Stbody} `}>
             {rows}
           </tbody>
         </Table>
