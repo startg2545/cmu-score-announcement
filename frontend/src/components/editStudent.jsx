@@ -58,9 +58,6 @@ const EditStudent = () => {
 
   const td = data.map((element, key) => (
     <tr key={key}>
-      {/* <td>
-        <center>{key + 1}</center>
-      </td> */}
       <td>
         <center>{element.studentId}</center>
       </td>
@@ -204,7 +201,7 @@ const EditStudent = () => {
               type="text"
               onChange={(e) => setPoint(e.target.value)}
               {...scoreForm.getInputProps("score")}
-              placeholder="New Score"
+              placeholder="New Scores"
               size="md"
               mt={12}
             />

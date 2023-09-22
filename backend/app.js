@@ -15,6 +15,7 @@ const cpe = require("./api/cpe");
 const course = require("./api/course");
 const student = require("./api/student");
 const scores = require("./api/scores");
+const admins = require("./api/admins");
 
 const dbConnect = require("./db/dbConnect");
 dbConnect();
@@ -31,6 +32,7 @@ app.use(`${prefix}/user`, user);
 app.use(`${prefix}/course`, course);
 app.use(`${prefix}/student`, student);
 app.use(`${prefix}/scores`, scores);
+app.use(`${prefix}/admins`, admins);
 
 const server = app.listen(port, () =>
   console.log(`Server running on port ${port}!`)

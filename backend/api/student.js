@@ -83,11 +83,35 @@ router.post("/add", async (req, res) => {
     const courseName = req.body.courseName;
     const semester = parseInt(req.body.semester);
     const year = parseInt(req.body.year);
-
+    
     if (req.body.type == "publish_one") {
+
       const section = parseInt(req.body.section);
       const scoreName = req.body.scoreName;
       const results = req.body.results;
+      
+      await scoreModel.findOneAndUpdate(
+        {
+          courseNo,
+          year,
+          semester,
+          "sections.section": section,
+          "sections.scores.scoreName": scoreName,
+        },
+        {
+          $set: {
+            "sections.$[section].scores.$[score].isPublish": true,
+          },
+        },
+        {
+          new: true,
+          arrayFilters: [
+            { "section.section": section },
+            { "score.scoreName": section },
+          ],
+        }
+      );
+
 
       results.map(async (result) => {
         const student = await studentModel.findOne({
