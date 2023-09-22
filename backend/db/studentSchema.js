@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const studentSchema = new mongoose.Schema(
   {
-    studentId: Number,
+    studentId: { type: Number, unique: true },
     firstName: String,
     lastName: String,
     courseGrades: [
@@ -17,7 +17,7 @@ const studentSchema = new mongoose.Schema(
             scoreName: String,
             point: Number,
           },
-        ]
+        ],
       },
     ],
   },

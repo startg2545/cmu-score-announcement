@@ -26,7 +26,6 @@ const EditStudent = () => {
 
   const showData = async () => {
     const resp = await getListStudentScores(editObj);
-    console.log(resp);
     setData(resp);
   };
 
@@ -114,7 +113,6 @@ const EditStudent = () => {
   ));
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
     setIsOpeningForm(false);
     let send_obj = {
       studentId: studentId,

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
+import { socket } from "../socket"
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
 import { ShowSidebarContext } from "../context";
@@ -24,13 +25,13 @@ import { FaSignOutAlt } from "react-icons/fa";
 import { signOut } from "../services";
 import { TextInput, Button, Flex } from "@mantine/core";
 import Course from "./css/course166.module.css";
-import { IconAt } from "@tabler/icons-react";
 
 export default function Course166Container() {
   const [noCourse, setNoCourse] = useState();
   const [course, setCourse] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [courseSelected, setCourseSelected] = useState();
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isUploadScore, setUploadScore] = useState(false);
   const [params, setParams] = useState({});
@@ -141,6 +142,7 @@ export default function Course166Container() {
   const onClickCourse = (item) => {
     let courseNo = item.courseNo;
     const data = item.sections.filter((e) => e.section);
+    setCourseSelected(item.courseName)
     setSections(data);
     setUploadScore(false);
     setSelectedCourse(true);
@@ -149,8 +151,6 @@ export default function Course166Container() {
   };
 
   const backToDashboard = () => {
-    setCourse([]);
-    setNoCourse();
     localStorage.removeItem("page");
     localStorage.removeItem("Edit");
     setUploadScore(false);
@@ -161,9 +161,6 @@ export default function Course166Container() {
   };
 
   const backToCourse = () => {
-    setCourse([]);
-    setNoCourse();
-    setSections([]);
     localStorage.removeItem("page");
     localStorage.removeItem("Edit");
     setUploadScore(false);
@@ -172,9 +169,6 @@ export default function Course166Container() {
   };
 
   const backToSec = () => {
-    setCourse([]);
-    setSections([]);
-    fetchData();
     localStorage.removeItem("Edit");
     localStorage.removeItem("editScore");
   };
@@ -183,19 +177,37 @@ export default function Course166Container() {
     const resp = await getScores(params.year, params.semester);
     if (resp.ok) {
       setCourse(resp.course);
+      setNoCourse();
     } else {
       setNoCourse(resp.message);
+      setCourse([]);
     }
   };
 
   const showSection = () => {
     const data = course
-      .filter((e) => e.courseNo === params.courseNo)[0]
-      .sections.filter((e) => e.section);
-    if (!data.length) setNoSections("No section");
-    else setSections(data);
+      .filter((e) => e.courseNo === params.courseNo)[0];
+    setCourseSelected(data.courseName);
+    const sections =  data.sections.filter((e) => e.section);
+    if (!sections.length) {
+      setNoSections("No section");
+      setSections([]);
+    } else {
+      setSections(sections);
+      setNoSections();
+    }
     setUploadScore(false);
   };
+
+  useEffect(() => {
+    socket.on("courseUpdate", (course) => {
+      setCourse([]);
+      setNoCourse();
+      setSections([]);
+      setNoSections();
+      fetchData();
+    });
+  }, []);
 
   useEffect(() => {
     setCourse([]);
@@ -209,20 +221,7 @@ export default function Course166Container() {
       return navigate("/instructor-dashboard");
     }
 
-    if (
-      localStorage.getItem("delete score") ||
-      localStorage.getItem("publish score")
-    ) {
-      setCourse([]);
-      setSections([]);
-      localStorage.removeItem("delete score");
-      localStorage.removeItem("publish score");
-    }
-
     if (localStorage.getItem("Upload") !== null) {
-      setCourse([]);
-      setSections([]);
-      setNoSections();
       setUploadScore(false);
       localStorage.removeItem("Upload");
       localStorage.removeItem("page");
@@ -256,8 +255,6 @@ export default function Course166Container() {
     course,
     sections,
     localStorage.getItem("Upload"),
-    localStorage.getItem("delete score"),
-    localStorage.getItem("publish score"),
     getParams,
     params,
     searchParams,
@@ -277,8 +274,6 @@ export default function Course166Container() {
   };
 
   const CancelhandleClosePopup = () => {
-    searchParams.delete("courseNo");
-    setSearchParams(searchParams);
     courseForm.reset();
   };
 
@@ -306,9 +301,6 @@ export default function Course166Container() {
       courseName: data.courseName,
     });
     courseForm.reset();
-    setNoCourse();
-    setCourse([]);
-    fetchData();
   };
 
   return (
@@ -784,7 +776,7 @@ export default function Course166Container() {
                     {/* show Upload/Section/TableScore */}
                   </div>
                   {isUploadScore && <UploadSc />}
-                  {!isUploadScore && <Management data={sections} />}
+                  {!isUploadScore && <Management data={sections} courseName={courseSelected} />}
                 </div>
               </div>
             )}

@@ -1,5 +1,6 @@
+import React, { useState, useEffect, } from "react";
+import { socket } from "../socket"
 import { useSearchParams } from "react-router-dom";
-import React, { useState, useEffect } from "react";
 import { addStudentGrade } from "../services";
 import secMan from "./css/manage.module.css";
 import TableScore from "./TableScore";
@@ -9,7 +10,7 @@ import tabStyle from "./css/tableScore.module.css";
 import { Checkbox, Button, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
-const Management = ({ data }) => {
+const Management = ({ data, courseName }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [dataTable, setDataTable] = useState([]);
   const [countChecked, setCountChecked] = useState(0);
@@ -27,13 +28,12 @@ const Management = ({ data }) => {
   };
 
   useEffect(() => {
-    if (
-      localStorage.getItem("delete score") ||
-      localStorage.getItem("publish score") ||
-      localStorage.getItem("Upload")
-    ) {
+    socket.on("courseUpdate", (course) => {
       setDataTable([]);
-    }
+    });
+  }, []);
+
+  useEffect(() => {
     if (data.length) {
       if (searchParams.get("section") && !dataTable.length) {
         showTable(searchParams.get("section"));
@@ -44,9 +44,6 @@ const Management = ({ data }) => {
     data,
     searchParams,
     dataTable,
-    localStorage.getItem("Upload"),
-    localStorage.getItem("delete score"),
-    localStorage.getItem("publish score"),
   ]);
 
   const handleCheckboxChange = (e, value) => {
@@ -66,6 +63,7 @@ const Management = ({ data }) => {
   const submitPublishAll = async () => {
     const student_schema = {
       courseNo: searchParams.get("courseNo"),
+      courseName: courseName,
       year: parseInt(searchParams.get("year")),
       semester: parseInt(searchParams.get("semester")),
       sections: data,
@@ -81,7 +79,6 @@ const Management = ({ data }) => {
       setShowLoadComplete(false);
     }, 700);
     if (resp_student) console.log("response: ", resp_student);
-    localStorage.setItem("publish score", true);
   };
 
   const submitPublishEach = async () => {
@@ -93,6 +90,7 @@ const Management = ({ data }) => {
     }
     const student_schema = {
       courseNo: searchParams.get("courseNo"),
+      courseName: courseName,
       year: searchParams.get("year"),
       semester: searchParams.get("semester"),
       sections: section_arr,
@@ -108,7 +106,6 @@ const Management = ({ data }) => {
       setShowLoadComplete(false);
     }, 700);
     if (resp_student) console.log("response: ", resp_student);
-    localStorage.setItem("publish score", true);
   };
 
   return (
@@ -370,7 +367,7 @@ const Management = ({ data }) => {
           </div>
         )}
         <div className="xl:m-5 lg:m-5 md:m-6 m-8 md:max-w-full lg:max-w-full max-w-32 ">
-          {searchParams.get("section") && <TableScore data={dataTable} />}
+          {searchParams.get("section") && <TableScore data={dataTable} courseName={courseName}/>}
           {}
         </div>
       </div>

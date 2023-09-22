@@ -8,13 +8,12 @@ router.post("/add", async (req, res) => {
   try {
     const token = req.cookies.token;
     const user = await verifyAndValidateToken(token);
-
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
+    const socket = req.app.get("socket");
 
     const { courseNo, year, semester, sections } = req.body;
-
     // Find the course
     let course = await courseModel.findOne({ courseNo, year, semester });
     // Create the course
@@ -31,6 +30,7 @@ router.post("/add", async (req, res) => {
           },
         ],
       });
+      socket.emit("courseUpdate", "update");
       return res.send({ ok: true, message: "The course have been added." });
     }
 
@@ -97,7 +97,7 @@ router.post("/add", async (req, res) => {
       );
     }
     await course.save();
-
+    socket.emit("courseUpdate", "update");
     if (cannotAdd.length === 0)
       return res.send({ ok: true, message: "The score have been added/edit." });
     else
@@ -119,11 +119,11 @@ router.put("/", async (req, res) => {
   try {
     const token = req.cookies.token;
     const user = await verifyAndValidateToken(token);
-
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
-
+    const socket = req.app.get("socket");
+    
     await courseModel.findOneAndUpdate(
       {
         courseNo: req.body.courseNo,
@@ -134,6 +134,7 @@ router.put("/", async (req, res) => {
       { $addToSet: { "sections.$[].coInstructors": req.body.coInstructors } },
       { new: true }
     );
+    socket.emit("courseUpdate", "update");
     return res.send("Co-Instructor have been added.");
   } catch (err) {
     return res
