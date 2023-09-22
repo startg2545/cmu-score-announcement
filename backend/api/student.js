@@ -84,28 +84,6 @@ router.post("/add", async (req, res) => {
       const section = parseInt(req.body.section);
       const scoreName = req.body.scoreName;
       const results = req.body.results;
-      
-      await scoreModel.findOneAndUpdate(
-        {
-          courseNo,
-          year,
-          semester,
-          "sections.section": section,
-          "sections.scores.scoreName": scoreName,
-        },
-        {
-          $set: {
-            "sections.$[section].scores.$[score].isPublish": true,
-          },
-        },
-        {
-          new: true,
-          arrayFilters: [
-            { "section.section": section },
-            { "score.scoreName": scoreName },
-          ],
-        }
-      );
 
       results.map(async (result) => {
         const student = await studentModel.findOne({
@@ -154,6 +132,28 @@ router.post("/add", async (req, res) => {
           await studentModel.create(studentGrade);
         }
       });
+
+      await scoreModel.findOneAndUpdate(
+        {
+          courseNo,
+          year,
+          semester,
+          "sections.section": section,
+          "sections.scores.scoreName": scoreName,
+        },
+        {
+          $set: {
+            "sections.$[section].scores.$[score].isPublish": true,
+          },
+        },
+        {
+          new: true,
+          arrayFilters: [
+            { "section.section": section },
+            { "score.scoreName": scoreName },
+          ],
+        }
+      );
 
       return res.send(`${scoreName} published`);
     } else if (req.body.type == "publish_many") {
