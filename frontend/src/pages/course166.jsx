@@ -9,6 +9,8 @@ import {
   addCourse,
   getCourseName,
   getScores,
+  signOut,
+  deleteCourseReally
 } from "../services";
 import { Modal, Checkbox } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -22,7 +24,6 @@ import { BiPlus } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import courseData from "./courseData";
-import { signOut } from "../services";
 import { TextInput, Button, Flex } from "@mantine/core";
 import Course from "./css/course166.module.css";
 
@@ -175,7 +176,7 @@ export default function Course166Container() {
   };
 
   const clickDeleteCourse = async (course) => {
-    await deleteCourse({
+    await deleteCourseReally({
       courseNo: course, 
       year: searchParams.get('year'),
       semester: searchParams.get('semester'),
@@ -579,7 +580,7 @@ export default function Course166Container() {
                         <div className=" flex-row flex w-full gap-3 items-center">
                           {isDelete && (
                             <AiFillMinusCircle className=" text-4xl text-red-500 cursor-pointer" 
-                            onClick={clickDeleteCourse(item.courseNo)}/>
+                            onClick={() => clickDeleteCourse(item.courseNo)}/>
                           )}
                           <div
                             key={key}
