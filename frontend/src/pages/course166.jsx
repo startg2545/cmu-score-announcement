@@ -356,7 +356,7 @@ export default function Course166Container() {
           <div className="flex w-full flex-col h-full">
             {isSelectedCourse ? null : (
               <>
-                <div className=" py-4 lg:mt-20 md:mt-16 mt-16 px-5 lg:px-10 text-maintext font-semibold ">
+                <div className=" py-4 lg:mt-20 md:mt-16 mt-16 px-5 lg:px-10 text-maintext font-semibold cursor-default">
                   {/* header courses : courses number, date, add course button */}
                   <div className="flex w-full justify-between">
                     <div className="flex-col flex lg:gap-1">
@@ -708,7 +708,7 @@ export default function Course166Container() {
                     {isUploadScore && (
                       <>
                         <HiChevronRight className="lg:text-2xl text-md" />
-                        <p className="text-primary lg:text-xl text-md">
+                        <p className="text-primary lg:text-xl text-md cursor-default">
                           Upload Score
                         </p>
                       </>
@@ -756,7 +756,7 @@ export default function Course166Container() {
 
                 <div className="lg:rounded-2xl rounded-xl xl:h-[calc(84vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary">
                   <div className="flex flex-col">
-                    <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between">
+                    <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between cursor-default">
                       <div className="flex items-start flex-col justify-center ">
                         <p className=" text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
                           {isSelectedCourse &&
