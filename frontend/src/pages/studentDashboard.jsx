@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { socket } from "../socket"
 import { useSearchParams } from "react-router-dom";
-import { getStudentScores, getScoresCourse } from "../services";
+import { getStudentScores, getScoresCourse, socket } from "../services";
 import { HiChevronRight } from "react-icons/hi";
 import { VscGraph } from "react-icons/vsc";
 import { ImParagraphLeft } from "react-icons/im";
@@ -63,9 +62,11 @@ export default function StudentDashboard() {
 
   useEffect(() => {
     socket.on("courseUpdate", (course) => {
+      console.log(course);
       setMessage();
       setCourseList([]);
       setScoreList([]);
+      setStat([]);
       fetchData();
     });
   }, []);

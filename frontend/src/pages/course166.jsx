@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
-import { socket } from "../socket";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
 import { ShowSidebarContext } from "../context";
@@ -10,7 +9,8 @@ import {
   getCourseName,
   getScores,
   signOut,
-  deleteCourseReally
+  deleteCourseReally,
+  socket
 } from "../services";
 import { Modal, Checkbox } from "@mantine/core";
 import { useForm } from "@mantine/form";

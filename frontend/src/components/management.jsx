@@ -1,7 +1,6 @@
 import React, { useState, useEffect, } from "react";
-import { socket } from "../socket"
 import { useSearchParams } from "react-router-dom";
-import { addStudentGrade } from "../services";
+import { addStudentGrade, socket } from "../services";
 import secMan from "./css/manage.module.css";
 import TableScore from "./TableScore";
 import Course from "../pages/css/course166.module.css";
