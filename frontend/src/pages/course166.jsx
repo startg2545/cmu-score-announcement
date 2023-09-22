@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
-import { socket } from "../socket"
+import { socket } from "../socket";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
 import { ShowSidebarContext } from "../context";
@@ -14,14 +14,14 @@ import { Modal, Checkbox } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { HiChevronRight } from "react-icons/hi";
-import { FaChevronRight } from "react-icons/fa";
+import { FaChevronRight, FaSignOutAlt } from "react-icons/fa";
+import { AiFillMinusCircle } from "react-icons/ai";
 import { IoPersonAddOutline } from "react-icons/io5";
 import { FiPlus } from "react-icons/fi";
 import { BiPlus } from "react-icons/bi";
-import { GoGear } from "react-icons/go";
+import { MdDone } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import courseData from "./courseData";
-import { FaSignOutAlt } from "react-icons/fa";
 import { signOut } from "../services";
 import { TextInput, Button, Flex } from "@mantine/core";
 import Course from "./css/course166.module.css";
@@ -34,6 +34,7 @@ export default function Course166Container() {
   const [courseSelected, setCourseSelected] = useState();
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isUploadScore, setUploadScore] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [params, setParams] = useState({});
   const [noSections, setNoSections] = useState();
   const [sections, setSections] = useState([]);
@@ -142,7 +143,7 @@ export default function Course166Container() {
   const onClickCourse = (item) => {
     let courseNo = item.courseNo;
     const data = item.sections.filter((e) => e.section);
-    setCourseSelected(item.courseName)
+    setCourseSelected(item.courseName);
     setSections(data);
     setUploadScore(false);
     setSelectedCourse(true);
@@ -173,6 +174,14 @@ export default function Course166Container() {
     localStorage.removeItem("editScore");
   };
 
+  const clickDeleteCourse = async (course) => {
+    await deleteCourse({
+      courseNo: course, 
+      year: searchParams.get('year'),
+      semester: searchParams.get('semester'),
+    })
+  };
+
   const fetchData = async () => {
     const resp = await getScores(params.year, params.semester);
     if (resp.ok) {
@@ -185,10 +194,9 @@ export default function Course166Container() {
   };
 
   const showSection = () => {
-    const data = course
-      .filter((e) => e.courseNo === params.courseNo)[0];
+    const data = course.filter((e) => e.courseNo === params.courseNo)[0];
     setCourseSelected(data.courseName);
-    const sections =  data.sections.filter((e) => e.section);
+    const sections = data.sections.filter((e) => e.section);
     if (!sections.length) {
       setNoSections("No section");
       setSections([]);
@@ -361,11 +369,26 @@ export default function Course166Container() {
                     </div>
                     <div className="flex items-end gap-5">
                       <button
-                        className="px-2 text-red-500 py-[6px] items-center flex lg:text-xl text-sm border-red-500 border-2 lg:px-4 lg:py-1 rounded-xl hover:text-white hover:bg-red-500 duration-150 gap-2"
-                        onClick={deleteCourse[1].open}
+                        className={`px-2  py-[6px] items-center flex lg:text-xl text-sm  border-2 lg:px-4 lg:py-1 rounded-xl hover:text-white duration-150 gap-2 ${
+                          isDelete
+                            ? "text-green-600 border-green-600 hover: hover:bg-green-600"
+                            : "text-red-500 border-red-500 hover: hover:bg-red-500"
+                        }`}
+                        onClick={() => setIsDelete(!isDelete)}
                       >
-                        <RiDeleteBin6Line className="lg:text-3xl text-xl" />
-                        <span>Delete</span>
+                        {!isDelete && (
+                          <>
+                            {" "}
+                            <RiDeleteBin6Line className="lg:text-3xl text-xl" />
+                            <span>Delete</span>{" "}
+                          </>
+                        )}
+                        {isDelete && (
+                          <>
+                            <MdDone className="lg:text-3xl text-xl" />
+                            <span>Done</span>
+                          </>
+                        )}
                       </button>
                       <button
                         className="text-primary px-2 py-[6px] items-center flex lg:text-xl text-sm border-primary border-2 lg:px-3 lg:py-1 rounded-xl hover:text-white hover:bg-primary duration-150 "
@@ -377,7 +400,7 @@ export default function Course166Container() {
                     </div>
                   </div>
                 </div>
-                <Modal
+                {/* <Modal
                   opened={deleteCourse[0]}
                   onClose={deleteCourse[1].close}
                   centered
@@ -468,7 +491,7 @@ export default function Course166Container() {
                       </Button>
                     </div>
                   </div>
-                </Modal>
+                </Modal> */}
                 <Modal
                   opened={addCourseButton[0]}
                   onClose={addCourseButton[1].close}
@@ -553,17 +576,25 @@ export default function Course166Container() {
                     )}
                     {course.map((item, key) => {
                       return (
-                        <div
-                          key={key}
-                          className="bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary items-center transition-all duration-100 fade-bottom "
-                          onClick={() => onClickCourse(item)}
-                        >
-                          <div className="lg:px-5 px-3 py-2 font-medium group-hover:cursor-pointer flex justify-between items-center">
-                            <div className="text-white lg:text-2xl text-lg">
-                              {item.courseNo}
-                              {item.courseName ? ` - ${item.courseName}` : null}
+                        <div className=" flex-row flex w-full gap-3 items-center">
+                          {isDelete && (
+                            <AiFillMinusCircle className=" text-4xl text-red-500 cursor-pointer" 
+                            onClick={clickDeleteCourse(item.courseNo)}/>
+                          )}
+                          <div
+                            key={key}
+                            className="w-full bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary items-center transition-all duration-100 fade-bottom"
+                            onClick={() => onClickCourse(item)}
+                          >
+                            <div className="lg:px-5 px-3 py-2 font-medium group-hover:cursor-pointer flex justify-between items-center">
+                              <div className="text-white lg:text-2xl text-lg">
+                                {item.courseNo}
+                                {item.courseName
+                                  ? ` - ${item.courseName}`
+                                  : null}
+                              </div>
+                              <HiChevronRight className="lg:text-3xl text-xl mx-3 text-white" />
                             </div>
-                            <HiChevronRight className="lg:text-3xl text-xl mx-3 text-white" />
                           </div>
                         </div>
                       );
@@ -668,7 +699,7 @@ export default function Course166Container() {
                         cursor:
                           isUploadScore || searchParams.get("section")
                             ? "pointer"
-                            : null,
+                            : "default",
                       }}
                     >
                       {params.courseNo}
@@ -691,7 +722,7 @@ export default function Course166Container() {
                               searchParams.get("section") &&
                               localStorage.getItem("editScore")
                                 ? "pointer"
-                                : null,
+                                : "default",
                           }}
                           onClick={backToSec}
                         >
@@ -704,6 +735,20 @@ export default function Course166Container() {
                         </p>
                       </>
                     )}
+                    {searchParams.get("section") &&
+                      localStorage.getItem("editScore") && (
+                        <>
+                          <HiChevronRight className="lg:text-2xl text-md" />
+                          <p
+                            className="text-primary lg:text-xl text-md"
+                            style={{
+                              cursor: "default",
+                            }}
+                          >
+                            {localStorage.getItem("editScore")}
+                          </p>
+                        </>
+                      )}
                   </p>
                   <div className="mt-3 border-b-[3px] border-primary shadow-inset-md opacity-25"></div>
                 </div>
@@ -776,7 +821,9 @@ export default function Course166Container() {
                     {/* show Upload/Section/TableScore */}
                   </div>
                   {isUploadScore && <UploadSc />}
-                  {!isUploadScore && <Management data={sections} courseName={courseSelected} />}
+                  {!isUploadScore && (
+                    <Management data={sections} courseName={courseSelected} />
+                  )}
                 </div>
               </div>
             )}
