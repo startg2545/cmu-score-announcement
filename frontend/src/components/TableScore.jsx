@@ -90,6 +90,9 @@ const TableScore = ({ data, courseName }) => {
       if (!localStorage.getItem("editScore")) {
         setEditScore(false);
       }
+
+      
+
     }
   }, [data, localStorage.getItem("editScore")]);
 
@@ -311,7 +314,7 @@ const TableScore = ({ data, courseName }) => {
   return (
     <div>
       {(isLoading || showLoadComplete) && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75  z-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75  z-50 ">
           {/* <div class="custom-box h-200 w-200 p-4 rounded-lg shadow-md inline-flex items-center bg-white "> */}
           {isLoading && (
             <div role="status" className="flex flex-col gap-5  items-center">
@@ -471,11 +474,12 @@ const TableScore = ({ data, courseName }) => {
           withColumnBorders
           verticalSpacing="md"
           striped
-          className={` ${tabStyle.sizeTa}`}
+          className={` ${tabStyle.sizeTa} cursor-default`}
           // fontSize={18.5}
+
         >
           <thead>
-            <tr>
+            <tr className="cursor-default">
               <th
                 className={`${tabStyle.colBig} ${tabStyle.front} ${tabStyle.eachCl}`}
               >

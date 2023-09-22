@@ -20,7 +20,6 @@ const EditStudent = () => {
   const editObj = JSON.parse(localStorage.getItem("Edit"));
 
   useEffect(() => {
-    
     if (!data.length) showData();
   }, [editObj, data]);
 
@@ -243,7 +242,7 @@ const EditStudent = () => {
         withColumnBorders
         verticalSpacing="sm"
         striped
-        className={` ${editStu.sizeTa} ${editStu.font}`}
+        className={` ${editStu.sizeTa} ${editStu.font} cursor-default`}
         fontSize={20.5}
       >
         <thead>

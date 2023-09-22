@@ -121,14 +121,14 @@ const CMUNavbar = () => {
           >
             <PiSidebarSimpleFill className="text-white text-4xl md:text-[42px] lg:text-5xl hover:text-black" />
           </div>
-          <a href="/">
+          
           <img
               src={cmulogo}
               alt="CMULogo"
               className="lg:w-52 md:w-44 w-36 drop-shadow-lg"
               // CMU Logo Navbar
             />
-          </a>
+         
         </div>
         <div
           className="py-2"
@@ -182,7 +182,7 @@ const CMUNavbar = () => {
                     gap="5px"
                     align="flex-end"
                     direction="column"
-                    className="cursor-pointer"
+                    className="cursor-default"
                   >
                     <div className="flex items-center gap-3">
                       <div>

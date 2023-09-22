@@ -167,7 +167,7 @@ export default function UploadScorePageContainer() {
       >
         <div className=" bg-white flex w-full items-center justify-center py-3">
           <p className="text-primary font-semibold text-left min-w-fit pr-5
-                          xl:text-2xl lg:text-2xl md:text-xl sm:text-xl text-xl   ">
+                          xl:text-2xl lg:text-2xl md:text-xl sm:text-xl text-xl cursor-default   ">
             Score File
           </p>
           <input
@@ -177,7 +177,7 @@ export default function UploadScorePageContainer() {
             accept=".xlsx, .xls"
           />
         </div>
-        <p className="bg-[#FCEFCD] rounded-lg p-4 my-3">
+        <p className="bg-[#FCEFCD] rounded-lg p-4 my-3 cursor-default">
           Click to download this Excel
           {
             <a
@@ -209,16 +209,16 @@ export default function UploadScorePageContainer() {
             Example
           </a>
         </p>
-        <p className="bg-[#D0CDFE] rounded-lg p-3 my-3">
+        <p className="bg-[#D0CDFE] rounded-lg p-3 my-3 cursor-default">
           The system
-          <span className="text-black px-2 font-bold">
+          <span className="text-black px-2 font-bold cursor-default">
             automatically calculates
           </span>
           the statistical values, including the mean section, mean course,
           median, maximum value, SD, upper quartile, and lower quartile. Score
           will not be automatically published after completing the upload.
         </p>
-        <p className="bg-[#A8F0F4] rounded-lg p-3 my-3">
+        <p className="bg-[#A8F0F4] rounded-lg p-3 my-3 cursor-default">
           All changes to the file, including uploads,
           <span className="text-center text-black px-2 font-bold">
             will be logged in the version history.
