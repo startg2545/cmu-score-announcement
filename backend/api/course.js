@@ -130,7 +130,10 @@ router.put("/", async (req, res) => {
         courseNo: req.body.courseNo,
         year: req.body.year,
         semester: req.body.semester,
-        "sections.instructor": user.cmuAccount,
+        $or: [
+          { "sections.instructor": user.cmuAccount },
+          { "sections.coInstructors": user.cmuAccount },
+        ],
       },
       { $addToSet: { "sections.$[].coInstructors": req.body.coInstructors } },
       { new: true }
