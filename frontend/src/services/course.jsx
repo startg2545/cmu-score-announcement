@@ -37,7 +37,7 @@ export async function addCoInstructors(data) {
   }
 }
 
-export async function deleteCourse(data) {
+export async function deleteCourseReally(data) {
   try {
     const resp = await axios.delete(
       `${process.env.REACT_APP_BASE_URL}/api/v1/course/`,
