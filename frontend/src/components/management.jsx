@@ -1,5 +1,5 @@
-import React, { useState, useEffect, } from "react";
-import { socket } from "../socket"
+import React, { useState, useEffect } from "react";
+import { socket } from "../socket";
 import { useSearchParams } from "react-router-dom";
 import { addStudentGrade } from "../services";
 import secMan from "./css/manage.module.css";
@@ -40,11 +40,7 @@ const Management = ({ data, courseName }) => {
       }
     }
     data.sort((a, b) => a.section - b.section);
-  }, [
-    data,
-    searchParams,
-    dataTable,
-  ]);
+  }, [data, searchParams, dataTable]);
 
   const handleCheckboxChange = (e, value) => {
     if (e.target.checked === true) {
@@ -143,7 +139,11 @@ const Management = ({ data, courseName }) => {
                   onChange={(e) => handleCheckboxChange(e, value)}
                   id="selected-section"
                   name="selected-section"
-                  style={{justifyContent: "center", display: 'flex', alignItems: 'center'}}
+                  style={{
+                    justifyContent: "center",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
                 />
                 <p style={{ marginLeft: "40px", fontSize: "22px" }}>
                   Section{" "}
@@ -366,8 +366,14 @@ const Management = ({ data, courseName }) => {
             </span>
           </div>
         )}
-        <div className="xl:m-5 lg:m-5 md:m-6 m-8 md:max-w-full lg:max-w-full max-w-32 ">
-          {searchParams.get("section") && <TableScore data={dataTable} courseName={courseName}/>}
+        <div
+          className="xl:my-5 lg:my-5 md:my-6 sm:my-8 my-8  
+                        xl:mx-5 lg:mx-5 
+                        md:max-w-full lg:max-w-full max-w-32 "
+        >
+          {searchParams.get("section") && (
+            <TableScore data={dataTable} courseName={courseName} />
+          )}
           {}
         </div>
       </div>
