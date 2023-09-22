@@ -1,6 +1,7 @@
 const express = require("express");
 const { verifyAndValidateToken } = require("../jwtUtils");
 const courseModel = require("../db/scoreSchema");
+const studentModel = require("../db/studentSchema");
 const router = express.Router();
 
 // add course & score
@@ -123,7 +124,7 @@ router.put("/", async (req, res) => {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
     const socket = req.app.get("socket");
-    
+
     await courseModel.findOneAndUpdate(
       {
         courseNo: req.body.courseNo,
@@ -137,6 +138,90 @@ router.put("/", async (req, res) => {
     socket.emit("courseUpdate", "update");
     return res.send("Co-Instructor have been added.");
   } catch (err) {
+    return res
+      .status(500)
+      .send({ ok: false, message: "Internal Server Error" });
+  }
+});
+
+//delete course
+router.delete("/", async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const user = await verifyAndValidateToken(token);
+    if (!user.cmuAccount) {
+      return res.status(403).send({ ok: false, message: "Invalid token" });
+    }
+    const socket = req.app.get("socket");
+
+    const { courseNo, year, semester } = req.query;
+
+    let course = await courseModel.findOne({ courseNo, year, semester });
+    const sectionsToRemove = course.sections.filter(
+      (e) =>
+        e.instructor === user.cmuAccount ||
+        e.coInstructors.includes(user.cmuAccount)
+    );
+    const uniqueStudentIds = new Set();
+    for (const section of sectionsToRemove) {
+      if (section.scores.length) {
+        const studentIds = section.scores[0].results.map(
+          (score) => score.studentId
+        );
+        studentIds.forEach((studentId) => {
+          uniqueStudentIds.add(studentId);
+        });
+      }
+    }
+    const updateStudent = [...uniqueStudentIds].map(async (studentId) => {
+      await studentModel.findOneAndUpdate(
+        {
+          studentId,
+        },
+        {
+          $pull: {
+            courseGrades: {
+              courseNo,
+              year,
+              semester,
+            },
+          },
+        },
+        { new: true }
+      );
+    });
+    await Promise.all(updateStudent);
+    const coures = await courseModel.findOneAndUpdate(
+      {
+        courseNo,
+        year,
+        semester,
+        $or: [
+          { "sections.instructor": user.cmuAccount },
+          { "sections.coInstructors": user.cmuAccount },
+        ],
+      },
+      {
+        $pull: {
+          sections: {
+            $or: [
+              { instructor: user.cmuAccount },
+              { coInstructors: { $in: user.cmuAccount } },
+            ],
+          },
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    if (!coures.sections.length) {
+      await courseModel.findOneAndDelete({ courseNo, year, semester });
+    }
+    socket.emit("courseUpdate", "update");
+    return res.send({ ok: true, message: "The course have been deleted." });
+  } catch (err) {
+    console.log(err);
     return res
       .status(500)
       .send({ ok: false, message: "Internal Server Error" });

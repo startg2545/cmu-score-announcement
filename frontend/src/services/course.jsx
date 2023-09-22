@@ -6,7 +6,6 @@ export async function addCourse(data) {
       `${process.env.REACT_APP_BASE_URL}/api/v1/course/add`,
       data,
       {
-        timeout: 5000,
         withCredentials: true
       }
     );
@@ -41,8 +40,12 @@ export async function deleteCourseReally(data) {
   try {
     const resp = await axios.delete(
       `${process.env.REACT_APP_BASE_URL}/api/v1/course/`,
-      data,
       {
+        params: {
+          courseNo: data.courseNo,
+          year: data.year,
+          semester: data.semester,
+        },
         withCredentials: true
       }
     );
