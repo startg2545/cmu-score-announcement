@@ -6,7 +6,6 @@ export async function addCourse(data) {
       `${process.env.REACT_APP_BASE_URL}/api/v1/course/add`,
       data,
       {
-        timeout: 5000,
         withCredentials: true
       }
     );
@@ -26,6 +25,28 @@ export async function addCoInstructors(data) {
       data,
       {
         withCredentials: true,
+      }
+    );
+    return resp.data;
+  } catch (err) {
+    if (!err.response) {
+      return "Cannot connect to API Server. Please try again later.";
+    }
+    return err.response.data;
+  }
+}
+
+export async function deleteCourseReally(data) {
+  try {
+    const resp = await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/course/`,
+      {
+        params: {
+          courseNo: data.courseNo,
+          year: data.year,
+          semester: data.semester,
+        },
+        withCredentials: true
       }
     );
     return resp.data;
