@@ -9,7 +9,6 @@ router.get("/", async (req, res) => {
   try {
     const token = req.cookies.token;
     const user = await verifyAndValidateToken(token);
-
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
@@ -58,6 +57,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+//get list score student
 router.get("/students", async (req, res) => {
   try {
     const token = req.cookies.token;
@@ -96,6 +96,7 @@ router.delete("/", async (req, res) => {
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
+    const socket = req.app.get("socket");
 
     const { courseNo, year, semester, scoreName, type } = req.query;
 
@@ -151,6 +152,7 @@ router.delete("/", async (req, res) => {
           (e) => e.scoreName !== scoreName
         );
         await sections.save();
+        socket.emit("courseUpdate", "deleted one");
         return res.send({
           ok: true,
           message: `${scoreName} in section ${section} deleted.`,
@@ -158,6 +160,7 @@ router.delete("/", async (req, res) => {
       } else if (type === "unpublish") {
         scoreToRemove.isPublish = false;
         await sections.save();
+        socket.emit("courseUpdate", "unpublish");
         return res.send({
           ok: true,
           message: `${scoreName} hidden`,
@@ -235,6 +238,7 @@ router.delete("/", async (req, res) => {
           ],
         }
       );
+      socket.emit("courseUpdate", "deleted all");
       return res.send({
         ok: true,
         message: `${scoreName} deleted in all sections`,

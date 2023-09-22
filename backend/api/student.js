@@ -12,6 +12,7 @@ router.put("/update", async (req, res) => {
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
+    const socket = req.app.get("socket");
 
     const { courseNo, section, year, semester, studentId, scoreName, point } =
       req.body;
@@ -58,6 +59,7 @@ router.put("/update", async (req, res) => {
       }
     );
 
+    socket.emit("courseUpdate", "update student score");
     return res.send("success");
   } catch (err) {
     console.log(err);
@@ -75,8 +77,10 @@ router.post("/add", async (req, res) => {
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
+    const socket = req.app.get("socket");
 
     const courseNo = req.body.courseNo;
+    const courseName = req.body.courseName;
     const semester = parseInt(req.body.semester);
     const year = parseInt(req.body.year);
 
@@ -92,6 +96,7 @@ router.post("/add", async (req, res) => {
 
         const courseGrade = {
           courseNo,
+          courseName,
           section,
           year,
           semester,
@@ -101,6 +106,7 @@ router.post("/add", async (req, res) => {
           const reqCourse = student.courseGrades.find(
             (course) =>
               course.courseNo === courseNo &&
+              course.courseName === courseName &&
               course.section === section &&
               course.year === year &&
               course.semester === semester
@@ -136,6 +142,7 @@ router.post("/add", async (req, res) => {
       await scoreModel.findOneAndUpdate(
         {
           courseNo,
+          courseName,
           year,
           semester,
           "sections.section": section,
@@ -155,6 +162,7 @@ router.post("/add", async (req, res) => {
         }
       );
 
+      socket.emit("courseUpdate", "published one");
       return res.send(`${scoreName} published`);
     } else if (req.body.type == "publish_many") {
       const sections = req.body.sections;
@@ -179,6 +187,7 @@ router.post("/add", async (req, res) => {
             // Find or create the course grade
             const courseGrade = {
               courseNo,
+              courseName,
               section: req_section,
               year,
               semester,
@@ -188,6 +197,7 @@ router.post("/add", async (req, res) => {
             const existingCourseIndex = student.courseGrades.findIndex(
               (grade) =>
                 grade.courseNo === courseNo &&
+                grade.courseName === courseName &&
                 grade.section === req_section &&
                 grade.year === year &&
                 grade.semester === semester
@@ -219,6 +229,7 @@ router.post("/add", async (req, res) => {
           updateMany: {
             filter: {
               courseNo,
+              courseName,
               year,
               semester,
               "sections.section": req_section,
@@ -234,6 +245,7 @@ router.post("/add", async (req, res) => {
       }
       await Promise.all(studentUpdates);
       await scoreModel.bulkWrite(courseUpdates);
+      socket.emit("courseUpdate", "published many");
       return res.send("Completed");
     }
   } catch (err) {

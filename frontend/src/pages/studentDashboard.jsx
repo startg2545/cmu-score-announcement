@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { socket } from "../socket"
 import { useSearchParams } from "react-router-dom";
 import { getStudentScores, getScoresCourse } from "../services";
 import { HiChevronRight } from "react-icons/hi";
@@ -49,21 +50,30 @@ export default function StudentDashboard() {
   const [xValues, setXValues] = useState([]);
   const [yValues, setYValues] = useState([]);
 
+  const fetchData = async () => {
+    const data = await getStudentScores();
+    if (data) {
+      if (data.ok) {
+        setCourseList(data.scores.courseGrades);
+      } else {
+        setMessage(data.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    socket.on("courseUpdate", (course) => {
+      setMessage();
+      setCourseList([]);
+      setScoreList([]);
+      fetchData();
+    });
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentDate(new Date());
     }, 1000);
-
-    const fetchData = async () => {
-      const data = await getStudentScores();
-      if (data) {
-        if (data.ok) {
-          setCourseList(data.scores.courseGrades);
-        } else {
-          setMessage(data.message);
-        }
-      }
-    };
 
     if (!courseList.length && !message) fetchData();
     if (params.courseNo && courseList.length) {

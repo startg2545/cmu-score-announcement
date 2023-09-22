@@ -8,7 +8,7 @@ import tabStyle from "./css/tableScore.module.css";
 import upStyle from "./css/uploadScore.module.css";
 import EditStudent from "./editStudent";
 
-const TableScore = ({ data }) => {
+const TableScore = ({ data, courseName }) => {
   const [isPublished, setIsPublished] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [opened, { open, close }] = useDisclosure(false);
@@ -17,20 +17,6 @@ const TableScore = ({ data }) => {
   const [showLoadComplete, setShowLoadComplete] = useState(false);
   const [message, setMessage] = useState();
   const [isEditScore, setEditScore] = useState(false);
-
-  const navigate = useNavigate();
-
-  const handleClickDelete = () => {
-    open();
-  };
-
-  const handleClose = () => {
-    close();
-  };
-
-  const publicToggleStyle = {
-    backgroundColor: isPublished ? "green" : "grey",
-  };
 
   const calStat = () => {
     let total = 0;
@@ -109,6 +95,7 @@ const TableScore = ({ data }) => {
   const publish = async (el) => {
     const student_schema = {
       courseNo: searchParams.get("courseNo"),
+      courseName: courseName,
       semester: searchParams.get("semester"),
       year: searchParams.get("year"),
       section: searchParams.get("section"),
@@ -173,8 +160,6 @@ const TableScore = ({ data }) => {
     setTimeout(() => {
       setShowLoadComplete(false);
     }, 1500);
-
-    localStorage.setItem("delete score", true);
   };
 
   const deleteAll = async (name) => {
@@ -194,8 +179,6 @@ const TableScore = ({ data }) => {
     setTimeout(() => {
       setShowLoadComplete(false);
     }, 1500);
-
-    localStorage.setItem("delete score", true);
   };
 
   const rows = data.map((element, key) => (
@@ -309,7 +292,7 @@ const TableScore = ({ data }) => {
               className={`${tabStyle.manageBT} ${tabStyle.deleteBT}`}
               onClick={() => {
                 setScoreName(element.scoreName);
-                handleClickDelete();
+                open();
               }}
             >
               <svg
@@ -448,7 +431,7 @@ const TableScore = ({ data }) => {
             <Button
               className={tabStyle.secondaryButton}
               onClick={() => {
-                handleClose();
+                close();
                 deleteOne(scoreName);
               }}
               sx={{
@@ -464,7 +447,7 @@ const TableScore = ({ data }) => {
             <Button
               className={tabStyle.primaryButton}
               onClick={() => {
-                handleClose();
+                close();
                 deleteAll(scoreName);
               }}
             >
@@ -474,7 +457,7 @@ const TableScore = ({ data }) => {
           <div className={tabStyle.ScorePopupButtons2}>
             <Button
               className={tabStyle.tertiaryButton}
-              onClick={handleClose}
+              onClick={close}
               sx={{
                 color: "black",
                 "&:hover": {

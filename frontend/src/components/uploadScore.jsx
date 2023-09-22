@@ -34,7 +34,6 @@ export default function UploadScorePageContainer() {
 
   const submitData = async () => {
     let resp_course = await addCourse(scores);
-    console.log(resp_course);
     if (resp_course) {
       localStorage.setItem("Upload", true);
     }
@@ -115,7 +114,6 @@ export default function UploadScorePageContainer() {
             scoreName: keys[j + 4],
             fullScore: full_score[j + 4],
             studentNumber: countStudent[i],
-            isPublish: false,
             results: results_list,
           };
           scores_list[j] = obj;
