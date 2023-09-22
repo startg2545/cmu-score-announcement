@@ -262,7 +262,7 @@ const TableScore = ({ data, courseName }) => {
                   })
                 );
                 setEditScore(true);
-                localStorage.setItem('editScore', true);
+                localStorage.setItem('editScore', element.scoreName);
               }}
             >
               <svg

@@ -36,3 +36,21 @@ export async function addCoInstructors(data) {
     return err.response.data;
   }
 }
+
+export async function deleteCourse(data) {
+  try {
+    const resp = await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/course/`,
+      data,
+      {
+        withCredentials: true
+      }
+    );
+    return resp.data;
+  } catch (err) {
+    if (!err.response) {
+      return "Cannot connect to API Server. Please try again later.";
+    }
+    return err.response.data;
+  }
+}
