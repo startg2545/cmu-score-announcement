@@ -16,19 +16,19 @@ const scoreSchema = new mongoose.Schema(
             scoreName: String,
             studentNumber: Number,
             fullScore: Number,
-            isPublish: Boolean,
+            isPublish: { type: Boolean, default: false },
             results: [
               {
                 studentId: Number,
                 firstName: String,
                 lastName: String,
                 point: Number,
-              }
-            ]
-          }
-        ]
-      }
-    ]
+              },
+            ],
+          },
+        ],
+      },
+    ],
   },
   {
     versionKey: false,

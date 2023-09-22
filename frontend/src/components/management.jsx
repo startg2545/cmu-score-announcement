@@ -1,20 +1,19 @@
-import { ShowSidebarContext } from "../context";
+import React, { useState, useEffect, } from "react";
+import { socket } from "../socket"
 import { useSearchParams } from "react-router-dom";
-import React, { useState, useEffect, useContext, useCallback } from "react";
-import { getScores, addStudentGrade } from "../services";
+import { addStudentGrade } from "../services";
 import secMan from "./css/manage.module.css";
 import TableScore from "./TableScore";
 import Course from "../pages/css/course166.module.css";
 import upStyle from "./css/uploadScore.module.css";
+import tabStyle from "./css/tableScore.module.css";
 import { Checkbox, Button, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
-const Management = ({ data }) => {
+const Management = ({ data, courseName }) => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { showSidebar } = useContext(ShowSidebarContext);
   const [dataTable, setDataTable] = useState([]);
   const [countChecked, setCountChecked] = useState(0);
-  const [selectedPublishEach, setSelectedPublishEach] = useState([]);
   const publishEach = useDisclosure();
   const publishAll = useDisclosure();
   const [checkedSections, setCheckedSections] = useState([]);
@@ -29,13 +28,12 @@ const Management = ({ data }) => {
   };
 
   useEffect(() => {
-    if (
-      localStorage.getItem("delete score") ||
-      localStorage.getItem("publish score") ||
-      localStorage.getItem("Upload")
-    ) {
+    socket.on("courseUpdate", (course) => {
       setDataTable([]);
-    }
+    });
+  }, []);
+
+  useEffect(() => {
     if (data.length) {
       if (searchParams.get("section") && !dataTable.length) {
         showTable(searchParams.get("section"));
@@ -46,9 +44,6 @@ const Management = ({ data }) => {
     data,
     searchParams,
     dataTable,
-    localStorage.getItem("Upload"),
-    localStorage.getItem("delete score"),
-    localStorage.getItem("publish score"),
   ]);
 
   const handleCheckboxChange = (e, value) => {
@@ -68,6 +63,7 @@ const Management = ({ data }) => {
   const submitPublishAll = async () => {
     const student_schema = {
       courseNo: searchParams.get("courseNo"),
+      courseName: courseName,
       year: parseInt(searchParams.get("year")),
       semester: parseInt(searchParams.get("semester")),
       sections: data,
@@ -83,7 +79,6 @@ const Management = ({ data }) => {
       setShowLoadComplete(false);
     }, 700);
     if (resp_student) console.log("response: ", resp_student);
-    localStorage.setItem("publish score", true);
   };
 
   const submitPublishEach = async () => {
@@ -95,6 +90,7 @@ const Management = ({ data }) => {
     }
     const student_schema = {
       courseNo: searchParams.get("courseNo"),
+      courseName: courseName,
       year: searchParams.get("year"),
       semester: searchParams.get("semester"),
       sections: section_arr,
@@ -110,7 +106,6 @@ const Management = ({ data }) => {
       setShowLoadComplete(false);
     }, 700);
     if (resp_student) console.log("response: ", resp_student);
-    localStorage.setItem("publish score", true);
   };
 
   return (
@@ -133,94 +128,73 @@ const Management = ({ data }) => {
         closeOnClickOutside={false}
         closeOnEscape={false}
       >
-        <div className={secMan.managePopupContent}>
-          <div className={secMan.managePopupContentInner}>
-            <p style={{ color: "white", fontWeight: "600" }}>
+        <div className=" align-middle justify-center text-center">
+          <div className="bg-primary py-1.5 flex justify-center text-2xl font-semibold text-white mb-3">
+            <p className="text-white lg:text-2xl font-semibold text-center gap-2">
               Select section to publish
             </p>
           </div>
-          <div style={{ marginTop: "-20px" }}>
+          <div>
             {data.map((value, key) => (
-              <div
-                key={key}
-                style={{
-                  alignItems: "center",
-                  marginTop: "10px",
-                  display: "flex",
-                }}
-              >
+              <div key={key}>
                 <Checkbox
                   color="indigo"
                   size="md"
                   onChange={(e) => handleCheckboxChange(e, value)}
                   id="selected-section"
                   name="selected-section"
+                  style={{justifyContent: "center", display: 'flex', alignItems: 'center'}}
                 />
-                <p style={{ marginLeft: "16px", fontSize: "22px" }}>
+                <p style={{ marginLeft: "40px", fontSize: "22px" }}>
                   Section{" "}
                   {value.section < 100
                     ? `00${value.section}`
-                    : value.section < 1000
+                    : value.section < 10
                     ? `0${value.section}`
                     : value.section}
                 </p>
               </div>
             ))}
           </div>
-          {checkedSections.length > 0 && (
-            <>
-              <p className={secMan.inline}>
-                {checkedSections.length > 0 && <p>Score in&nbsp;</p>}
-
-                {checkedSections.map((section, i) => (
-                  <p key={section}>section {section}&nbsp;</p>
-                ))}
-              </p>
-            </>
-          )}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginTop: "20px",
-            }}
-          >
-            <Button
-              style={{ marginRight: "20px" }}
-              className={Course.CancelPopupButton}
-              onClick={() => {
-                publishEach[1].close();
-                setCheckedSections([]);
-              }}
-              radius="md"
-              sx={{
-                color: "black",
-                "&:hover": {
-                  backgroundColor: "#F0EAEA",
-                },
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              style={{ marginLeft: "20px" }}
-              className={Course.AddPopupButton}
-              type="submit"
-              sx={{
-                "&:hover": {
-                  backgroundColor: "#d499ff",
-                },
-              }}
-              onClick={() => {
-                publishEach[1].close();
-                setCheckedSections([]);
-                submitPublishEach();
-              }}
-              radius="md"
-              disabled={countChecked === 0}
-            >
-              Confirm
-            </Button>
+          <div className="overflow-hidden">
+            <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-4 py-1">
+              <Button
+                style={{ marginRight: "20px" }}
+                className={Course.CancelPopupButton}
+                onClick={() => {
+                  publishEach[1].close();
+                  setCheckedSections([]);
+                }}
+                radius="md"
+                sx={{
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#F0EAEA",
+                  },
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                style={{ marginLeft: "20px" }}
+                className={Course.AddPopupButton}
+                type="submit"
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "#d499ff",
+                  },
+                }}
+                onClick={() => {
+                  publishEach[1].close();
+                  setCheckedSections([]);
+                  submitPublishEach();
+                }}
+                radius="md"
+                disabled={countChecked === 0}
+              >
+                Confirm
+              </Button>
+            </div>
           </div>
         </div>
       </Modal>
@@ -242,9 +216,9 @@ const Management = ({ data }) => {
         closeOnClickOutside={false}
         closeOnEscape={false}
       >
-        <div className={secMan.managePopupContent}>
-          <div className={secMan.managePopupContentInner}>
-            <p style={{ color: "white", fontWeight: "600" }}>
+        <div className="overflow-hidden lg:h-fit-content sm:w-[400px]">
+          <div className="bg-primary py-1.5 flex justify-center text-2xl font-semibold text-white mb-5">
+            <p className="text-white lg:text-2xl font-medium align-middle items-center justify-center text-justify">
               Publish All Sections?
             </p>
           </div>
@@ -312,16 +286,10 @@ const Management = ({ data }) => {
               </defs>
             </svg>
           </div>
-          <p style={{ marginTop: "20px" }}>
+          <p className="text-black text-lg font-medium text-center mx-5 mt-4">
             Scores in all sections will be published
           </p>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              marginTop: "20px",
-            }}
-          >
+          <div className={tabStyle.ScorePopupButtons}>
             <Button
               style={{ marginRight: "20px" }}
               className={Course.CancelPopupButton}
@@ -359,7 +327,7 @@ const Management = ({ data }) => {
         </div>
       </Modal>
       <div
-        className={`overflow-auto  border-[2px] border-black
+        className={`overflow-auto 
                       ${
                         searchParams.get("section")
                           ? "xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-160px)] h-[calc(85vh-145px)]"
@@ -367,10 +335,9 @@ const Management = ({ data }) => {
                       }
                       ${data.length === 0 && "overflow-hidden"}
                       `}
-                     
       >
         {!searchParams.get("section") && data.length !== 0 && (
-          <div className="flex flex-col py-5 px-5 lg:px-14 gap-5 ">
+          <div className="flex flex-col py-5 px-5 lg:px-14 gap-5 cursor-pointer ">
             {data.map((e, key) => (
               <p
                 className="bg-gray-180 hover:bg-gray-200 active:bg-gray-300 shadow-lg lg:text-2xl px-5 py-4 rounded-xl text-black"
@@ -380,7 +347,7 @@ const Management = ({ data }) => {
                 }}
               >
                 Section{" "}
-                {e.section < 100
+                {e.section < 10
                   ? `00${e.section}`
                   : e.section < 100
                   ? `0${e.section}`
@@ -389,16 +356,18 @@ const Management = ({ data }) => {
             ))}
           </div>
         )}
-        {data.length === 0 && (
+        {data.length === 0 && !searchParams.get("section") && (
           <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
             <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
-            No section 
+              No section
             </p>
-            <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 " >Section will show when file is uploaded</span>
+            <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 ">
+              Section will show when file is uploaded
+            </span>
           </div>
         )}
         <div className="xl:m-5 lg:m-5 md:m-6 m-8 md:max-w-full lg:max-w-full max-w-32 ">
-          {searchParams.get("section") && <TableScore data={dataTable} />}
+          {searchParams.get("section") && <TableScore data={dataTable} courseName={courseName}/>}
           {}
         </div>
       </div>

@@ -86,7 +86,11 @@ export default function CMUOAuthCallback() {
         {message || "Redirecting ..."}
       </Title>
       {!userInfo.itAccountType && (
-        <Button maw={125} onClick={() => navigate("/sign-in")}>
+        <Button
+          className="bg-blue-500"
+          maw={125}
+          onClick={() => navigate("/sign-in")}
+        >
           Go Back
         </Button>
       )}

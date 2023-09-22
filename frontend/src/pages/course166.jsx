@@ -1,20 +1,16 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useMemo,
-  useCallback,
-} from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
+import { socket } from "../socket"
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
 import { ShowSidebarContext } from "../context";
+import secMan from "../components/css/manage.module.css";
 import {
   addCoInstructors,
   addCourse,
   getCourseName,
   getScores,
 } from "../services";
-import { Modal } from "@mantine/core";
+import { Modal, Checkbox } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { HiChevronRight } from "react-icons/hi";
@@ -23,21 +19,23 @@ import { IoPersonAddOutline } from "react-icons/io5";
 import { FiPlus } from "react-icons/fi";
 import { BiPlus } from "react-icons/bi";
 import { GoGear } from "react-icons/go";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import courseData from "./courseData";
 import { FaSignOutAlt } from "react-icons/fa";
 import { signOut } from "../services";
 import { TextInput, Button, Flex } from "@mantine/core";
 import Course from "./css/course166.module.css";
-import { IconAt } from "@tabler/icons-react";
 
 export default function Course166Container() {
   const [noCourse, setNoCourse] = useState();
   const [course, setCourse] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams({});
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [courseSelected, setCourseSelected] = useState();
   const [isSelectedCourse, setSelectedCourse] = useState(false);
   const [isUploadScore, setUploadScore] = useState(false);
   const [params, setParams] = useState({});
+  const [noSections, setNoSections] = useState();
   const [sections, setSections] = useState([]);
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [opened, { open, close }] = useDisclosure(false);
@@ -45,8 +43,9 @@ export default function Course166Container() {
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
-  const [courseNo, setCourseNo] = useState("");
-  const [courseNoError, setCourseNoError] = useState("");
+  const deleteCourse = useDisclosure();
+  const [checkedCourses, setCheckedCourse] = useState([]);
+  const [countChecked, setCountChecked] = useState(0);
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -73,6 +72,20 @@ export default function Course166Container() {
     close();
     emailform.reset();
     return resp;
+  };
+
+  const handleCheckboxChange = (e, value) => {
+    if (e.target.checked === true) {
+      setCountChecked(countChecked + 1);
+    } else {
+      setCountChecked(countChecked - 1);
+    }
+    const courseNo = value.course;
+    if (e.target.checked) {
+      setCheckedCourse([...checkedCourses, courseNo]);
+    } else {
+      setCheckedCourse(checkedCourses.filter((c) => c !== courseNo));
+    }
   };
 
   const emailform = useForm({
@@ -129,6 +142,7 @@ export default function Course166Container() {
   const onClickCourse = (item) => {
     let courseNo = item.courseNo;
     const data = item.sections.filter((e) => e.section);
+    setCourseSelected(item.courseName)
     setSections(data);
     setUploadScore(false);
     setSelectedCourse(true);
@@ -138,6 +152,7 @@ export default function Course166Container() {
 
   const backToDashboard = () => {
     localStorage.removeItem("page");
+    localStorage.removeItem("Edit");
     setUploadScore(false);
     setSelectedCourse(false);
     searchParams.delete("courseNo");
@@ -147,39 +162,58 @@ export default function Course166Container() {
 
   const backToCourse = () => {
     localStorage.removeItem("page");
+    localStorage.removeItem("Edit");
     setUploadScore(false);
     searchParams.delete("section");
     setSearchParams(searchParams);
   };
 
-  const backToSelectSec = () => {
-    setCourse([]);
-    setSections([]);
-    fetchData();
-    searchParams.delete("section");
-    setSearchParams(searchParams);
+  const backToSec = () => {
+    localStorage.removeItem("Edit");
+    localStorage.removeItem("editScore");
   };
 
   const fetchData = async () => {
     const resp = await getScores(params.year, params.semester);
     if (resp.ok) {
       setCourse(resp.course);
+      setNoCourse();
     } else {
       setNoCourse(resp.message);
+      setCourse([]);
     }
   };
 
   const showSection = () => {
     const data = course
-      .filter((e) => e.courseNo === params.courseNo)[0]
-      .sections.filter((e) => e.section);
-    setSections(data);
+      .filter((e) => e.courseNo === params.courseNo)[0];
+    setCourseSelected(data.courseName);
+    const sections =  data.sections.filter((e) => e.section);
+    if (!sections.length) {
+      setNoSections("No section");
+      setSections([]);
+    } else {
+      setSections(sections);
+      setNoSections();
+    }
     setUploadScore(false);
   };
 
   useEffect(() => {
+    socket.on("courseUpdate", (course) => {
+      setCourse([]);
+      setNoCourse();
+      setSections([]);
+      setNoSections();
+      fetchData();
+    });
+  }, []);
+
+  useEffect(() => {
     setCourse([]);
     setNoCourse();
+    setSections([]);
+    setNoSections();
   }, [params.year, params.semester]);
 
   useEffect(() => {
@@ -187,22 +221,7 @@ export default function Course166Container() {
       return navigate("/instructor-dashboard");
     }
 
-    if (localStorage.getItem("delete score")) {
-      setCourse([]);
-      setNoCourse();
-      setSections([]);
-      localStorage.removeItem("delete score");
-    }
-    if (localStorage.getItem("publish score")) {
-      setCourse([]);
-      setNoCourse();
-      setSections([]);
-      localStorage.removeItem("publish score");
-    }
-
     if (localStorage.getItem("Upload") !== null) {
-      setCourse([]);
-      setSections([]);
       setUploadScore(false);
       localStorage.removeItem("Upload");
       localStorage.removeItem("page");
@@ -221,10 +240,9 @@ export default function Course166Container() {
     if (params.courseNo) {
       if (localStorage.getItem("page") === "upload") {
         setUploadScore(true);
-      } else if (localStorage.getItem("page") === "management") {
-        if (!sections.length && course.length) {
-          showSection();
-        }
+      }
+      if (!sections.length && !noSections && course.length) {
+        showSection();
       }
     }
 
@@ -237,8 +255,6 @@ export default function Course166Container() {
     course,
     sections,
     localStorage.getItem("Upload"),
-    localStorage.getItem("delete score"),
-    localStorage.getItem("publish score"),
     getParams,
     params,
     searchParams,
@@ -251,15 +267,13 @@ export default function Course166Container() {
   };
 
   const goToUpload = () => {
+    localStorage.setItem("page", "upload");
     setUploadScore(true);
     searchParams.delete("section");
     setSearchParams(searchParams);
   };
 
-
   const CancelhandleClosePopup = () => {
-    searchParams.delete("courseNo");
-    setSearchParams(searchParams);
     courseForm.reset();
   };
 
@@ -287,9 +301,6 @@ export default function Course166Container() {
       courseName: data.courseName,
     });
     courseForm.reset();
-    setNoCourse();
-    setCourse([]);
-    fetchData();
   };
 
   return (
@@ -348,7 +359,14 @@ export default function Course166Container() {
                         {formatDate(currentDate)}
                       </span>
                     </div>
-                    <div className="flex items-end">
+                    <div className="flex items-end gap-5">
+                      <button
+                        className="px-2 text-red-500 py-[6px] items-center flex lg:text-xl text-sm border-red-500 border-2 lg:px-4 lg:py-1 rounded-xl hover:text-white hover:bg-red-500 duration-150 gap-2"
+                        onClick={deleteCourse[1].open}
+                      >
+                        <RiDeleteBin6Line className="lg:text-3xl text-xl" />
+                        <span>Delete</span>
+                      </button>
                       <button
                         className="text-primary px-2 py-[6px] items-center flex lg:text-xl text-sm border-primary border-2 lg:px-3 lg:py-1 rounded-xl hover:text-white hover:bg-primary duration-150 "
                         onClick={addCourseButton[1].open}
@@ -359,6 +377,98 @@ export default function Course166Container() {
                     </div>
                   </div>
                 </div>
+                <Modal
+                  opened={deleteCourse[0]}
+                  onClose={deleteCourse[1].close}
+                  centered
+                  withCloseButton={false}
+                  size="auto"
+                  display="flex"
+                  yOffset={0}
+                  xOffset={0}
+                  padding={0}
+                  radius={10}
+                  overlayProps={{
+                    opacity: 0.55,
+                    blur: 3,
+                  }}
+                  closeOnClickOutside={false}
+                  closeOnEscape={false}
+                >
+                  <div className={secMan.managePopupContent}>
+                    <div className={secMan.managePopupContentInner}>
+                      <p style={{ color: "white", fontWeight: "600" }}>
+                        Select course to delete
+                      </p>
+                    </div>
+                    <div style={{ marginTop: "-20px" }}>
+                      {course.map((value, key) => (
+                        <div
+                          key={key}
+                          style={{
+                            alignItems: "center",
+                            marginTop: "10px",
+                            display: "flex",
+                          }}
+                        >
+                          <Checkbox
+                            color="indigo"
+                            size="md"
+                            onChange={(e) => handleCheckboxChange(e, value)}
+                            id="selected-course"
+                            name="selected-course"
+                          />
+                          <p style={{ marginLeft: "16px", fontSize: "22px" }}>
+                            {value.courseNo}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginTop: "20px",
+                      }}
+                    >
+                      <Button
+                        style={{ marginRight: "20px" }}
+                        className={Course.CancelPopupButton}
+                        onClick={() => {
+                          deleteCourse[1].close();
+                          setCheckedCourse([]);
+                        }}
+                        radius="md"
+                        sx={{
+                          color: "black",
+                          "&:hover": {
+                            backgroundColor: "#F0EAEA",
+                          },
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        style={{ marginLeft: "20px" }}
+                        className={Course.AddPopupButton}
+                        type="submit"
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: "#d499ff",
+                          },
+                        }}
+                        onClick={() => {
+                          deleteCourse[1].close();
+                          setCheckedCourse([]);
+                        }}
+                        radius="md"
+                        disabled={countChecked === 0}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  </div>
+                </Modal>
                 <Modal
                   opened={addCourseButton[0]}
                   onClose={addCourseButton[1].close}
@@ -408,7 +518,7 @@ export default function Course166Container() {
                           value={courseForm.values.courseName}
                         />
                       </div>
-                      <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-2 py-1">
+                      <div className="flex text-black justify-center text-md md:text-lg lg:text-xl my-2 py-1">
                         <Button
                           className={Course.AddCourseCancelButton}
                           onClick={() => {
@@ -550,13 +660,15 @@ export default function Course166Container() {
                     <HiChevronRight className="lg:text-2xl text-md" />
                     <p
                       onClick={() => {
-                        localStorage.setItem("page", "management");
                         backToCourse();
                         showSection();
                       }}
-                      className="text-primary lg:text-xl text-md cursor-pointer"
+                      className="text-primary lg:text-xl text-md"
                       style={{
-                        cursor: isUploadScore ? "pointer" : null,
+                        cursor:
+                          isUploadScore || searchParams.get("section")
+                            ? "pointer"
+                            : null,
                       }}
                     >
                       {params.courseNo}
@@ -564,35 +676,31 @@ export default function Course166Container() {
                     {isUploadScore && (
                       <>
                         <HiChevronRight className="lg:text-2xl text-md" />
-                        <p className="text-primary lg:text-xl text-md cursor-pointer">
+                        <p className="text-primary lg:text-xl text-md">
                           Upload Score
                         </p>
                       </>
                     )}
-                    {/* {isManage && (
-                      <>
-                        <HiChevronRight className="lg:text-2xl text-md" />
-                        <p
-                          className="text-primary lg:text-xl text-md cursor-pointer"
-                          onClick={backToSelectSec}
-                          style={{
-                            cursor: searchParams.get("section")
-                              ? "pointer"
-                              : null,
-                          }}
-                        >
-                          Management
-                        </p>
-                      </>
-                    )} */}
                     {searchParams.get("section") && (
                       <>
                         <HiChevronRight className="lg:text-2xl text-md" />
                         <p
-                          className="text-primary lg:text-xl text-md cursor-pointer"
-                          onClick={showSection}
+                          className="text-primary lg:text-xl text-md"
+                          style={{
+                            cursor:
+                              searchParams.get("section") &&
+                              localStorage.getItem("editScore")
+                                ? "pointer"
+                                : null,
+                          }}
+                          onClick={backToSec}
                         >
-                          Section {`00${searchParams.get("section")}`}
+                          Section{" "}
+                          {searchParams.get("section") < 10
+                            ? `00${searchParams.get("section")}`
+                            : searchParams.get("section") < 100
+                            ? `0${searchParams.get("section")}`
+                            : searchParams.get("section")}
                         </p>
                       </>
                     )}
@@ -608,8 +716,23 @@ export default function Course166Container() {
                           {isSelectedCourse &&
                             !isUploadScore &&
                             params.courseNo}
-                          <p className=" xl:text-4xl lg:text-4xl md:text-3xl text-2xl  lg:w-[400px] md:w-[400px] w-[176px] ">{isUploadScore && `Upload Score ${params.courseNo}`}</p>
+
+                          {isUploadScore && (
+                            <>
+                              <p className="xl:hidden lg:hidden md:hidden sm:hidden block 
+                                             text-[29px]">
+                                Upload Score
+                              </p>
+                              <p
+                                className="xl:text-4xl lg:text-4xl md:text-3xl  sm:text-3xl
+                                           xl:block lg:block md:block sm:block hidden"
+                              >
+                                {`Upload Score ${params.courseNo}`}
+                              </p>
+                            </>
+                          )}
                         </p>
+
                         <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
                           {formatDate(currentDate)}
                         </p>
@@ -636,11 +759,7 @@ export default function Course166Container() {
                           className={
                             "lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
                           }
-                          onClick={() => {
-                            localStorage.setItem("page", "upload");
-                            setUploadScore(true);
-                            goToUpload();
-                          }}
+                          onClick={goToUpload}
                         >
                           <BiPlus />
                           <p>Upload Score</p>
@@ -658,7 +777,7 @@ export default function Course166Container() {
                     {/* show Upload/Section/TableScore */}
                   </div>
                   {isUploadScore && <UploadSc />}
-                  {!isUploadScore && <Management data={sections} />}
+                  {!isUploadScore && <Management data={sections} courseName={courseSelected} />}
                 </div>
               </div>
             )}

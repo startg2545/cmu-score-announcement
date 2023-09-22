@@ -34,7 +34,6 @@ export default function UploadScorePageContainer() {
 
   const submitData = async () => {
     let resp_course = await addCourse(scores);
-    console.log(resp_course);
     if (resp_course) {
       localStorage.setItem("Upload", true);
     }
@@ -115,7 +114,6 @@ export default function UploadScorePageContainer() {
             scoreName: keys[j + 4],
             fullScore: full_score[j + 4],
             studentNumber: countStudent[i],
-            isPublish: false,
             results: results_list,
           };
           scores_list[j] = obj;
@@ -160,9 +158,16 @@ export default function UploadScorePageContainer() {
 
   return (
     <>
-      <div className="flex flex-col justify-start py-10 lg:px-24 px-2 overflow-y-scroll max-h-max">
-        <div className="bg-white flex w-full items-center justify-center py-3">
-          <p className="text-primary font-semibold text-left lg:text-4xl text-xl min-w-fit pr-5">
+      <div
+        className="flex flex-col justify-start  overflow-y-auto max-h-max
+                   xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-143px)] sm:h-[calc(85vh-160px)]  h-[calc(85vh-160px)]
+                   xl:px-24 lg:px-20 md:px-20 sm:px-14 px-7
+                   xl:py-9 lg:py-7 md:py-6 sm:py-5 py-3
+                   sm:overflow-y-auto"
+      >
+        <div className=" bg-white flex w-full items-center justify-center py-3">
+          <p className="text-primary font-semibold text-left min-w-fit pr-5
+                          xl:text-2xl lg:text-2xl md:text-xl sm:text-xl text-xl   ">
             Score File
           </p>
           <input
@@ -353,7 +358,7 @@ export default function UploadScorePageContainer() {
               </defs>
             </svg>
           </div>
-          <p style={{marginTop: "20px"}}>This data will be generated</p>
+          <p style={{ marginTop: "20px" }}>This data will be generated</p>
           <div className={upStyle.ScorePopupButtons}>
             <Button
               className={Course.CancelPopupButton}

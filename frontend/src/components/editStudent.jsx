@@ -20,23 +20,20 @@ const EditStudent = () => {
   const editObj = JSON.parse(localStorage.getItem("Edit"));
 
   useEffect(() => {
-    const showData = async () => {
-      const resp = await getListStudentScores(editObj);
-      console.log(resp);
-      setData(resp);
-    };
+    
     if (!data.length) showData();
   }, [editObj, data]);
+
+  const showData = async () => {
+    const resp = await getListStudentScores(editObj);
+    setData(resp);
+  };
 
   const th = columnNames.map((element, key) => (
     <th key={key}>
       <center>{element}</center>
     </th>
   ));
-
-  const handleClose = () => {
-    close();
-  };
 
   const scoreForm = useForm({
     initialValues: {
@@ -116,9 +113,7 @@ const EditStudent = () => {
   ));
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
     setIsOpeningForm(false);
-    console.log("This student's point has been updated to", point);
     let send_obj = {
       studentId: studentId,
       courseNo: editObj.courseNo,
@@ -128,9 +123,9 @@ const EditStudent = () => {
       scoreName: editObj.scoreName,
       point: parseFloat(e),
     };
-    console.log("send", send_obj);
     const resp = await putStudentGrade(send_obj);
     if (resp) console.log("receive", resp);
+    showData();
   };
 
   const editForm = () => {
@@ -150,7 +145,7 @@ const EditStudent = () => {
         closeOnEscape={false}
       >
         <div className="flex flex-col">
-          <div className="bg-primary py-1 flex justify-center text-2xl font-semibold text-white mb-3">
+          <div className="bg-primary py-1.5 flex justify-center text-2xl font-semibold text-white mb-3">
             <p className="text-white lg:text-2xl font-semibold text-center">
               Edit Score {studentId}?
             </p>
@@ -203,6 +198,7 @@ const EditStudent = () => {
           </p>
           <form onSubmit={scoreForm.onSubmit((data) => {
                       handleSubmit(data.score);
+                      scoreForm.reset();
                     })} className="px-10 lg:px-24">
             <TextInput
               type="text"
@@ -245,7 +241,7 @@ const EditStudent = () => {
   };
 
   return (
-    <div className={editStu.editStudentFrameWindow}>
+    <>
       <Table
         withColumnBorders
         verticalSpacing="sm"
@@ -279,7 +275,7 @@ const EditStudent = () => {
         <tbody className={`${editStu.Stbody} ${editStu.child}`}>{td}</tbody>
       </Table>
       {isOpeningForm ? editForm() : null}
-    </div>
+   </>
   );
 };
 

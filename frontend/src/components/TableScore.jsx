@@ -8,7 +8,7 @@ import tabStyle from "./css/tableScore.module.css";
 import upStyle from "./css/uploadScore.module.css";
 import EditStudent from "./editStudent";
 
-const TableScore = ({ data }) => {
+const TableScore = ({ data, courseName }) => {
   const [isPublished, setIsPublished] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [opened, { open, close }] = useDisclosure(false);
@@ -17,20 +17,6 @@ const TableScore = ({ data }) => {
   const [showLoadComplete, setShowLoadComplete] = useState(false);
   const [message, setMessage] = useState();
   const [isEditScore, setEditScore] = useState(false);
-
-  const navigate = useNavigate();
-
-  const handleClickDelete = () => {
-    open();
-  };
-
-  const handleClose = () => {
-    close();
-  };
-
-  const publicToggleStyle = {
-    backgroundColor: isPublished ? "green" : "grey",
-  };
 
   const calStat = () => {
     let total = 0;
@@ -90,7 +76,6 @@ const TableScore = ({ data }) => {
 
   useEffect(() => {
     if (data.length) {
-      console.log(data);
       data.map((e) => {
         setIsPublished((prev) => ({
           ...prev,
@@ -98,12 +83,19 @@ const TableScore = ({ data }) => {
         }));
       });
       calStat();
+      if (localStorage.getItem("Edit")) {
+        setEditScore(true);
+      }
+      if (!localStorage.getItem("editScore")) {
+        setEditScore(false);
+      }
     }
-  }, [data]);
+  }, [data, localStorage.getItem("editScore")]);
 
   const publish = async (el) => {
     const student_schema = {
       courseNo: searchParams.get("courseNo"),
+      courseName: courseName,
       semester: searchParams.get("semester"),
       year: searchParams.get("year"),
       section: searchParams.get("section"),
@@ -159,7 +151,7 @@ const TableScore = ({ data }) => {
       scoreName: name,
       type: "delete_one",
     };
-    setIsLoading(true)
+    setIsLoading(true);
 
     const resp = await deleteScores(scoreDelete);
     setMessage(resp.message);
@@ -168,8 +160,6 @@ const TableScore = ({ data }) => {
     setTimeout(() => {
       setShowLoadComplete(false);
     }, 1500);
-    
-    localStorage.setItem("delete score", true);
   };
 
   const deleteAll = async (name) => {
@@ -180,17 +170,15 @@ const TableScore = ({ data }) => {
       scoreName: name,
       type: "delete_all",
     };
-    setIsLoading(true)
+    setIsLoading(true);
 
-    const resp =  await deleteScores(scoreDelete);
+    const resp = await deleteScores(scoreDelete);
     setMessage(resp.message);
     setIsLoading(false);
     setShowLoadComplete(true);
     setTimeout(() => {
       setShowLoadComplete(false);
     }, 1500);
-    
-    localStorage.setItem("delete score", true);
   };
 
   const rows = data.map((element, key) => (
@@ -259,21 +247,22 @@ const TableScore = ({ data }) => {
       </td>
       <td>
         <center>
-        {isEditScore ? (
-        <EditStudent  />
-      ) : (
           <div className={tabStyle.manageBtDisplay}>
             <div
               className={`${tabStyle.manageBT} ${tabStyle.editBT}`}
               onClick={() => {
-                localStorage.setItem("Edit", JSON.stringify({
-                  courseNo: searchParams.get('courseNo'),
-                  semester: parseInt(searchParams.get('semester')),
-                  year: parseInt(searchParams.get('year')),
-                  section: parseInt(searchParams.get('section')),
-                  scoreName: element.scoreName
-                }));
-                navigate("/edit-student")
+                localStorage.setItem(
+                  "Edit",
+                  JSON.stringify({
+                    courseNo: searchParams.get("courseNo"),
+                    semester: parseInt(searchParams.get("semester")),
+                    year: parseInt(searchParams.get("year")),
+                    section: parseInt(searchParams.get("section")),
+                    scoreName: element.scoreName,
+                  })
+                );
+                setEditScore(true);
+                localStorage.setItem('editScore', true);
               }}
             >
               <svg
@@ -297,14 +286,13 @@ const TableScore = ({ data }) => {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                
               </svg>
             </div>
             <div
               className={`${tabStyle.manageBT} ${tabStyle.deleteBT}`}
               onClick={() => {
                 setScoreName(element.scoreName);
-                handleClickDelete();
+                open();
               }}
             >
               <svg
@@ -321,9 +309,7 @@ const TableScore = ({ data }) => {
               </svg>
             </div>
           </div>
-          )}
         </center>
-        
       </td>
     </tr>
   ));
@@ -351,7 +337,9 @@ const TableScore = ({ data }) => {
                   fill="#8084c8"
                 />
               </svg>
-              <span className="text-white font-semibold lg:text-2xl text-md">Loading...</span>
+              <span className="text-white font-semibold lg:text-2xl text-md">
+                Loading...
+              </span>
             </div>
           )}
           {showLoadComplete && (
@@ -373,7 +361,6 @@ const TableScore = ({ data }) => {
         </div>
       )}
 
-
       <Modal
         opened={opened}
         onClose={close}
@@ -388,9 +375,9 @@ const TableScore = ({ data }) => {
         closeOnClickOutside={false}
         closeOnEscape={false}
       >
-        <div className='overflow-hidden lg:h-fit-content sm:w-[400px]'>
-          <div className='bg-primary py-1 flex justify-center text-2xl font-semibold text-white mb-3'>
-            <p className="text-white lg:text-2xl font-semibold text-center">
+        <div className="overflow-hidden lg:h-fit-content sm:w-[400px]">
+          <div className="bg-primary py-1.5 flex justify-center text-2xl font-semibold text-white mb-3">
+            <p className="text-white lg:text-2xl align-middle items-center justify-center text-justify font-semibold">
               Delete {scoreName}?
             </p>
           </div>
@@ -437,13 +424,14 @@ const TableScore = ({ data }) => {
               </defs>
             </svg>
           </div>
-          <p className="text-black text-lg font-medium text-center mx-5 mt-3">"{scoreName}" will be deleted</p>
+          <p className="text-black text-lg font-medium text-center mx-5 mt-3">
+            "{scoreName}" will be deleted
+          </p>
           <div className={tabStyle.ScorePopupButtons}>
-            
             <Button
               className={tabStyle.secondaryButton}
               onClick={() => {
-                handleClose();
+                close();
                 deleteOne(scoreName);
               }}
               sx={{
@@ -459,7 +447,7 @@ const TableScore = ({ data }) => {
             <Button
               className={tabStyle.primaryButton}
               onClick={() => {
-                handleClose();
+                close();
                 deleteAll(scoreName);
               }}
             >
@@ -467,9 +455,9 @@ const TableScore = ({ data }) => {
             </Button>
           </div>
           <div className={tabStyle.ScorePopupButtons2}>
-          <Button
+            <Button
               className={tabStyle.tertiaryButton}
-              onClick={handleClose}
+              onClick={close}
               sx={{
                 color: "black",
                 "&:hover": {
@@ -480,72 +468,76 @@ const TableScore = ({ data }) => {
             >
               Cancel
             </Button>
-            </div>
+          </div>
         </div>
       </Modal>
       {/* style={{border: "0px solid", transform: "translateX(0px)"}} */}
-      <Table
-        withColumnBorders
-        verticalSpacing="md"
-        striped
-        className={` ${tabStyle.sizeTa} ${tabStyle.font}`}
-        fontSize={18.5}
-      >
-        <thead>
-          <tr>
-            <th
-              className={`${tabStyle.colBig} ${tabStyle.front} ${tabStyle.eachCl}`}
-            >
-              <center>Assignment</center>
-            </th>
-            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
-              <center>Student</center>
-            </th>
-            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
-              <center>Full Score</center>
-            </th>
-            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
-              <center>
-                Mean<br></br>Section
-              </center>
-            </th>
-            {/* <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+      {!isEditScore && (
+        <Table
+          withColumnBorders
+          verticalSpacing="md"
+          striped
+          className={` ${tabStyle.sizeTa} ${tabStyle.font}`}
+          fontSize={18.5}
+        >
+          <thead>
+            <tr>
+              <th
+                className={`${tabStyle.colBig} ${tabStyle.front} ${tabStyle.eachCl}`}
+              >
+                <center>Assignment</center>
+              </th>
+              <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+                <center>Student</center>
+              </th>
+              <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+                <center>Full Score</center>
+              </th>
+              <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+                <center>
+                  Mean<br></br>Section
+                </center>
+              </th>
+              {/* <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
               <center>
                 Mean<br></br>Course
               </center>
             </th> */}
-            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
-              <center>Median</center>
-            </th>
-            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
-              <center>Max</center>
-            </th>
-            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
-              <center>SD</center>
-            </th>
-            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
-              <center>
-                Upper<br></br>Quartile
-              </center>
-            </th>
-            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
-              <center>
-                Lower<br></br>Quartile
-              </center>
-            </th>
-            <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
-              <center>Publish</center>
-            </th>
-            <th
-              className={`${tabStyle.colBig} ${tabStyle.back} ${tabStyle.eachCl}`}
-            >
-              <center>Management</center>
- 
-            </th>
-          </tr>
-        </thead>
-        <tbody className={`${tabStyle.Stbody} ${tabStyle.child}`}>{rows}</tbody>
-      </Table>
+              <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+                <center>Median</center>
+              </th>
+              <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+                <center>Max</center>
+              </th>
+              <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+                <center>SD</center>
+              </th>
+              <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+                <center>
+                  Upper<br></br>Quartile
+                </center>
+              </th>
+              <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+                <center>
+                  Lower<br></br>Quartile
+                </center>
+              </th>
+              <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
+                <center>Publish</center>
+              </th>
+              <th
+                className={`${tabStyle.colBig} ${tabStyle.back} ${tabStyle.eachCl}`}
+              >
+                <center>Management</center>
+              </th>
+            </tr>
+          </thead>
+          <tbody className={`${tabStyle.Stbody} ${tabStyle.child}`}>
+            {rows}
+          </tbody>
+        </Table>
+      )}
+      {isEditScore && <EditStudent />}
     </div>
   );
 };
