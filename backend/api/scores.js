@@ -127,27 +127,25 @@ router.delete("/", async (req, res) => {
       const studentIdsToRemove = scoreToRemove.results.map(
         (score) => score.studentId
       );
-      await Promise.all(
-        studentIdsToRemove.map(async (studentId) => {
-          await studentModel.findOneAndUpdate(
-            {
-              studentId,
-              "courseGrades.courseNo": courseNo,
-              "courseGrades.year": year,
-              "courseGrades.semester": semester,
-              "courseGrades.scores.scoreName": scoreName,
-            },
-            {
-              $pull: {
-                "courseGrades.$.scores": {
-                  scoreName: scoreName,
-                },
+      const studentUpdates = studentIdsToRemove.map((studentId) => ({
+        updateOne: {
+          filter: {
+            studentId,
+            "courseGrades.courseNo": courseNo,
+            "courseGrades.year": year,
+            "courseGrades.semester": semester,
+            "courseGrades.scores.scoreName": scoreName,
+          },
+          update: {
+            $pull: {
+              "courseGrades.$.scores": {
+                scoreName: scoreName,
               },
             },
-            { new: true }
-          );
-        })
-      );
+          },
+        },
+      }));
+      await studentModel.bulkWrite(studentUpdates);
       if (type === "delete_one") {
         sectionToModify.scores = sectionToModify.scores.filter(
           (e) => e.scoreName !== scoreName

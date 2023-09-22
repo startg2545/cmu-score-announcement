@@ -182,6 +182,7 @@ export default function Course166Container() {
     setCourse([]);
     setNoCourse();
     setSections([]);
+    setNoSections();
   }, [params.year, params.semester]);
 
   useEffect(() => {
@@ -221,7 +222,7 @@ export default function Course166Container() {
       if (localStorage.getItem("page") === "upload") {
         setUploadScore(true);
       }
-      if ((!sections.length || !noSections) && course.length) {
+      if (!sections.length && !noSections && course.length) {
         showSection();
       }
     }
