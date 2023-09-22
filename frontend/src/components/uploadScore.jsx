@@ -166,7 +166,8 @@ export default function UploadScorePageContainer() {
                    sm:overflow-y-auto"
       >
         <div className=" bg-white flex w-full items-center justify-center py-3">
-          <p className="text-primary font-semibold text-left lg:text-4xl text-xl min-w-fit pr-5">
+          <p className="text-primary font-semibold text-left min-w-fit pr-5
+                          xl:text-2xl lg:text-2xl md:text-xl sm:text-xl text-xl   ">
             Score File
           </p>
           <input

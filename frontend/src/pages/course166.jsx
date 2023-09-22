@@ -719,12 +719,13 @@ export default function Course166Container() {
 
                           {isUploadScore && (
                             <>
-                              <p className="xl:hidden lg:hidden md:hidden sm:block sm:text-3xl text-2xl">
+                              <p className="xl:hidden lg:hidden md:hidden sm:hidden block 
+                                             text-[29px]">
                                 Upload Score
                               </p>
                               <p
-                                className="xl:text-4xl lg:text-4xl md:text-3xl 
-                                              xl:block lg:block md:block sm:hidden hidden"
+                                className="xl:text-4xl lg:text-4xl md:text-3xl  sm:text-3xl
+                                           xl:block lg:block md:block sm:block hidden"
                               >
                                 {`Upload Score ${params.courseNo}`}
                               </p>

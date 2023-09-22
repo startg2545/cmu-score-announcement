@@ -327,7 +327,7 @@ const Management = ({ data, courseName }) => {
         </div>
       </Modal>
       <div
-        className={`overflow-auto  border-[2px] border-black
+        className={`overflow-auto 
                       ${
                         searchParams.get("section")
                           ? "xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-160px)] h-[calc(85vh-145px)]"
