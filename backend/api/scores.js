@@ -100,14 +100,14 @@ router.delete("/", async (req, res) => {
     const { courseNo, year, semester, scoreName, type } = req.query;
 
     if (type === "delete_one" || type === "unpublish") {
-      const section = req.query.section;
+      const section = parseInt(req.query.section);
       const sections = await scoreModel.findOne({
         courseNo,
         year,
         semester,
       });
       const sectionToModify = sections.sections.find(
-        (e) => e.section === parseInt(section)
+        (e) => e.section === section
       );
       if (!sectionToModify) {
         return res.status(404).send({
