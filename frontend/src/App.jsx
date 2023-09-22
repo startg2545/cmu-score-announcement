@@ -9,6 +9,7 @@ import Home from "./pages";
 import SignIn from "./pages/signIn";
 import StudentDashboard from "./pages/studentDashboard";
 import InstructorDashboard from "./pages/instructorDashboard";
+import AdminDashboard from "./pages/adminDashboard";
 import CourseDetail from "./pages/courseDetail";
 import CMUOAuthCallback from "./pages/cmuOAuthCallback";
 import Course166 from "./pages/course166";
@@ -116,6 +117,11 @@ function App() {
                 exact
                 path="/instructor-dashboard"
                 element={<InstructorDashboard />}
+              />
+              <Route
+                exact
+                path="/admin-dashboard"
+                element={<AdminDashboard />}
               />
               <Route path="/course" element={<Course166 />} />
               <Route exact path="/table-score" element={<TableScore />} />

@@ -3,6 +3,7 @@ import { getCourseName, getAllSections } from "./cpe";
 import { getScores, getScoresCourse, getListStudentScores, deleteScores } from "./scores";
 import { getStudentScores, addStudentGrade, putStudentGrade } from "./student";
 import { getUserInfo, signOut } from "./user";
+import { addCurrent, getCurrent, deleteCurrent } from "./admins"
 
 export {
   addCourse,
@@ -18,4 +19,7 @@ export {
   putStudentGrade,
   getUserInfo,
   signOut,
+  addCurrent,
+  getCurrent,
+  deleteCurrent
 };
