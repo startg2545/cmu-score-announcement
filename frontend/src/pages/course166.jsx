@@ -203,6 +203,7 @@ export default function Course166Container() {
     if (localStorage.getItem("Upload") !== null) {
       setCourse([]);
       setSections([]);
+      setNoSections();
       setUploadScore(false);
       localStorage.removeItem("Upload");
       localStorage.removeItem("page");
