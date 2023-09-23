@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
@@ -357,20 +358,11 @@ export default function Course166Container() {
             {isSelectedCourse ? null : (
               <>
                 <div
-                  className=" text-maintext font-semibold cursor-default py-4 
+                  className=" text-maintext font-semibold cursor-default py-2 
                                  xl:mt-20 lg:mt-19 md:mt-16 sm:mt-16 mt-16 
                                  xl:px-10lg: lg:px-9 md: md:px-8 sm:px-8  px-6
                                  "
-                >
-                  {/* header courses : courses number, date, add course button */}
-
-                  <div
-                    className="flex w-full  justify-between
-                                   xl:flex-row lg:flex-row  md:flex-row sm:flex-row  flex-row
-                                   xl:gap-0 lg:gap-0  md:gap-0 sm:gap-0  gap-0
-                                  "
-                  ></div>
-                </div>
+                ></div>
                 {/* <Modal
                   opened={deleteCourse[0]}
                   onClose={deleteCourse[1].close}
@@ -540,7 +532,7 @@ export default function Course166Container() {
                 </Modal>
 
                 <div className="mx-[1%] lg:mt-3 max-h-screen">
-                  <div className="lg:rounded-xl rounded-xl xl:h-[calc(84vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary">
+                  <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary">
                     <div className="flex flex-col">
                       <div className="mb-4 bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
                         <div className="flex items-start flex-col justify-center ">
@@ -552,12 +544,12 @@ export default function Course166Container() {
                             {formatDate(currentDate)}
                           </p>
                         </div>
-                        <div className=" flex lg:flex-row  md:flex-row flex-col gap-3 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
+                        <div className=" flex lg:flex-row  md:flex-row flex-col gap-3 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22">
                           <div
-                            className={`px-2  py-[6px] items-center flex lg:text-xl text-sm  lg:px-4 lg:py-1 rounded-xl hover:text-white duration-150 gap-2 ${
+                            className={`lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer hover:text-black    ${
                               isDelete
-                                ? "text-white-600 border-green-600 hover: hover:bg-green-600"
-                                : "text-white-500 border-red-500 hover: hover:bg-red-500"
+                                ? "text-black-600 border-green-500 hover: hover:bg-green-400"
+                                : "text-black-500 border-red-500 hover: hover:bg-red-400"
                             }`}
                             onClick={() => setIsDelete(!isDelete)}
                           >
@@ -592,7 +584,7 @@ export default function Course166Container() {
                       )}
                       {course.map((item, key) => {
                         return (
-                          <div className="flex-col flex py-3 lg:px-4 gap-2 cursor-pointer">
+                          <div className="flex-col flex lg:px-4 cursor-pointer lg:text-2xl px-5 py-3">
                             {isDelete && (
                               <AiFillMinusCircle
                                 className=" text-4xl text-red-500 cursor-pointer"
@@ -604,14 +596,14 @@ export default function Course166Container() {
                               className=" bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary items-center transition-all duration-100 shadow-lg fade-bottom lg:text-2xl px-5 "
                               onClick={() => onClickCourse(item)}
                             >
-                              <div className="lg:px-5 px-3 py-2 font-medium group-hover:cursor-pointer flex justify-between items-center">
+                              <div className="lg:px-5 px-3 py-3 font-medium group-hover:cursor-pointer flex justify-between items-center">
                                 <div className="text-white lg:text-2xl text-lg">
                                   {item.courseNo}
                                   {item.courseName
                                     ? ` - ${item.courseName}`
                                     : null}
                                 </div>
-                                <HiChevronRight className="lg:text-3xl text-xl mx-3 text-white" />
+                                {/* <HiChevronRight className="lg:text-3xl text-xl mx-1 text-white" /> */}
                               </div>
                             </div>
                           </div>
@@ -857,3 +849,4 @@ export default function Course166Container() {
     </>
   );
 }
+
