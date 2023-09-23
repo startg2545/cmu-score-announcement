@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getStudentScores, getScoresCourse, socket } from "../services";
 import { HiChevronRight } from "react-icons/hi";
@@ -8,11 +8,13 @@ import { Text, Progress } from "@mantine/core";
 import { Chart } from "chart.js/auto";
 import annotationPlugin from "chartjs-plugin-annotation";
 import { Line } from "react-chartjs-2";
+import { CurrentContext } from "../context";
 
 Chart.register(annotationPlugin);
 
 export default function StudentDashboard() {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const { current } = useContext(CurrentContext);
   const [message, setMessage] = useState();
   const [courseList, setCourseList] = useState([]);
   const [section, setSection] = useState();
@@ -50,7 +52,9 @@ export default function StudentDashboard() {
   const [yValues, setYValues] = useState([]);
 
   const fetchData = async () => {
-    const data = await getStudentScores();
+    const year = current[0].year;
+    const semester = current[0].semester;
+    const data = await getStudentScores(year, semester);
     if (data) {
       if (data.ok) {
         setCourseList(data.scores.courseGrades);
@@ -118,10 +122,6 @@ export default function StudentDashboard() {
   }, [xValues]);
 
   // Function to format the date as "XX Aug, 20XX"
-  const formatDate = (date) => {
-    const options = { day: "numeric", month: "short", year: "numeric" };
-    return date.toLocaleDateString("en-US", options);
-  };
 
   // Format the date with the Buddhist year and "BE" format.
   const formatDateBE = (date) => {
