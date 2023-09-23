@@ -47,7 +47,10 @@ router.get("/", async (req, res) => {
         })
         .filter(Boolean);
 
-      if (sections.length) return res.send({ ok: true, course: sections });
+      if (sections.length) {
+        sections.sort((a,b) => a.courseNo - b.courseNo)
+        return res.send({ ok: true, course: sections });
+      } 
       else return res.send({ ok: false, message: "No Course" });
     }
   } catch (err) {
