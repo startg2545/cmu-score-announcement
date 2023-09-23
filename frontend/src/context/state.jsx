@@ -4,7 +4,7 @@ const StateContext = createContext({
   showSidebar: false,
   handleSidebarClick: () => {},
   isUploadScore: false,
-  setIsUploadScore: () => {},
+  setUploadScore: () => {},
 });
 
 export default StateContext;
