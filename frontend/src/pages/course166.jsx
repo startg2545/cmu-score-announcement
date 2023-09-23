@@ -10,7 +10,7 @@ import {
   getScores,
   signOut,
   deleteCourseReally,
-  socket
+  socket,
 } from "../services";
 import { Modal, Checkbox } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -177,10 +177,10 @@ export default function Course166Container() {
 
   const clickDeleteCourse = async (course) => {
     await deleteCourseReally({
-      courseNo: course, 
-      year: searchParams.get('year'),
-      semester: searchParams.get('semester'),
-    })
+      courseNo: course,
+      year: searchParams.get("year"),
+      semester: searchParams.get("semester"),
+    });
   };
 
   const fetchData = async () => {
@@ -579,8 +579,10 @@ export default function Course166Container() {
                       return (
                         <div className=" flex-row flex w-full gap-3 items-center">
                           {isDelete && (
-                            <AiFillMinusCircle className=" text-4xl text-red-500 cursor-pointer" 
-                            onClick={() => clickDeleteCourse(item.courseNo)}/>
+                            <AiFillMinusCircle
+                              className=" text-4xl text-red-500 cursor-pointer"
+                              onClick={() => clickDeleteCourse(item.courseNo)}
+                            />
                           )}
                           <div
                             key={key}
@@ -725,7 +727,9 @@ export default function Course166Container() {
                                 ? "pointer"
                                 : "default",
                           }}
-                          onClick={backToSec}
+                          onClick={() => {
+                            backToSec();
+                          }}
                         >
                           Section{" "}
                           {searchParams.get("section") < 10
@@ -765,8 +769,10 @@ export default function Course166Container() {
 
                           {isUploadScore && (
                             <>
-                              <p className="xl:hidden lg:hidden md:hidden sm:hidden block 
-                                             text-[29px]">
+                              <p
+                                className="xl:hidden lg:hidden md:hidden sm:hidden block 
+                                             text-[29px]"
+                              >
                                 Upload Score
                               </p>
                               <p
