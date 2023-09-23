@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
-import { ShowSidebarContext, CurrentContext } from "../context";
+import { StateContext, CurrentContext } from "../context";
 import secMan from "../components/css/manage.module.css";
 import {
   addCoInstructors,
@@ -40,7 +40,7 @@ export default function Course166Container() {
   const [sections, setSections] = useState([]);
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [opened, { open, close }] = useDisclosure(false);
-  const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
+  const { showSidebar, handleSidebarClick } = useContext(StateContext);
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
@@ -237,7 +237,7 @@ export default function Course166Container() {
 
     if (!course.length && !noCourse) fetchData();
 
-    if (params.courseNo) {
+    if (searchParams.get("courseNo")) {
       setSelectedCourse(true);
     } else {
       setSelectedCourse(false);
@@ -245,7 +245,7 @@ export default function Course166Container() {
       localStorage.clear();
     }
 
-    if (params.courseNo) {
+    if (searchParams.get("courseNo")) {
       if (localStorage.getItem("page") === "upload") {
         setUploadScore(true);
       }

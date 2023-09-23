@@ -1,6 +1,6 @@
 import { PAGE, ROLE } from "./enum";
-import ShowSidebarContext from "./showSidebarContex";
+import StateContext from "./state";
 import UserInfoContext from "./userInfo";
 import CurrentContext from "./current";
 
-export { PAGE, ROLE, ShowSidebarContext, UserInfoContext, CurrentContext };
+export { PAGE, ROLE, StateContext, UserInfoContext, CurrentContext };

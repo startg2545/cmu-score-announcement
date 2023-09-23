@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import { getUserInfo, getCurrent, socket } from "./services";
-import { ROLE, ShowSidebarContext, UserInfoContext, CurrentContext } from "./context";
+import { ROLE, StateContext, UserInfoContext, CurrentContext } from "./context";
 import { CMUNavbar, TableScore } from "./components";
 import Home from "./pages";
 import SignIn from "./pages/signIn";
@@ -16,7 +16,7 @@ import Course166 from "./pages/course166";
 import EditStudent from "./components/editStudent";
 
 function App() {
-  const [current, setCurrent] = useState([])
+  const [current, setCurrent] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
   const pathname = window.location.pathname;
@@ -38,15 +38,15 @@ function App() {
 
   const fetchCurrent = async () => {
     const resp = await getCurrent();
-    setCurrent(resp)
-  }
+    setCurrent(resp);
+  };
 
   useEffect(() => {
     socket.on("currentUpdate", (newCurrent) => {
       fetchCurrent();
     });
   }, []);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       if (!userInfo) {
@@ -64,13 +64,12 @@ function App() {
       fetchData();
     }
 
-    if (!current.length) fetchCurrent()
-
+    if (!current.length) fetchCurrent();
   }, [userInfo, showSidebar, setUser, current]);
 
   return (
     <MantineProvider>
-      <ShowSidebarContext.Provider
+      <StateContext.Provider
         value={{
           showSidebar: showSidebar,
           handleSidebarClick: handleSidebarClick,
@@ -82,46 +81,46 @@ function App() {
             setUserInfo: setUserInfo,
           }}
         >
-        <CurrentContext.Provider
-          value={{
-            current: current,
-            setCurrent: setCurrent,
-          }}
-        >
-          <Router>
-            <CMUNavbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route exact path="/sign-in" element={<SignIn />} />
-              <Route
-                exact
-                path="/cmuOAuthCallback"
-                element={<CMUOAuthCallback />}
-              />
-              <Route
-                exact
-                path="/student-dashboard"
-                element={<StudentDashboard />}
-              />
-              <Route
-                exact
-                path="/instructor-dashboard"
-                element={<InstructorDashboard />}
-              />
-              <Route
-                exact
-                path="/admin-dashboard"
-                element={<AdminDashboard />}
-              />
-              <Route path="/course" element={<Course166 />} />
-              <Route exact path="/table-score" element={<TableScore />} />
-              <Route path="/course-detail" element={<CourseDetail />} />
-              <Route path="/edit-student" element={<EditStudent />} />
-            </Routes>
-          </Router>
+          <CurrentContext.Provider
+            value={{
+              current: current,
+              setCurrent: setCurrent,
+            }}
+          >
+            <Router>
+              <CMUNavbar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route exact path="/sign-in" element={<SignIn />} />
+                <Route
+                  exact
+                  path="/cmuOAuthCallback"
+                  element={<CMUOAuthCallback />}
+                />
+                <Route
+                  exact
+                  path="/student-dashboard"
+                  element={<StudentDashboard />}
+                />
+                <Route
+                  exact
+                  path="/instructor-dashboard"
+                  element={<InstructorDashboard />}
+                />
+                <Route
+                  exact
+                  path="/admin-dashboard"
+                  element={<AdminDashboard />}
+                />
+                <Route path="/course" element={<Course166 />} />
+                <Route exact path="/table-score" element={<TableScore />} />
+                <Route path="/course-detail" element={<CourseDetail />} />
+                <Route path="/edit-student" element={<EditStudent />} />
+              </Routes>
+            </Router>
           </CurrentContext.Provider>
         </UserInfoContext.Provider>
-      </ShowSidebarContext.Provider>
+      </StateContext.Provider>
     </MantineProvider>
   );
 }

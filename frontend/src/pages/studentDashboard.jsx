@@ -52,8 +52,8 @@ export default function StudentDashboard() {
   const [yValues, setYValues] = useState([]);
 
   const fetchData = async () => {
-    const year = current[0].year;
-    const semester = current[0].semester;
+    const year = current[0]?.year;
+    const semester = current[0]?.semester;
     const data = await getStudentScores(year, semester);
     if (data) {
       if (data.ok) {
