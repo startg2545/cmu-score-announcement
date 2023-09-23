@@ -10,7 +10,7 @@ import {
   getScores,
   signOut,
   deleteCourseReally,
-  socket
+  socket,
 } from "../services";
 import { Modal, Checkbox } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -177,10 +177,10 @@ export default function Course166Container() {
 
   const clickDeleteCourse = async (course) => {
     await deleteCourseReally({
-      courseNo: course, 
-      year: searchParams.get('year'),
-      semester: searchParams.get('semester'),
-    })
+      courseNo: course,
+      year: searchParams.get("year"),
+      semester: searchParams.get("semester"),
+    });
   };
 
   const fetchData = async () => {
@@ -358,48 +358,7 @@ export default function Course166Container() {
               <>
                 <div className=" py-4 lg:mt-20 md:mt-16 mt-16 px-5 lg:px-10 text-maintext font-semibold cursor-default">
                   {/* header courses : courses number, date, add course button */}
-                  <div className="flex w-full justify-between">
-                    <div className="flex-col flex lg:gap-1">
-                      <span className="text-2xl md:text-4xl lg:text-5xl">
-                        Course {params.semester}/
-                        {params.year ? params.year.slice(2) : params.year}
-                      </span>
-                      <span className="text-md lg:text-2xl">
-                        {formatDate(currentDate)}
-                      </span>
-                    </div>
-                    <div className="flex items-end gap-5">
-                      <button
-                        className={`px-2  py-[6px] items-center flex lg:text-xl text-sm  border-2 lg:px-4 lg:py-1 rounded-xl hover:text-white duration-150 gap-2 ${
-                          isDelete
-                            ? "text-green-600 border-green-600 hover: hover:bg-green-600"
-                            : "text-red-500 border-red-500 hover: hover:bg-red-500"
-                        }`}
-                        onClick={() => setIsDelete(!isDelete)}
-                      >
-                        {!isDelete && (
-                          <>
-                            {" "}
-                            <RiDeleteBin6Line className="lg:text-3xl text-xl" />
-                            <span>Delete</span>{" "}
-                          </>
-                        )}
-                        {isDelete && (
-                          <>
-                            <MdDone className="lg:text-3xl text-xl" />
-                            <span>Done</span>
-                          </>
-                        )}
-                      </button>
-                      <button
-                        className="text-primary px-2 py-[6px] items-center flex lg:text-xl text-sm border-primary border-2 lg:px-3 lg:py-1 rounded-xl hover:text-white hover:bg-primary duration-150 "
-                        onClick={addCourseButton[1].open}
-                      >
-                        <FiPlus className="lg:text-3xl text-xl" />
-                        <span>Add Course</span>
-                      </button>
-                    </div>
-                  </div>
+                  
                 </div>
                 {/* <Modal
                   opened={deleteCourse[0]}
@@ -568,8 +527,51 @@ export default function Course166Container() {
                     </div>
                   </form>
                 </Modal>
-                <div className="mx-3 py-3 lg:mx-[1.5%]">
-                  <div className="p-5 flex-col flex gap-5  border-[3px] border-primary rounded-2xl shadow-xl lg:max-h-full md:max-h-full max-h-[400px] lg:overflow-visible overflow-x-auto">
+                <div className="mx-[1%] lg:mt-3 max-h-screen">
+                <div className="lg:rounded-xl rounded-xl xl:h-[calc(84vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary">
+                  <div className="flex flex-col">
+                    <div className="mb-4 bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
+                      <div className="flex items-start flex-col justify-center ">
+                        <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
+                          Course {params.semester}/
+                          {params.year ? params.year.slice(2) : params.year}
+                        </p>
+                        <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
+                          {formatDate(currentDate)}
+                        </p>
+                      </div>
+                      <div className=" flex lg:flex-row  md:flex-row flex-col gap-3 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
+                        <div
+                          className={`px-2  py-[6px] items-center flex lg:text-xl text-sm  lg:px-4 lg:py-1 rounded-xl hover:text-white duration-150 gap-2 ${
+                            isDelete
+                              ? "text-white-600 border-green-600 hover: hover:bg-green-600"
+                              : "text-white-500 border-red-500 hover: hover:bg-red-500"
+                          }`}
+                          onClick={() => setIsDelete(!isDelete)}
+                        >
+                          {!isDelete && (
+                            <>
+                              {" "}
+                              <RiDeleteBin6Line className="lg:text-3xl text-xl" />
+                              <span>Delete</span>{" "}
+                            </>
+                          )}
+                          {isDelete && (
+                            <>
+                              <MdDone className="lg:text-3xl text-xl" />
+                              <span>Done</span>
+                            </>
+                          )}
+                        </div>
+                        <div
+                          className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
+                          onClick={addCourseButton[1].open}
+                        >
+                          <FiPlus className="lg:text-3xl text-xl " />
+                          <span>Add Course</span>
+                        </div>
+                      </div>
+                    </div>
                     {noCourse && (
                       <div className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl transition-all duration-100 fade-bottom my-32 ">
                         {noCourse}
@@ -577,14 +579,16 @@ export default function Course166Container() {
                     )}
                     {course.map((item, key) => {
                       return (
-                        <div className=" flex-row flex w-full gap-3 items-center">
+                        <div className="flex-col flex py-3 lg:px-4 gap-2 cursor-pointer">
                           {isDelete && (
-                            <AiFillMinusCircle className=" text-4xl text-red-500 cursor-pointer" 
-                            onClick={() => clickDeleteCourse(item.courseNo)}/>
+                            <AiFillMinusCircle
+                              className=" text-4xl text-red-500 cursor-pointer"
+                              onClick={() => clickDeleteCourse(item.courseNo)}
+                            />
                           )}
                           <div
                             key={key}
-                            className="w-full bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary items-center transition-all duration-100 fade-bottom"
+                            className=" bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary items-center transition-all duration-100 shadow-lg fade-bottom lg:text-2xl px-5 "
                             onClick={() => onClickCourse(item)}
                           >
                             <div className="lg:px-5 px-3 py-2 font-medium group-hover:cursor-pointer flex justify-between items-center">
@@ -601,6 +605,7 @@ export default function Course166Container() {
                       );
                     })}
                   </div>
+                </div>
                 </div>
               </>
             )}
@@ -681,7 +686,7 @@ export default function Course166Container() {
             {isSelectedCourse && (
               <div className="mx-[2%] lg:mt-24 mt-20 max-h-screen">
                 <div className="  pb-2 xl:mb-5 lg:mb-4 md:mb-3 mb-2  ">
-                  <p className="flex flex-row items-center font-semibold text-primary gap-3 xl:-mt-2.5 lg:-mt-5 md:-mt-2.5 -mt-2 ">
+                  <p className="flex flex-row items-center font-semibold text-primary gap-2 xl:-mt-2.5 lg:-mt-5 md:-mt-2.5 -mt-2 ">
                     <p
                       onClick={backToDashboard}
                       className="text-primary lg:text-xl text-md cursor-pointer"
@@ -754,19 +759,21 @@ export default function Course166Container() {
                   <div className="mt-3 border-b-[3px] border-primary shadow-inset-md opacity-25"></div>
                 </div>
 
-                <div className="lg:rounded-2xl rounded-xl xl:h-[calc(84vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary">
+                <div className="lg:rounded-xl rounded-xl xl:h-[calc(84vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary">
                   <div className="flex flex-col">
                     <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between cursor-default">
                       <div className="flex items-start flex-col justify-center ">
-                        <p className=" text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
+                        <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
                           {isSelectedCourse &&
                             !isUploadScore &&
                             params.courseNo}
 
                           {isUploadScore && (
                             <>
-                              <p className="xl:hidden lg:hidden md:hidden sm:hidden block 
-                                             text-[29px]">
+                              <p
+                                className="xl:hidden lg:hidden md:hidden sm:hidden block 
+                                             text-[29px]"
+                              >
                                 Upload Score
                               </p>
                               <p
