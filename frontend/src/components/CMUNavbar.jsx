@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { Flex, Text, Menu } from "@mantine/core";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROLE, ShowSidebarContext, UserInfoContext } from "../context";
-import { signOut } from "../services";
+import { signOut, getCurrent } from "../services";
 import cmulogo from "../image/cmulogo2.png";
 import { FaSignOutAlt } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -12,35 +12,36 @@ import { HiChevronRight } from "react-icons/hi";
 import { CheckPermission } from "../utility/main";
 
 const CMUNavbar = () => {
+  const [current, setCurrent] = useState([])
   const { handleSidebarClick } = useContext(ShowSidebarContext);
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const { pathname } = useLocation();
   const withoutNavbar = ["/sign-in", "/cmuOAuthCallback", "/errorView"];
   const navigate = useNavigate();
   const [mobileSidebar, setMobileSidebar] = useState(false);
-
-  //  useEffect(() => {
-  //   if(userInfo.itAccountType ) {
-  //     const check = async () => {
-  //       const isPermission = await CheckPermission(userInfo.itAccountType, pathname);
-  //       if (!isPermission) {
-  //         setUserInfo(null);
-  //         await signOut().finally(navigate("/sign-in"));
-  //       };
-  //     };
-  //     check();
-  //   }
-  //   else if (!withoutNavbar.includes(pathname)){
-  //     navigate('/sign-in')
-  //   }
-  // },[pathname, userInfo, navigate])
+  
+  useEffect(()=>{
+    const fetchData = async () => {
+      const resp = await getCurrent()
+      const arr = []
+      resp.map(e=>{
+        let obj = {
+          semester: e.semester,
+          year: e.year
+        }
+        arr.push(obj)
+      })
+      console.log(arr)
+      setCurrent(arr)
+    }
+    fetchData()
+  }, [])
 
   // Sidebar
   const handleSidebar = () => {
     setMobileSidebar(!mobileSidebar);
     handleSidebarClick(true);
   };
-  // Sidebar
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -54,14 +55,9 @@ const CMUNavbar = () => {
     navToSemesterYear(semester, year);
   };
 
-  const courseData = [
-    { semester: 1, year: 66 },
-    { semester: 3, year: 65 },
-    { semester: 2, year: 65 },
-    { semester: 1, year: 65 },
-  ];
   if (withoutNavbar.some((path) => pathname.includes(path))) return null;
   const userRole = userInfo.itAccountType !== "MISEmpAcc" ? "hidden" : "flex";
+
 
   return (
     <>
@@ -83,7 +79,7 @@ const CMUNavbar = () => {
           <div className="flex flex-col rounded-md min-h-screen h-full justify-between">
             <div className="flex flex-col py-2">
               <ul className="flex flex-col gap-3 pt-5 pb-10 text-gray-800 justify-center text-center items-center font-semibold mx-3">
-                {courseData.map((data, i) => (
+                {current.map((data, i) => (
                   <li
                     className="w-full justify-center flex cursor-pointer gap-1 text-2xl items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl "
                     key={i}
