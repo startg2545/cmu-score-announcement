@@ -50,15 +50,6 @@ export default function Course166Container() {
   const [checkedCourses, setCheckedCourse] = useState([]);
   const [countChecked, setCountChecked] = useState(0);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const resp = await getCurrent();
-      console.log(resp);
-      setCurrent(resp);
-    };
-    fetchData();
-  }, [setCurrent]);
-
   const navToSemesterYear = (semester, year) => {
     navigate({
       pathname: "/course",
