@@ -13,7 +13,7 @@ import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 
 export default function UploadScorePageContainer() {
   const [sections, setSections] = useState([]);
-  const { showSidebar } = useContext(StateContext);
+  const {isUploadScore, setUploadScore } = useContext(StateContext);
   const [searchParams, setSearchParams] = useSearchParams({});
   const { userInfo } = useContext(UserInfoContext);
   const [courseNo, setCourseNo] = useState(0);
@@ -45,9 +45,9 @@ export default function UploadScorePageContainer() {
       setShowLoadComplete(true);
       setTimeout(() => {
         setShowLoadComplete(false);
-      }, 700);
-      localStorage.setItem("Upload", true);
+      }, 1000);
     }
+    localStorage.removeItem("page");
   };
 
   const [currentDate, setCurrentDate] = useState(new Date());

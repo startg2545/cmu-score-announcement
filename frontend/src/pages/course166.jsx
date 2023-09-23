@@ -33,14 +33,14 @@ export default function Course166Container() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [courseSelected, setCourseSelected] = useState();
   const [isSelectedCourse, setSelectedCourse] = useState(false);
-  const [isUploadScore, setUploadScore] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [params, setParams] = useState({});
   const [noSections, setNoSections] = useState();
   const [sections, setSections] = useState([]);
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [opened, { open, close }] = useDisclosure(false);
-  const { showSidebar, handleSidebarClick } = useContext(StateContext);
+  const { showSidebar, handleSidebarClick, isUploadScore, setUploadScore } =
+    useContext(StateContext);
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
@@ -229,12 +229,6 @@ export default function Course166Container() {
       return navigate("/instructor-dashboard");
     }
 
-    if (localStorage.getItem("Upload") !== null) {
-      setUploadScore(false);
-      localStorage.removeItem("Upload");
-      localStorage.removeItem("page");
-    }
-
     if (!course.length && !noCourse) fetchData();
 
     if (searchParams.get("courseNo")) {
@@ -262,7 +256,6 @@ export default function Course166Container() {
   }, [
     course,
     sections,
-    localStorage.getItem("Upload"),
     getParams,
     params,
     searchParams,

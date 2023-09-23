@@ -19,6 +19,7 @@ function App() {
   const [current, setCurrent] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
+  const [isUploadScore, setUploadScore] = useState(false);
   const pathname = window.location.pathname;
   const notFetchUser = ["/sign-in", "/cmuOAuthCallback", "/errorView"];
 
@@ -73,6 +74,8 @@ function App() {
         value={{
           showSidebar: showSidebar,
           handleSidebarClick: handleSidebarClick,
+          isUploadScore: isUploadScore, 
+          setUploadScore: setUploadScore,
         }}
       >
         <UserInfoContext.Provider
