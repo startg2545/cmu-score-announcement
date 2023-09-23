@@ -1,14 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShowSidebarContext } from "../context";
 import { FaSignOutAlt } from "react-icons/fa";
-import { signOut } from "../services";
+import { signOut, getCurrent } from "../services";
 import { FaChevronRight } from "react-icons/fa";
 
 const Dashboard = () => {
+  const [current, setCurrent] = useState([])
   const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
-  const navigate = useNavigate();
   const [sidebar, setLgSidebar] = useState(false);
+  
+  const navigate = useNavigate();
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -22,12 +24,23 @@ const Dashboard = () => {
     navToSemesterYear(semester, year);
   };
 
-  const courseData = [
-    { semester: 1, year: 66 },
-    { semester: 3, year: 65 },
-    { semester: 2, year: 65 },
-    { semester: 1, year: 65 },
-  ];
+  useEffect(()=>{
+    const fetchData = async () => {
+      const resp = await getCurrent()
+      const arr = []
+      resp.map(e=>{
+        let obj = {
+          semester: e.semester,
+          year: e.year
+        }
+        arr.push(obj)
+      })
+      console.log(arr)
+      setCurrent(arr)
+    }
+    fetchData()
+  }, [])
+
   return (
     <div className="flex flex-row gap-3 justify-center">
          <div
@@ -39,7 +52,7 @@ const Dashboard = () => {
         >
           <div className="flex flex-col px-3 py-14">
             <ul className="flex flex-col gap-3 pt-2 pb-10 text-gray-800 justify-center text-center items-center font-semibold ">
-              {courseData.map((data, i) => (
+              {current.map((data, i) => (
                 <li
                   className="w-full flex flex-row cursor-pointer justify-center gap-2 text-lg items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl mr-3"
                   key={i}

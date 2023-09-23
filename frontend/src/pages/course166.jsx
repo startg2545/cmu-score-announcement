@@ -24,7 +24,7 @@ import { FiPlus } from "react-icons/fi";
 import { BiPlus } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import courseData from "./courseData";
+import { getCurrent } from "../services";
 import { TextInput, Button, Flex } from "@mantine/core";
 import Course from "./css/course166.module.css";
 
@@ -47,8 +47,18 @@ export default function Course166Container() {
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
   const deleteCourse = useDisclosure();
+  const [current, setCurrent] = useState([])
   const [checkedCourses, setCheckedCourse] = useState([]);
   const [countChecked, setCountChecked] = useState(0);
+
+  useEffect(()=>{
+    const fetchData = async () => {
+      const resp = await getCurrent()
+      console.log(resp)
+      setCurrent(resp)
+  }
+  fetchData()
+  }, [setCurrent])
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -326,7 +336,7 @@ export default function Course166Container() {
         >
           <div className="flex flex-col px-3 py-14">
             <ul className="flex flex-col gap-3 pt-2 pb-10 text-gray-800 justify-center text-center items-center font-semibold ">
-              {courseData.map((data, i) => (
+              {current.map((data, i) => (
                 <li
                   className="w-full flex flex-row cursor-pointer justify-center gap-2 text-lg items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl mr-3"
                   key={i}
