@@ -1,4 +1,3 @@
-
 import React, { useState, useContext, useEffect } from "react";
 import { Flex, Text, Menu } from "@mantine/core";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -12,7 +11,6 @@ import { HiChevronRight } from "react-icons/hi";
 import { CheckPermission } from "../utility/main";
 
 const CMUNavbar = () => {
-  // const [current, setCurrent] = useState([])
   const { handleSidebarClick } = useContext(ShowSidebarContext);
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const { current } = useContext(CurrentContext);

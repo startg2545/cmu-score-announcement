@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
-import { getUserInfo, getCurrent } from "./services";
+import { getUserInfo, getCurrent, socket } from "./services";
 import { ROLE, ShowSidebarContext, UserInfoContext, CurrentContext } from "./context";
 import { CMUNavbar, TableScore } from "./components";
 import Home from "./pages";
@@ -13,7 +13,6 @@ import AdminDashboard from "./pages/adminDashboard";
 import CourseDetail from "./pages/courseDetail";
 import CMUOAuthCallback from "./pages/cmuOAuthCallback";
 import Course166 from "./pages/course166";
-import ErrorView from "./pages/errorView";
 import EditStudent from "./components/editStudent";
 
 function App() {
@@ -37,18 +36,16 @@ function App() {
     });
   };
 
-  const getCurrentDimension = () => {
-    return {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
-  };
-  const [screenSize, setScreenSize] = useState(getCurrentDimension());
-
   const fetchCurrent = async () => {
     const resp = await getCurrent();
     setCurrent(resp)
   }
+
+  useEffect(() => {
+    socket.on("currentUpdate", (newCurrent) => {
+      fetchCurrent();
+    });
+  }, []);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -95,7 +92,6 @@ function App() {
             <CMUNavbar />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route exact path="/errorView" element={<ErrorView />} />
               <Route exact path="/sign-in" element={<SignIn />} />
               <Route
                 exact

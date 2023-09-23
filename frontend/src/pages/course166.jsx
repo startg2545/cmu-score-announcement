@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
-import { ShowSidebarContext } from "../context";
+import { ShowSidebarContext, CurrentContext } from "../context";
 import secMan from "../components/css/manage.module.css";
 import {
   addCoInstructors,
@@ -23,7 +23,6 @@ import { FiPlus } from "react-icons/fi";
 import { BiPlus } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { getCurrent } from "../services";
 import { TextInput, Button, Flex } from "@mantine/core";
 import Course from "./css/course166.module.css";
 
@@ -45,10 +44,9 @@ export default function Course166Container() {
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
-  const deleteCourse = useDisclosure();
-  const [current, setCurrent] = useState([]);
   const [checkedCourses, setCheckedCourse] = useState([]);
   const [countChecked, setCountChecked] = useState(0);
+  const { current } = useContext(CurrentContext)
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -318,6 +316,10 @@ export default function Course166Container() {
     courseForm.reset();
   };
 
+  const isCurrent = searchParams.get("year") == current[0]?.year &&
+  searchParams.get("semester") ==
+    current[0]?.semester
+
   return (
     <>
       {/* <SideBar /> */}
@@ -336,7 +338,7 @@ export default function Course166Container() {
                   className="w-full flex flex-row cursor-pointer justify-center gap-2 text-lg items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl mr-3"
                   key={i}
                   onClick={() => {
-                    handleSemesterYear(data.semester, `25${data.year}`);
+                    handleSemesterYear(data.semester, data.year);
                   }}
                 >
                   <FaChevronRight className="text-lg" />
@@ -446,7 +448,9 @@ export default function Course166Container() {
 
                 <div className="mx-[1%] lg:mt-3 max-h-screen">
                   <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary">
-                    <div className={`flex flex-col ${noCourse ? "h-full" : ""}`}>
+                    <div
+                      className={`flex flex-col ${noCourse ? "h-full" : ""}`}
+                    >
                       <div className="mb-4 bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
                         <div className="flex items-start flex-col justify-center ">
                           <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
@@ -457,47 +461,49 @@ export default function Course166Container() {
                             {formatDate(currentDate)}
                           </p>
                         </div>
-                        <div className=" flex lg:flex-row  md:flex-row flex-col gap-3 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22">
-                          <div
-                            className={`lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer ${
-                              isDelete
-                                ? " border-green-500 hover: hover:bg-green-400"
-                                : " border-red-500 hover: hover:bg-red-400"
-                            }`}
-                            onClick={() => setIsDelete(!isDelete)}
-                          >
-                            {!isDelete && (
-                              <>
-                                {" "}
-                                <RiDeleteBin6Line className="lg:text-3xl text-xl" />
-                                <span>Delete</span>{" "}
-                              </>
+                        { isCurrent && (
+                            <div className=" flex lg:flex-row  md:flex-row flex-col gap-3 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22">
+                              <div
+                                className={`lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer ${
+                                  isDelete
+                                    ? " border-green-500 hover: hover:bg-green-400"
+                                    : " border-red-500 hover: hover:bg-red-400"
+                                }`}
+                                onClick={() => setIsDelete(!isDelete)}
+                              >
+                                {!isDelete && (
+                                  <>
+                                    {" "}
+                                    <RiDeleteBin6Line className="lg:text-3xl text-xl" />
+                                    <span>Delete</span>{" "}
+                                  </>
+                                )}
+                                {isDelete && (
+                                  <>
+                                    <MdDone className="lg:text-3xl text-xl" />
+                                    <span>Done</span>
+                                  </>
+                                )}
+                              </div>
+                              <div
+                                className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
+                                onClick={addCourseButton[1].open}
+                              >
+                                <FiPlus className="lg:text-3xl text-xl " />
+                                <span>Add Course</span>
+                              </div>
+                            </div>
                             )}
-                            {isDelete && (
-                              <>
-                                <MdDone className="lg:text-3xl text-xl" />
-                                <span>Done</span>
-                              </>
-                            )}
-                          </div>
-                          <div
-                            className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
-                            onClick={addCourseButton[1].open}
-                          >
-                            <FiPlus className="lg:text-3xl text-xl " />
-                            <span>Add Course</span>
-                          </div>
-                        </div>
                       </div>
                       {noCourse && (
                         <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
-                        <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
-                          {noCourse}
-                        </p>
-                        <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 ">
-                          Click add course at top right corner
-                        </span>
-                      </div>
+                          <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
+                            {noCourse}
+                          </p>
+                          <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 ">
+                            Click add course at top right corner
+                          </span>
+                        </div>
                       )}
                       {course.map((item, key) => {
                         return (
@@ -715,7 +721,7 @@ export default function Course166Container() {
                         </p>
                       </div>
 
-                      <div className=" flex lg:flex-row  md:flex-row flex-col gap-1 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
+                      { isCurrent && <div className=" flex lg:flex-row  md:flex-row flex-col gap-1 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
                         <div
                           className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-end md:justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md
                                     "
@@ -741,7 +747,7 @@ export default function Course166Container() {
                           <BiPlus />
                           <p>Upload Score</p>
                         </div>
-                      </div>
+                      </div>}
                     </div>
                     {/* <div className="flex items-center justify-center  text-center bg-red-100">
                       {!isUploadScore && sections.length === 0 && (
