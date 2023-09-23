@@ -46,7 +46,7 @@ export default function Course166Container() {
   const addCourseButton = useDisclosure();
   const [checkedCourses, setCheckedCourse] = useState([]);
   const [countChecked, setCountChecked] = useState(0);
-  const { current } = useContext(CurrentContext)
+  const { current } = useContext(CurrentContext);
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -316,9 +316,9 @@ export default function Course166Container() {
     courseForm.reset();
   };
 
-  const isCurrent = searchParams.get("year") == current[0]?.year &&
-  searchParams.get("semester") ==
-    current[0]?.semester
+  const isCurrent =
+    searchParams.get("year") == current[0]?.year &&
+    searchParams.get("semester") == current[0]?.semester;
 
   return (
     <>
@@ -461,39 +461,39 @@ export default function Course166Container() {
                             {formatDate(currentDate)}
                           </p>
                         </div>
-                        { isCurrent && (
-                            <div className=" flex lg:flex-row  md:flex-row flex-col gap-3 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22">
-                              <div
-                                className={`lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer ${
-                                  isDelete
-                                    ? " border-green-500 hover: hover:bg-green-400"
-                                    : " border-red-500 hover: hover:bg-red-400"
-                                }`}
-                                onClick={() => setIsDelete(!isDelete)}
-                              >
-                                {!isDelete && (
-                                  <>
-                                    {" "}
-                                    <RiDeleteBin6Line className="lg:text-3xl text-xl" />
-                                    <span>Delete</span>{" "}
-                                  </>
-                                )}
-                                {isDelete && (
-                                  <>
-                                    <MdDone className="lg:text-3xl text-xl" />
-                                    <span>Done</span>
-                                  </>
-                                )}
-                              </div>
-                              <div
-                                className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
-                                onClick={addCourseButton[1].open}
-                              >
-                                <FiPlus className="lg:text-3xl text-xl " />
-                                <span>Add Course</span>
-                              </div>
+                        {isCurrent && (
+                          <div className=" flex lg:flex-row  md:flex-row flex-col gap-3 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22">
+                            <div
+                              className={`lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer ${
+                                isDelete
+                                  ? " border-green-500 hover: hover:bg-green-400"
+                                  : " border-red-500 hover: hover:bg-red-400"
+                              }`}
+                              onClick={() => setIsDelete(!isDelete)}
+                            >
+                              {!isDelete && (
+                                <>
+                                  {" "}
+                                  <RiDeleteBin6Line className="lg:text-3xl text-xl" />
+                                  <span>Delete</span>{" "}
+                                </>
+                              )}
+                              {isDelete && (
+                                <>
+                                  <MdDone className="lg:text-3xl text-xl" />
+                                  <span>Done</span>
+                                </>
+                              )}
                             </div>
-                            )}
+                            <div
+                              className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
+                              onClick={addCourseButton[1].open}
+                            >
+                              <FiPlus className="lg:text-3xl text-xl " />
+                              <span>Add Course</span>
+                            </div>
+                          </div>
+                        )}
                       </div>
                       {noCourse && (
                         <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
@@ -721,33 +721,35 @@ export default function Course166Container() {
                         </p>
                       </div>
 
-                      { isCurrent && <div className=" flex lg:flex-row  md:flex-row flex-col gap-1 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
-                        <div
-                          className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-end md:justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md
+                      {isCurrent && (
+                        <div className=" flex lg:flex-row  md:flex-row flex-col gap-1 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
+                          <div
+                            className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-end md:justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md
                                     "
-                          onClick={() => open()}
-                        >
-                          <IoPersonAddOutline />
-                          <p>Instructor</p>
-                        </div>
+                            onClick={() => open()}
+                          >
+                            <IoPersonAddOutline />
+                            <p>Instructor</p>
+                          </div>
 
-                        <div
-                          style={{
-                            background: isUploadScore ? "white" : "",
-                            color: isUploadScore ? "black" : "",
-                            boxShadow: isUploadScore
-                              ? "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset"
-                              : "none",
-                          }}
-                          className={
-                            "lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
-                          }
-                          onClick={goToUpload}
-                        >
-                          <BiPlus />
-                          <p>Upload Score</p>
+                          <div
+                            style={{
+                              background: isUploadScore ? "white" : "",
+                              color: isUploadScore ? "black" : "",
+                              boxShadow: isUploadScore
+                                ? "0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset"
+                                : "none",
+                            }}
+                            className={
+                              "lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
+                            }
+                            onClick={goToUpload}
+                          >
+                            <BiPlus />
+                            <p>Upload Score</p>
+                          </div>
                         </div>
-                      </div>}
+                      )}
                     </div>
                     {/* <div className="flex items-center justify-center  text-center bg-red-100">
                       {!isUploadScore && sections.length === 0 && (

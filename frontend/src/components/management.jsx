@@ -1,4 +1,4 @@
-import React, { useState, useEffect, } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import { addStudentGrade, socket } from "../services";
 import secMan from "./css/manage.module.css";
@@ -8,6 +8,7 @@ import upStyle from "./css/uploadScore.module.css";
 import tabStyle from "./css/tableScore.module.css";
 import { Checkbox, Button, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { CurrentContext } from "../context";
 
 const Management = ({ data, courseName }) => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -19,6 +20,7 @@ const Management = ({ data, courseName }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadComplete, setShowLoadComplete] = useState(false);
   const [message, setMessage] = useState();
+  const { current } = useContext(CurrentContext);
 
   const showTable = (sec) => {
     setDataTable(data.filter((e) => e.section === parseInt(sec))[0].scores);
@@ -102,6 +104,10 @@ const Management = ({ data, courseName }) => {
     }, 700);
     if (resp_student) console.log("response: ", resp_student);
   };
+
+  const isCurrent =
+    searchParams.get("year") == current[0]?.year &&
+    searchParams.get("semester") == current[0]?.semester;
 
   return (
     <>
@@ -376,7 +382,7 @@ const Management = ({ data, courseName }) => {
           {}
         </div>
       </div>
-      {!searchParams.get("section") && (
+      {isCurrent && !searchParams.get("section") && (
         <div className="flex w-full justify-between gap-1 ">
           <button
             className={`w-full h-full  py-3
