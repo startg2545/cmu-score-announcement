@@ -123,6 +123,17 @@ export default function StudentDashboard() {
     return date.toLocaleDateString("en-US", options);
   };
 
+  // Format the date with the Buddhist year and "BE" format.
+  const formatDateBE = (date) => {
+    const buddhistYear = date.getFullYear() + 543;
+    const options = { day: "numeric", month: "short", year: "numeric" };
+    const formattedDate = date
+      .toLocaleDateString("en-US", options)
+      .replace(/\d{4}/, `${buddhistYear} BE`);
+
+    return formattedDate;
+  };
+
   const setCourse = (data) => {
     const course = courseList.filter((c) => c.courseNo === data)[0];
     setSection(course.section);
@@ -305,14 +316,14 @@ export default function StudentDashboard() {
                 {params.scoreName && params.scoreName}
               </span>
               <span className="text-xl lg:text-2xl">
-                {formatDate(currentDate)}
+                {formatDateBE(currentDate)}
               </span>
             </div>
 
             {params.scoreName && (
               <div className="flex justify-end items-center w-full">
                 <div
-                  className="text-primary flex lg:text-xl text-md border-primary border-2 px-3 py-2 rounded-xl hover:text-white hover:bg-primary duration-150 "
+                  className="text-primary flex lg:text-xl text-md border-primary border-2 px-3 py-2 rounded-xl hover:text-white hover:bg-primary duration-150 group cursor-pointer"
                   onClick={changeView}
                 >
                   {isShowGraph ? (
