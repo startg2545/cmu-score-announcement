@@ -60,7 +60,7 @@ router.get("/", async (req, res) => {
     if (!user.cmuAccount)
       return res.status(403).send({ ok: false, message: "Invalid token" });
 
-    const currents = await adminModel.find({});
+    const currents = await adminModel.find().sort({year: "desc", semester: 'desc'});
 
     return res.send(currents);
   } catch (err) {
