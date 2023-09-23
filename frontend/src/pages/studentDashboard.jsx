@@ -266,14 +266,19 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="mt-20 lg:mt-24 lg:px-20">
+    <div className="mt-20 
+                    xl:px-10 lg:px-8 md:px-7 sm:px-6 px-5
+                   ">
       {params.courseNo && (
-        <div className="mx-[2%] lg:mt-24 mt-20 max-h-screen">
+        <div className="mx-[0%] max-h-screen
+                        xl:mt-28 lg:mt-24 md:mt-24 sm:mt-15 mt-20
+                        xl:-mb-6 lg:-mb-6 md:mb-4 sm:mb-3 m-20 ">
           <div className=" pb-2 lg:-mt-5 md:-mt-4 -mt-3 ">
-            <p className="flex flex-row items-center justify-content font-semibold text-primary gap-3 ">
+            <p className={`flex flex-row items-center justify-content font-semibold text-primary gap-3 
+                           xl:text-xl  lg:text-xl  md:text-lg  sm:text-lg  text-base`}>
               <label
                 onClick={backToDashboard}
-                className="text-[19px] md:text-[22px] lg:text-[25px] cursor-pointer"
+                className="cursor-pointer"
               >
                 Dashboard
               </label>
@@ -281,27 +286,28 @@ export default function StudentDashboard() {
               <label
                 onClick={backToCourse}
                 style={{ cursor: params.scoreName ? "pointer" : null }}
-                className="text-[17px] md:text-[20px] lg:text-[23px]"
               >
                 {params.courseNo}
               </label>
               {params.scoreName && (
                 <>
                   <HiChevronRight className="text-2xl" />
-                  <label className="text-[17px] md:text-[20px] lg:text-[23px]">
+                  <label>
                     {params.scoreName}
                   </label>
                 </>
               )}
             </p>
-            <div className=" border-b-[3px] border-primary shadow-inset-md opacity-25"></div>
+            <div className="mt-3 border-b-[3px] border-primary shadow-inset-md opacity-25"></div>
           </div>
         </div>
       )}
       {/* MENU */}
-      <div className="mx-[2%] max-h-fit">
-        <div className="py-4 text-maintext font-semibold">
-          <div className="flex items-end">
+      <div className="max-h-fit xl:m-1 ">
+        <div className=" text-maintext font-semibold ">
+          <div className="flex items-end  xl:py-5 lg:py-5 md:py-4 sm:py-4 py-3
+                          xl:mt-5 lg:mt-5 md:-mt-4 sm:-mt-4 -mt-4
+                          ">
             <div
               className="flex-col flex w-full"
               style={{
@@ -309,19 +315,19 @@ export default function StudentDashboard() {
               }}
             >
               <span //big text topic
-                className="text-3xl md:text-4xl lg:text-5xl"
+                className="xl:text-5xl lg:text-5xl md:text-5xl sm:text-4xl text-4xl"
               >
                 {!params.courseNo && "Dashboard"}
                 {params.courseNo && !params.scoreName && params.courseNo}
                 {params.scoreName && params.scoreName}
               </span>
-              <span className="text-xl lg:text-2xl">
+              <span className="xl:text-2xl lg:text-2xl md:text-2xl sm:text-xl text-xl">
                 {formatDateBE(currentDate)}
               </span>
             </div>
 
             {params.scoreName && (
-              <div className="flex justify-end items-center w-full">
+              <div className=" flex justify-end items-center w-full">
                 <div
                   className="text-primary flex lg:text-xl text-md border-primary border-2 px-3 py-2 rounded-xl hover:text-white hover:bg-primary duration-150 group cursor-pointer"
                   onClick={changeView}
@@ -340,8 +346,9 @@ export default function StudentDashboard() {
 
         <div
           className={
-            "p-5 flex flex-col gap-3 border-[3px] border-primary rounded-2xl shadow-xl lg:h-[65vh] md:h-[65vh] h-[66vh] overflow-x-auto"
-          }
+            `"p-5 flex flex-col gap-3 border-[3px] border-primary rounded-2xl shadow-xl overflow-x-auto
+             xl:h-[70vh] lg:h-[70vh] md:h-[73vh-50px] sm:h-[74vh] h-[75vh] "
+          `}
         >
           {message && (
             <Text
@@ -353,12 +360,19 @@ export default function StudentDashboard() {
               {message}
             </Text>
           )}
+          <div className="mt-0">
           {!params.courseNo &&
+       
             courseList.map((item, key) => {
               return (
+                <div className="xl:px-5 lg:px-5 md:px-4 sm:px-3 px-3
+                               xl:mt-5 lg:mt-5  md:mt-4  sm:mt-3  mt-3
+                "
+                >
                 <div
                   key={key}
-                  className="bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary"
+                  className=" bg-primary  rounded-xl group active:bg-maintext hover:bg-secondary
+                               xl:py-2 lg:py-2 md:py-2 sm:py-1 py-1"
                   onClick={() => onClickCourse(item.courseNo)}
                 >
                   {/* <div className={Student.courseName}> */}
@@ -380,19 +394,24 @@ export default function StudentDashboard() {
                     </div>
                   </div>
                 </div>
+              </div>
               );
             })}
+            </div>
+          <div className="xl:px-5 lg:px-5 md:px-4 sm:px-3 px-3 ">
           {params.courseNo &&
             !params.scoreName &&
             scoreList.map((item, key) => {
               return (
                 <div
                   key={key}
-                  className="bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary"
+                  className=" bg-primary rounded-xl group active:bg-maintext hover:bg-secondary
+                              xl:py-3 lg:py-2 md:py-2 sm:py-1 py-1
+                              xl:mb-3 lg:mb-5 md:mb-4 sm:mb-3 mb-3"
                   onClick={() => onClickScore(item.scoreName)}
                 >
                   {/* <div className={Student.courseName}> */}
-                  <div className=" px-5 py-1 font-semibold group-hover:cursor-pointer">
+                  <div className="  px-5 py-1 font-semibold group-hover:cursor-pointer">
                     <div className="flex justify-between items-center">
                       <div
                         className="text-white lg:text-2xl text-lg"
@@ -408,6 +427,7 @@ export default function StudentDashboard() {
                 </div>
               );
             })}
+            </div>
           {params.scoreName && (
             <>
               {!isShowGraph && (
