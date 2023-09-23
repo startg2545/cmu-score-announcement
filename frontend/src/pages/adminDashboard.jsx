@@ -45,7 +45,7 @@ const AdminDashboard = () => {
     fetchData();
   };
 
-  const showCurrent = current.map((element, key) => {
+  const showCurrent = current?.map((element, key) => {
     return (
       <label key={key}>
         <div>

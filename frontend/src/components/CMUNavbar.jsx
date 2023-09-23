@@ -65,7 +65,7 @@ const CMUNavbar = () => {
           <div className="flex flex-col rounded-md min-h-screen h-full justify-between">
             <div className="flex flex-col py-2">
               <ul className="flex flex-col gap-3 pt-5 pb-10 text-gray-800 justify-center text-center items-center font-semibold mx-3">
-                {current.map((data, i) => (
+                {current?.map ((data, i) => (
                   <li
                     className="w-full justify-center flex cursor-pointer gap-1 text-2xl items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl "
                     key={i}
