@@ -1,8 +1,8 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ShowSidebarContext, CurrentContext } from "../context";
-const { showSidebar } = useContext(ShowSidebarContext);
-const { handleSidebarClick } = useContext(ShowSidebarContext);
+import { StateContext, CurrentContext } from "../context";
+const { showSidebar } = useContext(StateContext);
+const { handleSidebarClick } = useContext(StateContext);
 const navigate = useNavigate();
 // const [current, setCurrent] = useState([])
 const [sidebar, setLgSidebar] = useState(false);
@@ -11,7 +11,7 @@ const handleLgSidebar = () => {
   handleSidebarClick(true);
 };
 
-const { current } = useContext(CurrentContext)
+const { current } = useContext(CurrentContext);
 
 const navToSemesterYear = (semester, year) => {
   navigate({

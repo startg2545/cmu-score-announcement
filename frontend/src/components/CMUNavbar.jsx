@@ -1,7 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Flex, Text, Menu } from "@mantine/core";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ROLE, ShowSidebarContext, UserInfoContext, CurrentContext } from "../context";
+import {
+  ROLE,
+  StateContext,
+  UserInfoContext,
+  CurrentContext,
+} from "../context";
 import { signOut, getCurrent } from "../services";
 import cmulogo from "../image/cmulogo2.png";
 import { FaSignOutAlt } from "react-icons/fa";
@@ -11,7 +16,7 @@ import { HiChevronRight } from "react-icons/hi";
 import { CheckPermission } from "../utility/main";
 
 const CMUNavbar = () => {
-  const { handleSidebarClick } = useContext(ShowSidebarContext);
+  const { handleSidebarClick } = useContext(StateContext);
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const { current } = useContext(CurrentContext);
   const { pathname } = useLocation();
@@ -39,7 +44,6 @@ const CMUNavbar = () => {
 
   if (withoutNavbar.some((path) => pathname.includes(path))) return null;
   const userRole = userInfo.itAccountType !== "MISEmpAcc" ? "hidden" : "flex";
-
 
   return (
     <>
@@ -100,14 +104,13 @@ const CMUNavbar = () => {
           >
             <PiSidebarSimpleFill className="text-white text-4xl md:text-[42px] lg:text-5xl hover:text-black" />
           </div>
-          
+
           <img
-              src={cmulogo}
-              alt="CMULogo"
-              className="lg:w-52 md:w-44 w-36 drop-shadow-lg"
-              // CMU Logo Navbar
-            />
-         
+            src={cmulogo}
+            alt="CMULogo"
+            className="lg:w-52 md:w-44 w-36 drop-shadow-lg"
+            // CMU Logo Navbar
+          />
         </div>
         <div
           className="py-2"
