@@ -272,7 +272,7 @@ export default function StudentDashboard() {
       {params.courseNo && (
         <div className="mx-[0%] max-h-screen
                         xl:mt-28 lg:mt-24 md:mt-24 sm:mt-15 mt-20
-                        xl:-mb-6 lg:-mb-6 md:mb-4 sm:mb-3 m-20 ">
+                        xl:-mb-6 lg:-mb-6 md:mb-4 sm:mb-3 mb-4 ">
           <div className=" pb-2 lg:-mt-5 md:-mt-4 -mt-3 ">
             <p className={`flex flex-row items-center justify-content font-semibold text-primary gap-3 
                            xl:text-xl  lg:text-xl  md:text-lg  sm:text-lg  text-base`}>
@@ -303,8 +303,8 @@ export default function StudentDashboard() {
         </div>
       )}
       {/* MENU */}
-      <div className="max-h-fit xl:m-1 ">
-        <div className=" text-maintext font-semibold ">
+      <div className="max-h-fit xl:m-1  ">
+        <div className=" text-maintext font-semibold  ">
           <div className="flex items-end  xl:py-5 lg:py-5 md:py-4 sm:py-4 py-3
                           xl:mt-5 lg:mt-5 md:-mt-4 sm:-mt-4 -mt-4
                           ">
@@ -343,11 +343,11 @@ export default function StudentDashboard() {
             )}
           </div>
         </div>
-
+        {(message || !params.courseNo) && (
         <div
           className={
-            `"p-5 flex flex-col gap-3 border-[3px] border-primary rounded-2xl shadow-xl overflow-x-auto
-             xl:h-[70vh] lg:h-[70vh] md:h-[73vh-50px] sm:h-[74vh] h-[75vh] "
+            `flex flex-col gap-3 border-[3px] border-primary rounded-2xl shadow-xl overflow-x-auto
+             xl:h-[70vh] lg:h-[70vh] md:h-[73vh-50px] sm:h-[74vh] h-[75vh] 
           `}
         >
           {message && (
@@ -398,7 +398,19 @@ export default function StudentDashboard() {
               );
             })}
             </div>
-          <div className="xl:px-5 lg:px-5 md:px-4 sm:px-3 px-3 ">
+        </div>  
+        )}
+
+        {(params.courseNo || params.scoreName) && (
+
+        <div
+          className={
+            `"flex flex-col border-[3px] border-primary rounded-2xl shadow-xl overflow-y-auto
+             xl:h-[60vh] lg:h-[65vh] md:h-[75vh] sm:h-[67vh] h-[67vh] "
+          `}
+        >
+          <div className="xl:px-5 lg:px-5 md:px-4 sm:px-3 px-3 
+                          xl:mt-5 lg:mt-5 md:mt-4 sm:mt-3 mt-3 ">
           {params.courseNo &&
             !params.scoreName &&
             scoreList.map((item, key) => {
@@ -501,7 +513,9 @@ export default function StudentDashboard() {
             </>
           )}
         </div>
+        )}
       </div>
+      
     </div>
   );
 }
