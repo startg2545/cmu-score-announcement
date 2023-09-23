@@ -130,7 +130,7 @@ const Management = ({ data, courseName }) => {
             </p>
           </div>
           <div>
-            {data.map((value, key) => (
+            {data?.map((value, key) => (
               <div key={key}>
                 <Checkbox
                   color="indigo"

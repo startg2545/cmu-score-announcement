@@ -190,7 +190,7 @@ const EditStudent = () => {
             </svg>
           </div>
           <p className="text-black text-lg font-medium text-center mx-5 mt-3">
-            Score of {studentId} in {editObj.scoreName} will be edited
+            Score of {studentId} in {editObj?.scoreName} will be edited
           </p>
           <form onSubmit={scoreForm.onSubmit((data) => {
                       handleSubmit(data.score);

@@ -8,7 +8,6 @@ import tabStyle from "./css/tableScore.module.css";
 import upStyle from "./css/uploadScore.module.css";
 import EditStudent from "./editStudent";
 
-
 const TableScore = ({ data, courseName }) => {
   const [isPublished, setIsPublished] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -90,9 +89,6 @@ const TableScore = ({ data, courseName }) => {
       if (!localStorage.getItem("editScore")) {
         setEditScore(false);
       }
-
-      
-
     }
   }, [data, localStorage.getItem("editScore")]);
 
@@ -357,7 +353,6 @@ const TableScore = ({ data, courseName }) => {
           )}
         </div>
       )}
-
       <Modal
         opened={opened}
         onClose={close}
@@ -476,7 +471,6 @@ const TableScore = ({ data, courseName }) => {
           striped
           className={` ${tabStyle.sizeTa} cursor-default`}
           // fontSize={18.5}
-
         >
           <thead>
             <tr className="cursor-default">
