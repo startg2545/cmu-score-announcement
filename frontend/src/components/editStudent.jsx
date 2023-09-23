@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import editStu from "./css/editStudent.module.css";
 import { Table, TextInput, Modal, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import upStyle from "./css/uploadScore.module.css";
 import { getListStudentScores, putStudentGrade } from "../services";
 import { useForm } from "@mantine/form";
+import { CurrentContext } from "../context";
+import { useSearchParams } from "react-router-dom";
 
 const EditStudent = () => {
   const [data, setData] = useState([]);
@@ -13,7 +15,8 @@ const EditStudent = () => {
   const [isOpeningForm, setIsOpeningForm] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const [isScoreValid, setIsScoreValid] = useState(true);
-  
+  const { current } = useContext(CurrentContext);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const columnNames = ["Number", "Student Number", "Note", "Management"];
 
@@ -34,6 +37,10 @@ const EditStudent = () => {
     </th>
   ));
 
+  const isCurrent =
+    searchParams.get("year") == current[0]?.year &&
+    searchParams.get("semester") == current[0]?.semester;
+
   const scoreForm = useForm({
     initialValues: {
       score: "",
@@ -46,9 +53,7 @@ const EditStudent = () => {
         }
         const isValid = /^\d+(\.\d+)?$/.test(value);
         setIsScoreValid(isValid);
-        return isValid
-          ? null
-          : "Fill number only";
+        return isValid ? null : "Fill number only";
       },
     },
     // validateInputOnChange: true,
@@ -70,39 +75,41 @@ const EditStudent = () => {
       </td>
       <td>
         <center>
-          <div className={editStu.manageBtDisplay}>
-            <div
-              className={`${editStu.manageBT} ${editStu.editBT}`}
-              onClick={() => {
-                open();
-                setIsOpeningForm(true);
-                setStudentId(element.studentId);
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-                fill="none"
+          {isCurrent ?
+            <div className={editStu.manageBtDisplay}>
+              <div
+                className={`${editStu.manageBT} ${editStu.editBT}`}
+                onClick={() => {
+                  open();
+                  setIsOpeningForm(true);
+                  setStudentId(element.studentId);
+                }}
               >
-                <path
-                  d="M8.01788 9.36084L5.14737 9.87753L5.62579 6.96874L11.1085 1.5052C11.1974 1.41552 11.3032 1.34433 11.4198 1.29576C11.5364 1.24718 11.6615 1.22217 11.7878 1.22217C11.9141 1.22217 12.0392 1.24718 12.1558 1.29576C12.2724 1.34433 12.3782 1.41552 12.4672 1.5052L13.4814 2.51945C13.5711 2.6084 13.6423 2.71423 13.6909 2.83083C13.7395 2.94742 13.7645 3.07249 13.7645 3.1988C13.7645 3.32512 13.7395 3.45018 13.6909 3.56678C13.6423 3.68338 13.5711 3.78921 13.4814 3.87816L8.01788 9.36084Z"
-                  stroke="white"
-                  strokeWidth="1.55556"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M12.3236 9.83937V12.7099C12.3236 12.9637 12.2228 13.207 12.0434 13.3865C11.864 13.5659 11.6206 13.6667 11.3668 13.6667H2.27685C2.02308 13.6667 1.7797 13.5659 1.60026 13.3865C1.42082 13.207 1.32001 12.9637 1.32001 12.7099V3.61992C1.32001 3.36615 1.42082 3.12278 1.60026 2.94334C1.7797 2.7639 2.02308 2.66309 2.27685 2.66309H5.14736"
-                  stroke="white"
-                  strokeWidth="1.55556"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 15 15"
+                  fill="none"
+                >
+                  <path
+                    d="M8.01788 9.36084L5.14737 9.87753L5.62579 6.96874L11.1085 1.5052C11.1974 1.41552 11.3032 1.34433 11.4198 1.29576C11.5364 1.24718 11.6615 1.22217 11.7878 1.22217C11.9141 1.22217 12.0392 1.24718 12.1558 1.29576C12.2724 1.34433 12.3782 1.41552 12.4672 1.5052L13.4814 2.51945C13.5711 2.6084 13.6423 2.71423 13.6909 2.83083C13.7395 2.94742 13.7645 3.07249 13.7645 3.1988C13.7645 3.32512 13.7395 3.45018 13.6909 3.56678C13.6423 3.68338 13.5711 3.78921 13.4814 3.87816L8.01788 9.36084Z"
+                    stroke="white"
+                    strokeWidth="1.55556"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M12.3236 9.83937V12.7099C12.3236 12.9637 12.2228 13.207 12.0434 13.3865C11.864 13.5659 11.6206 13.6667 11.3668 13.6667H2.27685C2.02308 13.6667 1.7797 13.5659 1.60026 13.3865C1.42082 13.207 1.32001 12.9637 1.32001 12.7099V3.61992C1.32001 3.36615 1.42082 3.12278 1.60026 2.94334C1.7797 2.7639 2.02308 2.66309 2.27685 2.66309H5.14736"
+                    stroke="white"
+                    strokeWidth="1.55556"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
             </div>
-          </div>
+          : <p className="text-red-500 font-semibold">Not allow</p>}
         </center>
       </td>
     </tr>
@@ -192,10 +199,13 @@ const EditStudent = () => {
           <p className="text-black text-lg font-medium text-center mx-5 mt-3">
             Score of {studentId} in {editObj?.scoreName} will be edited
           </p>
-          <form onSubmit={scoreForm.onSubmit((data) => {
-                      handleSubmit(data.score);
-                      scoreForm.reset();
-                    })} className="px-10 lg:px-24">
+          <form
+            onSubmit={scoreForm.onSubmit((data) => {
+              handleSubmit(data.score);
+              scoreForm.reset();
+            })}
+            className="px-10 lg:px-24"
+          >
             <TextInput
               type="text"
               onChange={(e) => setPoint(e.target.value)}
@@ -222,10 +232,7 @@ const EditStudent = () => {
                 >
                   Cancel
                 </Button>
-                <Button
-                  className={editStu.primaryButton}
-                  type="submit"
-                >
+                <Button className={editStu.primaryButton} type="submit">
                   Confirm
                 </Button>
               </div>
@@ -271,7 +278,7 @@ const EditStudent = () => {
         <tbody className={`${editStu.Stbody} ${editStu.child}`}>{td}</tbody>
       </Table>
       {isOpeningForm ? editForm() : null}
-   </>
+    </>
   );
 };
 

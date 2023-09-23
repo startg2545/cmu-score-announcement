@@ -1,12 +1,12 @@
-import React from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useDisclosure } from "@mantine/hooks";
 import { Table, Button, Modal } from "@mantine/core";
 import { addStudentGrade, deleteScores } from "../services";
 import tabStyle from "./css/tableScore.module.css";
 import upStyle from "./css/uploadScore.module.css";
 import EditStudent from "./editStudent";
+import { CurrentContext } from "../context";
 
 const TableScore = ({ data, courseName }) => {
   const [isPublished, setIsPublished] = useState(false);
@@ -17,6 +17,7 @@ const TableScore = ({ data, courseName }) => {
   const [showLoadComplete, setShowLoadComplete] = useState(false);
   const [message, setMessage] = useState();
   const [isEditScore, setEditScore] = useState(false);
+  const { current } = useContext(CurrentContext);
 
   const calStat = () => {
     let total = 0;
@@ -181,9 +182,15 @@ const TableScore = ({ data, courseName }) => {
     }, 1500);
   };
 
+  const isCurrent =
+    searchParams.get("year") == current[0]?.year &&
+    searchParams.get("semester") == current[0]?.semester;
+
   const rows = data.map((element, key) => (
     <tr key={key}>
-      <td ><div className={`${tabStyle.child}`}>{element.scoreName}</div></td>
+      <td>
+        <div className={`${tabStyle.child}`}>{element.scoreName}</div>
+      </td>
       <td>
         <center className={`${tabStyle.child}`}>{element.studentNumber}</center>
       </td>
@@ -210,7 +217,7 @@ const TableScore = ({ data, courseName }) => {
       </td>
       <td>
         <center>
-          <div
+          {isCurrent ? <div
             key={element.scoreName}
             className={` ${tabStyle.publicBT} ${
               isPublished[element.scoreName] ? tabStyle.active : null
@@ -237,7 +244,7 @@ const TableScore = ({ data, courseName }) => {
                 fill="white"
               />
             </svg>
-          </div>
+          </div> : <p className="text-red-500 font-semibold">Not allow</p>}
         </center>
       </td>
       <td>
@@ -257,7 +264,7 @@ const TableScore = ({ data, courseName }) => {
                   })
                 );
                 setEditScore(true);
-                localStorage.setItem('editScore', element.scoreName);
+                localStorage.setItem("editScore", element.scoreName);
               }}
             >
               <svg
@@ -281,7 +288,7 @@ const TableScore = ({ data, courseName }) => {
                 />
               </svg>
             </div>
-            <div
+            {isCurrent && <div
               className={`${tabStyle.manageBT} ${tabStyle.deleteBT}`}
               onClick={() => {
                 setScoreName(element.scoreName);
@@ -300,7 +307,7 @@ const TableScore = ({ data, courseName }) => {
                   fill="white"
                 />
               </svg>
-            </div>
+            </div>}
           </div>
         </center>
       </td>
@@ -524,9 +531,7 @@ const TableScore = ({ data, courseName }) => {
               </th>
             </tr>
           </thead>
-          <tbody className={`${tabStyle.Stbody} `}>
-            {rows}
-          </tbody>
+          <tbody className={`${tabStyle.Stbody} `}>{rows}</tbody>
         </Table>
       )}
       {isEditScore && <EditStudent />}
