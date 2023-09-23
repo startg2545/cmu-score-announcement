@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
-import { getUserInfo } from "./services";
-import { ROLE, ShowSidebarContext, UserInfoContext } from "./context";
+import { getUserInfo, getCurrent } from "./services";
+import { ROLE, ShowSidebarContext, UserInfoContext, CurrentContext } from "./context";
 import { CMUNavbar, TableScore } from "./components";
 import Home from "./pages";
 import SignIn from "./pages/signIn";
@@ -17,6 +17,7 @@ import ErrorView from "./pages/errorView";
 import EditStudent from "./components/editStudent";
 
 function App() {
+  const [current, setCurrent] = useState([])
   const [userInfo, setUserInfo] = useState(null);
   const [showSidebar, setShowSidebar] = useState(false);
   const pathname = window.location.pathname;
@@ -44,6 +45,11 @@ function App() {
   };
   const [screenSize, setScreenSize] = useState(getCurrentDimension());
 
+  const fetchCurrent = async () => {
+    const resp = await getCurrent();
+    setCurrent(resp)
+  }
+  
   useEffect(() => {
     const fetchData = async () => {
       if (!userInfo) {
@@ -61,27 +67,9 @@ function App() {
       fetchData();
     }
 
-    const updateDimension = () => {
-      setScreenSize(getCurrentDimension());
-    };
-    window.addEventListener("resize", updateDimension);
+    if (!current.length) fetchCurrent()
 
-    return () => {
-      window.removeEventListener("resize", updateDimension);
-    };
-  }, [userInfo, showSidebar, setUser]);
-
-  useEffect(() => {
-    if (
-      userInfo &&
-      userInfo.itAccountType === ROLE.INSTRUCTOR &&
-      pathname !== "/errorView" &&
-      ((screenSize.width < 1200 && screenSize.height < 900) ||
-        (screenSize.width < 900 && screenSize.height < 1200))
-    ) {
-      // window.location.replace("/errorView");
-    }
-  }, [userInfo, screenSize]);
+  }, [userInfo, showSidebar, setUser, current]);
 
   return (
     <MantineProvider>
@@ -95,6 +83,12 @@ function App() {
           value={{
             userInfo: { ...userInfo },
             setUserInfo: setUserInfo,
+          }}
+        >
+        <CurrentContext.Provider
+          value={{
+            current: current,
+            setCurrent: setCurrent,
           }}
         >
           <Router>
@@ -129,6 +123,7 @@ function App() {
               <Route path="/edit-student" element={<EditStudent />} />
             </Routes>
           </Router>
+          </CurrentContext.Provider>
         </UserInfoContext.Provider>
       </ShowSidebarContext.Provider>
     </MantineProvider>

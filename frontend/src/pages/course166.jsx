@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
@@ -50,15 +49,6 @@ export default function Course166Container() {
   const [current, setCurrent] = useState([])
   const [checkedCourses, setCheckedCourse] = useState([]);
   const [countChecked, setCountChecked] = useState(0);
-
-  useEffect(()=>{
-    const fetchData = async () => {
-      const resp = await getCurrent()
-      console.log(resp)
-      setCurrent(resp)
-  }
-  fetchData()
-  }, [setCurrent])
 
   const navToSemesterYear = (semester, year) => {
     navigate({
