@@ -356,9 +356,67 @@ export default function Course166Container() {
           <div className="flex w-full flex-col h-full">
             {isSelectedCourse ? null : (
               <>
-                <div className=" py-4 lg:mt-20 md:mt-16 mt-16 px-5 lg:px-10 text-maintext font-semibold cursor-default">
+                <div className=" text-maintext font-semibold cursor-default py-4 
+                                 xl:mt-20 lg:mt-19 md:mt-16 sm:mt-16 mt-16 
+                                 xl:px-10lg: lg:px-9 md: md:px-8 sm:px-8  px-6
+                                 ">
                   {/* header courses : courses number, date, add course button */}
-                  
+
+                  <div className="flex w-full  justify-between
+                                   xl:flex-row lg:flex-row  md:flex-row sm:flex-row  flex-row
+                                   xl:gap-0 lg:gap-0  md:gap-0 sm:gap-0  gap-0
+                                  ">
+                    <div className="flex-col flex lg:gap-1">
+                      <span className="xl:text-5xl lg:text-5xl md:text-4xl sm:text-4xl text-3xl ">
+                        Course {params.semester}/
+                        {params.year ? params.year.slice(2) : params.year}
+                      </span>
+                      <span className="xl:text-2xl lg:text-2xl md:text-2xl sm:text-2xl text-xl ">
+                        {formatDate(currentDate)}
+                      </span>
+                    </div>
+                    <div className="flex items-end justify-end
+                                    xl:gap-5  lg:gap-5  md:gap-5  sm:gap-5  gap-3
+                                    xl:flex-row lg:flex-row md:flex-row sm:flex-row flex-col">
+                   
+                      <button
+                        className={`items-center flex  border-[2px]  rounded-xl hover:text-white duration-150 gap-2 
+                                    xl:w-[135px]  lg:w-[135px]  md:w-[110px]  sm:w-[110px]   w-[120px]  
+                                    xl:text-xl lg:text-xl md:text-lg sm:text-base  text-sm
+                                    lg:px-4 lg:py-1 md:py-1 sm:px-2  sm:py-[6px] px-2  py-[6px]
+                        ${
+                          isDelete
+                            ? "text-green-600 border-green-600 hover: hover:bg-green-600"
+                            : "text-red-500 border-red-500 hover: hover:bg-red-500"
+                        }`}
+                        onClick={() => setIsDelete(!isDelete)}
+                      >
+                        {!isDelete && (
+                          <>
+                            {" "}
+                            <RiDeleteBin6Line className=" xl:text-2xl  lg:text-2xl  md:text-xl sm:text-xl text-base" />
+                            <span className="xl:ml-0 lg:ml-0 md:ml-0 sm:ml-0 ml-3
+                            ">Delete</span>{" "}
+                          </>
+                        )}
+                        {isDelete && (
+                          <>
+                            <MdDone className="xl:text-xl  lg:text-xl  md:text-xl sm:text-xl text-xl" />
+                            <span className="xl:ml-0 lg:ml-0 md:ml-0 sm:ml-0 ml-2" >Done</span>
+                          </>
+                        )}
+                      </button>
+                      <button
+                        className="text-primary px-2 py-[6px] items-center flex border-primary border-[2px] lg:px-3 lg:py-1 rounded-xl hover:text-white hover:bg-primary duration-150 
+                                    xl:text-xl lg:text-xl md:text-lg sm:text-base  text-sm
+                                    lg:px-4 lg:py-1 md:py-1 sm:px-2  sm:py-[6px] px-2  py-[6px]"
+                        onClick={addCourseButton[1].open}
+                      >
+                        <FiPlus className="lg:text-3xl text-xl" />
+                        <span>Add Course</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 {/* <Modal
                   opened={deleteCourse[0]}
@@ -527,6 +585,7 @@ export default function Course166Container() {
                     </div>
                   </form>
                 </Modal>
+
                 <div className="mx-[1%] lg:mt-3 max-h-screen">
                 <div className="lg:rounded-xl rounded-xl xl:h-[calc(84vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary">
                   <div className="flex flex-col">
@@ -572,6 +631,7 @@ export default function Course166Container() {
                         </div>
                       </div>
                     </div>
+
                     {noCourse && (
                       <div className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl transition-all duration-100 fade-bottom my-32 ">
                         {noCourse}
@@ -730,7 +790,9 @@ export default function Course166Container() {
                                 ? "pointer"
                                 : "default",
                           }}
-                          onClick={backToSec}
+                          onClick={() => {
+                            backToSec();
+                          }}
                         >
                           Section{" "}
                           {searchParams.get("section") < 10
