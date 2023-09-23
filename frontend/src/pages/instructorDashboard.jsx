@@ -1,12 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { ShowSidebarContext } from "../context";
+import { ShowSidebarContext, CurrentContext } from "../context";
 import { FaSignOutAlt } from "react-icons/fa";
-import { signOut, getCurrent } from "../services";
+import { signOut } from "../services";
 import { FaChevronRight } from "react-icons/fa";
 
 const Dashboard = () => {
-  const [current, setCurrent] = useState([])
+  const { current } = useContext(CurrentContext)
   const { showSidebar, handleSidebarClick } = useContext(ShowSidebarContext);
   const [sidebar, setLgSidebar] = useState(false);
   
@@ -24,23 +24,6 @@ const Dashboard = () => {
     navToSemesterYear(semester, year);
   };
 
-  useEffect(()=>{
-    const fetchData = async () => {
-      const resp = await getCurrent()
-      const arr = []
-      resp.map(e=>{
-        let obj = {
-          semester: e.semester,
-          year: e.year
-        }
-        arr.push(obj)
-      })
-      console.log(arr)
-      setCurrent(arr)
-    }
-    fetchData()
-  }, [])
-
   return (
     <div className="flex flex-row gap-3 justify-center">
          <div
@@ -57,13 +40,13 @@ const Dashboard = () => {
                   className="w-full flex flex-row cursor-pointer justify-center gap-2 text-lg items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl mr-3"
                   key={i}
                   onClick={() => {
-                    handleSemesterYear(data.semester, `25${data.year}`);
+                    handleSemesterYear(data.semester, data.year);
                   }}
                 >
                   <FaChevronRight className="text-lg" />
                   <div className="flex flex-row items-center">
                     <div className="mr-2">Course </div>
-                    {data.semester}/{data.year}
+                    {data.semester}/{data.year.toString().slice(2)}
                   </div>
                 </li>
               ))}

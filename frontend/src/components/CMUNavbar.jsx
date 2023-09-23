@@ -2,7 +2,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Flex, Text, Menu } from "@mantine/core";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ROLE, ShowSidebarContext, UserInfoContext } from "../context";
+import { ROLE, ShowSidebarContext, UserInfoContext, CurrentContext } from "../context";
 import { signOut, getCurrent } from "../services";
 import cmulogo from "../image/cmulogo2.png";
 import { FaSignOutAlt } from "react-icons/fa";
@@ -12,30 +12,14 @@ import { HiChevronRight } from "react-icons/hi";
 import { CheckPermission } from "../utility/main";
 
 const CMUNavbar = () => {
-  const [current, setCurrent] = useState([])
+  // const [current, setCurrent] = useState([])
   const { handleSidebarClick } = useContext(ShowSidebarContext);
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
+  const { current } = useContext(CurrentContext);
   const { pathname } = useLocation();
   const withoutNavbar = ["/sign-in", "/cmuOAuthCallback", "/errorView"];
   const navigate = useNavigate();
   const [mobileSidebar, setMobileSidebar] = useState(false);
-  
-  useEffect(()=>{
-    const fetchData = async () => {
-      const resp = await getCurrent()
-      const arr = []
-      resp.map(e=>{
-        let obj = {
-          semester: e.semester,
-          year: e.year
-        }
-        arr.push(obj)
-      })
-      console.log(arr)
-      setCurrent(arr)
-    }
-    fetchData()
-  }, [])
 
   // Sidebar
   const handleSidebar = () => {
@@ -87,10 +71,10 @@ const CMUNavbar = () => {
                     <HiChevronRight />
                     <div
                       onClick={() => {
-                        handleSemesterYear(data.semester, `25${data.year}`);
+                        handleSemesterYear(data.semester, data.year);
                       }}
                     >
-                      Course {data.semester}/{data.year}
+                      Course {data.semester}/{data.year.toString().slice(2)}
                     </div>
                   </li>
                 ))}
