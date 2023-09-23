@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
@@ -47,18 +46,18 @@ export default function Course166Container() {
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
   const deleteCourse = useDisclosure();
-  const [current, setCurrent] = useState([])
+  const [current, setCurrent] = useState([]);
   const [checkedCourses, setCheckedCourse] = useState([]);
   const [countChecked, setCountChecked] = useState(0);
 
-  useEffect(()=>{
+  useEffect(() => {
     const fetchData = async () => {
-      const resp = await getCurrent()
-      console.log(resp)
-      setCurrent(resp)
-  }
-  fetchData()
-  }, [setCurrent])
+      const resp = await getCurrent();
+      console.log(resp);
+      setCurrent(resp);
+    };
+    fetchData();
+  }, [setCurrent]);
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -282,8 +281,13 @@ export default function Course166Container() {
   ]);
 
   const formatDate = (date) => {
+    const buddhistYear = date.getFullYear() + 543;
     const options = { day: "numeric", month: "short", year: "numeric" };
-    return date.toLocaleDateString("en-US", options);
+    const formattedDate = date
+      .toLocaleDateString("en-US", options)
+      .replace(/\d{4}/, `${buddhistYear}`);
+
+    return formattedDate;
   };
 
   const goToUpload = () => {
@@ -373,98 +377,6 @@ export default function Course166Container() {
                                  xl:px-10lg: lg:px-9 md: md:px-8 sm:px-8  px-6
                                  "
                 ></div>
-                {/* <Modal
-                  opened={deleteCourse[0]}
-                  onClose={deleteCourse[1].close}
-                  centered
-                  withCloseButton={false}
-                  size="auto"
-                  display="flex"
-                  yOffset={0}
-                  xOffset={0}
-                  padding={0}
-                  radius={10}
-                  overlayProps={{
-                    opacity: 0.55,
-                    blur: 3,
-                  }}
-                  closeOnClickOutside={false}
-                  closeOnEscape={false}
-                >
-                  <div className={secMan.managePopupContent}>
-                    <div className={secMan.managePopupContentInner}>
-                      <p style={{ color: "white", fontWeight: "600" }}>
-                        Select course to delete
-                      </p>
-                    </div>
-                    <div style={{ marginTop: "-20px" }}>
-                      {course.map((value, key) => (
-                        <div
-                          key={key}
-                          style={{
-                            alignItems: "center",
-                            marginTop: "10px",
-                            display: "flex",
-                          }}
-                        >
-                          <Checkbox
-                            color="indigo"
-                            size="md"
-                            onChange={(e) => handleCheckboxChange(e, value)}
-                            id="selected-course"
-                            name="selected-course"
-                          />
-                          <p style={{ marginLeft: "16px", fontSize: "22px" }}>
-                            {value.courseNo}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        marginTop: "20px",
-                      }}
-                    >
-                      <Button
-                        style={{ marginRight: "20px" }}
-                        className={Course.CancelPopupButton}
-                        onClick={() => {
-                          deleteCourse[1].close();
-                          setCheckedCourse([]);
-                        }}
-                        radius="md"
-                        sx={{
-                          color: "black",
-                          "&:hover": {
-                            backgroundColor: "#F0EAEA",
-                          },
-                        }}
-                      >
-                        Cancel
-                      </Button>
-                      <Button
-                        style={{ marginLeft: "20px" }}
-                        className={Course.AddPopupButton}
-                        type="submit"
-                        sx={{
-                          "&:hover": {
-                            backgroundColor: "#d499ff",
-                          },
-                        }}
-                        onClick={() => {
-                          deleteCourse[1].close();
-                          setCheckedCourse([]);
-                        }}
-                        radius="md"
-                        disabled={countChecked === 0}
-                      >
-                        Delete
-                      </Button>
-                    </div>
-                  </div>
-                </Modal> */}
                 <Modal
                   opened={addCourseButton[0]}
                   onClose={addCourseButton[1].close}
@@ -543,7 +455,7 @@ export default function Course166Container() {
 
                 <div className="mx-[1%] lg:mt-3 max-h-screen">
                   <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary">
-                    <div className="flex flex-col">
+                    <div className={`flex flex-col ${noCourse ? "h-full" : ""}`}>
                       <div className="mb-4 bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
                         <div className="flex items-start flex-col justify-center ">
                           <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
@@ -556,10 +468,10 @@ export default function Course166Container() {
                         </div>
                         <div className=" flex lg:flex-row  md:flex-row flex-col gap-3 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22">
                           <div
-                            className={`lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer hover:text-black    ${
+                            className={`lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer ${
                               isDelete
-                                ? "text-black-600 border-green-500 hover: hover:bg-green-400"
-                                : "text-black-500 border-red-500 hover: hover:bg-red-400"
+                                ? " border-green-500 hover: hover:bg-green-400"
+                                : " border-red-500 hover: hover:bg-red-400"
                             }`}
                             onClick={() => setIsDelete(!isDelete)}
                           >
@@ -586,15 +498,19 @@ export default function Course166Container() {
                           </div>
                         </div>
                       </div>
-
                       {noCourse && (
-                        <div className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl transition-all duration-100 fade-bottom my-32 ">
+                        <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
+                        <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
                           {noCourse}
-                        </div>
+                        </p>
+                        <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 ">
+                          Click add course at top right corner
+                        </span>
+                      </div>
                       )}
                       {course.map((item, key) => {
                         return (
-                          <div className="flex-col flex lg:px-4 cursor-pointer lg:text-2xl px-5 py-3">
+                          <div className="flex-row flex lg:px-4 cursor-pointer lg:text-2xl px-5 gap-3 py-3 items-center">
                             {isDelete && (
                               <AiFillMinusCircle
                                 className=" text-4xl text-red-500 cursor-pointer"
@@ -603,7 +519,7 @@ export default function Course166Container() {
                             )}
                             <div
                               key={key}
-                              className=" bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary items-center transition-all duration-100 shadow-lg fade-bottom lg:text-2xl px-5 "
+                              className=" w-full bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary items-center transition-all duration-100 shadow-lg fade-bottom lg:text-2xl px-5 "
                               onClick={() => onClickCourse(item)}
                             >
                               <div className="lg:px-5 px-3 py-3 font-medium group-hover:cursor-pointer flex justify-between items-center">
@@ -859,4 +775,3 @@ export default function Course166Container() {
     </>
   );
 }
-

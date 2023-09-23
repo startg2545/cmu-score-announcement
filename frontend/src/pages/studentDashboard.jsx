@@ -129,7 +129,7 @@ export default function StudentDashboard() {
     const options = { day: "numeric", month: "short", year: "numeric" };
     const formattedDate = date
       .toLocaleDateString("en-US", options)
-      .replace(/\d{4}/, `${buddhistYear} BE`);
+      .replace(/\d{4}/, `${buddhistYear}`);
 
     return formattedDate;
   };
