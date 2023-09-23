@@ -65,7 +65,7 @@ function App() {
       fetchData();
     }
 
-    if (!current.length) fetchCurrent();
+    if (!current.length && userInfo) fetchCurrent();
   }, [userInfo, showSidebar, setUser, current]);
 
   return (
