@@ -13,7 +13,7 @@ const SignIn = () => {
         <a href={process.env.REACT_APP_NEXT_PUBLIC_CMU_OAUTH_URL}>
           <div
             className="loginbutton"
-            style={{ boxShadow: "2px 2px 2px 2px rgba(0, 0, 0, 0.15)" }}
+            style={{ boxShadow: "2px 2px 2px 2px rgba(0, 0, 0, 0.15)" , cursor: "pointer"}}
           >
             <img src={emblem} alt="emblem" className="emblem" />
             Login with CMU Account
