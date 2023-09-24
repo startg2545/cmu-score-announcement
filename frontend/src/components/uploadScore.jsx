@@ -26,6 +26,11 @@ export default function UploadScorePageContainer() {
   const [showLoadComplete, setShowLoadComplete] = useState(false);
   const [message, setMessage] = useState();
   const [currentDate, setCurrentDate] = useState(new Date());
+  const fileError = useDisclosure();
+  const [row, setRow] = useState(0);
+  const [column, setColumn] = useState(0);
+  const [typeError, setTypeError] = useState(false);
+  const [dataError, setDataError] = useState(false);
 
   const scores = {
     courseNo: courseNo,
@@ -151,8 +156,11 @@ export default function UploadScorePageContainer() {
 
   const handleFile = async (e) => {
     const file = e.target.files[0];
-    if (!file.name.endsWith(".xlsx") && !file.name.endsWith(".xls")) {
-      alert("Unsupported file selected.");
+    setTypeError(false);
+    setDataError(false);
+    if (!file.name.endsWith(".xlsx")) {
+      setTypeError(true);
+      fileError[1].open();
       e.target.value = null;
       return;
     }
@@ -165,7 +173,10 @@ export default function UploadScorePageContainer() {
         header: 1,
         defval: "",
       });
-      while (resultsData.length > 0 && resultsData[resultsData.length - 1].every(cell => cell === "")) {
+      while (
+        resultsData.length > 0 &&
+        resultsData[resultsData.length - 1].every((cell) => cell === "")
+      ) {
         resultsData.pop();
       }
       let full_score = resultsData.shift();
@@ -175,12 +186,11 @@ export default function UploadScorePageContainer() {
       for (let i = 0; i < resultsData.length; i++) {
         for (let j = 4; j < keys.length; j++) {
           if (keys[j] && !isNumeric(resultsData[i][j])) {
-            alert(
-              `Invalid data at row ${i + 3}, column ${
-                getColumnAlphabet(j)
-              }. "point" must be a number.`
-            );
+            setRow(i + 3);
+            setColumn(getColumnAlphabet(j));
             e.target.value = null;
+            setDataError(true);
+            fileError[1].open();
             return;
           }
         }
@@ -200,6 +210,110 @@ export default function UploadScorePageContainer() {
 
   return (
     <>
+      <Modal
+        opened={fileError[0]}
+        onClose={fileError[1].close}
+        centered
+        withCloseButton={false}
+        size="auto"
+        display="flex"
+        yOffset={0}
+        xOffset={0}
+        padding={0}
+        radius={10}
+        overlayProps={{
+          color:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[9]
+              : theme.colors.gray[10],
+          opacity: 0.55,
+          blur: 3,
+        }}
+      >
+        <div className={upStyle["ScorePopup-Content"]}>
+          <div className={upStyle["ScorePopup-ContentInner"]}>
+            <p style={{ color: "white", fontWeight: "600" }}>Error</p>
+          </div>
+          <div className={upStyle.ScoreSvgInline}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="53"
+              height="60"
+              viewBox="0 0 63 76"
+              fill="none"
+              transform="translate(12, 0)"
+            >
+              <path
+                d="M2 2H49.529L61 13.4545V74H2.00656L2 2ZM44.6129 2V18.3636H61M31.5033 64.1818V34.7273V64.1818ZM18.3936 44.5455L31.5033 31.4545L44.6129 44.5455"
+                fill="url(#paint0_linear_299_1209)"
+              />
+              <path
+                d="M44.6129 2V18.3636H61M31.5033 64.1818V34.7273M18.3936 44.5455L31.5033 31.4545L44.6129 44.5455M2 2H49.529L61 13.4545V74H2.00656L2 2Z"
+                stroke="#160000"
+                strokeWidth="3"
+              />
+              <defs>
+                <linearGradient
+                  id="paint0_linear_299_1209"
+                  x1="31.5"
+                  y1="2"
+                  x2="31.5"
+                  y2="74"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop
+                    offset="0.359375"
+                    stopColor="#777DDB"
+                    stopOpacity="0.44"
+                  />
+                  <stop offset="1" stopColor="#5960D1" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="38"
+              height="40"
+              viewBox="0 0 44 40"
+              fill="none"
+              transform="translate(-4, 22)"
+            >
+              <path
+                d="M26.622 3.17771L26.6221 3.17796L42.8112 31.6836C44.794 35.1767 42.2528 39.5 38.192 39.5H5.81084C1.74691 39.5 -0.793947 35.1765 1.18874 31.6836L17.3778 3.17796C19.4058 -0.392872 24.5971 -0.392349 26.622 3.17771ZM24.4033 33.7694C25.0417 33.1371 25.4013 32.2785 25.4013 31.3822C25.4013 30.4859 25.0417 29.6273 24.4033 28.995C23.7651 28.3629 22.9005 28.0086 22 28.0086C21.0994 28.0086 20.2348 28.3629 19.5966 28.995C18.9582 29.6273 18.5987 30.4859 18.5987 31.3822C18.5987 32.2785 18.9582 33.1371 19.5966 33.7694C20.2348 34.4015 21.0994 34.7558 22 34.7558C22.9005 34.7558 23.7651 34.4015 24.4033 33.7694ZM22 7.89368C21.0994 7.89368 20.2348 8.24795 19.5966 8.88008C18.9582 9.51237 18.5987 10.371 18.5987 11.2672V19.8879C18.5987 20.7842 18.9582 21.6428 19.5966 22.2751C20.2348 22.9072 21.0994 23.2615 22 23.2615C22.9005 23.2615 23.7651 22.9072 24.4033 22.2751C25.0417 21.6428 25.4013 20.7842 25.4013 19.8879V11.2672C25.4013 10.371 25.0417 9.51237 24.4033 8.88008C23.7651 8.24795 22.9005 7.89368 22 7.89368Z"
+                fill="url(#paint0_linear_299_1210)"
+                stroke="black"
+              />
+              <defs>
+                <linearGradient
+                  id="paint0_linear_299_1210"
+                  x1="22"
+                  y1="0"
+                  x2="22"
+                  y2="40"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stopColor="#F9E5C4" stopOpacity="0.76" />
+                  <stop offset="1" stopColor="#FFBB0C" />
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <p
+            style={{ marginTop: "20px" }}
+          >{dataError && `Row ${row}, Column ${column} must be a number.`}
+          {typeError && "Support file .xlsx only"}</p>
+          <div className={upStyle.ScorePopupButtons}>
+            <Button
+              className={Course.AddPopupButton}
+              onClick={() => {
+                fileError[1].close();
+              }}
+            >
+              OK
+            </Button>
+          </div>
+        </div>
+      </Modal>
       {(isLoading || showLoadComplete) && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75  z-50 ">
           {/* <div class="custom-box h-200 w-200 p-4 rounded-lg shadow-md inline-flex items-center bg-white "> */}
@@ -261,7 +375,7 @@ export default function UploadScorePageContainer() {
           {/* <form onSubmit={(e) => handleSubmit(e)}> */}
           <input
             type="file"
-            accept=".xlsx, .xls"
+            accept=".xlsx"
             onChange={(e) => handleFile(e)}
             onClick={(e) => (e.target.value = null)}
             className="w-full rounded-lg border-primary border-2 p-1 lg:p-2 drop-shadow-md bg-gray-100"
@@ -283,7 +397,7 @@ export default function UploadScorePageContainer() {
           }
           file
           <span className="font-bold text-center text-red-500 px-2">
-            (support only this template xlsx and .xls format)
+            (support only this template .xlsx format)
           </span>
           and fill student code, score (numbers only).
           <span className="font-bold text-center text-red-500 px-2">
