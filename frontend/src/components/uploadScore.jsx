@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import upStyle from "./css/uploadScore.module.css";
 import { StateContext, UserInfoContext } from "../context";
 import { addCourse } from "../services";
@@ -13,7 +13,7 @@ import { AiOutlineClose, AiOutlineCheck } from "react-icons/ai";
 
 export default function UploadScorePageContainer() {
   const [sections, setSections] = useState([]);
-  const {isUploadScore, setUploadScore } = useContext(StateContext);
+  const { isUploadScore, setUploadScore } = useContext(StateContext);
   const [searchParams, setSearchParams] = useSearchParams({});
   const { userInfo } = useContext(UserInfoContext);
   const [courseNo, setCourseNo] = useState(0);
@@ -25,8 +25,7 @@ export default function UploadScorePageContainer() {
   const [isLoading, setIsLoading] = useState(false);
   const [showLoadComplete, setShowLoadComplete] = useState(false);
   const [message, setMessage] = useState();
-
-  const navigate = useNavigate();
+  const [currentDate, setCurrentDate] = useState(new Date());
 
   const scores = {
     courseNo: courseNo,
@@ -38,7 +37,6 @@ export default function UploadScorePageContainer() {
   const submitData = async () => {
     setIsLoading(true);
     let resp = await addCourse(scores);
-    console.log(resp);
     setIsLoading(false);
     if (resp) {
       setMessage(resp.message);
@@ -49,8 +47,6 @@ export default function UploadScorePageContainer() {
     }
     localStorage.removeItem("page");
   };
-
-  const [currentDate, setCurrentDate] = useState(new Date());
 
   useEffect(() => {
     setCourseNo(searchParams.get("courseNo")); // get course number from Hooks
@@ -140,8 +136,27 @@ export default function UploadScorePageContainer() {
     setSections(arr);
   }
 
+  function isNumeric(value) {
+    return !isNaN(parseFloat(value)) && isFinite(value);
+  }
+
+  function getColumnAlphabet(columnIndex) {
+    let alphabet = "";
+    while (columnIndex >= 0) {
+      alphabet = String.fromCharCode((columnIndex % 26) + 65) + alphabet;
+      columnIndex = Math.floor(columnIndex / 26) - 1;
+    }
+    return alphabet;
+  }
+
   const handleFile = async (e) => {
     const file = e.target.files[0];
+    if (!file.name.endsWith(".xlsx") && !file.name.endsWith(".xls")) {
+      alert("Unsupported file selected.");
+      e.target.value = null;
+      return;
+    }
+
     if (file) {
       const data = await file.arrayBuffer();
       const workbook = XLSX.read(data);
@@ -150,18 +165,34 @@ export default function UploadScorePageContainer() {
         header: 1,
         defval: "",
       });
+      while (resultsData.length > 0 && resultsData[resultsData.length - 1].every(cell => cell === "")) {
+        resultsData.pop();
+      }
       let full_score = resultsData.shift();
       const keys = resultsData.shift();
+
+      // Validate the "point" field
+      for (let i = 0; i < resultsData.length; i++) {
+        for (let j = 4; j < keys.length; j++) {
+          if (keys[j] && !isNumeric(resultsData[i][j])) {
+            alert(
+              `Invalid data at row ${i + 3}, column ${
+                getColumnAlphabet(j)
+              }. "point" must be a number.`
+            );
+            e.target.value = null;
+            return;
+          }
+        }
+      }
+
       var results = getResults(resultsData, keys);
       const secNcount = getSec(resultsData);
       const sec = secNcount.sec_list;
       const count = secNcount.countStudent;
       addSections(sec, count, keys, full_score, results);
-      if (file) {
-        setIsFileUploaded(true);
-      } else {
-        setIsFileUploaded(false);
-      }
+
+      setIsFileUploaded(true);
     } else {
       setIsFileUploaded(false);
     }
@@ -227,12 +258,15 @@ export default function UploadScorePageContainer() {
           >
             Score File
           </p>
+          {/* <form onSubmit={(e) => handleSubmit(e)}> */}
           <input
             type="file"
-            onChange={(e) => handleFile(e)}
-            className="w-full rounded-lg border-primary border-2 p-1 lg:p-2 drop-shadow-md bg-gray-100"
             accept=".xlsx, .xls"
+            onChange={(e) => handleFile(e)}
+            onClick={(e) => (e.target.value = null)}
+            className="w-full rounded-lg border-primary border-2 p-1 lg:p-2 drop-shadow-md bg-gray-100"
           />
+          {/* </form> */}
         </div>
         <p className="bg-[#FCEFCD] rounded-lg p-4 my-3 cursor-default">
           Click to download this Excel
