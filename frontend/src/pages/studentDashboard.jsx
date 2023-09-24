@@ -51,24 +51,34 @@ export default function StudentDashboard() {
   const [yValues, setYValues] = useState([]);
 
   const fetchData = async () => {
-    const year = current[0].year;
-    const semester = current[0].semester;
-    const data = await getStudentScores(year, semester);
-    if (data) {
-      if (data.ok) {
-        setCourseList(data.courseGrades);
-      } else {
-        setMessage(data.message);
+    if (current.length) {
+      const year = current[0].year;
+      const semester = current[0].semester;
+      const data = await getStudentScores(year, semester);
+      if (data) {
+        if (data.ok) {
+          setCourseList(data.courseGrades);
+        } else {
+          setMessage(data.message);
+        }
       }
     }
   };
 
   useEffect(() => {
+    setCourseList([]);
+    setScoreList([]);
+    setStat([]);
+    setMessage();
+    fetchData();
+  }, [current]);
+
+  useEffect(() => {
     socket.on("courseUpdate", (course) => {
-      setMessage();
       setCourseList([]);
       setScoreList([]);
       setStat([]);
+      setMessage();
       fetchData();
     });
   }, []);
@@ -78,7 +88,7 @@ export default function StudentDashboard() {
       setCurrentDate(new Date());
     }, 1000);
 
-    if (current.length && !courseList.length && !message) fetchData();
+    if (!courseList.length && !message) fetchData();
     if (searchParams.get("courseNo") && courseList.length) {
       setCourse(searchParams.get("courseNo"));
     }
@@ -88,7 +98,7 @@ export default function StudentDashboard() {
 
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, [courseList, section, scores, current]);
+  }, [courseList, section, scores]);
 
   useEffect(() => {
     if (!searchParams.get("scoreName")) {
@@ -363,12 +373,12 @@ export default function StudentDashboard() {
                 courseList.map((item, key) => {
                   return (
                     <div
+                      key={key}
                       className="xl:px-5 lg:px-5 md:px-4 sm:px-3 px-3
                                xl:mt-5 lg:mt-5  md:mt-4  sm:mt-3  mt-3
                 "
                     >
                       <div
-                        key={key}
                         className=" bg-primary  rounded-xl group active:bg-maintext hover:bg-secondary
                                xl:py-2 lg:py-2 md:py-2 sm:py-1 py-1"
                         onClick={() => onClickCourse(item.courseNo)}
