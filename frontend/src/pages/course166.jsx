@@ -19,7 +19,7 @@ import { HiChevronRight } from "react-icons/hi";
 import { FaChevronRight, FaSignOutAlt } from "react-icons/fa";
 import { AiFillMinusCircle } from "react-icons/ai";
 import { IoPersonAddOutline } from "react-icons/io5";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiEdit3 } from "react-icons/fi";
 import { BiPlus } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -448,20 +448,20 @@ export default function Course166Container() {
                           </p>
                         </div>
                         {isCurrent && (
-                          <div className=" flex lg:flex-row  md:flex-row flex-col gap-3 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22">
+                          <div className=" flex lg:flex-row  md:flex-row flex-col gap-2 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22 ">
                             <div
-                              className={`lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer ${
+                              className={`lg:px-5 px-1 gap-3 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer transition duration-150 ease-in-out ${
                                 isDelete
                                   ? " border-green-500 hover: hover:bg-green-400"
-                                  : " border-red-500 hover: hover:bg-red-400"
+                                  : " border-orange-400 hover: hover:bg-orange-400"
                               }`}
                               onClick={() => setIsDelete(!isDelete)}
                             >
                               {!isDelete && (
                                 <>
                                   {" "}
-                                  <RiDeleteBin6Line className="lg:text-3xl text-xl" />
-                                  <span>Delete</span>{" "}
+                                  <FiEdit3 className="lg:text-3xl text-xl" />
+                                  <span className=" cursor-default">Edit</span>{" "}
                                 </>
                               )}
                               {isDelete && (
@@ -472,7 +472,7 @@ export default function Course166Container() {
                               )}
                             </div>
                             <div
-                              className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
+                              className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md transition duration-150 ease-in-out"
                               onClick={addCourseButton[1].open}
                             >
                               <FiPlus className="lg:text-3xl text-xl " />
@@ -514,7 +514,7 @@ export default function Course166Container() {
                               className="  w-full bg-white lg:py-3 py-2 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
                               onClick={() => onClickCourse(item)}
                             >
-                              <div className="lg:px-5 px-3 lg:py-3 py-2 font-medium group-hover:cursor-pointer flex justify-between items-center">
+                              <div className={`lg:px-5 px-3 lg:py-3 py-2 font-medium flex justify-between items-center ${isDelete ? "cursor-default" : "cursor-pointer"}`}>
                                 <div className="text-black lg:text-2xl text-lg">
                                   {item.courseNo}
                                   {item.courseName

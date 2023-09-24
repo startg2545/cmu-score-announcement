@@ -343,10 +343,10 @@ const Management = ({ data, courseName }) => {
                       `}
       >
         {!searchParams.get("section") && data.length !== 0 && (
-          <div className="flex flex-col py-4 px-5 lg:px-14 gap-5 cursor-pointer">
+          <div className="flex flex-col py-4 px-5 h-full lg:px-14 gap-5 cursor-pointer bg-slate-50">
             {data.map((e, key) => (
               <p
-                className="w-full bg-white py-4 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 shadow-lg fade-bottom lg:text-2xl px-5 "
+                className="w-full bg-white py-4 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
                 key={key}
                 onClick={() => {
                   showTable(e.section);
