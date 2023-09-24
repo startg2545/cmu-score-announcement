@@ -500,7 +500,10 @@ export default function Course166Container() {
                       )}
                       {course.map((item, key) => {
                         return (
-                          <div className="flex-row flex lg:px-4 cursor-pointer lg:text-2xl px-5 gap-3 py-3 items-center">
+                          <div
+                            key={key}
+                            className="flex-row flex lg:px-4 cursor-pointer lg:text-2xl px-5 gap-3 py-3 items-center"
+                          >
                             {isDelete && (
                               <AiFillMinusCircle
                                 className=" text-4xl text-red-500 cursor-pointer"
@@ -508,7 +511,6 @@ export default function Course166Container() {
                               />
                             )}
                             <div
-                              key={key}
                               className="  w-full bg-white lg:py-3 py-2 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
                               onClick={() => onClickCourse(item)}
                             >
