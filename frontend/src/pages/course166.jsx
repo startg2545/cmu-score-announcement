@@ -253,14 +253,7 @@ export default function Course166Container() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [
-    course,
-    sections,
-    getParams,
-    params,
-    searchParams,
-    setSearchParams,
-  ]);
+  }, [course, sections, getParams, params, searchParams, setSearchParams]);
 
   const formatDate = (date) => {
     const buddhistYear = date.getFullYear() + 543;
@@ -316,9 +309,9 @@ export default function Course166Container() {
   return (
     <>
       {/* <SideBar /> */}
-      <div className="flex flex-row gap-3 justify-center">
+      <div className="flex flex-row gap-3 justify-center ">
         <div
-          className={`hidden lg:flex lg:overflow-hidden lg:flex-col pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen duration-500  ${
+          className={`hidden lg:flex lg:overflow-hidden lg:flex-col pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen duration-500 ${
             showSidebar
               ? "transform translate-x-0 w-[300px]"
               : "transform -translate-x-full w-0"
@@ -337,7 +330,7 @@ export default function Course166Container() {
                   <FaChevronRight className="text-lg" />
                   <div className="flex flex-row items-center">
                     <div className="mr-2">Course </div>
-                    {data.semester}/{data.year}
+                    {data.semester}/{data.year.toString().slice(2)}
                   </div>
                 </li>
               ))}
@@ -439,7 +432,7 @@ export default function Course166Container() {
                   </form>
                 </Modal>
 
-                <div className="mx-[1%] lg:mt-3 max-h-screen">
+                <div className="mx-[1%] lg:mt-3 max-h-screen bg-slate-50">
                   <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary">
                     <div
                       className={`flex flex-col ${noCourse ? "h-full" : ""}`}
@@ -498,6 +491,13 @@ export default function Course166Container() {
                           </span>
                         </div>
                       )}
+                      {!course.length && !noCourse && (
+                        <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
+                          <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
+                            Loading....
+                          </p>
+                        </div>
+                      )}
                       {course.map((item, key) => {
                         return (
                           <div className="flex-row flex lg:px-4 cursor-pointer lg:text-2xl px-5 gap-3 py-3 items-center">
@@ -509,11 +509,11 @@ export default function Course166Container() {
                             )}
                             <div
                               key={key}
-                              className=" w-full bg-primary py-3 rounded-xl group active:bg-maintext hover:bg-secondary items-center transition-all duration-100 shadow-lg fade-bottom lg:text-2xl px-5 "
+                              className="  w-full bg-white lg:py-3 py-2 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
                               onClick={() => onClickCourse(item)}
                             >
-                              <div className="lg:px-5 px-3 py-3 font-medium group-hover:cursor-pointer flex justify-between items-center">
-                                <div className="text-white lg:text-2xl text-lg">
+                              <div className="lg:px-5 px-3 lg:py-3 py-2 font-medium group-hover:cursor-pointer flex justify-between items-center">
+                                <div className="text-black lg:text-2xl text-lg">
                                   {item.courseNo}
                                   {item.courseName
                                     ? ` - ${item.courseName}`

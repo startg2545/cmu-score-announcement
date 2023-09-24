@@ -297,7 +297,7 @@ router.get("/", async (req, res) => {
       return e.year === year && e.semester === semester;
     });
 
-    if (!courseGrades.length) return res.send({ ok: false, message: "No Course" });
+    if (!courseGrades.length) return res.send({ ok: false, message: "No Score" });
     return res.send({ ok: true, courseGrades });
   } catch (err) {
     console.log(err);

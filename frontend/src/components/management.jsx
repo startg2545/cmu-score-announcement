@@ -331,21 +331,22 @@ const Management = ({ data, courseName }) => {
           </div>
         </div>
       </Modal>
+      <div className=" max-h-screen ">
       <div
         className={`overflow-auto 
                       ${
                         searchParams.get("section")
-                          ? "xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-145px)] h-[calc(85vh-145px)]"
+                          ? "xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-145px)] h-[calc(85vh-145px)] "
                           : "xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-190px)] h-[calc(85vh-193px)]"
                       }
                       ${data.length === 0 && "overflow-hidden"}
                       `}
       >
         {!searchParams.get("section") && data.length !== 0 && (
-          <div className="flex flex-col py-5 px-5 lg:px-14 gap-5 cursor-pointer ">
+          <div className="flex flex-col py-4 px-5 lg:px-14 gap-5 cursor-pointer">
             {data.map((e, key) => (
               <p
-                className="bg-gray-180 hover:bg-gray-200 active:bg-gray-300 shadow-lg lg:text-2xl px-5 py-4 rounded-xl text-black"
+                className="w-full bg-white py-4 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 shadow-lg fade-bottom lg:text-2xl px-5 "
                 key={key}
                 onClick={() => {
                   showTable(e.section);
@@ -361,8 +362,9 @@ const Management = ({ data, courseName }) => {
             ))}
           </div>
         )}
+
         {data.length === 0 && !searchParams.get("section") && (
-          <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
+          <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] bg-slate-50">
             <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
               No section
             </p>
@@ -373,7 +375,7 @@ const Management = ({ data, courseName }) => {
         )}
         <div
           className="xl:my-5 lg:my-5 md:my-6 sm:my-8 my-8  
-                        xl:mx-5 lg:mx-5 
+                        xl:mx-5 lg:mx-5
                         md:max-w-full lg:max-w-full max-w-32 "
         >
           {searchParams.get("section") && (
@@ -382,13 +384,14 @@ const Management = ({ data, courseName }) => {
           {}
         </div>
       </div>
+      </div>
       {isCurrent && !searchParams.get("section") && (
         <div className="flex w-full justify-between gap-1 ">
           <button
             className={`w-full h-full  py-3
             ${
               data.length === 0
-                ? "bg-gray-400 cursor-default"
+                ? "bg-gray-400 cursor-not-allowed"
                 : "bg-primary hover:bg-maintext cursor-pointer"
             }`}
             disabled={data.length === 0 ? true : false}
@@ -402,7 +405,7 @@ const Management = ({ data, courseName }) => {
             className={`w-full h-full  py-3
             ${
               data.length === 0
-                ? "bg-gray-400 cursor-default"
+                ? "bg-gray-400 cursor-not-allowed"
                 : "bg-primary hover:bg-maintext cursor-pointer"
             }`}
             disabled={data.length === 0 ? true : false}

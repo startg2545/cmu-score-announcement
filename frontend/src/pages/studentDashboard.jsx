@@ -322,7 +322,7 @@ export default function StudentDashboard() {
               }}
             >
               <span //big text topic
-                className="xl:text-5xl lg:text-5xl md:text-5xl sm:text-4xl text-4xl"
+                className="xl:text-5xl lg:text-5xl md:text-5xl sm:text-3xl text-3xl md:mt-1"
               >
                 {!searchParams.get("courseNo") && "Dashboard"}
                 {searchParams.get("courseNo") &&
@@ -330,7 +330,7 @@ export default function StudentDashboard() {
                   searchParams.get("courseNo")}
                 {searchParams.get("scoreName") && searchParams.get("scoreName")}
               </span>
-              <span className="xl:text-2xl lg:text-2xl md:text-2xl sm:text-xl text-xl">
+              <span className="xl:text-2xl lg:text-2xl md:text-2xl sm:text-xl text-lg">
                 {formatDateBE(currentDate)}
               </span>
             </div>
@@ -355,18 +355,18 @@ export default function StudentDashboard() {
         {(message || !searchParams.get("courseNo")) && (
           <div
             className={`flex flex-col gap-3 border-[3px] border-primary rounded-2xl shadow-xl overflow-x-auto
-             xl:h-[70vh] lg:h-[70vh] md:h-[73vh-50px] sm:h-[74vh] h-[75vh] 
+             xl:h-[70vh] lg:h-[70vh] md:h-[77vh] sm:h-[74vh] h-[75vh] 
           `}
           >
             {message && (
-              <Text
-                className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl border-b-[1px] pb-2 border-primary/50"
-                style={{
-                  fontFamily: "'SF PRo', sans-serif",
-                }}
-              >
-                {message}
-              </Text>
+              <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-full h-full ">
+                <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold cursor-default">
+                  {message}
+                </p>
+                <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 cursor-default">
+                  No course scores released.
+                </span>
+              </div>
             )}
             <div className="mt-0">
               {!searchParams.get("courseNo") &&

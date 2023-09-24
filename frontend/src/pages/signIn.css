@@ -42,6 +42,7 @@
   font-weight: 800;
   left: 50%;
   transform: translate(-50%, -50%);
+  cursor: default;
 }
 
 .logintext {
@@ -53,6 +54,7 @@
   top: 68%;
   left: 50%;
   transform: translate(-50%, -50%);
+  cursor: default;
 }
 
 .loginbutton {
@@ -73,6 +75,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   transition: background 0.1s ease-in;
+  cursor: pointer;
 }
 
 .loginbutton:hover
@@ -117,6 +120,7 @@
     width: 45%; /* Adjust button width for tablets */
     height: 11%;
     font-size: 24px; /* Adjust font size for tablets */
+    cursor: pointer;
   }
 }
 
@@ -144,6 +148,7 @@
     width: 60%; /* Adjust button width for tablets */
     height: 12%;
     font-size: 22px; /* Adjust font size for tablets */
+    cursor: pointer;
   }
 }
 
