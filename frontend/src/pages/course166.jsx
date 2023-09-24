@@ -736,7 +736,7 @@ export default function Course166Container() {
                                 : "none",
                             }}
                             className={
-                              "lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md"
+                              "lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md transition ease-in-out duration-250"
                             }
                             onClick={goToUpload}
                           >

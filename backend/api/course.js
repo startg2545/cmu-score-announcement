@@ -36,22 +36,24 @@ router.post("/add", async (req, res) => {
     }
 
     // Find have section that user not instructor / co-instructor
-    let cannotAdd = [];
-    course.sections.map((c) =>
-      sections.map((s) => {
-        if (
-          c.section === s.section &&
-          c.instructor !== user.cmuAccount &&
-          !c.coInstructors?.includes(user.cmuAccount)
-        )
-          cannotAdd.push(s.section);
-      })
-    );
-    if (cannotAdd.length) {
-      return res.send({
-        ok: false,
-        message: `Section ${cannotAdd.map((e) => e)} cannot upload scores.`,
-      });
+    if (sections) {
+      let cannotAdd = [];
+      course.sections.map((c) =>
+        sections.map((s) => {
+          if (
+            c.section === s.section &&
+            c.instructor !== user.cmuAccount &&
+            !c.coInstructors?.includes(user.cmuAccount)
+          )
+            cannotAdd.push(s.section);
+        })
+      );
+      if (cannotAdd.length) {
+        return res.send({
+          ok: false,
+          message: `Section ${cannotAdd.map((e) => `  ${e}` )} you will upload already has an owner.`,
+        });
+      }
     }
 
     // Update sections
