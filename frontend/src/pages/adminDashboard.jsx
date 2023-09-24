@@ -20,10 +20,7 @@ const AdminDashboard = () => {
       semester,
       year,
     });
-    console.log("send", resp_add);
-
     fetchData();
-
     document.getElementById("form").reset();
   };
 
@@ -40,24 +37,18 @@ const AdminDashboard = () => {
     }
   };
 
-  
-
   useEffect(() => {
     const fetchData = async () => {
       const resp = await getCurrent();
-      console.log(resp);
       setCurrent(resp);
     };
     fetchData();
   }, [setCurrent]);
 
   const handleDelete = async (_id) => {
-    console.log("send", _id);
     const resp = await deleteCurrent({
       _id: _id,
     });
-    console.log("receive", resp);
-
     fetchData();
   };
 

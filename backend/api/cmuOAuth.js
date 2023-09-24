@@ -58,7 +58,7 @@ router.post("/", async (req, res) => {
       response2.cmuitaccount === "worapitcha_muangyot@cmu.ac.th" ||
       response2.cmuitaccount === "patrasorn_k@cmu.ac.th" ||
       response2.cmuitaccount === "thanaporn_chan@cmu.ac.th"
-        ? "MISEmpAcc"
+        ? "Admin"
         : response2.itaccounttype_id;
 
     //create session
