@@ -67,7 +67,9 @@ export default function CMUOAuthCallback() {
       const resp = await signIn(code);
       if (resp) {
         await setUser(resp);
-        if (resp.itAccountType === "StdAcc") {
+        if (resp.itAccountType === "Admin") {
+          navigate("/admin-dashboard");
+        } else if (resp.itAccountType === "StdAcc") {
           navigate("/student-dashboard");
         } else if (resp.itAccountType === "MISEmpAcc") {
           navigate("/instructor-dashboard");

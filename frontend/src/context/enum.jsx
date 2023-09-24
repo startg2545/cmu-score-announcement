@@ -1,18 +1,10 @@
 const PAGE = {
-  STUDENT: ["/student-dashboard", "/stuCourse-list"],
-  INSTRUCTOR: [
-    "/instructor-dashboard",
-    "/course",
-    "/upload-score-page",
-    "/table-score",
-    "/add-database",
-    "/course-detail",
-    "/add-score",
-    "/search-course",
-  ],
+  STUDENT: ["/student-dashboard"],
+  INSTRUCTOR: ["/instructor-dashboard", "/course"],
 };
 
 const ROLE = {
+  ADMIN: "Admin",
   STUDENT: "StdAcc",
   INSTRUCTOR: "MISEmpAcc",
 };

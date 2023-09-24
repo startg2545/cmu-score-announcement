@@ -1,13 +1,12 @@
 import { ROLE, PAGE } from "../context/enum";
 
 async function CheckPermission(userRole, page) {
-  if (ROLE.INSTRUCTOR === userRole) {
+  if (ROLE.ADMIN) return true;
+  else if (ROLE.INSTRUCTOR === userRole) {
     return PAGE.INSTRUCTOR.includes(page);
   } else if (ROLE.STUDENT === userRole) {
     return PAGE.STUDENT.includes(page);
-  } else {
-    return false;
-  }
+  } else return false;
 }
 
 export { CheckPermission };

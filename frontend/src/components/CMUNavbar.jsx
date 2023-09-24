@@ -7,7 +7,7 @@ import {
   UserInfoContext,
   CurrentContext,
 } from "../context";
-import { signOut, getCurrent } from "../services";
+import { signOut } from "../services";
 import cmulogo from "../image/cmulogo2.png";
 import { FaSignOutAlt } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -17,13 +17,12 @@ import { CheckPermission } from "../utility/main";
 
 const CMUNavbar = () => {
   const { handleSidebarClick } = useContext(StateContext);
-  const { userInfo, setUserInfo } = useContext(UserInfoContext);
+  const { userInfo } = useContext(UserInfoContext);
   const { current } = useContext(CurrentContext);
   const { pathname } = useLocation();
   const withoutNavbar = ["/sign-in", "/cmuOAuthCallback", "/errorView"];
   const navigate = useNavigate();
   const [mobileSidebar, setMobileSidebar] = useState(false);
-
 
   // -------------------------------------------------------------------------
   // -------------------------------------------------------------------------
@@ -72,7 +71,7 @@ const CMUNavbar = () => {
   };
 
   if (withoutNavbar.some((path) => pathname.includes(path))) return null;
-  const userRole = userInfo.itAccountType !== "MISEmpAcc" ? "hidden" : "flex";
+  const userRole = userInfo.itAccountType === "StdAcc" ? "hidden" : "flex";
 
   return (
     <>
@@ -94,7 +93,7 @@ const CMUNavbar = () => {
           <div className="flex flex-col rounded-md min-h-screen h-full justify-between">
             <div className="flex flex-col py-2">
               <ul className="flex flex-col gap-3 pt-5 pb-10 text-gray-800 justify-center text-center items-center font-semibold mx-3">
-                {current?.map ((data, i) => (
+                {current?.map((data, i) => (
                   <li
                     className="w-full justify-center flex cursor-pointer gap-1 text-2xl items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl "
                     key={i}
@@ -145,73 +144,68 @@ const CMUNavbar = () => {
           className="py-2"
           //navbar right content
         >
-          {(userInfo &&
-            userInfo.firstName &&
-            userInfo.itAccountType === ROLE.STUDENT && (
-              <Menu>
-                <Menu.Target>
-                  <Flex
-                    gap="5px"
-                    align="flex-end"
-                    direction="column"
-                    className="cursor-pointer group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div>
-                        <Text className="text-white group-hover:text-gray-200 lg:text-xl md:text-lg text-xs font-bold drop-shadow text-end">
-                          Hello, {userInfo.firstName.charAt(0).toUpperCase()}
-                          {userInfo.firstName.slice(1).toLowerCase()}{" "}
-                          {userInfo.lastName &&
-                            userInfo.lastName.charAt(0).toUpperCase()}
-                          .
-                        </Text>
-                        <Text className="text-[#f7c878] group-hover:text-[#e6bd76] lg:text-xl md:text-lg drop-shadow text-end sm:text-sm">
-                          1/66,{" Student"}
-                        </Text>
-                      </div>
-                      <IoMdArrowDropdown className="text-3xl text-white " />
+          {(userInfo && userInfo.itAccountType === ROLE.STUDENT && (
+            <Menu>
+              <Menu.Target>
+                <Flex
+                  gap="5px"
+                  align="flex-end"
+                  direction="column"
+                  className="cursor-pointer group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <Text className="text-white group-hover:text-gray-200 lg:text-xl md:text-lg text-xs font-bold drop-shadow text-end">
+                        Hello, {userInfo.firstName.charAt(0).toUpperCase()}
+                        {userInfo.firstName.slice(1).toLowerCase()}{" "}
+                        {userInfo.lastName &&
+                          userInfo.lastName.charAt(0).toUpperCase()}
+                        .
+                      </Text>
+                      <Text className="text-[#f7c878] group-hover:text-[#e6bd76] lg:text-xl md:text-lg drop-shadow text-end sm:text-sm">
+                        {`${current[0]?.semester}/${current[0]?.year.toString().slice(2)}, Student`}
+                      </Text>
                     </div>
-                  </Flex>
-                </Menu.Target>
-                <Menu.Dropdown className="border-red-500 fade-bottom transition-all hover:bg-red-500 border-[3px] rounded-xl p-0 m-3 group">
-                  <button
-                    onClick={() => signOut().finally(navigate("/sign-in"))}
-                    className="px-3 py-1"
-                  >
-                    <div className="text-xl font-bold text-red-500 group-hover:text-white flex items-center gap-3 px-10">
-                      Log out
-                      <FaSignOutAlt />
-                    </div>
-                  </button>
-                </Menu.Dropdown>
-              </Menu>
-            )) ||
-            (userInfo.itAccountType === ROLE.INSTRUCTOR && (
-              <Menu>
-                <Menu.Target>
-                  <Flex
-                    gap="5px"
-                    align="flex-end"
-                    direction="column"
-                    className="cursor-default"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div>
-                        <Text className="text-white 2xl:text-2xl xl:text-xl lg:text-lg md:text-base text-xs font-bold drop-shadow text-end ">
-                          Hello, {userInfo.firstName.charAt(0).toUpperCase()}
-                          {userInfo.firstName.slice(1).toLowerCase()}{" "}
-                          {userInfo.lastName &&
-                            userInfo.lastName.charAt(0).toUpperCase()}
-                          .
-                        </Text>
-                        <Text className="text-[#f7c878] group-hover:text-[#e6bd76] 2xl:text-xl xl:text-lg lg:text-md md:text-sm drop-shadow text-end ">
-                          1/66,{" Instructor"}
-                        </Text>
-                      </div>
-                    </div>
-                  </Flex>
-                </Menu.Target>
-              </Menu>
+                    <IoMdArrowDropdown className="text-3xl text-white " />
+                  </div>
+                </Flex>
+              </Menu.Target>
+              <Menu.Dropdown className="border-red-500 fade-bottom transition-all hover:bg-red-500 border-[3px] rounded-xl p-0 m-3 group">
+                <button
+                  onClick={() => signOut().finally(navigate("/sign-in"))}
+                  className="px-3 py-1"
+                >
+                  <div className="text-xl font-bold text-red-500 group-hover:text-white flex items-center gap-3 px-10">
+                    Log out
+                    <FaSignOutAlt />
+                  </div>
+                </button>
+              </Menu.Dropdown>
+            </Menu>
+          )) ||
+            ((userInfo.itAccountType === ROLE.INSTRUCTOR ||
+              userInfo.itAccountType === ROLE.ADMIN) && (
+              <Flex
+                gap="5px"
+                align="flex-end"
+                direction="column"
+                className="cursor-default"
+              >
+                <div className="flex items-center gap-3">
+                  <div>
+                    <Text className="text-white 2xl:text-2xl xl:text-xl lg:text-lg md:text-base text-xs font-bold drop-shadow text-end ">
+                      Hello, {userInfo.firstName.charAt(0).toUpperCase()}
+                      {userInfo.firstName.slice(1).toLowerCase()}{" "}
+                      {userInfo.lastName &&
+                        userInfo.lastName.charAt(0).toUpperCase()}
+                      .
+                    </Text>
+                    <Text className="text-[#f7c878] group-hover:text-[#e6bd76] 2xl:text-xl xl:text-lg lg:text-md md:text-sm drop-shadow text-end ">
+                      {`${current[0]?.semester}/${current[0]?.year.toString().slice(2)}, ${userInfo.itAccountType === "Admin" ? "Admin" : "Instructor"}`}
+                    </Text>
+                  </div>
+                </div>
+              </Flex>
             ))}
         </div>
       </nav>
