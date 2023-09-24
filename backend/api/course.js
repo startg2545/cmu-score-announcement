@@ -35,9 +35,26 @@ router.post("/add", async (req, res) => {
       return res.send({ ok: true, message: "The course have been added." });
     }
 
-    // Update sections
-    let canAdd = [];
+    // Find have section that user not instructor / co-instructor
     let cannotAdd = [];
+    course.sections.map((c) =>
+      sections.map((s) => {
+        if (
+          c.section === s.section &&
+          c.instructor !== user.cmuAccount &&
+          !c.coInstructors?.includes(user.cmuAccount)
+        )
+          cannotAdd.push(s.section);
+      })
+    );
+    if (cannotAdd.length) {
+      return res.send({
+        ok: false,
+        message: `Section ${cannotAdd.map((e) => e)} cannot upload scores.`,
+      });
+    }
+
+    // Update sections
     if (sections) {
       for (const reqSection of sections) {
         const section = course.sections.find(
@@ -61,23 +78,15 @@ router.post("/add", async (req, res) => {
               section.scores.push(newScore);
             }
           }
-          canAdd.push(reqSection.section);
         } else {
-          //have section but user not instructor / co-instructor
-          const alreadySection = course.sections.find(
-            (s) => s.section === reqSection.section
-          );
-          if (alreadySection) cannotAdd.push(reqSection.section);
-          else {
-            const coIns = course.sections.find(
-              (s) =>
-                s.instructor === user.cmuAccount ||
-                s.coInstructors.includes(user.cmuAccount)
-            ).coInstructors;
-            reqSection["coInstructors"] = coIns;
-            course.sections.push(reqSection);
-            canAdd.push(reqSection.section);
-          }
+          // Add new section
+          const coIns = course.sections.find(
+            (s) =>
+              s.instructor === user.cmuAccount ||
+              s.coInstructors.includes(user.cmuAccount)
+          ).coInstructors;
+          reqSection["coInstructors"] = coIns;
+          course.sections.push(reqSection);
         }
       }
       await course.save();
@@ -99,14 +108,7 @@ router.post("/add", async (req, res) => {
     }
     await course.save();
     socket.emit("courseUpdate", "update");
-    if (cannotAdd.length === 0)
-      return res.send({ ok: true, message: "The score have been added/edit." });
-    else
-      return res.send({
-        ok: false,
-        sectionAddEdit: canAdd,
-        sectionCannotAddEdit: cannotAdd,
-      });
+    return res.send({ ok: true, message: "The score have been added/edit." });
   } catch (err) {
     console.log(err);
     return res
