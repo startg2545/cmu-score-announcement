@@ -383,7 +383,9 @@ router.get("/", async (req, res) => {
     const scores = await studentModel.findOne({
       studentId: user.studentId,
     });
-    const courseGrades = scores?.courseGrades.filter((e) => {
+if(!scores) {
+return res.send({ ok: false, message: "No Score" });}
+    const courseGrades = scores.courseGrades.filter((e) => {
       return e.year === year && e.semester === semester;
     });
 
