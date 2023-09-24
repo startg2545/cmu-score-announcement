@@ -44,11 +44,11 @@ export default function UploadScorePageContainer() {
     let resp = await addCourse(scores);
     setIsLoading(false);
     if (resp) {
-      setMessage(resp.message);
+      setMessage(resp);
       setShowLoadComplete(true);
       setTimeout(() => {
         setShowLoadComplete(false);
-      }, 1000);
+      }, 1700);
     }
     localStorage.removeItem("page");
   };
@@ -298,10 +298,10 @@ export default function UploadScorePageContainer() {
               </defs>
             </svg>
           </div>
-          <p
-            style={{ marginTop: "20px" }}
-          >{dataError && `Row ${row}, Column ${column} must be a number.`}
-          {typeError && "Support file .xlsx only"}</p>
+          <p style={{ marginTop: "20px" }}>
+            {dataError && `Row ${row}, Column ${column} must be a number.`}
+            {typeError && "Support file .xlsx only"}
+          </p>
           <div className={upStyle.ScorePopupButtons}>
             <Button
               className={Course.AddPopupButton}
@@ -342,17 +342,33 @@ export default function UploadScorePageContainer() {
           )}
           {showLoadComplete && (
             <div class="flex flex-col gap-5 items-center">
-              <svg
-                class="w-20 h-20 mr-2 text-green-500 dark:text-green-400 flex-shrink-0"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-              </svg>
+              {message.ok && (
+                <svg
+                  class="w-20 h-20 mr-2 text-green-500 dark:text-green-400 flex-shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                </svg>
+              )}
+              {!message.ok && (
+                <svg
+                  class="w-20 h-20 mr-2 text-red-500 dark:text-red-400 flex-shrink-0"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    d="M19.1001 4.9001C15.2001 1.0001 8.8001 1.0001 4.9001 4.9001C1.0001 8.8001 1.0001 15.2001 4.9001 19.1001C8.8001 23.0001 15.1001 23.0001 19.0001 19.1001C22.9001 15.2001 23.0001 8.8001 19.1001 4.9001ZM14.8001 16.2001L12.0001 13.4001L9.2001 16.2001L7.8001 14.8001L10.6001 12.0001L7.8001 9.2001L9.2001 7.8001L12.0001 10.6001L14.8001 7.8001L16.2001 9.2001L13.4001 12.0001L16.2001 14.8001L14.8001 16.2001Z"
+                    fill="#F24E1E"
+                  />
+                </svg>
+              )}
               <span className="text-white font-semibold lg:text-2xl text-md">
-                {message}
+                {message.message}
               </span>
             </div>
           )}
@@ -372,7 +388,6 @@ export default function UploadScorePageContainer() {
           >
             Score File
           </p>
-          {/* <form onSubmit={(e) => handleSubmit(e)}> */}
           <input
             type="file"
             accept=".xlsx"
@@ -380,7 +395,6 @@ export default function UploadScorePageContainer() {
             onClick={(e) => (e.target.value = null)}
             className="w-full rounded-lg border-primary border-2 p-1 lg:p-2 drop-shadow-md bg-gray-100"
           />
-          {/* </form> */}
         </div>
         <p className="bg-[#FCEFCD] rounded-lg p-4 my-3 cursor-default">
           Click to download this Excel
