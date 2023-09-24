@@ -293,13 +293,14 @@ router.get("/", async (req, res) => {
     const scores = await studentModel.findOne({
       studentId: user.studentId,
     });
-    const courseGrades = scores.courseGrades.filter((e) => {
+    const courseGrades = scores?.courseGrades.filter((e) => {
       return e.year === year && e.semester === semester;
     });
 
     if (!courseGrades.length) return res.send({ ok: false, message: "No Course" });
     return res.send({ ok: true, courseGrades });
   } catch (err) {
+    console.log(err);
     return res
       .status(500)
       .send({ ok: false, message: "Internal Server Error" });
