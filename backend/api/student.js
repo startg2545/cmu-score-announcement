@@ -187,6 +187,8 @@ router.post("/add", async (req, res) => {
       socket.emit("courseUpdate", "published one");
       return res.send(`${scoreName} published`);
     } else if (req.body.type == "publish_many") {
+      // The first though
+      /*
       const sections = req.body.sections;
       const courseUpdates = [];
       const studentUpdates = [];
@@ -267,6 +269,94 @@ router.post("/add", async (req, res) => {
       }
       await Promise.all(studentUpdates);
       await scoreModel.bulkWrite(courseUpdates);
+      socket.emit("courseUpdate", "published many");
+      return res.send("Completed");
+      */
+
+      // The second though
+
+      const sections = req.body.sections;
+      for ( const section of sections ) {
+        for ( const score of section.scores ) {
+          score.results.map(async result=>{
+
+            const student = await studentModel.findOne({
+              studentId: result.studentId
+            })
+
+            const courseGrade = {
+              courseNo,
+              courseName,
+              section: section.section,
+              year,
+              semester,
+              scores: section.scores
+            }
+
+            if (student) {
+              const reqCourse = student.courseGrades.find(
+                course => 
+                  course.courseNo === courseNo &&
+                  course.courseName === courseName &&
+                  course.section === section.section &&
+                  course.year === year &&
+                  course.semester === semester
+              )
+              if (reqCourse) {
+                const scoreIndex = reqCourse.scores.findIndex(
+                  score => score.scoreName === score.scoreName
+                )
+  
+                if (scoreIndex !== -1) {
+                  reqCourse.scores[scoreIndex].point = result.point;
+                } else {
+                  reqCourse.scores.push({ 
+                    scoreName: score.scoreName,
+                    point: result.point
+                   })
+                }
+              } else {
+                student.courseGrades.push(courseGrade);
+              }
+
+              await student.save();
+            } else {
+              const studentGrade = {
+                studentId: result.studentId,
+                firstName: result.firstName,
+                lastName: result.lastName,
+                courseGrades: [courseGrade]
+              }
+
+              await studentModel.create(studentGrade);
+            }
+          })
+
+          await scoreModel.findOneAndUpdate(
+            {
+              courseNo,
+              courseName,
+              year,
+              semester,
+              "sections.section": section.section,
+              "sections.scores.scoreName": score.scoreName
+            },
+            {
+              $set: {
+                "sections.$[section].scores.$[score].isPublish": true
+              }
+            },
+            {
+              new: true,
+              arrayFilters: [
+                { "section.section": section.section },
+                { "score.scoreName": score.scoreName }
+              ]
+            }
+          )
+
+        }
+      }
       socket.emit("courseUpdate", "published many");
       return res.send("Completed");
     }
