@@ -83,13 +83,12 @@ router.post("/add", async (req, res) => {
     const courseName = req.body.courseName;
     const semester = parseInt(req.body.semester);
     const year = parseInt(req.body.year);
-    
-    if (req.body.type == "publish_one") {
 
+    if (req.body.type == "publish_one") {
       const section = parseInt(req.body.section);
       const scoreName = req.body.scoreName;
       const results = req.body.results;
-      
+
       await scoreModel.findOneAndUpdate(
         {
           courseNo,
@@ -111,7 +110,6 @@ router.post("/add", async (req, res) => {
           ],
         }
       );
-
 
       results.map(async (result) => {
         const student = await studentModel.findOne({
@@ -195,7 +193,7 @@ router.post("/add", async (req, res) => {
       for (const section of sections) {
         const req_section = section.section;
         for (const score of section.scores) {
-          const {scoreName, results} = score;
+          const { scoreName, results } = score;
           for (const result of results) {
             const { studentId, firstName, lastName, point } = result;
             let student = await studentModel.findOne({ studentId });
@@ -217,7 +215,7 @@ router.post("/add", async (req, res) => {
               semester,
               scores: [{ scoreName, point }],
             };
-      
+
             const existingCourseIndex = student.courseGrades.findIndex(
               (grade) =>
                 grade.courseNo === courseNo &&
@@ -226,14 +224,14 @@ router.post("/add", async (req, res) => {
                 grade.year === year &&
                 grade.semester === semester
             );
-      
+
             if (existingCourseIndex !== -1) {
               // Update existing course grade
               const existingGrade = student.courseGrades[existingCourseIndex];
               const existingScoreIndex = existingGrade.scores.findIndex(
                 (s) => s.scoreName === scoreName
               );
-      
+
               if (existingScoreIndex !== -1) {
                 // Update existing score
                 existingGrade.scores[existingScoreIndex].point = point;
@@ -245,7 +243,7 @@ router.post("/add", async (req, res) => {
               // Add new course grade
               student.courseGrades.push(courseGrade);
             }
-      
+
             studentUpdates.push(student.save());
           }
         }
@@ -289,11 +287,18 @@ router.get("/", async (req, res) => {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
 
+    const year = parseInt(req.query.year);
+    const semester = parseInt(req.query.semester);
+
     const scores = await studentModel.findOne({
       studentId: user.studentId,
     });
-    if (!scores) return res.send({ ok: false, message: "No Course" });
-    return res.send({ ok: true, scores });
+    const courseGrades = scores.courseGrades.filter((e) => {
+      return e.year === year && e.semester === semester;
+    });
+
+    if (!courseGrades.length) return res.send({ ok: false, message: "No Course" });
+    return res.send({ ok: true, courseGrades });
   } catch (err) {
     return res
       .status(500)

@@ -21,7 +21,6 @@ export default function StudentDashboard() {
   const [scoreList, setScoreList] = useState([]);
   const [scores, setScores] = useState();
   const [searchParams, setSearchParams] = useSearchParams({});
-  const [params, setParams] = useState({});
   const [isShowGraph, setIsShowGraph] = useState(false);
   const title = [
     "YOUR SCORE",
@@ -52,12 +51,12 @@ export default function StudentDashboard() {
   const [yValues, setYValues] = useState([]);
 
   const fetchData = async () => {
-    const year = current[0]?.year;
-    const semester = current[0]?.semester;
+    const year = current[0].year;
+    const semester = current[0].semester;
     const data = await getStudentScores(year, semester);
     if (data) {
       if (data.ok) {
-        setCourseList(data.scores.courseGrades);
+        setCourseList(data.courseGrades);
       } else {
         setMessage(data.message);
       }
@@ -66,7 +65,6 @@ export default function StudentDashboard() {
 
   useEffect(() => {
     socket.on("courseUpdate", (course) => {
-      console.log(course);
       setMessage();
       setCourseList([]);
       setScoreList([]);
@@ -80,24 +78,20 @@ export default function StudentDashboard() {
       setCurrentDate(new Date());
     }, 1000);
 
-    if (!courseList.length && !message) fetchData();
-    if (params.courseNo && courseList.length) {
-      setCourse(params.courseNo);
+    if (current.length && !courseList.length && !message) fetchData();
+    if (searchParams.get("courseNo") && courseList.length) {
+      setCourse(searchParams.get("courseNo"));
     }
-    if (params.scoreName) {
-      calStat(params.scoreName);
+    if (searchParams.get("scoreName")) {
+      calStat(searchParams.get("scoreName"));
     }
 
     // Clear the interval when the component unmounts
     return () => clearInterval(interval);
-  }, [courseList, section, scores]);
+  }, [courseList, section, scores, current]);
 
   useEffect(() => {
-    setParams({
-      courseNo: searchParams.get("courseNo"),
-      scoreName: searchParams.get("scoreName"),
-    });
-    if (!params.scoreName) {
+    if (!searchParams.get("scoreName")) {
       setScores(null);
     }
   }, [searchParams]);
@@ -120,8 +114,6 @@ export default function StudentDashboard() {
     });
     setYValues(YValues); // array for Y values
   }, [xValues]);
-
-  // Function to format the date as "XX Aug, 20XX"
 
   // Format the date with the Buddhist year and "BE" format.
   const formatDateBE = (date) => {
@@ -178,7 +170,7 @@ export default function StudentDashboard() {
     if (section && data && !scores) {
       const resp = await getScoresCourse({
         section: section,
-        courseNo: params.courseNo,
+        courseNo: searchParams.get("courseNo"),
         scoreName: data,
       });
       if (resp) {
@@ -266,35 +258,38 @@ export default function StudentDashboard() {
   }
 
   return (
-    <div className="mt-20 
+    <div
+      className="mt-20 
                     xl:px-10 lg:px-8 md:px-7 sm:px-6 px-5
-                   ">
-      {params.courseNo && (
-        <div className="mx-[0%] max-h-screen
+                   "
+    >
+      {searchParams.get("courseNo") && (
+        <div
+          className="mx-[0%] max-h-screen
                         xl:mt-28 lg:mt-24 md:mt-24 sm:mt-15 mt-20
-                        xl:-mb-6 lg:-mb-6 md:mb-4 sm:mb-3 mb-4 ">
+                        xl:-mb-6 lg:-mb-6 md:mb-4 sm:mb-3 mb-4 "
+        >
           <div className=" pb-2 lg:-mt-5 md:-mt-4 -mt-3 ">
-            <p className={`flex flex-row items-center justify-content font-semibold text-primary gap-3 
-                           xl:text-xl  lg:text-xl  md:text-lg  sm:text-lg  text-base`}>
-              <label
-                onClick={backToDashboard}
-                className="cursor-pointer"
-              >
+            <p
+              className={`flex flex-row items-center justify-content font-semibold text-primary gap-3 
+                           xl:text-xl  lg:text-xl  md:text-lg  sm:text-lg  text-base`}
+            >
+              <label onClick={backToDashboard} className="cursor-pointer">
                 Dashboard
               </label>
               <HiChevronRight className="text-2xl" />
               <label
                 onClick={backToCourse}
-                style={{ cursor: params.scoreName ? "pointer" : null }}
+                style={{
+                  cursor: searchParams.get("scoreName") ? "pointer" : null,
+                }}
               >
-                {params.courseNo}
+                {searchParams.get("courseNo")}
               </label>
-              {params.scoreName && (
+              {searchParams.get("scoreName") && (
                 <>
                   <HiChevronRight className="text-2xl" />
-                  <label>
-                    {params.scoreName}
-                  </label>
+                  <label>{searchParams.get("scoreName")}</label>
                 </>
               )}
             </p>
@@ -305,9 +300,11 @@ export default function StudentDashboard() {
       {/* MENU */}
       <div className="max-h-fit xl:m-1  ">
         <div className=" text-maintext font-semibold  ">
-          <div className="flex items-end  xl:py-5 lg:py-5 md:py-4 sm:py-4 py-3
+          <div
+            className="flex items-end  xl:py-5 lg:py-5 md:py-4 sm:py-4 py-3
                           xl:mt-5 lg:mt-5 md:-mt-4 sm:-mt-4 -mt-4
-                          ">
+                          "
+          >
             <div
               className="flex-col flex w-full"
               style={{
@@ -317,16 +314,18 @@ export default function StudentDashboard() {
               <span //big text topic
                 className="xl:text-5xl lg:text-5xl md:text-5xl sm:text-4xl text-4xl"
               >
-                {!params.courseNo && "Dashboard"}
-                {params.courseNo && !params.scoreName && params.courseNo}
-                {params.scoreName && params.scoreName}
+                {!searchParams.get("courseNo") && "Dashboard"}
+                {searchParams.get("courseNo") &&
+                  !searchParams.get("scoreName") &&
+                  searchParams.get("courseNo")}
+                {searchParams.get("scoreName") && searchParams.get("scoreName")}
               </span>
               <span className="xl:text-2xl lg:text-2xl md:text-2xl sm:text-xl text-xl">
                 {formatDateBE(currentDate)}
               </span>
             </div>
 
-            {params.scoreName && (
+            {searchParams.get("scoreName") && (
               <div className=" flex justify-end items-center w-full">
                 <div
                   className="text-primary flex lg:text-xl text-md border-primary border-2 px-3 py-2 rounded-xl hover:text-white hover:bg-primary duration-150 group cursor-pointer"
@@ -343,179 +342,177 @@ export default function StudentDashboard() {
             )}
           </div>
         </div>
-        {(message || !params.courseNo) && (
-        <div
-          className={
-            `flex flex-col gap-3 border-[3px] border-primary rounded-2xl shadow-xl overflow-x-auto
+        {(message || !searchParams.get("courseNo")) && (
+          <div
+            className={`flex flex-col gap-3 border-[3px] border-primary rounded-2xl shadow-xl overflow-x-auto
              xl:h-[70vh] lg:h-[70vh] md:h-[73vh-50px] sm:h-[74vh] h-[75vh] 
           `}
-        >
-          {message && (
-            <Text
-              className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl border-b-[1px] pb-2 border-primary/50"
-              style={{
-                fontFamily: "'SF PRo', sans-serif",
-              }}
-            >
-              {message}
-            </Text>
-          )}
-          <div className="mt-0">
-          {!params.courseNo &&
-       
-            courseList.map((item, key) => {
-              return (
-                <div className="xl:px-5 lg:px-5 md:px-4 sm:px-3 px-3
+          >
+            {message && (
+              <Text
+                className="flex w-full justify-center items-center text-maintext text-3xl lg:text-4xl border-b-[1px] pb-2 border-primary/50"
+                style={{
+                  fontFamily: "'SF PRo', sans-serif",
+                }}
+              >
+                {message}
+              </Text>
+            )}
+            <div className="mt-0">
+              {!searchParams.get("courseNo") &&
+                courseList.map((item, key) => {
+                  return (
+                    <div
+                      className="xl:px-5 lg:px-5 md:px-4 sm:px-3 px-3
                                xl:mt-5 lg:mt-5  md:mt-4  sm:mt-3  mt-3
                 "
-                >
-                <div
-                  key={key}
-                  className=" bg-primary  rounded-xl group active:bg-maintext hover:bg-secondary
+                    >
+                      <div
+                        key={key}
+                        className=" bg-primary  rounded-xl group active:bg-maintext hover:bg-secondary
                                xl:py-2 lg:py-2 md:py-2 sm:py-1 py-1"
-                  onClick={() => onClickCourse(item.courseNo)}
-                >
-                  {/* <div className={Student.courseName}> */}
-                  <div className=" px-5 py-1 font-semibold group-hover:cursor-pointer">
-                    <div className="flex justify-between items-center">
-                      <div className="text-white lg:text-2xl text-lg">
-                        {item.courseNo} - {item.courseName}
-                        <div
-                          className=" text-[#F7C878] lg:text-[20px] text-[16px] font-normal"
-                          style={{
-                            fontFamily: "'SF PRo', sans-serif",
-                          }}
-                        >
-                          Section {item.section}
+                        onClick={() => onClickCourse(item.courseNo)}
+                      >
+                        {/* <div className={Student.courseName}> */}
+                        <div className=" px-5 py-1 font-semibold group-hover:cursor-pointer">
+                          <div className="flex justify-between items-center">
+                            <div className="text-white lg:text-2xl text-lg">
+                              {item.courseNo} - {item.courseName}
+                              <div
+                                className=" text-[#F7C878] lg:text-[20px] text-[16px] font-normal"
+                                style={{
+                                  fontFamily: "'SF PRo', sans-serif",
+                                }}
+                              >
+                                Section {item.section}
+                              </div>
+                            </div>
+
+                            <HiChevronRight className="text-4xl text-white" />
+                          </div>
                         </div>
                       </div>
-
-                      <HiChevronRight className="text-4xl text-white" />
                     </div>
-                  </div>
-                </div>
-              </div>
-              );
-            })}
+                  );
+                })}
             </div>
-        </div>  
+          </div>
         )}
 
-        {(params.courseNo || params.scoreName) && (
-
-        <div
-          className={
-            `"flex flex-col border-[3px] border-primary rounded-2xl shadow-xl overflow-y-auto
+        {(searchParams.get("courseNo") || searchParams.get("scoreName")) && (
+          <div
+            className={`"flex flex-col border-[3px] border-primary rounded-2xl shadow-xl overflow-y-auto
              xl:h-[60vh] lg:h-[65vh] md:h-[75vh] sm:h-[67vh] h-[67vh] "
           `}
-        >
-          <div className="xl:px-5 lg:px-5 md:px-4 sm:px-3 px-3 
-                          xl:mt-5 lg:mt-5 md:mt-4 sm:mt-3 mt-3 ">
-          {params.courseNo &&
-            !params.scoreName &&
-            scoreList.map((item, key) => {
-              return (
-                <div
-                  key={key}
-                  className=" bg-primary rounded-xl group active:bg-maintext hover:bg-secondary
+          >
+            <div
+              className="xl:px-5 lg:px-5 md:px-4 sm:px-3 px-3 
+                          xl:mt-5 lg:mt-5 md:mt-4 sm:mt-3 mt-3 "
+            >
+              {searchParams.get("courseNo") &&
+                !searchParams.get("scoreName") &&
+                scoreList.map((item, key) => {
+                  return (
+                    <div
+                      key={key}
+                      className=" bg-primary rounded-xl group active:bg-maintext hover:bg-secondary
                               xl:py-3 lg:py-2 md:py-2 sm:py-1 py-1
                               xl:mb-3 lg:mb-5 md:mb-4 sm:mb-3 mb-3"
-                  onClick={() => onClickScore(item.scoreName)}
-                >
-                  {/* <div className={Student.courseName}> */}
-                  <div className="  px-5 py-1 font-semibold group-hover:cursor-pointer">
-                    <div className="flex justify-between items-center">
-                      <div
-                        className="text-white lg:text-2xl text-lg"
-                        style={{
-                          fontFamily: "'SF PRo', sans-serif",
-                        }} //not global font**
-                      >
-                        {item.scoreName}
+                      onClick={() => onClickScore(item.scoreName)}
+                    >
+                      {/* <div className={Student.courseName}> */}
+                      <div className="  px-5 py-1 font-semibold group-hover:cursor-pointer">
+                        <div className="flex justify-between items-center">
+                          <div
+                            className="text-white lg:text-2xl text-lg"
+                            style={{
+                              fontFamily: "'SF PRo', sans-serif",
+                            }} //not global font**
+                          >
+                            {item.scoreName}
+                          </div>
+                          <HiChevronRight className="text-4xl text-white" />
+                        </div>
                       </div>
-                      <HiChevronRight className="text-4xl text-white" />
                     </div>
-                  </div>
-                </div>
-              );
-            })}
+                  );
+                })}
             </div>
-          {params.scoreName && (
-            <>
-              {!isShowGraph && (
-                <div className="py-3">
-                  <div className="flex w-full justify-end text-maintext lg:text-3xl text-2xl font-bold">
-                    Full Score: {fullScore}
-                  </div>
-                  {stat.map((e, i) => (
-                    <div key={i} className="py-2">
-                      <div
-                        className={`${
-                          i === 0 ? "lg:text-3xl text-2xl" : "text-xl"
-                        } py-2 font-semibold`}
-                        style={{ color: colorProgress[i] }}
-                      >
-                        {title[i]} : <span className="font-normal">{e}</span>
-                      </div>
-                      <Progress
-                        value={(e * 100) / fullScore}
-                        radius={10}
-                        color={colorProgress[i]}
-                        bg="#D9D9D9"
-                      />
+            {searchParams.get("scoreName") && (
+              <>
+                {!isShowGraph && (
+                  <div className="py-3">
+                    <div className="flex w-full justify-end text-maintext lg:text-3xl text-2xl font-bold">
+                      Full Score: {fullScore}
                     </div>
-                  ))}
-                  <div className="text-black text-xl pt-4 font-semibold">
-                    SD : <span className="font-normal">{SD}</span>
+                    {stat.map((e, i) => (
+                      <div key={i} className="py-2">
+                        <div
+                          className={`${
+                            i === 0 ? "lg:text-3xl text-2xl" : "text-xl"
+                          } py-2 font-semibold`}
+                          style={{ color: colorProgress[i] }}
+                        >
+                          {title[i]} : <span className="font-normal">{e}</span>
+                        </div>
+                        <Progress
+                          value={(e * 100) / fullScore}
+                          radius={10}
+                          color={colorProgress[i]}
+                          bg="#D9D9D9"
+                        />
+                      </div>
+                    ))}
+                    <div className="text-black text-xl pt-4 font-semibold">
+                      SD : <span className="font-normal">{SD}</span>
+                    </div>
                   </div>
-                </div>
-              )}
-              {isShowGraph && (
-                <div className="lg:h-full md:h-full">
-                  <Line
-                    data={data}
-                    options={{
-                      scales: {
-                        x: {
-                          type: "linear",
-                          position: "bottom",
+                )}
+                {isShowGraph && (
+                  <div className="lg:h-full md:h-full">
+                    <Line
+                      data={data}
+                      options={{
+                        scales: {
+                          x: {
+                            type: "linear",
+                            position: "bottom",
+                          },
+                          y: {
+                            type: "linear",
+                            position: "left",
+                          },
                         },
-                        y: {
-                          type: "linear",
-                          position: "left",
+                        maintainAspectRatio: false,
+                        plugins: {
+                          legend: {
+                            display: false,
+                          },
+                          annotation: {
+                            clip: false,
+                            annotations: statLine,
+                          },
                         },
-                      },
-                      maintainAspectRatio: false,
-                      plugins: {
-                        legend: {
-                          display: false,
+                        animation: false,
+                        elements: {
+                          point: {
+                            radius: 0,
+                          },
+                          line: {
+                            borderColor: "black",
+                            borderWidth: 1,
+                          },
                         },
-                        annotation: {
-                          clip: false,
-                          annotations: statLine,
-                        },
-                      },
-                      animation: false,
-                      elements: {
-                        point: {
-                          radius: 0,
-                        },
-                        line: {
-                          borderColor: "black",
-                          borderWidth: 1,
-                        },
-                      },
-                      events: [],
-                    }}
-                  />
-                </div>
-              )}
-            </>
-          )}
-        </div>
+                        events: [],
+                      }}
+                    />
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         )}
       </div>
-      
     </div>
   );
 }
