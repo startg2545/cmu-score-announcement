@@ -416,8 +416,9 @@ export default function StudentDashboard() {
           `}
           >
             <div
-              className="xl:px-5 lg:px-5 md:px-4 sm:px-3 px-3 
-                          xl:mt-5 lg:mt-5 md:mt-4 sm:mt-3 mt-3 "
+               className={`xl:px-5 lg:px-5 md:px-4 sm:px-3 px-3 ${
+                !searchParams.get("scoreName") ? "xl:mt-5 lg:mt-5 md:mt-4 sm:mt-3 mt-3" : ""
+              }`}
             >
               {searchParams.get("courseNo") &&
                 !searchParams.get("scoreName") &&
@@ -451,15 +452,18 @@ export default function StudentDashboard() {
             {searchParams.get("scoreName") && (
               <>
                 {!isShowGraph && (
-                  <div className="py-3">
-                    <div className="flex w-full justify-end text-maintext lg:text-3xl text-2xl font-bold">
+                  <div className="xl:py-7 lg:py-6 md:py-5 sm:py-5 py-5
+                                  px-10">
+                    <div className="flex w-full justify-end text-maintext font-bold
+                                    xl:text-[25px] lg:text-[25px]  md:text-[25px]   sm:text-xl  text-xl ">
                       Full Score: {fullScore}
                     </div>
                     {stat.map((e, i) => (
-                      <div key={i} className="py-2">
+                      <div key={i} className="py-2 ">
                         <div
                           className={`${
-                            i === 0 ? "lg:text-3xl text-2xl" : "text-xl"
+                            i === 0 ? "xl:text-[23px] lg:text-[23px]   md:text-[23px]   sm:text-xl  text-xl" : 
+                                      "xl:text-[21px] lg:text-[21px]   md:text-[21px]  sm:text-lg  text-lg"
                           } py-2 font-semibold`}
                           style={{ color: colorProgress[i] }}
                         >
@@ -473,8 +477,8 @@ export default function StudentDashboard() {
                         />
                       </div>
                     ))}
-                    <div className="text-black text-xl pt-4 font-semibold">
-                      SD : <span className="font-normal">{SD}</span>
+                    <div className="text-black  xl:text-[21px] lg:text-[21px]   md:text-[21px]  sm:text-lg  text-lg pt-4 font-semibold">
+                      SD : <span className="font-normal ">{SD}</span>
                     </div>
                   </div>
                 )}
