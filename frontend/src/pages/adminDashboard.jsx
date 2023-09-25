@@ -1,28 +1,52 @@
 import React, { useState, useEffect, useContext } from "react";
-import { TextInput, Button } from "@mantine/core";
+import { TextInput, Button, Radio, Group, Select } from "@mantine/core";
 import { addCurrent, getCurrent, deleteCurrent } from "../services";
 import { CurrentContext, UserInfoContext } from "../context";
+import { useForm } from "@mantine/form";
 
 const AdminDashboard = () => {
   const { userInfo } = useContext(UserInfoContext);
   const { current, setCurrent } = useContext(CurrentContext);
-  const [semester, setSemester] = useState(0);
-  const [year, setYear] = useState(0);
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  function getCurrentBEYear() {
-    const currentYear = new Date().getFullYear();
-    return currentYear + 543; // Convert AD to BE
-  }
+  const submitForm = useForm({
+    initialValues: {
+      semester: "",
+      year: "",
+    },
+    validate: {
+      semester: (value) => {
+        if (!value) {
+          return "semester is required";
+        }
+      },
+      year: (value) => {
+        if (!value) {
+          return "year is required";
+        }
+  
+        const currentYear = new Date().getFullYear() + 543;
+        const enteredYear = parseInt(value);
+        if (isNaN(enteredYear)) {
+          return "Invalid year for B.E. program";
+        }
+        else if (enteredYear > currentYear || enteredYear < currentYear - 1)
+        {
+          return "Year must be the current year or less than 1 year."
+        }
+      },
+    },
+    validateInputOnBlur: true,
+  });
+  
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (data) => {
     const resp_add = await addCurrent({
-      semester,
-      year,
+      semester: data.semester,
+      year: data.year
     });
     fetchData();
-    document.getElementById("form").reset();
+    submitForm.reset();
   };
 
   const fetchData = async () => {
@@ -30,20 +54,12 @@ const AdminDashboard = () => {
     setCurrent(resp);
   };
 
-  const handleYearChange = (e) => {
-    const inputYear = e.target.value;
-    const regex = /^(25\d{2})$/;
-    if (regex.test(inputYear)) {
-      setYear(inputYear);
-    }
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       const resp = await getCurrent();
       setCurrent(resp);
     };
-    if(userInfo.itAccountType) fetchData();
+    if (userInfo.itAccountType) fetchData();
   }, [setCurrent]);
 
   const handleDelete = async (_id) => {
@@ -121,7 +137,7 @@ const AdminDashboard = () => {
                     Semester currently in active
                   </p>
                   <div className="px-4 text-lg mb-5">{showCurrent}</div>
-                  <form onSubmit={handleSubmit} id="form">
+                  <form onSubmit={submitForm.onSubmit((data) => {handleSubmit(data)})}>
                     <p
                       className="xl:text-4xl lg:text-4xl md:text-3xl font-semibold  text-2xl
                                   ˝         xl:block lg:block md:block  text-primary mb-3"
@@ -129,8 +145,20 @@ const AdminDashboard = () => {
                       Add new semester and year
                     </p>
                     <div className="px-4">
-                      <p className="mb-2 text-lg">Semester</p>
-                      <TextInput
+                      <Radio.Group
+                        label="Semester"
+                        withAsterisk
+                        size="md"
+                        className=" mb-3"
+                        {...submitForm.getInputProps("semester")}
+                      >
+                        <Group mt="xs">
+                          <Radio value="1" label="1" />
+                          <Radio value="2" label="2" />
+                          <Radio value="3" label="3(Summer)" />
+                        </Group>
+                      </Radio.Group>
+                      {/* <TextInput
                         type="text"
                         placeholder="Add Semester fill only 1, 2 and 3"
                         onChange={(e) => {
@@ -141,27 +169,23 @@ const AdminDashboard = () => {
                         value={semester}
                         maxLength={1}
                         className="mb-5"
-                      />
+                      /> */}
                     </div>
                     <div className="px-4">
-                      <label className="mb-2 text-lg">Academic Year</label>
                       <TextInput
+                        size="md"
+                        label="Academic Year"
+                        {...submitForm.getInputProps("year")}
                         type="text"
+                        withAsterisk={true}
                         placeholder="Add Year"
-                        onChange={(e) => {
-                          const inputYear = e.target.value;
-                          const regex = /^(25\d{2})$/;
-                          if (regex.test(inputYear)) {
-                            setYear(inputYear);
-                          }
-                        }}
                         className="mb-5"
                       />
                     </div>
                     <div className="px-4">
                       <Button
                         type="submit"
-                        style={{ backgroundColor: "Green" }}
+                        style={{ backgroundColor: "Green", marginTop: "20px" }}
                       >
                         Confirm
                       </Button>
