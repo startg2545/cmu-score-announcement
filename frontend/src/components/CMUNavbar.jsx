@@ -17,10 +17,10 @@ import { CheckPermission } from "../utility/main";
 
 const CMUNavbar = () => {
   const { handleSidebarClick } = useContext(StateContext);
-  const { userInfo } = useContext(UserInfoContext);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const { current } = useContext(CurrentContext);
   const { pathname } = useLocation();
-  const withoutNavbar = ["/sign-in", "/cmuOAuthCallback", "/errorView"];
+  const withoutNavbar = ["/sign-in", "/cmuOAuthCallback"];
   const navigate = useNavigate();
   const [mobileSidebar, setMobileSidebar] = useState(false);
 
@@ -30,21 +30,21 @@ const CMUNavbar = () => {
   // -------------------------------------------------------------------------
   // ห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบ
   // ห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบ
-  //  useEffect(() => {
-  //   if(userInfo.itAccountType ) {
-  //     const check = async () => {
-  //       const isPermission = await CheckPermission(userInfo.itAccountType, pathname);
-  //       if (!isPermission) {
-  //         setUserInfo(null);
-  //         await signOut().finally(navigate("/sign-in"));
-  //       };
-  //     };
-  //     check();
-  //   }
-  //   else if (!withoutNavbar.includes(pathname)){
-  //     navigate('/sign-in')
-  //   }
-  // },[pathname, userInfo, navigate])
+   useEffect(() => {
+    if(userInfo.itAccountType ) {
+      const check = async () => {
+        const isPermission = await CheckPermission(userInfo.itAccountType, pathname);
+        if (!isPermission) {
+          setUserInfo(null);
+          await signOut().finally(navigate("/sign-in"));
+        };
+      };
+      check();
+    }
+    else if (!withoutNavbar.includes(pathname)){
+      navigate('/sign-in')
+    }
+  },[pathname, userInfo, navigate])
   // ห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบ
   // ห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบ
   // -------------------------------------------------------------------------
@@ -70,7 +70,7 @@ const CMUNavbar = () => {
     navToSemesterYear(semester, year);
   };
 
-  if (withoutNavbar.some((path) => pathname.includes(path))) return null;
+  if (withoutNavbar.includes(pathname)) return null;
   const userRole = userInfo.itAccountType === "StdAcc" ? "hidden" : "flex";
 
   return (

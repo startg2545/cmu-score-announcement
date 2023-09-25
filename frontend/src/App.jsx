@@ -28,13 +28,7 @@ function App() {
   };
 
   const setUser = async (data) => {
-    setUserInfo({
-      cmuAccount: data.cmuAccount,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      studentId: data.studentId,
-      itAccountType: data.itAccountType,
-    });
+    setUserInfo(data);
   };
 
   const fetchCurrent = async () => {
@@ -63,9 +57,8 @@ function App() {
 
     if (!notFetchUser.includes(pathname)) {
       fetchData();
+      if (!current.length && userInfo) fetchCurrent();
     }
-
-    if (!current.length && userInfo) fetchCurrent();
   }, [userInfo, showSidebar, setUser, current]);
 
   return (
@@ -74,7 +67,7 @@ function App() {
         value={{
           showSidebar: showSidebar,
           handleSidebarClick: handleSidebarClick,
-          isUploadScore: isUploadScore, 
+          isUploadScore: isUploadScore,
           setUploadScore: setUploadScore,
         }}
       >
