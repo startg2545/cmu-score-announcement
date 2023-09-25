@@ -45,22 +45,7 @@ export default function CMUOAuthCallback() {
     if (!code) return;
 
     const setUser = async (data) => {
-      setUserInfo(
-        data.studentId
-          ? {
-              cmuAccount: data.cmuAccount,
-              firstName: data.firstName,
-              lastName: data.lastName,
-              studentId: data.studentId,
-              itAccountType: data.itAccountType,
-            }
-          : {
-              cmuAccount: data.cmuAccount,
-              firstName: data.firstName,
-              lastName: data.lastName,
-              itAccountType: data.itAccountType,
-            }
-      );
+      setUserInfo(data);
     };
 
     const fetchData = async () => {

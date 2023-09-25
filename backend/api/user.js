@@ -18,13 +18,13 @@ router.get("/", async (req, res) => {
           lastName: user.lastName,
           studentId: user.studentId,
           itAccountType: user.itAccountType,
-        })
+                  })
       : res.send({
           cmuAccount: user.cmuAccount,
           firstName: user.firstName,
           lastName: user.lastName,
           itAccountType: user.itAccountType,
-        });
+                  });
   } catch (err) {
     return res
       .status(500)

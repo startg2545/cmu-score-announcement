@@ -70,16 +70,16 @@ router.post("/", async (req, res) => {
             lastName: response2.lastname_EN,
             studentId: response2.student_id,
             itAccountType: itAccountType_id,
-          }
+                      }
         : {
             cmuAccount: response2.cmuitaccount,
             firstName: response2.firstname_EN,
             lastName: response2.lastname_EN,
             itAccountType: itAccountType_id,
-          },
+                      },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1d", // Token will last for one day only
+        expiresIn: "7d", // Token will last for 7 day only
       }
     );
 
@@ -104,13 +104,13 @@ router.post("/", async (req, res) => {
               lastName: response2.lastname_EN,
               studentId: response2.student_id,
               itAccountType: itAccountType_id,
-            }
+                          }
           : {
               cmuAccount: response2.cmuitaccount,
               firstName: response2.firstname_EN,
               lastName: response2.lastname_EN,
               itAccountType: itAccountType_id,
-            }
+                          }
       );
   } catch (err) {
     if (!err.response) {

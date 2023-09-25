@@ -1,7 +1,7 @@
 import { ROLE, PAGE } from "../context/enum";
 
 async function CheckPermission(userRole, page) {
-  if (ROLE.ADMIN) return true;
+  if (ROLE.ADMIN === userRole) return true;
   else if (ROLE.INSTRUCTOR === userRole) {
     return PAGE.INSTRUCTOR.includes(page);
   } else if (ROLE.STUDENT === userRole) {
