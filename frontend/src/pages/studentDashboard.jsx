@@ -322,7 +322,7 @@ export default function StudentDashboard() {
               }}
             >
               <span //big text topic
-                className="xl:text-5xl lg:text-5xl md:text-5xl sm:text-3xl text-3xl md:mt-1"
+                className="xl:text-5xl lg:text-5xl md:text-5xl sm:text-4xl text-4xl md:mt-1"
               >
                 {!searchParams.get("courseNo") && "Dashboard"}
                 {searchParams.get("courseNo") &&
@@ -338,15 +338,23 @@ export default function StudentDashboard() {
             {searchParams.get("scoreName") && (
               <div className=" flex justify-end items-center w-full">
                 <div
-                  className="text-primary flex lg:text-xl text-md border-primary border-2 px-3 py-2 rounded-xl hover:text-white hover:bg-primary duration-150 group cursor-pointer"
+                  className="text-primary flex  border-primary border-2 px-3 py-2 rounded-xl
+                             hover:text-white hover:bg-primary duration-150 group cursor-pointerbe
+                             justify-between items-center gap-3
+                            "
                   onClick={changeView}
                 >
+                  <p className={`xl:textxl lg:text-xl md:text-lg sm:text:lg text-lg `} >
                   {isShowGraph ? (
-                    <ImParagraphLeft className="lg:text-3xl text-xl mr-2" />
+                    <ImParagraphLeft />
                   ) : (
-                    <VscGraph className="lg:text-3xl text-xl mr-2" />
+                    <VscGraph />
                   )}
-                  {isShowGraph ? "Show Detail" : "Show Graph"}
+                  </p>
+                  <p className={` xl:text-xl lg:text-xl md:text-lg sm:text:base text-base`}>
+                  {isShowGraph ? 
+                    "Show Detail" : "Show Graph"}
+                  </p>
                 </div>
               </div>
             )}
@@ -412,7 +420,7 @@ export default function StudentDashboard() {
         {(searchParams.get("courseNo") || searchParams.get("scoreName")) && (
           <div
             className={`"flex flex-col border-[3px] border-primary rounded-2xl shadow-xl overflow-y-auto
-             xl:h-[60vh] lg:h-[65vh] md:h-[75vh] sm:h-[67vh] h-[67vh] "
+             xl:h-[60vh] lg:h-[62vh] md:h-[63vh] sm:h-[67vh] h-[67vh] "
           `}
           >
             <div
@@ -453,17 +461,19 @@ export default function StudentDashboard() {
               <>
                 {!isShowGraph && (
                   <div className="xl:py-7 lg:py-6 md:py-5 sm:py-5 py-5
+                                  xl:pr-10 lg:pr-10 md:pr-10 
                                   px-10">
                     <div className="flex w-full justify-end text-maintext font-bold
-                                    xl:text-[25px] lg:text-[25px]  md:text-[25px]   sm:text-xl  text-xl ">
+                                    xl:text-[25px] lg:text-[25px]  md:text-[25px]   sm:text-xl  text-xl
+                                   ">
                       Full Score: {fullScore}
                     </div>
                     {stat.map((e, i) => (
                       <div key={i} className="py-2 ">
                         <div
                           className={`${
-                            i === 0 ? "xl:text-[23px] lg:text-[23px]   md:text-[23px]   sm:text-xl  text-xl" : 
-                                      "xl:text-[21px] lg:text-[21px]   md:text-[21px]  sm:text-lg  text-lg"
+                            i === 0 ? "xl:text-[23px] lg:text-[23px]   md:text-xl   sm:text-lg  text-lg" : 
+                                      "xl:text-[21px] lg:text-[21px]   md:text-lg  sm:text-base  text-base"
                           } py-2 font-semibold`}
                           style={{ color: colorProgress[i] }}
                         >
