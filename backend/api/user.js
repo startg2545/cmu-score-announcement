@@ -11,21 +11,13 @@ router.get("/", async (req, res) => {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
 
-    return user.studentId
-      ? res.send({
-          cmuAccount: user.cmuAccount,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          studentId: user.studentId,
-          itAccountType: user.itAccountType,
-                  })
-      : res.send({
-          cmuAccount: user.cmuAccount,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          itAccountType: user.itAccountType,
-                  });
+    return res.send({ok: true, user});
   } catch (err) {
+    if(!err.ok) {
+      return res
+      .status(400)
+      .send({ ok: false, message: "Invalid token" });
+    }
     return res
       .status(500)
       .send({ ok: false, message: "Internal Server Error" });
