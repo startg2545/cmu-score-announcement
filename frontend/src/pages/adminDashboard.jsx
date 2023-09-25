@@ -133,7 +133,7 @@ const AdminDashboard = () => {
                   >
                     Semester currently in active
                   </p>
-                  <ScrollArea w={300} h={200} type="always">
+                  <ScrollArea w={300} h="fit-content" type="always">
                     <div className="px-4 text-md flex-col">
                       {showCurrent}
                     </div>
