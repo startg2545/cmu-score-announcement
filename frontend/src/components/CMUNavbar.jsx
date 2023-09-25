@@ -30,8 +30,8 @@ const CMUNavbar = () => {
   // -------------------------------------------------------------------------
   // ห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบ
   // ห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบ
-   useEffect(() => {
-    if(userInfo.itAccountType ) {
+  useEffect(() => {
+    if (userInfo.itAccountType) {
       const check = async () => {
         const isPermission = await CheckPermission(userInfo.itAccountType, pathname);
         if (!isPermission) {
@@ -41,16 +41,16 @@ const CMUNavbar = () => {
       };
       check();
     }
-    else if (!withoutNavbar.includes(pathname)){
-      navigate('/sign-in')
-    }
-  },[pathname, userInfo, navigate])
+  }, [pathname, userInfo]);
   // ห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบ
   // ห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบห้่ามลบ
   // -------------------------------------------------------------------------
   // -------------------------------------------------------------------------
   // -------------------------------------------------------------------------
   // -------------------------------------------------------------------------
+
+  if (withoutNavbar.includes(pathname)) return null;
+  const userRole = userInfo.itAccountType === "StdAcc" ? "hidden" : "flex";
 
   // Sidebar
   const handleSidebar = () => {
@@ -69,9 +69,6 @@ const CMUNavbar = () => {
     handleSidebarClick(true);
     navToSemesterYear(semester, year);
   };
-
-  if (withoutNavbar.includes(pathname)) return null;
-  const userRole = userInfo.itAccountType === "StdAcc" ? "hidden" : "flex";
 
   return (
     <>
@@ -163,7 +160,9 @@ const CMUNavbar = () => {
                         .
                       </Text>
                       <Text className="text-[#f7c878] group-hover:text-[#e6bd76] lg:text-xl md:text-lg drop-shadow text-end sm:text-sm">
-                        {`${current[0]?.semester}/${current[0]?.year.toString().slice(2)}, Student`}
+                        {`${current[0]?.semester}/${current[0]?.year
+                          .toString()
+                          .slice(2)}, Student`}
                       </Text>
                     </div>
                     <IoMdArrowDropdown className="text-3xl text-white " />
@@ -201,7 +200,13 @@ const CMUNavbar = () => {
                       .
                     </Text>
                     <Text className="text-[#f7c878] group-hover:text-[#e6bd76] 2xl:text-xl xl:text-lg lg:text-md md:text-sm drop-shadow text-end ">
-                      {`${current[0]?.semester}/${current[0]?.year.toString().slice(2)}, ${userInfo.itAccountType === "Admin" ? "Admin" : "Instructor"}`}
+                      {`${current[0]?.semester}/${current[0]?.year
+                        .toString()
+                        .slice(2)}, ${
+                        userInfo.itAccountType === "Admin"
+                          ? "Admin"
+                          : "Instructor"
+                      }`}
                     </Text>
                   </div>
                 </div>

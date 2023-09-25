@@ -21,7 +21,8 @@ function App() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isUploadScore, setUploadScore] = useState(false);
   const pathname = window.location.pathname;
-  const notFetchUser = ["/sign-in", "/cmuOAuthCallback", "/errorView"];
+  const notFetchUser = ["/sign-in", "/cmuOAuthCallback"];
+  const [loadingUserInfo, setLoadingUserInfo] = useState(false);
 
   const handleSidebarClick = () => {
     setShowSidebar(!showSidebar);
@@ -29,6 +30,19 @@ function App() {
 
   const setUser = async (data) => {
     setUserInfo(data);
+    setLoadingUserInfo(false);
+  };
+
+  const fetchData = async () => {
+    if (!userInfo) {
+      setLoadingUserInfo(true);
+      const resp = await getUserInfo();
+      if (resp.ok) {
+        setUser({ ...resp.user });
+      } else {
+        window.location.replace("/sign-in");
+      }
+    }
   };
 
   const fetchCurrent = async () => {
@@ -43,23 +57,15 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!userInfo) {
-        const resp = await getUserInfo();
-        if (resp) {
-          setUser({ ...resp });
-          setUserInfo({ ...resp });
-        } else {
-          window.location.replace("/sign-in");
-        }
-      }
-    };
-
     if (!notFetchUser.includes(pathname)) {
       fetchData();
       if (!current.length && userInfo) fetchCurrent();
     }
-  }, [userInfo, showSidebar, setUser, current]);
+  }, [pathname, userInfo, showSidebar, setUser, current]);
+
+  if (loadingUserInfo) {
+    return;
+  }
 
   return (
     <MantineProvider>

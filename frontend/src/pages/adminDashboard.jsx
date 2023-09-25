@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import { TextInput, Button } from "@mantine/core";
 import { addCurrent, getCurrent, deleteCurrent } from "../services";
-import { CurrentContext } from "../context";
+import { CurrentContext, UserInfoContext } from "../context";
 
 const AdminDashboard = () => {
+  const { userInfo } = useContext(UserInfoContext);
   const { current, setCurrent } = useContext(CurrentContext);
   const [semester, setSemester] = useState(0);
   const [year, setYear] = useState(0);
@@ -42,7 +43,7 @@ const AdminDashboard = () => {
       const resp = await getCurrent();
       setCurrent(resp);
     };
-    fetchData();
+    if(userInfo.itAccountType) fetchData();
   }, [setCurrent]);
 
   const handleDelete = async (_id) => {
