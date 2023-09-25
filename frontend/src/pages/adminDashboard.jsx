@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { TextInput, Button, Radio, Group, Select } from "@mantine/core";
+import { TextInput, Button, Radio, Group, ScrollArea } from "@mantine/core";
 import { addCurrent, getCurrent, deleteCurrent } from "../services";
 import { CurrentContext, UserInfoContext } from "../context";
 import { useForm } from "@mantine/form";
@@ -24,26 +24,23 @@ const AdminDashboard = () => {
         if (!value) {
           return "year is required";
         }
-  
+
         const currentYear = new Date().getFullYear() + 543;
         const enteredYear = parseInt(value);
         if (isNaN(enteredYear)) {
           return "Invalid year for B.E. program";
-        }
-        else if (enteredYear > currentYear || enteredYear < currentYear - 1)
-        {
-          return "Year must be the current year or less than 1 year."
+        } else if (enteredYear > currentYear || enteredYear < currentYear - 1) {
+          return "Year must be the current year or less than 1 year.";
         }
       },
     },
     validateInputOnBlur: true,
   });
-  
 
   const handleSubmit = async (data) => {
     const resp_add = await addCurrent({
       semester: data.semester,
-      year: data.year
+      year: data.year,
     });
     fetchData();
     submitForm.reset();
@@ -103,7 +100,7 @@ const AdminDashboard = () => {
           <div className="mx-[1%] lg:mt-3 max-h-screen ">
             <div className="lg:rounded-xl rounded-xl xl:h-[calc(84vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary mt-24 ">
               <div className="flex flex-col ">
-                <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between cursor-default mb-7">
+                <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between cursor-default mb-3">
                   <div className="flex items-start flex-col justify-center ">
                     <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
                       {
@@ -129,18 +126,26 @@ const AdminDashboard = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-col  px-5 xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] overflow-y-auto">
+                <div className="flex flex-col  px-5 xl:h-[calc(84vh-175px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)]">
                   <p
-                    className="xl:text-4xl lg:text-4xl md:text-3xl font-semibold  text-2xl
-                                  ˝         xl:block lg:block md:block  text-primary mb-3"
+                    className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
+                                  ˝         xl:block lg:block md:block  text-primary mb-1"
                   >
                     Semester currently in active
                   </p>
-                  <div className="px-4 text-lg mb-5">{showCurrent}</div>
-                  <form onSubmit={submitForm.onSubmit((data) => {handleSubmit(data)})}>
+                  <ScrollArea w={300} h={200} type="always">
+                    <div className="px-4 text-md flex-col">
+                      {showCurrent}
+                    </div>
+                  </ScrollArea>
+                  <form
+                    onSubmit={submitForm.onSubmit((data) => {
+                      handleSubmit(data);
+                    })}
+                  >
                     <p
-                      className="xl:text-4xl lg:text-4xl md:text-3xl font-semibold  text-2xl
-                                  ˝         xl:block lg:block md:block  text-primary mb-3"
+                      className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
+                                  ˝         xl:block lg:block md:block  text-primary py-4"
                     >
                       Add new semester and year
                     </p>
@@ -179,13 +184,13 @@ const AdminDashboard = () => {
                         type="text"
                         withAsterisk={true}
                         placeholder="Add Year"
-                        className="mb-5"
+                        className="mb-2"
                       />
                     </div>
                     <div className="px-4">
                       <Button
                         type="submit"
-                        style={{ backgroundColor: "Green", marginTop: "20px" }}
+                        style={{ backgroundColor: "Green", marginTop: "10px" }}
                       >
                         Confirm
                       </Button>
