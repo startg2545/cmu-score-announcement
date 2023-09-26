@@ -433,7 +433,7 @@ export default function Course166Container() {
                 </Modal>
 
                 <div className="mx-[1%] lg:mt-3 max-h-screen bg-slate-50">
-                  <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary">
+                  <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary ">
                     <div
                       className={`flex flex-col ${noCourse ? "h-full" : ""}`}
                     >
@@ -450,7 +450,7 @@ export default function Course166Container() {
                         {isCurrent && (
                           <div className=" flex lg:flex-row  md:flex-row flex-col gap-2 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22 ">
                             <div
-                              className={`lg:px-5 px-1 gap-3 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer transition duration-150 ease-in-out ${
+                              className={`lg:px-5 px-1 gap-3 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer hover:shadow-md transition ease-in-out cursor-pointer ${
                                 isDelete
                                   ? " border-green-500 hover: hover:bg-green-400"
                                   : " border-orange-400 hover: hover:bg-orange-400"
@@ -461,7 +461,7 @@ export default function Course166Container() {
                                 <>
                                   {" "}
                                   <FiEdit3 className="lg:text-3xl text-xl" />
-                                  <span className=" cursor-default">Edit</span>{" "}
+                                  <span>Edit</span>{" "}
                                 </>
                               )}
                               {isDelete && (
@@ -472,7 +472,7 @@ export default function Course166Container() {
                               )}
                             </div>
                             <div
-                              className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md transition duration-150 ease-in-out"
+                              className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md transition ease-in-out"
                               onClick={addCourseButton[1].open}
                             >
                               <FiPlus className="lg:text-3xl text-xl " />
@@ -549,7 +549,7 @@ export default function Course166Container() {
               closeOnEscape={false}
             >
               <div className="flex flex-col">
-                <div className="bg-primary flex justify-center py-3 shadow-xl">
+                <div className="bg-primary flex justify-center py-1.5 shadow-xl">
                   <p className="text-white font-semibold text-2xl">
                     {`Add Co-Instructor ${params.courseNo}`}
                   </p>
@@ -736,7 +736,7 @@ export default function Course166Container() {
                                 : "none",
                             }}
                             className={
-                              "lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md transition ease-in-out duration-250"
+                              "lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white transition ease-in-out duration-250 hover:shadow-md"
                             }
                             onClick={goToUpload}
                           >
