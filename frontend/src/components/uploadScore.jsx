@@ -404,7 +404,7 @@ export default function UploadScorePageContainer() {
               download="Template"
               target="_blank"
               rel="noreferrer"
-              className="text-blue-500 italic font-bold px-2"
+              className="text-blue-500 italic font-bold px-2 underline"
             >
               Template
             </a>
@@ -413,17 +413,17 @@ export default function UploadScorePageContainer() {
           <span className="font-bold text-center text-red-500 px-2">
             (support only this template .xlsx format)
           </span>
-          and fill student code, score (numbers only).
+          and fill student code, score (number only) and assignment name.
           <span className="font-bold text-center text-red-500 px-2">
             Do not change the column header name.
           </span>
-          And attach back to this system.
+          And attach back to this website.
           <a
             href={Example}
             download="Example"
             target="_blank"
             rel="noreferrer"
-            className="text-blue-500 italic font-bold px-2"
+            className="text-blue-500 italic font-bold px-2 underline"
           >
             Example
           </a>
@@ -433,15 +433,20 @@ export default function UploadScorePageContainer() {
           <span className="text-black px-2 font-bold cursor-default">
             automatically calculates
           </span>
-          the statistical values, including the mean section, mean course,
-          median, maximum value, SD, upper quartile, and lower quartile. Score
-          will not be automatically published after completing the upload.
+          the statistical values, including the mean section, median, maximum
+          score, SD, upper quartile, and lower quartile. Score
+          <span className="text-black px-2 font-bold cursor-default">
+            will not be automatically
+          </span>
+          published after completing the upload.
         </p>
         <p className="bg-[#A8F0F4] rounded-lg p-3 my-3 cursor-default">
-          All changes to the file, including uploads,
+          Note: Upload files for sections already owned
           <span className="text-center text-black px-2 font-bold">
-            will be logged in the version history.
+            file will is denied.
           </span>
+          If needed, please contact the section owner add co-instructor for
+          permission.
         </p>
         <div className="flex flex-row w-full p-3 gap-3 ">
           <button
