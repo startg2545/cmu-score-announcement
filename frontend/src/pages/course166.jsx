@@ -44,9 +44,11 @@ export default function Course166Container() {
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
+  const addCoSec = useDisclosure();
   const [checkedCourses, setCheckedCourse] = useState([]);
   const [countChecked, setCountChecked] = useState(0);
   const { current } = useContext(CurrentContext);
+  const [checkedSections, setCheckedSections] = useState([]);
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -63,16 +65,19 @@ export default function Course166Container() {
     if (!isEmailValid) {
       return;
     }
-    const data = {
-      courseNo: params.courseNo,
-      year: parseInt(params.year),
-      semester: parseInt(params.semester),
-      coInstructors: coInstructors,
-    };
-    const resp = await addCoInstructors(data);
+    if (!sections.length) {
+      const data = {
+        courseNo: params.courseNo,
+        year: parseInt(params.year),
+        semester: parseInt(params.semester),
+        coInstructors: coInstructors,
+      };
+      const resp = await addCoInstructors(data);
+      emailform.reset();
+    } else {
+      addCoSec[1].open();
+    }
     close();
-    emailform.reset();
-    return resp;
   };
 
   const handleCheckboxChange = (e, value) => {
@@ -432,12 +437,10 @@ export default function Course166Container() {
                   </form>
                 </Modal>
 
-                <div className="mx-[1%] lg:mt-3 max-h-screen bg-slate-50">
-                  <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary ">
-                    <div
-                      className={`flex flex-col ${noCourse ? "h-full" : ""}`}
-                    >
-                      <div className="mb-4 bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
+                <div className="mx-[1%] lg:mt-3 max-h-fit bg-slate-50">
+                  <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-100px)] lg:h-[calc(83vh-30px)] md:h-[calc(85vh-45px)]  h-[calc(85vh-40px)] overflow-hidden border-[3px] border-primary ">
+                  
+                      <div className=" bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
                         <div className="flex items-start flex-col justify-center ">
                           <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
                             Course {params.semester}/
@@ -481,57 +484,170 @@ export default function Course166Container() {
                           </div>
                         )}
                       </div>
-                      {noCourse && (
-                        <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
-                          <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
-                            {noCourse}
-                          </p>
-                          <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 ">
-                            Click add course at top right corner
-                          </span>
-                        </div>
-                      )}
-                      {!course.length && !noCourse && (
-                        <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
-                          <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
-                            Loading....
-                          </p>
-                        </div>
-                      )}
-                      {course.map((item, key) => {
-                        return (
-                          <div
-                            key={key}
-                            className="flex-row flex lg:px-4 cursor-pointer lg:text-2xl px-5 gap-3 py-3 items-center"
-                          >
-                            {isDelete && (
-                              <AiFillMinusCircle
-                                className=" text-4xl text-red-500 cursor-pointer"
-                                onClick={() => clickDeleteCourse(item.courseNo)}
-                              />
-                            )}
-                            <div
-                              className="  w-full bg-white lg:py-3 py-2 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
-                              onClick={() => onClickCourse(item)}
-                            >
-                              <div className={`lg:px-5 px-3 lg:py-3 py-2 font-medium flex justify-between items-center ${isDelete ? "cursor-default" : "cursor-pointer"}`}>
-                                <div className="text-black lg:text-2xl text-lg">
-                                  {item.courseNo}
-                                  {item.courseName
-                                    ? ` - ${item.courseName}`
-                                    : null}
-                                </div>
-                                {/* <HiChevronRight className="lg:text-3xl text-xl mx-1 text-white" /> */}
-                              </div>
+                      <div className=" max-h-screen">
+                        <div
+                          className={
+                            "overflow-y-auto xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-145px)] h-[calc(85vh-145px)]"
+                          }
+                        >
+                          {noCourse && (
+                            <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
+                              <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
+                                {noCourse}
+                              </p>
+                              <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 ">
+                                Click add course at top right corner
+                              </span>
                             </div>
+                          )}
+                          {!course.length && !noCourse && (
+                            <div className="flex flex-col justify-center text-center items-center xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
+                              <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
+                                Loading....
+                              </p>
+                            </div>
+                          )}
+                          <div className="overflow-y-auto h-fit">
+                            {course.map((item, key) => {
+                              return (
+                                <div
+                                  key={key}
+                                  className="flex-row flex lg:px-4 lg:text-2xl px-5 gap-3 py-3 items-center"
+                                >
+                                  {isDelete && (
+                                    <AiFillMinusCircle
+                                      className=" text-4xl text-red-500 cursor-pointer"
+                                      onClick={() =>
+                                        clickDeleteCourse(item.courseNo)
+                                      }
+                                    />
+                                  )}
+                                  <div
+                                    className="  w-full bg-white lg:py-3 py-2 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
+                                    onClick={() => onClickCourse(item)}
+                                  >
+                                    <div
+                                      className={`lg:px-5 px-3 lg:py-3 py-2 font-medium flex justify-between items-center ${
+                                        isDelete
+                                          ? "cursor-default"
+                                          : "cursor-pointer"
+                                      }`}
+                                    >
+                                      <div className="text-black lg:text-2xl text-lg">
+                                        {item.courseNo}
+                                        {item.courseName
+                                          ? ` - ${item.courseName}`
+                                          : null}
+                                      </div>
+                                      {/* <HiChevronRight className="lg:text-3xl text-xl mx-1 text-white" /> */}
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
                           </div>
-                        );
-                      })}
-                    </div>
+                        </div>
+                      </div>
+             
                   </div>
                 </div>
               </>
             )}
+            <Modal
+              opened={addCoSec[0]}
+              onClose={addCoSec[1].close}
+              centered
+              withCloseButton={false}
+              size="auto"
+              display="flex"
+              yOffset={0}
+              xOffset={0}
+              padding={0}
+              radius={10}
+              overlayProps={{
+                opacity: 0.55,
+                blur: 3,
+              }}
+              closeOnClickOutside={false}
+              closeOnEscape={false}
+            >
+              <div className=" align-middle justify-center text-center">
+                <div className="bg-primary py-1.5 px-8 flex justify-center  font-semibold mb-3">
+                  <p className="text-white lg:text-2xl  font-semibold text-center gap-2 text-lg">
+                    Select section to Add Co-Instructor
+                  </p>
+                </div>
+                <div className="h-96 overflow-y-auto">
+                  {sections?.map((value, key) => (
+                    <div
+                      key={key}
+                      className="flex justify-center gap-5 mb-4 sm:text-md"
+                    >
+                      <Checkbox
+                        color="indigo"
+                        size="md"
+                        onChange={(e) => handleCheckboxChange(e, value)}
+                        id="selected-section"
+                        name="selected-section"
+                        style={{
+                          justifyContent: "center",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      />
+                      <p style={{ fontSize: "22px" }}>
+                        Section{" "}
+                        {value.section < 10
+                          ? `00${value.section}`
+                          : value.section < 100
+                          ? `0${value.section}`
+                          : value.section}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="overflow-hidden">
+                  <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-4 py-1">
+                    <Button
+                      style={{ marginRight: "20px" }}
+                      className={Course.CancelPopupButton}
+                      onClick={() => {
+                        addCoSec[1].close();
+                        setCheckedSections([]);
+                      }}
+                      radius="md"
+                      sx={{
+                        color: "black",
+                        "&:hover": {
+                          backgroundColor: "#F0EAEA",
+                        },
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      style={{ marginLeft: "20px" }}
+                      className={Course.AddPopupButton}
+                      type="submit"
+                      sx={{
+                        "&:hover": {
+                          backgroundColor: "#d499ff",
+                        },
+                      }}
+                      onClick={() => {
+                        addCoSec[1].close();
+                        setCheckedSections([]);
+                      }}
+                      radius="md"
+                      disabled={countChecked === 0}
+                    >
+                      Confirm
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </Modal>
             <Modal
               opened={opened}
               onClose={() => {
@@ -555,9 +671,9 @@ export default function Course166Container() {
                   </p>
                 </div>
                 <div className="text-gray-600 text-[18px] px-10 text-center py-5 max-w-lg">
-                  Co-Instructors have full access to edit and change scores in
-                  all documents. Input an email with the domain cmu.ac.th to
-                  invite.
+                  {sections.length
+                    ? "Sawasdee"
+                    : "Co-Instructors have full access to edit and change scores in all documents. Input an email with the domain cmu.ac.th to invite."}
                 </div>
                 <form
                   onSubmit={emailform.onSubmit((data) => {
@@ -598,7 +714,7 @@ export default function Course166Container() {
                           },
                         }}
                       >
-                        Add
+                        {sections.length ? "Continue" : "Add"}
                       </Button>
                     </div>
                   </div>

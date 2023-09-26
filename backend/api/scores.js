@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
             (s) =>
               s.instructor === user.cmuAccount ||
               s.coInstructors?.includes(user.cmuAccount)
-          );
+          ).sort((a,b) => a.section - b.section);
           if (filteredSections.length > 0) {
             return { ...e._doc, sections: filteredSections };
           }
@@ -48,10 +48,9 @@ router.get("/", async (req, res) => {
         .filter(Boolean);
 
       if (sections.length) {
-        sections.sort((a,b) => a.courseNo - b.courseNo)
+        sections.sort((a, b) => a.courseNo - b.courseNo);
         return res.send({ ok: true, course: sections });
-      } 
-      else return res.send({ ok: false, message: "No Course" });
+      } else return res.send({ ok: false, message: "No Course" });
     }
   } catch (err) {
     return res
