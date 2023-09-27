@@ -728,9 +728,10 @@ export default function Course166Container() {
                   <p className="flex flex-row items-center font-semibold text-primary gap-2 xl:-mt-2.5 lg:-mt-5 md:-mt-2.5 -mt-2 ">
                     <p
                       onClick={backToDashboard}
-                      className="text-primary lg:text-xl text-md cursor-pointer"
+                      className="text-primary lg:text-xl text-md cursor-pointer flex flex-row gap-1"
                     >
-                      Course {params.semester}/{params.year.slice(2)}
+                      <span  className="sm:block hidden">Course </span> 
+                      <span>{params.semester}/{params.year.slice(2)}</span>
                     </p>
 
                     <HiChevronRight className="lg:text-2xl text-md" />
@@ -761,7 +762,7 @@ export default function Course166Container() {
                       <>
                         <HiChevronRight className="lg:text-2xl text-md" />
                         <p
-                          className="text-primary lg:text-xl text-md"
+                          className="text-primary lg:text-xl text-md flex flex-row gap-1"
                           style={{
                             cursor:
                               searchParams.get("section") &&
@@ -773,7 +774,8 @@ export default function Course166Container() {
                             backToSec();
                           }}
                         >
-                          Section{" "}
+                           <span className="sm:block hidden">Section</span>
+                           <span className="sm:hidden block">Sec</span>
                           {searchParams.get("section") < 10
                             ? `00${searchParams.get("section")}`
                             : searchParams.get("section") < 100
