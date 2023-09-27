@@ -8,7 +8,7 @@ const router = express.Router();
 router.put("/update", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token, res);
+    const user = await verifyAndValidateToken(token);
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
@@ -73,7 +73,7 @@ router.put("/update", async (req, res) => {
 router.post("/add", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token, res);
+    const user = await verifyAndValidateToken(token);
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
@@ -204,7 +204,12 @@ router.post("/add", async (req, res) => {
               section: section.section,
               year,
               semester,
-              scores: section.scores,
+              scores: [
+                {
+                  scoreName: score.scoreName,
+                  point: result.point,
+                }
+              ],
             };
 
             if (student) {
@@ -216,12 +221,11 @@ router.post("/add", async (req, res) => {
                   course.year === year &&
                   course.semester === semester
               );
-
               if (reqCourse) {
                 const scoreIndex = reqCourse.scores.findIndex(
-                  (score) => score.scoreName === score.scoreName
+                  (s) => s.scoreName === score.scoreName
                 );
-
+                
                 if (scoreIndex !== -1) {
                   reqCourse.scores[scoreIndex].point = result.point;
                 } else {
@@ -230,8 +234,6 @@ router.post("/add", async (req, res) => {
                     point: result.point,
                   });
                 }
-              } else {
-                student.courseGrades.push(courseGrade);
               }
 
               await student.save();
@@ -243,7 +245,7 @@ router.post("/add", async (req, res) => {
                 courseGrades: [courseGrade],
               };
 
-              await studentModel.create(studentGrade);
+              const test = await studentModel.create(studentGrade);
             }
           });
 
@@ -292,7 +294,7 @@ router.post("/add", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token, res);
+    const user = await verifyAndValidateToken(token);
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
