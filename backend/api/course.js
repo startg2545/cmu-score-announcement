@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/add", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token);
+    const user = await verifyAndValidateToken(token, res);
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
@@ -123,7 +123,7 @@ router.post("/add", async (req, res) => {
 router.put("/", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token);
+    const user = await verifyAndValidateToken(token, res);
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
@@ -155,7 +155,7 @@ router.put("/", async (req, res) => {
 router.delete("/", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token);
+    const user = await verifyAndValidateToken(token, res);
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }

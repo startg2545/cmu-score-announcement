@@ -79,13 +79,13 @@ router.post("/", async (req, res) => {
           },
       process.env.JWT_SECRET,
       {
-        expiresIn: "7d", // Token will last for 7 day only
+        expiresIn: "7d", // Token will last for 7 days only
       }
     );
 
     return res
       .cookie("token", token, {
-        maxAge: 3600000 * 24 * 7, // Cookie will last for 7 day only
+        maxAge: 3600000 * 24 * 7, // Cookie will last for 7 days only
         //Set httpOnly to true so that client JavaScript cannot read or modify token
         //And the created token can be read by server side only
         httpOnly: true,

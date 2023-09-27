@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 
-const verifyAndValidateToken = (token) => {
+const verifyAndValidateToken = (token, res) => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
       if (err) {
-        reject({ ok: false, message: "Invalid token" });
+        return res.status(401).send({ ok: false, message: "Invalid token" });
       } else {
         resolve(user);
       }
