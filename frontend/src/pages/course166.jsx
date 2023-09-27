@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
 import { StateContext, CurrentContext } from "../context";
-import secMan from "../components/css/manage.module.css";
+import tabStyle from "../components/css/tableScore.module.css";
 import {
   addCoInstructors,
   addCourse,
@@ -159,6 +159,7 @@ export default function Course166Container() {
   const backToDashboard = () => {
     localStorage.removeItem("page");
     localStorage.removeItem("Edit");
+    localStorage.removeItem("editScore");
     setUploadScore(false);
     setSelectedCourse(false);
     searchParams.delete("courseNo");
@@ -169,6 +170,7 @@ export default function Course166Container() {
   const backToCourse = () => {
     localStorage.removeItem("page");
     localStorage.removeItem("Edit");
+    localStorage.removeItem("editScore");
     setUploadScore(false);
     searchParams.delete("section");
     setSearchParams(searchParams);
@@ -307,9 +309,16 @@ export default function Course166Container() {
     courseForm.reset();
   };
 
+  const addCoAllSec = async () => {
+    addCoSec[1].close();
+
+  }
+
   const isCurrent =
     searchParams.get("year") == current[0]?.year &&
     searchParams.get("semester") == current[0]?.semester;
+
+  
 
   return (
     <>
@@ -439,116 +448,114 @@ export default function Course166Container() {
 
                 <div className="mx-[1%] lg:mt-3 max-h-fit bg-slate-50">
                   <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-100px)] lg:h-[calc(83vh-30px)] md:h-[calc(85vh-45px)]  h-[calc(85vh-40px)] overflow-hidden border-[3px] border-primary ">
-                  
-                      <div className=" bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
-                        <div className="flex items-start flex-col justify-center ">
-                          <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
-                            Course {params.semester}/
-                            {params.year ? params.year.slice(2) : params.year}
-                          </p>
-                          <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
-                            {formatDate(currentDate)}
-                          </p>
+                    <div className=" bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
+                      <div className="flex items-start flex-col justify-center ">
+                        <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
+                          Course {params.semester}/
+                          {params.year ? params.year.slice(2) : params.year}
+                        </p>
+                        <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
+                          {formatDate(currentDate)}
+                        </p>
+                      </div>
+                      {isCurrent && (
+                        <div className=" flex lg:flex-row  md:flex-row flex-col gap-2 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22 ">
+                          <div
+                            className={`lg:px-5 px-1 gap-3 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer hover:shadow-md transition ease-in-out cursor-pointer ${
+                              isDelete
+                                ? " border-green-500 hover: hover:bg-green-400"
+                                : " border-orange-400 hover: hover:bg-orange-400"
+                            }`}
+                            onClick={() => setIsDelete(!isDelete)}
+                          >
+                            {!isDelete && (
+                              <>
+                                {" "}
+                                <FiEdit3 className="lg:text-3xl text-xl" />
+                                <span>Edit</span>{" "}
+                              </>
+                            )}
+                            {isDelete && (
+                              <>
+                                <MdDone className="lg:text-3xl text-xl" />
+                                <span>Done</span>
+                              </>
+                            )}
+                          </div>
+                          <div
+                            className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md transition ease-in-out"
+                            onClick={addCourseButton[1].open}
+                          >
+                            <FiPlus className="lg:text-3xl text-xl " />
+                            <span>Add Course</span>
+                          </div>
                         </div>
-                        {isCurrent && (
-                          <div className=" flex lg:flex-row  md:flex-row flex-col gap-2 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22 ">
-                            <div
-                              className={`lg:px-5 px-1 gap-3 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer hover:shadow-md transition ease-in-out cursor-pointer ${
-                                isDelete
-                                  ? " border-green-500 hover: hover:bg-green-400"
-                                  : " border-orange-400 hover: hover:bg-orange-400"
-                              }`}
-                              onClick={() => setIsDelete(!isDelete)}
-                            >
-                              {!isDelete && (
-                                <>
-                                  {" "}
-                                  <FiEdit3 className="lg:text-3xl text-xl" />
-                                  <span>Edit</span>{" "}
-                                </>
-                              )}
-                              {isDelete && (
-                                <>
-                                  <MdDone className="lg:text-3xl text-xl" />
-                                  <span>Done</span>
-                                </>
-                              )}
-                            </div>
-                            <div
-                              className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md transition ease-in-out"
-                              onClick={addCourseButton[1].open}
-                            >
-                              <FiPlus className="lg:text-3xl text-xl " />
-                              <span>Add Course</span>
-                            </div>
+                      )}
+                    </div>
+                    <div className=" max-h-screen">
+                      <div
+                        className={
+                          "overflow-y-auto xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-145px)] h-[calc(85vh-145px)]"
+                        }
+                      >
+                        {noCourse && (
+                          <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
+                            <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
+                              {noCourse}
+                            </p>
+                            <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 ">
+                              Click add course at top right corner
+                            </span>
                           </div>
                         )}
-                      </div>
-                      <div className=" max-h-screen">
-                        <div
-                          className={
-                            "overflow-y-auto xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-145px)] h-[calc(85vh-145px)]"
-                          }
-                        >
-                          {noCourse && (
-                            <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
-                              <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
-                                {noCourse}
-                              </p>
-                              <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 ">
-                                Click add course at top right corner
-                              </span>
-                            </div>
-                          )}
-                          {!course.length && !noCourse && (
-                            <div className="flex flex-col justify-center text-center items-center xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
-                              <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
-                                Loading....
-                              </p>
-                            </div>
-                          )}
-                          <div className="overflow-y-auto h-fit">
-                            {course.map((item, key) => {
-                              return (
+                        {!course.length && !noCourse && (
+                          <div className="flex flex-col justify-center text-center items-center xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
+                            <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
+                              Loading....
+                            </p>
+                          </div>
+                        )}
+                        <div className="overflow-y-auto h-fit">
+                          {course.map((item, key) => {
+                            return (
+                              <div
+                                key={key}
+                                className="flex-row flex lg:px-4 lg:text-2xl px-5 gap-3 py-3 items-center"
+                              >
+                                {isDelete && (
+                                  <AiFillMinusCircle
+                                    className=" text-4xl text-red-500 cursor-pointer"
+                                    onClick={() =>
+                                      clickDeleteCourse(item.courseNo)
+                                    }
+                                  />
+                                )}
                                 <div
-                                  key={key}
-                                  className="flex-row flex lg:px-4 lg:text-2xl px-5 gap-3 py-3 items-center"
+                                  className="  w-full bg-white lg:py-3 py-2 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
+                                  onClick={() => onClickCourse(item)}
                                 >
-                                  {isDelete && (
-                                    <AiFillMinusCircle
-                                      className=" text-4xl text-red-500 cursor-pointer"
-                                      onClick={() =>
-                                        clickDeleteCourse(item.courseNo)
-                                      }
-                                    />
-                                  )}
                                   <div
-                                    className="  w-full bg-white lg:py-3 py-2 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
-                                    onClick={() => onClickCourse(item)}
+                                    className={`lg:px-5 px-3 lg:py-3 py-2 font-medium flex justify-between items-center ${
+                                      isDelete
+                                        ? "cursor-default"
+                                        : "cursor-pointer"
+                                    }`}
                                   >
-                                    <div
-                                      className={`lg:px-5 px-3 lg:py-3 py-2 font-medium flex justify-between items-center ${
-                                        isDelete
-                                          ? "cursor-default"
-                                          : "cursor-pointer"
-                                      }`}
-                                    >
-                                      <div className="text-black lg:text-2xl text-lg">
-                                        {item.courseNo}
-                                        {item.courseName
-                                          ? ` - ${item.courseName}`
-                                          : null}
-                                      </div>
-                                      {/* <HiChevronRight className="lg:text-3xl text-xl mx-1 text-white" /> */}
+                                    <div className="text-black lg:text-2xl text-lg">
+                                      {item.courseNo}
+                                      {item.courseName
+                                        ? ` - ${item.courseName}`
+                                        : null}
                                     </div>
+                                    {/* <HiChevronRight className="lg:text-3xl text-xl mx-1 text-white" /> */}
                                   </div>
                                 </div>
-                              );
-                            })}
-                          </div>
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
-             
+                    </div>
                   </div>
                 </div>
               </>
@@ -577,7 +584,7 @@ export default function Course166Container() {
                     Select section to Add Co-Instructor
                   </p>
                 </div>
-                <div className="h-96 overflow-y-auto">
+                <div className="h-fit max-h-96 overflow-y-auto">
                   {sections?.map((value, key) => (
                     <div
                       key={key}
@@ -608,42 +615,58 @@ export default function Course166Container() {
                 </div>
 
                 <div className="overflow-hidden">
-                  <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-4 py-1">
-                    <Button
-                      style={{ marginRight: "20px" }}
-                      className={Course.CancelPopupButton}
-                      onClick={() => {
-                        addCoSec[1].close();
-                        setCheckedSections([]);
-                      }}
-                      radius="md"
-                      sx={{
-                        color: "black",
-                        "&:hover": {
-                          backgroundColor: "#F0EAEA",
-                        },
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      style={{ marginLeft: "20px" }}
-                      className={Course.AddPopupButton}
-                      type="submit"
-                      sx={{
-                        "&:hover": {
-                          backgroundColor: "#d499ff",
-                        },
-                      }}
-                      onClick={() => {
-                        addCoSec[1].close();
-                        setCheckedSections([]);
-                      }}
-                      radius="md"
-                      disabled={countChecked === 0}
-                    >
-                      Confirm
-                    </Button>
+                  <div>
+                    <div className={tabStyle.ScorePopupButtons}>
+                      <Button
+                        onClick={() => {addCoAllSec();}}
+                        className={tabStyle.secondaryButton}
+                        sx={{
+                          color: "black",
+                          "&:hover": {
+                            backgroundColor: "#8084c8",
+                            color: "#ffffff",
+                          },
+                        }}
+                      >
+                        All Sections
+                      </Button>
+                      <Button
+                        style={{ marginLeft: "20px" }}
+                        className={Course.AddPopupButton}
+                        type="submit"
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: "#d499ff",
+                          },
+                        }}
+                        onClick={() => {
+                          addCoSec[1].close();
+                          setCheckedSections([]);
+                        }}
+                        radius="md"
+                        disabled={countChecked === 0}
+                      >
+                        Confirm
+                      </Button>
+                    </div>
+                    <div className={tabStyle.ScorePopupButtons2}>
+                      <Button
+                        className={tabStyle.tertiaryButton}
+                        onClick={() => {
+                          addCoSec[1].close();
+                          setCheckedSections([]);
+                        }}
+                        radius="md"
+                        sx={{
+                          color: "black",
+                          "&:hover": {
+                            backgroundColor: "#F0EAEA",
+                          },
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -670,11 +693,19 @@ export default function Course166Container() {
                     {`Add Co-Instructor ${params.courseNo}`}
                   </p>
                 </div>
-                <div className="text-gray-600 text-[18px] px-10 text-center py-5 max-w-lg">
-                  {sections.length
-                    ? "Sawasdee"
-                    : "Co-Instructors have full access to edit and change scores in all documents. Input an email with the domain cmu.ac.th to invite."}
+                <div className="text-gray-600 text-[18px] text-center px-10 py-5 max-w-lg">
+                  {sections.length ? (
+                    " Input an email with the domain cmu.ac.th to invite."
+                  ) : (
+                    <>
+                      Note: If you add Co-Instructor before uploading your
+                      scores, Co-Instructor can access and edit scores in all
+                      sections. <br />
+                      Input an email with the domain cmu.ac.th to invite.
+                    </>
+                  )}
                 </div>
+
                 <form
                   onSubmit={emailform.onSubmit((data) => {
                     instructorClosePopup(data.email);
