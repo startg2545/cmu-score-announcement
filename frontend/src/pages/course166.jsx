@@ -316,7 +316,7 @@ export default function Course166Container() {
       {/* <SideBar /> */}
       <div className="flex flex-row gap-3 justify-center ">
         <div
-          className={`hidden lg:flex lg:overflow-hidden lg:flex-col pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen duration-500 ${
+          className={` hidden lg:flex lg:overflow-hidden lg:flex-col pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen duration-500 ${
             showSidebar
               ? "transform translate-x-0 w-[300px]"
               : "transform -translate-x-full w-0"
@@ -438,7 +438,7 @@ export default function Course166Container() {
                 </Modal>
 
                 <div className="mx-[1%] lg:mt-3 max-h-fit bg-slate-50">
-                  <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-100px)] lg:h-[calc(83vh-30px)] md:h-[calc(85vh-45px)]  h-[calc(85vh-40px)] overflow-hidden border-[3px] border-primary ">
+                  <div className=" lg:rounded-xl rounded-xl xl:h-[calc(90vh-50px)] lg:h-[calc(89vh-30px)] md:h-[calc(93vh-50px)]   h-[calc(93vh-50px)] overflow-hidden border-[3px] border-primary ">
                   
                       <div className=" bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
                         <div className="flex items-start flex-col justify-center ">
@@ -451,9 +451,11 @@ export default function Course166Container() {
                           </p>
                         </div>
                         {isCurrent && (
-                          <div className=" flex lg:flex-row  md:flex-row flex-col gap-2 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22 ">
+                          <div className="flex md:flex-row flex-col gap-2 items-end lg:py-4 md:py-4 
+                                          py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22 ">
                             <div
-                              className={`lg:px-5 px-1 gap-3 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer hover:shadow-md transition ease-in-out cursor-pointer ${
+                              className={`lg:px-3 px-2 rounded-2xl py-1 flex md:gap-2 gap-2 justify-center items-center hover:cursor-pointer
+                                          hover:shadow-md lg:w-[115px] md:w-[92px] w-[83px] transition ease-in-out cursor-pointer ${
                                 isDelete
                                   ? " border-green-500 hover: hover:bg-green-400"
                                   : " border-orange-400 hover: hover:bg-orange-400"
@@ -463,7 +465,7 @@ export default function Course166Container() {
                               {!isDelete && (
                                 <>
                                   {" "}
-                                  <FiEdit3 className="lg:text-3xl text-xl" />
+                                  <FiEdit3 className="lg:pr-2 lg:text-3xl text-xl" />
                                   <span>Edit</span>{" "}
                                 </>
                               )}
@@ -484,10 +486,10 @@ export default function Course166Container() {
                           </div>
                         )}
                       </div>
-                      <div className=" max-h-screen">
+                      <div className="max-h-screen">
                         <div
                           className={
-                            "overflow-y-auto xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-145px)] h-[calc(85vh-145px)]"
+                            "overflow-y-auto xl:h-[calc(90vh-140px)] lg:h-[calc(89vh-120px)] md:h-[calc(93vh-138px)]  h-[calc(93vh-150px)]"
                           }
                         >
                           {noCourse && (
@@ -523,11 +525,11 @@ export default function Course166Container() {
                                     />
                                   )}
                                   <div
-                                    className="  w-full bg-white lg:py-3 py-2 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
+                                    className=" w-full bg-white lg:py-3 py-2 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl  backdrop-blur-lg fade-bottom lg:text-2xl px-5 "
                                     onClick={() => onClickCourse(item)}
                                   >
                                     <div
-                                      className={`lg:px-5 px-3 lg:py-3 py-2 font-medium flex justify-between items-center ${
+                                      className={` lg:px-5 px-3 lg:py-3 py-2 font-medium flex justify-between items-center ${
                                         isDelete
                                           ? "cursor-default"
                                           : "cursor-pointer"
