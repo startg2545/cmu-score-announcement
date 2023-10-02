@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { TextInput, Button, Radio, Group, ScrollArea } from "@mantine/core";
 import { addCurrent, getCurrent, deleteCurrent } from "../services";
 import { CurrentContext, UserInfoContext } from "../context";
+import { IoPersonAddOutline } from "react-icons/io5";
 import { useForm } from "@mantine/form";
 
 const AdminDashboard = () => {
@@ -131,8 +132,10 @@ const AdminDashboard = () => {
                   className="flex flex-row  px-10 py-5 justify-between 
                                 xl:h-[calc(89vh-148px)] lg:h-[calc(88vh-148px)] md:h-[calc(89vh-140px)] h-[calc(88vh-130px)]"
                 >
-                  <div className="bg-white drop-shadow-xl border-black-70 border-[1px] rounded-xl w-[500px] 
-                                    flex justify-center py-5 ">
+                  <div
+                    className="bg-white drop-shadow-xl border-black-70 border-[1px] rounded-xl w-[500px] 
+                                    flex justify-center py-5 "
+                  >
                     <div>
                       <p className="xl:text-3xl lg:text-2xl md:text-xl font-semibold text-xl xl:block lg:block md:block text-primary mb-1">
                         Semester currently in active
@@ -143,58 +146,64 @@ const AdminDashboard = () => {
                           {showCurrent}
                         </div>
                       </ScrollArea> */}
-                      <div className="py-2 h-5/6 overflow-y-auto  
-                                      mt-5 rounded-lg flex flex-col items-center text-md">
-                            {showCurrent}
+                      <div
+                        className="py-2 h-5/6 overflow-y-auto  
+                                      mt-5 rounded-lg flex flex-col items-center text-md"
+                      >
+                        {showCurrent}
                       </div>
                     </div>
                   </div>
-                  <form
-                    onSubmit={submitForm.onSubmit((data) => {
-                      handleSubmit(data);
-                    })}
-                    className="bg-white drop-shadow-lg border-black-70 border-[1px] rounded-xl
+                  <div className="flex flex-col gap-6 ">
+                    <form
+                      onSubmit={submitForm.onSubmit((data) => {
+                        handleSubmit(data);
+                      })}
+                      className="bg-white drop-shadow-lg border-black-70 border-[1px] rounded-xl
                                flex flex-col items-center py-5 gap-5
-                               w-[850px]  h-[200px]"
-                  >
-                    <p
-                      className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
-                                 xl:block lg:block md:block  text-primary"
+                               w-[850px]  h-[250px]"
                     >
-                      Add new semester and year
-                    </p>
-                    <div className="flex flex-row justify-center items-center gap-10 ">
-                      <Radio.Group
-                        label="Semester"
-                        withAsterisk
-                        size="md"
-                        // className=" mb-3"
-                        {...submitForm.getInputProps("semester")}
+                      <p
+                        className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
+                                 xl:block lg:block md:block  text-primary"
                       >
-                        <Group mt="xs">
-                          <Radio value="1" label="1" />
-                          <Radio value="2" label="2" />
-                          <Radio value="3" label="3(Summer)" />
-                        </Group>
-                      </Radio.Group>
+                        Add new semester and year
+                      </p>
+                      <div className="flex flex-row justify-center gap-10 ">
+                        <Radio.Group
+                          label="Semester"
+                          withAsterisk
+                          size="md"
+                          className=" mb-3"
+                          {...submitForm.getInputProps("semester")}
+                        >
+                          <Group mt="xs" mb="xs">
+                            <Radio value="1" label="1" />
+                            <Radio value="2" label="2" />
+                            <Radio value="3" label="3(Summer)" />
+                          </Group>
+                        </Radio.Group>
 
-                      <TextInput
-                        size="md"
-                        label="Academic Year"
-                        {...submitForm.getInputProps("year")}
-                        type="text"
-                        withAsterisk={true}
-                        placeholder="Add Year"
-                      />
-
-                      <Button
-                        className=" bg-green-600 w-[100px] hover:bg-white hover:text-green-600 hover:border-green-600"
-                        type="submit"
-                      >
-                        Confirm
-                      </Button>
+                        <TextInput
+                          size="md"
+                          label="Academic Year"
+                          {...submitForm.getInputProps("year")}
+                          type="text"
+                          withAsterisk={true}
+                          placeholder="Add Year"
+                        />
+                        <Button
+                          className=" bg-green-600 w-[100px] hover:bg-white hover:text-green-600 hover:border-green-600 mt-7"
+                          type="submit"
+                        >
+                          Confirm
+                        </Button>
+                      </div>
+                    </form>
+                    <div className="bg-white drop-shadow-xl border-black-70 border-[1px] rounded-xl w-[850px] h-4/6 items-center ">
+                  
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
