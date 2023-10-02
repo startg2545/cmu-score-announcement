@@ -33,7 +33,7 @@ const Dashboard = () => {
             : "transform -translate-x-full w-0"
         }`}
       >
-        <div className="flex flex-col px-3 py-14">
+        <div className="flex flex-col px-3 mt-14 overflow-y-auto">
           <ul className="flex flex-col gap-3 pt-2 pb-10 text-gray-800 justify-center text-center items-center font-semibold ">
             {current?.map((data, i) => (
               <li
