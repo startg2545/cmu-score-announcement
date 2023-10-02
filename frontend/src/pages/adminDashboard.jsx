@@ -129,39 +129,18 @@ const AdminDashboard = () => {
                   </div>
                 </div>
                 <div
-                  className="flex flex-row  px-10 py-5 justify-between 
-                                xl:h-[calc(89vh-148px)] lg:h-[calc(88vh-148px)] md:h-[calc(89vh-140px)] h-[calc(88vh-130px)]"
+                  className="flex xl:flex-row flex-col  
+                            p-5 gap-5 justify-between 
+                            xl:h-[calc(89vh-148px)] lg:h-[calc(88vh-148px)] md:h-[calc(89vh-140px)] h-[calc(88vh-130px)]"
                 >
-                  <div
-                    className="bg-white drop-shadow-xl border-black-70 border-[1px] rounded-xl w-[500px] 
-                                    flex justify-center py-5 "
-                  >
-                    <div>
-                      <p className="xl:text-3xl lg:text-2xl md:text-xl font-semibold text-xl xl:block lg:block md:block text-primary mb-1">
-                        Semester currently in active
-                      </p>
-                      {/* <ScrollArea type="always" >
-                        <div className="border-[2px] border-black-50 py-5 
-                                        mt-5 justify-center text-md flex-col">
-                          {showCurrent}
-                        </div>
-                      </ScrollArea> */}
-                      <div
-                        className="py-2 h-5/6 overflow-y-auto  
-                                      mt-5 rounded-lg flex flex-col items-center text-md"
-                      >
-                        {showCurrent}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-6 ">
+                  <div className="xl:flex xl:flex-col xl:gap-6 xl:w-4/6 ">
                     <form
                       onSubmit={submitForm.onSubmit((data) => {
                         handleSubmit(data);
                       })}
                       className="bg-white drop-shadow-lg border-black-70 border-[1px] rounded-xl
-                               flex flex-col items-center py-5 gap-5
-                               w-[850px]  h-[250px]"
+                               flex flex-col items-center py-5 gap-5 
+                               xl:h-[250px] md:h-[180px] h-[360px]"
                     >
                       <p
                         className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
@@ -169,7 +148,7 @@ const AdminDashboard = () => {
                       >
                         Add new semester and year
                       </p>
-                      <div className="flex flex-row justify-center gap-10 ">
+                      <div className="flex md:flex-row flex-col justify-center xl:gap-10 lg:gap-20 md:gap-10 gap-2">
                         <Radio.Group
                           label="Semester"
                           withAsterisk
@@ -193,17 +172,33 @@ const AdminDashboard = () => {
                           placeholder="Add Year"
                         />
                         <Button
-                          className=" bg-green-600 w-[100px] hover:bg-white hover:text-green-600 hover:border-green-600 mt-7"
+                          className=" bg-green-600 w-[100px] hover:bg-white hover:text-green-600 hover:border-green-600 md:mt-7 mt-5"
                           type="submit"
                         >
                           Confirm
                         </Button>
                       </div>
                     </form>
-                    <div className="bg-white drop-shadow-xl border-black-70 border-[1px] rounded-xl w-[850px] h-4/6 items-center ">
-                  
-                    </div>
+                    <div className="bg-white drop-shadow-xl border-black-70 border-[1px] rounded-xl h-4/6 items-center xl:block hidden"></div>
                   </div>
+                  {/* <div
+                    className="bg-white drop-shadow-xl border-black-70 border-[1px] rounded-xl w-2/5
+                                    flex justify-center py-5 
+                                    "
+                  >
+                    <div>
+                      <p className="xl:text-3xl lg:text-2xl md:text-xl font-semibold text-xl 
+                                    xl:block lg:block md:block text-primary mb-1">
+                        Semester currently in active
+                      </p>
+                      <div
+                        className="py-2 h-5/6 overflow-y-auto  
+                                   mt-5 rounded-lg flex flex-col items-center text-md"
+                      >
+                        {showCurrent}
+                      </div>
+                    </div>
+                  </div> */}
                 </div>
               </div>
             </div>
