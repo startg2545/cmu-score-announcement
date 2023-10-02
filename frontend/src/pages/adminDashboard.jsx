@@ -81,12 +81,14 @@ const AdminDashboard = () => {
   const showCurrent = current?.map((element, key) => {
     return (
       <label className="py-1" key={key}>
-        <div className="bg-white drop-shadow border-black-50 border-[1px] text-lg w-[300px] h-[50px] rounded-xl flex justify-between items-center px-10">
+        <div className="bg-white drop-shadow border-black-50 border-[1px] xl:text-lg text-base  xl:mt-3 md:mt-0 mt-3
+                      xl:w-[300px] lg:w-[240px] md:w-[250px] w-[230px] h-[50px] rounded-xl flex 
+                      justify-between items-center px-10">
           {element.semester}/{element.year}
           <button
             style={{ color: "red" }}
             onClick={() => handleDelete(element._id)}
-            className="px-4"
+            className="xl:px-4 "
           >
             <b>Delete</b>
           </button>
@@ -129,8 +131,8 @@ const AdminDashboard = () => {
                   </div>
                 </div>
                 <div
-                  className="flex xl:flex-row flex-col  
-                            p-5 gap-5 justify-between 
+                  className="flex xl:flex-row flex-col  overflow-y-auto
+                            p-5  gap-5 xl:justify-between 
                             xl:h-[calc(89vh-148px)] lg:h-[calc(88vh-148px)] md:h-[calc(89vh-140px)] h-[calc(88vh-130px)]"
                 >
                   <div className="xl:flex xl:flex-col xl:gap-6 xl:w-4/6 ">
@@ -181,24 +183,29 @@ const AdminDashboard = () => {
                     </form>
                     <div className="bg-white drop-shadow-xl border-black-70 border-[1px] rounded-xl h-4/6 items-center xl:block hidden"></div>
                   </div>
-                  {/* <div
-                    className="bg-white drop-shadow-xl border-black-70 border-[1px] rounded-xl w-2/5
-                                    flex justify-center py-5 
+                  <div
+                    className="bg-white drop-shadow-xl border-black-70 border-[1px] rounded-xl 
+                                xl:w-2/5 w-full lg:max-h-[1200px] md:max-h-[1000px] max-h-[500px]
+                                flex flex-col items-center py-5 
                                     "
                   >
-                    <div>
-                      <p className="xl:text-3xl lg:text-2xl md:text-xl font-semibold text-xl 
-                                    xl:block lg:block md:block text-primary mb-1">
+
+                      <p
+                        className="xl:text-3xl lg:text-2xl md:text-xl font-semibold text-xl 
+                                    xl:block md:block text-primary mb-1"
+                      >
                         Semester currently in active
                       </p>
                       <div
-                        className="py-2 h-5/6 overflow-y-auto  
-                                   mt-5 rounded-lg flex flex-col items-center text-md"
+                        className="py-3  overflow-y-auto  border-[1px] border-black-50 mt-5 rounded-lg 
+                                   flex xl:flex-col flex-col items-center lg:px-10 
+                                   xl:h-5/6 h-5/6
+                                   xl:w-5/6 lg:w-[920px] w-5/6 md:mx-10"
                       >
-                        {showCurrent}
+                         <div className="xl:hidden  hidden  md:grid md:grid-cols-2 lg:grid-cols-3 lg:gap-5 md:gap-4" >{showCurrent}</div>
+                         <div className="xl:block md:hidden block" >{showCurrent}</div>
                       </div>
-                    </div>
-                  </div> */}
+                  </div>
                 </div>
               </div>
             </div>
