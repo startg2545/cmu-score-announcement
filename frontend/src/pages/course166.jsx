@@ -333,8 +333,8 @@ export default function Course166Container() {
               : "transform -translate-x-full w-0"
           }`}
         >
-          <div className="flex flex-col px-3 py-14">
-            <ul className="flex flex-col gap-3 pt-2 pb-10 text-gray-800 justify-center text-center items-center font-semibold ">
+          <div className="flex flex-col px-3 mt-14 overflow-y-auto">
+            <ul className="flex flex-col gap-3 pt-2  text-gray-800 justify-center text-center items-center font-semibold ">
               {current?.map((data, i) => (
                 <li
                   className="w-full flex flex-row cursor-pointer justify-center gap-2 text-lg items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl mr-3"
