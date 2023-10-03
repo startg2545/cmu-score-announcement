@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
@@ -24,7 +22,6 @@ import { IoPersonAddOutline } from "react-icons/io5";
 import { FiPlus, FiEdit3 } from "react-icons/fi";
 import { BiPlus } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { TextInput, Button, Flex } from "@mantine/core";
 import Course from "./css/course166.module.css";
 
@@ -45,6 +42,7 @@ export default function Course166Container() {
     useContext(StateContext);
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
+  const [coInstructors, setCoInstructors] = useState('');
   const addCourseButton = useDisclosure();
   const addCoSec = useDisclosure();
   const [countChecked, setCountChecked] = useState(0);
@@ -62,15 +60,15 @@ export default function Course166Container() {
     handleSidebarClick(true);
     navToSemesterYear(semester, year);
   };
-  const instructorClosePopup = async (coInstructors) => {
+  const instructorClosePopup = async () => {
     if (!isEmailValid) {
       return;
     }
     if (!sections.length) {
       const data = {
-        courseNo: params.courseNo,
-        year: parseInt(params.year),
-        semester: parseInt(params.semester),
+        courseNo: searchParams.get("courseNo"),
+        year: searchParams.get("year"),
+        semester: searchParams.get("semester"),
         coInstructors: coInstructors,
       };
       const resp = await addCoInstructors(data);
@@ -315,6 +313,7 @@ export default function Course166Container() {
       courseNo: searchParams.get("courseNo"),
       year: searchParams.get("year"),
       semester: searchParams.get("semester"),
+      coInstructors: coInstructors,
       type: "addCoAllSec",
     }
     const resp = await addCoInstructors(data)
@@ -335,6 +334,7 @@ export default function Course166Container() {
       year: searchParams.get("year"),
       semester: searchParams.get("semester"),
       sections: section_arr,
+      coInstructors: coInstructors,
       type: "addCoEachSec",
     }
     const resp = await addCoInstructors(data)
@@ -735,7 +735,8 @@ export default function Course166Container() {
 
                 <form
                   onSubmit={emailform.onSubmit((data) => {
-                    instructorClosePopup(data.email);
+                    setCoInstructors(data.email);
+                    instructorClosePopup();
                   })}
                   className="px-10 lg:px-24"
                 >
