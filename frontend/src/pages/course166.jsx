@@ -47,7 +47,6 @@ export default function Course166Container() {
   const navigate = useNavigate();
   const addCourseButton = useDisclosure();
   const addCoSec = useDisclosure();
-  const [checkedCourses, setCheckedCourse] = useState([]);
   const [countChecked, setCountChecked] = useState(0);
   const { current } = useContext(CurrentContext);
   const [checkedSections, setCheckedSections] = useState([]);
@@ -88,11 +87,11 @@ export default function Course166Container() {
     } else {
       setCountChecked(countChecked - 1);
     }
-    const courseNo = value.course;
+    const coEachSec = value.section;
     if (e.target.checked) {
-      setCheckedCourse([...checkedCourses, courseNo]);
+      setCheckedSections([...checkedSections, coEachSec]);
     } else {
-      setCheckedCourse(checkedCourses.filter((c) => c !== courseNo));
+      setCheckedSections(checkedSections.filter((c) => c !== coEachSec));
     }
   };
 
@@ -312,15 +311,41 @@ export default function Course166Container() {
   };
 
   const addCoAllSec = async () => {
+    const data = {
+      courseNo: searchParams.get("courseNo"),
+      year: searchParams.get("year"),
+      semester: searchParams.get("semester"),
+      type: "addCoAllSec",
+    }
+    const resp = await addCoInstructors(data)
     addCoSec[1].close();
-
+    setCheckedSections([]);
+    emailform.reset();
   }
+
+  const addCoEachSec = async () => {
+    const section_arr = [];
+    for (let checked in checkedSections) {
+      sections.map((e) => {
+        if (e.section == checkedSections[checked]) section_arr.push(e.section);
+      });
+    }
+    const data = {
+      courseNo: searchParams.get("courseNo"),
+      year: searchParams.get("year"),
+      semester: searchParams.get("semester"),
+      sections: section_arr,
+      type: "addCoEachSec",
+    }
+    const resp = await addCoInstructors(data)
+    addCoSec[1].close();
+    setCheckedSections([]);
+    emailform.reset();
+  } 
 
   const isCurrent =
     searchParams.get("year") == current[0]?.year &&
     searchParams.get("semester") == current[0]?.semester;
-
-  
 
   return (
     <>
@@ -642,8 +667,8 @@ export default function Course166Container() {
                           },
                         }}
                         onClick={() => {
-                          addCoSec[1].close();
-                          setCheckedSections([]);
+                          addCoEachSec();
+
                         }}
                         radius="md"
                         disabled={countChecked === 0}
