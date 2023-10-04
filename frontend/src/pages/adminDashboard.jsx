@@ -122,7 +122,7 @@ const AdminDashboard = () => {
       semester: data.semester,
       year: data.year,
     });
-    if (!resp.ok) {
+    if (resp.ok === false) {
       signOut().finally(navigate("/"));
     }
     fetchData();
@@ -154,7 +154,7 @@ const AdminDashboard = () => {
     const resp = await deleteCurrent({
       _id: _id,
     });
-    if (!resp.ok) {
+    if (resp.ok === false) {
       signOut().finally(navigate("/"));
     }
     fetchData();
