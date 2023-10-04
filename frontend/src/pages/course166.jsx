@@ -18,7 +18,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { HiChevronRight } from "react-icons/hi";
 import { FaChevronRight, FaSignOutAlt } from "react-icons/fa";
 import { AiFillMinusCircle } from "react-icons/ai";
-import { IoPersonAddOutline } from "react-icons/io5";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import { FiPlus, FiEdit3 } from "react-icons/fi";
 import { BiPlus } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
@@ -80,6 +80,7 @@ export default function Course166Container() {
   };
 
   const handleCheckboxChange = (e, value) => {
+   
     if (e.target.checked === true) {
       setCountChecked(countChecked + 1);
     } else {
@@ -685,6 +686,7 @@ export default function Course166Container() {
                         onClick={() => {
                           addCoSec[1].close();
                           setCheckedSections([]);
+                          emailform.reset();
                         }}
                         radius="md"
                         sx={{
@@ -906,7 +908,7 @@ export default function Course166Container() {
                                     "
                             onClick={() => open()}
                           >
-                            <IoPersonAddOutline />
+                            <AiOutlineUserAdd className="lg:text-3xl text-xl " />
                             <p>Instructor</p>
                           </div>
 
@@ -923,7 +925,7 @@ export default function Course166Container() {
                             }
                             onClick={goToUpload}
                           >
-                            <BiPlus />
+                            <BiPlus className="lg:text-3xl text-xl "/>
                             <p>Upload Score</p>
                           </div>
                         </div>
