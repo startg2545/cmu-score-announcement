@@ -134,7 +134,7 @@ const Management = ({ data, courseName }) => {
               Select section to publish
             </p>
           </div>
-          <div className="h-96 overflow-y-auto">
+          <div className="h-fit overflow-y-auto">
             {data?.map((value, key) => (
               <div
                 key={key}
@@ -163,10 +163,10 @@ const Management = ({ data, courseName }) => {
               </div>
             ))}
           </div>
-          <div className="overflow-hidden">
-            <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-4 py-1">
+          <div className={tabStyle.ScorePopupButtons}>
+            <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl">
               <Button
-                style={{ marginRight: "20px" }}
+                style={{ marginRight: "10px" }}
                 className={Course.CancelPopupButton}
                 onClick={() => {
                   publishEach[1].close();
@@ -183,7 +183,7 @@ const Management = ({ data, courseName }) => {
                 Cancel
               </Button>
               <Button
-                style={{ marginLeft: "20px" }}
+                style={{ marginLeft: "10px" }}
                 className={Course.AddPopupButton}
                 type="submit"
                 sx={{
@@ -298,7 +298,7 @@ const Management = ({ data, courseName }) => {
           </p>
           <div className={tabStyle.ScorePopupButtons}>
             <Button
-              style={{ marginRight: "20px" }}
+              style={{ marginRight: "10px" }}
               className={Course.CancelPopupButton}
               onClick={() => {
                 publishAll[1].close();
@@ -314,7 +314,7 @@ const Management = ({ data, courseName }) => {
               Cancel
             </Button>
             <Button
-              style={{ marginLeft: "20px" }}
+              style={{ marginLeft: "10px" }}
               className={Course.AddPopupButton}
               type="submit"
               sx={{
