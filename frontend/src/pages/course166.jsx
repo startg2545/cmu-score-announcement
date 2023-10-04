@@ -42,7 +42,7 @@ export default function Course166Container() {
     useContext(StateContext);
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
-  const [coInstructors, setCoInstructors] = useState('');
+  const [coInstructors, setCoInstructors] = useState("");
   const addCourseButton = useDisclosure();
   const addCoSec = useDisclosure();
   const [countChecked, setCountChecked] = useState(0);
@@ -315,12 +315,12 @@ export default function Course166Container() {
       semester: searchParams.get("semester"),
       coInstructors: coInstructors,
       type: "addCoAllSec",
-    }
-    const resp = await addCoInstructors(data)
+    };
+    const resp = await addCoInstructors(data);
     addCoSec[1].close();
     setCheckedSections([]);
     emailform.reset();
-  }
+  };
 
   const addCoEachSec = async () => {
     const section_arr = [];
@@ -336,12 +336,12 @@ export default function Course166Container() {
       sections: section_arr,
       coInstructors: coInstructors,
       type: "addCoEachSec",
-    }
-    const resp = await addCoInstructors(data)
+    };
+    const resp = await addCoInstructors(data);
     addCoSec[1].close();
     setCheckedSections([]);
     emailform.reset();
-  } 
+  };
 
   const isCurrent =
     searchParams.get("year") == current[0]?.year &&
@@ -379,7 +379,7 @@ export default function Course166Container() {
           </div>
           <div className="cursor-pointer px-5">
             <div
-              onClick={() => signOut().finally(navigate("/sign-in"))}
+              onClick={() => signOut().finally(navigate("/"))}
               className="text-lg font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-3xl mt-5 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
             >
               Log out
@@ -645,7 +645,9 @@ export default function Course166Container() {
                   <div>
                     <div className={tabStyle.ScorePopupButtons}>
                       <Button
-                        onClick={() => {addCoAllSec();}}
+                        onClick={() => {
+                          addCoAllSec();
+                        }}
                         className={tabStyle.secondaryButton}
                         sx={{
                           color: "black",
@@ -668,7 +670,6 @@ export default function Course166Container() {
                         }}
                         onClick={() => {
                           addCoEachSec();
-
                         }}
                         radius="md"
                         disabled={countChecked === 0}
@@ -789,8 +790,10 @@ export default function Course166Container() {
                       onClick={backToDashboard}
                       className="text-primary lg:text-xl text-md cursor-pointer flex flex-row gap-1"
                     >
-                      <span  className="sm:block hidden">Course </span> 
-                      <span>{params.semester}/{params.year.slice(2)}</span>
+                      <span className="sm:block hidden">Course </span>
+                      <span>
+                        {params.semester}/{params.year.slice(2)}
+                      </span>
                     </p>
 
                     <HiChevronRight className="lg:text-2xl text-md" />
@@ -821,7 +824,7 @@ export default function Course166Container() {
                       <>
                         <HiChevronRight className="lg:text-2xl text-md" />
                         <p
-                           className="text-primary lg:text-xl text-md flex flex-row gap-1"
+                          className="text-primary lg:text-xl text-md flex flex-row gap-1"
                           style={{
                             cursor:
                               searchParams.get("section") &&
@@ -946,4 +949,3 @@ export default function Course166Container() {
     </>
   );
 }
-

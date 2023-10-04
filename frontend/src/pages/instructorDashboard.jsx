@@ -54,7 +54,7 @@ const Dashboard = () => {
         </div>
         <div className="cursor-pointer px-5">
           <div
-            onClick={() => signOut().finally(navigate("/sign-in"))}
+            onClick={() => signOut().finally(navigate("/"))}
             className="text-lg font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-3xl mt-5 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
           >
             Log out
