@@ -113,7 +113,12 @@ const AdminDashboard = () => {
                     <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
                       {
                         <>
-                          
+                         <p
+                            className="xl:hidden lg:hidden md:hidden sm:hidden block 
+                                             text-[29px]"
+                          >
+                            Admin
+                          </p>
                           <p
                             className="xl:text-4xl lg:text-4xl md:text-3xl  sm:text-3xl
                                   ˝         xl:block lg:block md:block sm:block hidden"

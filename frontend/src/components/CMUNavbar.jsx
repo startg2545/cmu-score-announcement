@@ -53,7 +53,7 @@ const CMUNavbar = () => {
   // -------------------------------------------------------------------------
 
   if (withoutNavbar.includes(pathname)) return null;
-  const userRole = userInfo.itAccountType === "MISEmpAcc" ? "flex" : "hidden";
+  const userRole = userInfo.itAccountType === "StdAcc" ? "hidden" : "flex";
 
   // Sidebar
   const handleSidebar = () => {
@@ -128,6 +128,7 @@ const CMUNavbar = () => {
             </div>
           </div>
         </div>
+
         <div
           className="flex items-center gap-2 lg:gap-5 md:gap-4"
           //navbar left content
@@ -151,8 +152,7 @@ const CMUNavbar = () => {
           className="py-2"
           //navbar right content
         >
-          {((userInfo && userInfo.itAccountType === ROLE.STUDENT ||
-          userInfo.itAccountType === ROLE.ADMIN) && (
+          {(userInfo && userInfo.itAccountType === ROLE.STUDENT && (
             <Menu>
               <Menu.Target>
                 <Flex
@@ -173,11 +173,7 @@ const CMUNavbar = () => {
                       <Text className="text-[#f7c878] group-hover:text-[#e6bd76] lg:text-xl md:text-lg drop-shadow text-end sm:text-sm">
                         {`${current[0]?.semester}/${current[0]?.year
                           .toString()
-                          .slice(2)}, ${
-                            userInfo.itAccountType === "Admin"
-                              ? "Admin"
-                              : "Student"
-                          }`}
+                          .slice(2)}, Student`}
                       </Text>
                     </div>
                     <IoMdArrowDropdown className="text-3xl text-white " />
@@ -197,8 +193,8 @@ const CMUNavbar = () => {
               </Menu.Dropdown>
             </Menu>
           )) ||
-            (userInfo.itAccountType === ROLE.INSTRUCTOR &&
-               (
+            ((userInfo.itAccountType === ROLE.INSTRUCTOR ||
+              userInfo.itAccountType === ROLE.ADMIN) && (
               <Flex
                 gap="5px"
                 align="flex-end"
@@ -217,7 +213,11 @@ const CMUNavbar = () => {
                     <Text className="text-[#f7c878] group-hover:text-[#e6bd76] 2xl:text-xl xl:text-lg lg:text-md md:text-sm drop-shadow text-end ">
                       {`${current[0]?.semester}/${current[0]?.year
                         .toString()
-                        .slice(2)}, Instructor`}
+                        .slice(2)}, ${
+                        userInfo.itAccountType === "Admin"
+                          ? "Admin"
+                          : "Instructor"
+                      }`}
                     </Text>
                   </div>
                 </div>
