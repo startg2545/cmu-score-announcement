@@ -2,7 +2,16 @@ import React, { useState, useEffect, useContext } from "react";
 import { TextInput, Button, Radio, Group, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useNavigate } from "react-router-dom";
-import { addCurrent, getCurrent, deleteCurrent, signOut } from "../services";
+import {
+  addCurrent,
+  getCurrent,
+  deleteCurrent,
+  signOut,
+  getAdminUser,
+  deleteAdmin,
+  addAdmin,
+  socket,
+} from "../services";
 import { CurrentContext, UserInfoContext, StateContext } from "../context";
 import { useForm } from "@mantine/form";
 import { AiOutlineUserAdd } from "react-icons/ai";
@@ -15,10 +24,17 @@ const AdminDashboard = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [opened, { open, close }] = useDisclosure(false);
-  const [admins, setAdmins] = useState("");
+  const [admins, setAdmins] = useState([]);
   const { showSidebar, handleSidebarClick } = useContext(StateContext);
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    socket.on("adminUpdate", (admin) => {
+      setAdmins([]);
+      fetchAdmin();
+    });
+  }, []);
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -82,22 +98,12 @@ const AdminDashboard = () => {
     validateInputOnBlur: true,
   });
 
-  const adminClosePopup = async () => {
+  const adminClosePopup = async (data) => {
     if (!isEmailValid) {
       return;
     }
-    // if (!sections.length) {
-    //   const data = {
-    //     courseNo: searchParams.get("courseNo"),
-    //     year: searchParams.get("year"),
-    //     semester: searchParams.get("semester"),
-    //     coInstructors: coInstructors,
-    //   };
-    //   const resp = await addCoInstructors(data);
-    //   emailform.reset();
-    // } else {
-    //   addCoSec[1].open();
-    // }
+    const resp = await addAdmin({ admin: data });
+    emailform.reset();
     close();
   };
 
@@ -115,12 +121,25 @@ const AdminDashboard = () => {
     setCurrent(resp);
   };
 
+  const fetchAdmin = async () => {
+    const resp = await getAdminUser();
+    if (resp.ok) {
+      setAdmins(resp.admin);
+      console.log(resp.admin);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const resp = await getCurrent();
       setCurrent(resp);
     };
-    if (userInfo.itAccountType) fetchData();
+    if (userInfo.itAccountType) {
+      fetchData();
+      if (!admins.length) {
+        fetchAdmin();
+      }
+    }
   }, [setCurrent]);
 
   const handleDelete = async (_id) => {
@@ -128,6 +147,13 @@ const AdminDashboard = () => {
       _id: _id,
     });
     fetchData();
+  };
+
+  const deleteAdmins = async (_id) => {
+    const resp = await deleteAdmin({
+      _id: _id,
+    });
+    fetchAdmin();
   };
 
   const formatDate = (date) => {
@@ -142,43 +168,48 @@ const AdminDashboard = () => {
 
   const showCurrent = current?.map((element, key) => {
     return (
-      <label className="py-1" key={key}>
-        <div
-          className="bg-white drop-shadow border-black-50 border-[1px] xl:text-lg text-base  xl:mt-3 md:mt-0 mt-3
+      <div
+        className="bg-white drop-shadow border-black-50 border-[1px] xl:text-lg text-base  xl:mt-3 md:mt-0 mt-3
                       xl:w-[300px] lg:w-[240px] md:w-[250px] w-[230px] h-[50px] rounded-xl flex 
-                      justify-between items-center px-10"
+                      justify-between items-center px-10 cursor-default"
+        key={key}
+      >
+        {element.semester}/{element.year}
+        <button
+          style={{ color: "red" }}
+          onClick={() => handleDelete(element._id)}
+          className="xl:px-4 "
         >
-          {element.semester}/{element.year}
-          <button
-            style={{ color: "red" }}
-            onClick={() => handleDelete(element._id)}
-            className="xl:px-4 "
-          >
-            <b>Delete</b>
-          </button>
-        </div>
-      </label>
+          <b>Delete</b>
+        </button>
+      </div>
     );
   });
 
-  const showEmail = current?.map((element, key) => {
+  const showEmail = admins?.map((element, key) => {
     return (
-      <label className="py-1" key={key}>
-        <div
-          className="bg-white drop-shadow border-black-50 border-[1px] xl:text-lg text-base  xl:mt-3 md:mt-0 mt-3
-                      xl:w-[500px] lg:w-[440px] md:w-[380px] w-[330px] h-[50px] rounded-xl flex 
-                      justify-between items-center px-10"
-        >
-          {element.semester}/{element.year}
+      <div
+        className="bg-white drop-shadow border-black-50 border-[1px] xl:text-lg text-xs md:text-lg  xl:mt-3 md:mt-0 mt-3
+                      xl:w-[550px] lg:w-[640px] md:w-[380px] w-[230px] h-[50px] rounded-xl flex 
+                      justify-between items-center px-3 cursor-default"
+        key={key}
+      >
+        {element.admin.replace("@cmu.ac.th", "")}
+
+        {element.admin !== userInfo.cmuAccount ? (
           <button
             style={{ color: "red" }}
-            onClick={() => handleDelete(element._id)}
+            onClick={() => deleteAdmins(element._id)}
             className="xl:px-4 "
           >
             <b>Delete</b>
           </button>
-        </div>
-      </label>
+        ) : (
+          <p style={{ color: "green" }} className="xl:px-6 font-bold">
+            (You)
+          </p>
+        )}
+      </div>
     );
   });
 
@@ -209,8 +240,7 @@ const AdminDashboard = () => {
           </div>
           <form
             onSubmit={emailform.onSubmit((data) => {
-              setAdmins(data.email);
-              adminClosePopup();
+              adminClosePopup(data.email);
             })}
             className="px-10 lg:px-24"
           >
@@ -349,7 +379,7 @@ const AdminDashboard = () => {
                     >
                       <p
                         className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
-                                 xl:block lg:block md:block  text-primary"
+                                 xl:block lg:block md:block  text-primary xl:mt-5 cursor-default"
                       >
                         Add new semester and year
                       </p>
@@ -391,7 +421,7 @@ const AdminDashboard = () => {
                     >
                       <p
                         className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
-                                 xl:block lg:block md:block   text-primary"
+                                 xl:block lg:block md:block   text-primary cursor-default"
                       >
                         Admin with access
                       </p>
@@ -399,14 +429,9 @@ const AdminDashboard = () => {
                         className="  overflow-y-auto  border-[1px] border-black-50 rounded-lg 
                                    flex xl:flex-col flex-col items-center lg:px-10 
                                    xl:h-full h-5/6
-                                   xl:w-5/6 lg:w-[920px] w-5/6 md:mx-10 "
+                                   xl:w-5/6 lg:w-[920px] w-5/6 md:mx-10 py-3"
                       >
-                        <div className="xl:hidden  hidden  md:grid lg:grid lg:gap-2 md:gap-2 mt-2">
-                          {showEmail}
-                        </div>
-                        <div className="xl:block md:hidden block">
-                          {showEmail}
-                        </div>
+                        <div className="flex flex-col gap-0">{showEmail}</div>
                       </div>
                     </div>
                   </div>
@@ -418,7 +443,7 @@ const AdminDashboard = () => {
                   >
                     <p
                       className="xl:text-3xl lg:text-2xl md:text-xl font-semibold text-xl 
-                                    xl:block md:block text-primary mb-1"
+                                    xl:block md:block text-primary mb-1 cursor-default"
                     >
                       Semester currently in active
                     </p>

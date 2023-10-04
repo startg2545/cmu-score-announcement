@@ -12,7 +12,7 @@ router.get("/user", async (req, res) => {
     if (!user.cmuAccount)
       return res.status(403).send({ ok: false, message: "Invalid token" });
 
-    const admin = await adminUserModel.find();
+    const admin = await adminUserModel.find().sort({admin: "asc"});
 
     return res.send({ ok: true, admin });
   } catch (err) {
@@ -64,7 +64,7 @@ router.delete("/user", async (req, res) => {
     const socket = req.app.get("socket");
 
     await adminUserModel.findOneAndDelete({
-      admin: req.query.admin,
+      _id: req.query._id,
     });
 
     socket.emit("adminUpdate", "delete admin user");
