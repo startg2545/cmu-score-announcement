@@ -4,6 +4,25 @@ const adminModel = require("../db/adminSchema");
 const adminUserModel = require("../db/adminUserSchema");
 const router = express.Router();
 
+//get admin user
+router.get("/user", async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const user = await verifyAndValidateToken(token, res);
+    if (!user.cmuAccount)
+      return res.status(403).send({ ok: false, message: "Invalid token" });
+
+    const admin = await adminUserModel.find();
+
+    return res.send({ ok: true, admin });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .send({ ok: false, message: "Internal Server Error" });
+  }
+});
+
 //add admin user
 router.post("/user", async (req, res) => {
   try {
