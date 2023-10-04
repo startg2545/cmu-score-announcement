@@ -128,7 +128,6 @@ const CMUNavbar = () => {
             </div>
           </div>
         </div>
-
         <div
           className="flex items-center gap-2 lg:gap-5 md:gap-4"
           //navbar left content
