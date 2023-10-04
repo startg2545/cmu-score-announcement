@@ -4,6 +4,7 @@ import { addCurrent, getCurrent, deleteCurrent } from "../services";
 import { CurrentContext, UserInfoContext } from "../context";
 import { IoPersonAddOutline } from "react-icons/io5";
 import { useForm } from "@mantine/form";
+import { FiPlus, FiEdit3 } from "react-icons/fi";
 
 const AdminDashboard = () => {
   const { userInfo } = useContext(UserInfoContext);
@@ -107,16 +108,12 @@ const AdminDashboard = () => {
             <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-60px)] lg:h-[calc(88vh-60px)] md:h-[calc(89vh-55px)]  h-[calc(88vh-50px)] overflow-hidden border-[3px] border-primary mt-24 ">
               <div className="flex flex-col ">
                 <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between cursor-default ">
+                  
                   <div className="flex items-start flex-col justify-center ">
                     <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
                       {
                         <>
-                          <p
-                            className="xl:hidden lg:hidden md:hidden sm:hidden block 
-                                             text-[29px]"
-                          >
-                            Admin Dashboard
-                          </p>
+                          
                           <p
                             className="xl:text-4xl lg:text-4xl md:text-3xl  sm:text-3xl
                                   ˝         xl:block lg:block md:block sm:block hidden"
@@ -130,6 +127,11 @@ const AdminDashboard = () => {
                     <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
                       {formatDate(currentDate)}
                     </p>
+                    
+                  </div>
+                  <div className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md transition ease-in-out">
+                    <FiPlus className="lg:text-3xl text-xl " />
+                    <span>Add Admin</span>
                   </div>
                 </div>
                 <div
@@ -176,7 +178,7 @@ const AdminDashboard = () => {
                           placeholder="Add Year"
                         />
                         <Button
-                          className=" bg-green-600 w-[100px] hover:bg-white hover:text-green-600 hover:border-green-600 md:mt-7 mt-5"
+                          className=" bg-white border-green-600 text-green-600 w-[100px] hover:bg-green-600 hover:text-white hover:border-green-600 md:mt-7 mt-5 duration-200"
                           type="submit"
                         >
                           Confirm
