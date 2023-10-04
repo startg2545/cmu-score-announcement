@@ -69,9 +69,9 @@ const AdminDashboard = () => {
         if (isNaN(enteredYear)) {
           return "Invalid year for B.E. program";
         }
-        // else if (enteredYear > currentYear || enteredYear < currentYear - 1) {
-        //   return "Year must be the current year or less than 1 year.";
-        // }
+        else if (enteredYear > currentYear || enteredYear < currentYear - 1) {
+          return "Year must be the current year or less than 1 year.";
+        }
       },
     },
     validateInputOnBlur: true,
