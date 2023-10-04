@@ -1,7 +1,61 @@
 const express = require("express");
 const { verifyAndValidateToken } = require("../jwtUtils");
 const adminModel = require("../db/adminSchema");
+const adminUserModel = require("../db/adminUserSchema");
 const router = express.Router();
+
+//add admin user
+router.post("/user", async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const user = await verifyAndValidateToken(token, res);
+    if (!user.cmuAccount)
+      return res.status(403).send({ ok: false, message: "Invalid token" });
+
+    const socket = req.app.get("socket");
+
+    const admin = await adminUserModel.findOne({
+      admin: req.body.admin,
+    });
+
+    if (admin) return res.send("Admin user already exist.");
+
+    await adminUserModel.create({
+      admin: req.body.admin,
+    });
+
+    socket.emit("adminUpdate", "add admin user");
+    return res.send({ ok: true, message: "Add admin user successful." });
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(500)
+      .send({ ok: false, message: "Internal Server Error" });
+  }
+});
+
+//delete admin user
+router.delete("/user", async (req, res) => {
+  try {
+    const token = req.cookies.token;
+    const user = await verifyAndValidateToken(token, res);
+    if (!user.cmuAccount)
+      return res.status(403).send({ ok: false, message: "Invalid token" });
+
+    const socket = req.app.get("socket");
+
+    await adminUserModel.findOneAndDelete({
+      admin: req.query.admin,
+    });
+
+    socket.emit("adminUpdate", "delete admin user");
+    return res.send({ ok: true, message: "Admin user has been deleted." });
+  } catch (err) {
+    return res
+      .status(500)
+      .send({ ok: false, message: "Internal Server Error" });
+  }
+});
 
 router.post("/delete", async (req, res) => {
   try {
@@ -42,7 +96,7 @@ router.post("/", async (req, res) => {
         semester,
         year,
       });
-      socket.emit("currentUpdate", new_current)
+      socket.emit("currentUpdate", new_current);
       return res.send("New current has been added.");
     }
   } catch (err) {
@@ -60,7 +114,9 @@ router.get("/", async (req, res) => {
     if (!user.cmuAccount)
       return res.status(403).send({ ok: false, message: "Invalid token" });
 
-    const currents = await adminModel.find().sort({year: "desc", semester: 'desc'});
+    const currents = await adminModel
+      .find()
+      .sort({ year: "desc", semester: "desc" });
 
     return res.send(currents);
   } catch (err) {
