@@ -29,13 +29,13 @@ export async function addAdmin(data) {
   }
 }
 
-export async function deleteAdmin(user) {
+export async function deleteAdmin(_id) {
   try {
     const resp = await axios.delete(
       `${process.env.REACT_APP_BASE_URL}/api/v1/admins/user`,
       {
         params: {
-          admin: user,
+          _id: _id,
         },
         withCredentials: true,
       }
