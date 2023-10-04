@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import { addStudentGrade, socket } from "../services";
-import secMan from "./css/manage.module.css";
 import TableScore from "./TableScore";
 import Course from "../pages/css/course166.module.css";
 import upStyle from "./css/uploadScore.module.css";
@@ -74,7 +73,6 @@ const Management = ({ data, courseName }) => {
     setTimeout(() => {
       setShowLoadComplete(false);
     }, 700);
-    if (resp_student) console.log("response: ", resp_student);
   };
 
   const submitPublishEach = async () => {

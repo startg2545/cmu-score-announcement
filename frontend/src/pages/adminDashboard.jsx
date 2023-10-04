@@ -28,6 +28,8 @@ const AdminDashboard = () => {
   const { showSidebar, handleSidebarClick } = useContext(StateContext);
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
+  const [message, setMessage] = useState();
+  const [showLoadComplete, setShowLoadComplete] = useState(false);
 
   useEffect(() => {
     socket.on("adminUpdate", (admin) => {
@@ -68,8 +70,7 @@ const AdminDashboard = () => {
         const enteredYear = parseInt(value);
         if (isNaN(enteredYear)) {
           return "Invalid year for B.E. program";
-        }
-        else if (enteredYear > currentYear || enteredYear < currentYear - 1) {
+        } else if (enteredYear > currentYear || enteredYear < currentYear - 1) {
           return "Year must be the current year or less than 1 year.";
         }
       },
@@ -103,15 +104,27 @@ const AdminDashboard = () => {
       return;
     }
     const resp = await addAdmin({ admin: data });
+    if (resp.ok) {
+      setMessage(resp.message);
+      setShowLoadComplete(true);
+      setTimeout(() => {
+        setShowLoadComplete(false);
+      }, 800);
+    } else {
+      signOut().finally(navigate("/"));
+    }
     emailform.reset();
     close();
   };
 
   const handleSubmit = async (data) => {
-    const resp_add = await addCurrent({
+    const resp = await addCurrent({
       semester: data.semester,
       year: data.year,
     });
+    if (!resp.ok) {
+      signOut().finally(navigate("/"));
+    }
     fetchData();
     submitForm.reset();
   };
@@ -125,15 +138,10 @@ const AdminDashboard = () => {
     const resp = await getAdminUser();
     if (resp.ok) {
       setAdmins(resp.admin);
-      console.log(resp.admin);
     }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const resp = await getCurrent();
-      setCurrent(resp);
-    };
     if (userInfo.itAccountType) {
       fetchData();
       if (!admins.length) {
@@ -146,6 +154,9 @@ const AdminDashboard = () => {
     const resp = await deleteCurrent({
       _id: _id,
     });
+    if (!resp.ok) {
+      signOut().finally(navigate("/"));
+    }
     fetchData();
   };
 
@@ -153,6 +164,12 @@ const AdminDashboard = () => {
     const resp = await deleteAdmin({
       _id: _id,
     });
+    if (resp.ok) {
+      setMessage(resp.message);
+      alert(resp.message);
+    } else {
+      signOut().finally(navigate("/"));
+    }
     fetchAdmin();
   };
 
@@ -284,6 +301,26 @@ const AdminDashboard = () => {
           </form>
         </div>
       </Modal>
+      <div>
+        {showLoadComplete && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75  z-50">
+            <div class="flex flex-col gap-5 items-center">
+              <svg
+                class="w-20 h-20 mr-2 text-green-500 dark:text-green-400 flex-shrink-0"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+              </svg>
+              <span className="text-white font-semibold lg:text-2xl text-md">
+                {message}
+              </span>
+            </div>
+          </div>
+        )}
+      </div>
       <div className="flex flex-row gap-3 justify-center ">
         <div
           className={`hidden lg:flex lg:overflow-hidden lg:flex-col pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen duration-500 ${

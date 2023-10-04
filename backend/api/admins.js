@@ -12,7 +12,7 @@ router.get("/user", async (req, res) => {
     if (!user.cmuAccount)
       return res.status(403).send({ ok: false, message: "Invalid token" });
 
-    const admin = await adminUserModel.find().sort({admin: "asc"});
+    const admin = await adminUserModel.find().sort({ admin: "asc" });
 
     return res.send({ ok: true, admin });
   } catch (err) {
@@ -35,16 +35,17 @@ router.post("/user", async (req, res) => {
 
     const isAdmin = await adminUserModel.findOne({
       admin: user.cmuAccount,
-    })
-    if(!isAdmin){
-      return res.send({ok: false, message: "Your account isn't admin!" })
+    });
+    if (!isAdmin) {
+      return res.send({ ok: false, message: "Your account isn't admin!" });
     }
 
     const admin = await adminUserModel.findOne({
       admin: req.body.admin,
     });
 
-    if (admin) return res.send({ok: true, message: "Admin user already exist"});
+    if (admin)
+      return res.send({ ok: true, message: "Admin user already exist" });
 
     await adminUserModel.create({
       admin: req.body.admin,
@@ -72,9 +73,9 @@ router.delete("/user", async (req, res) => {
 
     const isAdmin = await adminUserModel.findOne({
       admin: user.cmuAccount,
-    })
-    if(!isAdmin){
-      return res.send({ok: false, message: "Your account isn't admin!" })
+    });
+    if (!isAdmin) {
+      return res.send({ ok: false, message: "Your account isn't admin!" });
     }
 
     await adminUserModel.findOneAndDelete({
@@ -101,9 +102,9 @@ router.post("/delete", async (req, res) => {
 
     const isAdmin = await adminUserModel.findOne({
       admin: user.cmuAccount,
-    })
-    if(!isAdmin){
-      return res.send({ok: false, message: "Your account isn't admin!" })
+    });
+    if (!isAdmin) {
+      return res.send({ ok: false, message: "Your account isn't admin!" });
     }
 
     const _id = req.body._id;
@@ -130,11 +131,11 @@ router.post("/", async (req, res) => {
 
     const isAdmin = await adminUserModel.findOne({
       admin: user.cmuAccount,
-    })
-    if(!isAdmin){
-      return res.send({ok: false, message: "Your account isn't admin!" })
+    });
+    if (!isAdmin) {
+      return res.send({ ok: false, message: "Your account isn't admin!" });
     }
-    
+
     const semester = parseInt(req.body.semester);
     const year = parseInt(req.body.year);
 
