@@ -9,6 +9,7 @@ import {
 import { getStudentScores, addStudentGrade, putStudentGrade } from "./student";
 import { getUserInfo, signOut } from "./user";
 import {
+  getAdminUser,
   addAdmin,
   deleteAdmin,
   addCurrent,
@@ -32,6 +33,7 @@ export {
   putStudentGrade,
   getUserInfo,
   signOut,
+  getAdminUser,
   addAdmin,
   deleteAdmin,
   addCurrent,
