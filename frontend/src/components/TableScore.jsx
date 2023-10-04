@@ -477,7 +477,6 @@ const TableScore = ({ data, courseName }) => {
           verticalSpacing="md"
           striped
           className={` ${tabStyle.sizeTa} cursor-default`}
-          // fontSize={18.5}
         >
           <thead>
             <tr className="cursor-default">
@@ -497,11 +496,6 @@ const TableScore = ({ data, courseName }) => {
                   Mean<br></br>Section
                 </center>
               </th>
-              {/* <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
-              <center>
-                Mean<br></br>Course
-              </center>
-            </th> */}
               <th className={` ${tabStyle.colSml} ${tabStyle.eachCl}`}>
                 <center>Median</center>
               </th>
