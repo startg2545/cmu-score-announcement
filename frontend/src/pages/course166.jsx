@@ -387,7 +387,11 @@ export default function Course166Container() {
             </div>
           </div>
         </div>
-        <div className={showSidebar ? "w-full flex lg:px-5" : "w-full flex "}>
+        <div
+          className={`w-full flex overflow-x-auto ${
+            showSidebar && "lg:px-5 "
+          }`}
+        >
           <div className="flex w-full flex-col h-full">
             {isSelectedCourse ? null : (
               <>
@@ -474,7 +478,7 @@ export default function Course166Container() {
                 </Modal>
 
                 <div className="mx-[1%] lg:mt-3 max-h-fit bg-slate-50">
-                <div className=" lg:rounded-xl rounded-xl xl:h-[calc(90vh-50px)] lg:h-[calc(89vh-30px)] md:h-[calc(93vh-50px)]   h-[calc(93vh-50px)] overflow-hidden border-[3px] border-primary ">
+                  <div className=" lg:rounded-xl rounded-xl xl:h-[calc(90vh-50px)] lg:h-[calc(89vh-30px)] md:h-[calc(93vh-50px)]   h-[calc(93vh-50px)] overflow-hidden border-[3px] border-primary ">
                     <div className=" bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
                       <div className="flex items-start flex-col justify-center ">
                         <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
@@ -486,8 +490,10 @@ export default function Course166Container() {
                         </p>
                       </div>
                       {isCurrent && (
-                        <div className=" flex lg:flex-row  md:flex-row flex-col gap-2 lg:py-4 md:py-4 py-1 items-end 
-                                          lg:text-xl md:text-lg text-md text-white font-medium w-22 ">
+                        <div
+                          className=" flex lg:flex-row  md:flex-row flex-col gap-2 lg:py-4 md:py-4 py-1 items-end 
+                                          lg:text-xl md:text-lg text-md text-white font-medium w-22 "
+                        >
                           <div
                             className={`lg:px-3 px-2 rounded-2xl py-1 flex md:gap-2 gap-2 justify-center items-center hover:cursor-pointer
                             hover:shadow-md lg:w-[115px] md:w-[92px] w-[83px] transition ease-in-out cursor-pointer ${
@@ -899,8 +905,10 @@ export default function Course166Container() {
                       </div>
 
                       {isCurrent && (
-                        <div className="flex md:flex-row flex-col gap-2 items-end lg:py-4 md:py-4 
-                        py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22 ">
+                        <div
+                          className="flex md:flex-row flex-col gap-2 items-end lg:py-4 md:py-4 
+                        py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22 "
+                        >
                           <div
                             className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-end md:justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md
                                     "

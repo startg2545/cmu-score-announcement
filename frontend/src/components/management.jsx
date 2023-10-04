@@ -375,13 +375,10 @@ const Management = ({ data, courseName }) => {
               </span>
             </div>
           )}
-          <div
-            
-          >
+          <div className="mt-5 xl:mx-2">
             {searchParams.get("section") && (
               <TableScore data={dataTable} courseName={courseName} />
             )}
-            {}
           </div>
         </div>
       </div>
@@ -463,19 +460,6 @@ const Management = ({ data, courseName }) => {
           </div>
         )}
       </div>
-
-      {/* {data.length === 0 && (
-        <div className="bg-green-400">
-          <div className="bg-red-400">
-            <p className="bg-sky-400" style={{ fontWeight: "600" }}>
-              Publish Each Section
-            </p>
-          </div>
-          <div className="bg-emerald-400">
-            <p className="bg-yellow-400">Publish All Sections</p>
-          </div>
-        </div>
-      )} */}
     </>
   );
 };
