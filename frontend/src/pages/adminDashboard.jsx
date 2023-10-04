@@ -81,9 +81,11 @@ const AdminDashboard = () => {
   const showCurrent = current?.map((element, key) => {
     return (
       <label className="py-1" key={key}>
-        <div className="bg-white drop-shadow border-black-50 border-[1px] xl:text-lg text-base  xl:mt-3 md:mt-0 mt-3
+        <div
+          className="bg-white drop-shadow border-black-50 border-[1px] xl:text-lg text-base  xl:mt-3 md:mt-0 mt-3
                       xl:w-[300px] lg:w-[240px] md:w-[250px] w-[230px] h-[50px] rounded-xl flex 
-                      justify-between items-center px-10">
+                      justify-between items-center px-10"
+        >
           {element.semester}/{element.year}
           <button
             style={{ color: "red" }}
@@ -189,22 +191,25 @@ const AdminDashboard = () => {
                                 flex flex-col items-center py-5 
                                     "
                   >
-
-                      <p
-                        className="xl:text-3xl lg:text-2xl md:text-xl font-semibold text-xl 
+                    <p
+                      className="xl:text-3xl lg:text-2xl md:text-xl font-semibold text-xl 
                                     xl:block md:block text-primary mb-1"
-                      >
-                        Semester currently in active
-                      </p>
-                      <div
-                        className="py-3  overflow-y-auto  border-[1px] border-black-50 mt-5 rounded-lg 
+                    >
+                      Semester currently in active
+                    </p>
+                    <div
+                      className="py-3  overflow-y-auto  border-[1px] border-black-50 mt-5 rounded-lg 
                                    flex xl:flex-col flex-col items-center lg:px-10 
                                    xl:h-5/6 h-5/6
                                    xl:w-5/6 lg:w-[920px] w-5/6 md:mx-10"
-                      >
-                         <div className="xl:hidden  hidden  md:grid md:grid-cols-2 lg:grid-cols-3 lg:gap-5 md:gap-4" >{showCurrent}</div>
-                         <div className="xl:block md:hidden block" >{showCurrent}</div>
+                    >
+                      <div className="xl:hidden  hidden  md:grid md:grid-cols-2 lg:grid-cols-3 lg:gap-5 md:gap-4">
+                        {showCurrent}
                       </div>
+                      <div className="xl:block md:hidden block">
+                        {showCurrent}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

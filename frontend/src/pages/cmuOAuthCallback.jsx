@@ -59,7 +59,7 @@ export default function CMUOAuthCallback() {
         } else if (resp.itAccountType === "MISEmpAcc") {
           navigate("/instructor-dashboard");
         } else {
-          navigate("/sign-in");
+          navigate("/");
         }
       }
     };
@@ -73,11 +73,7 @@ export default function CMUOAuthCallback() {
         {message || "Redirecting ..."}
       </Title>
       {!userInfo.itAccountType && (
-        <Button
-          className="bg-blue-500"
-          maw={125}
-          onClick={() => navigate("/sign-in")}
-        >
+        <Button className="bg-blue-500" maw={125} onClick={() => navigate("/")}>
           Go Back
         </Button>
       )}

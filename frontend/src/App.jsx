@@ -21,7 +21,7 @@ function App() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isUploadScore, setUploadScore] = useState(false);
   const pathname = window.location.pathname;
-  const notFetchUser = ["/sign-in", "/cmuOAuthCallback"];
+  const notFetchUser = ["/", "/cmuOAuthCallback"];
   const [loadingUserInfo, setLoadingUserInfo] = useState(false);
 
   const handleSidebarClick = () => {
@@ -40,7 +40,7 @@ function App() {
       if (resp.ok) {
         setUser({ ...resp.user });
       } else {
-        window.location.replace("/sign-in");
+        window.location.replace("/");
       }
     }
   };
@@ -92,8 +92,7 @@ function App() {
             <Router>
               <CMUNavbar />
               <Routes>
-                <Route path="/" element={<Home />} />
-                <Route exact path="/sign-in" element={<SignIn />} />
+                <Route exact path="/" element={<SignIn />} />
                 <Route
                   exact
                   path="/cmuOAuthCallback"

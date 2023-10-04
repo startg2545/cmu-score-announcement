@@ -20,7 +20,7 @@ const CMUNavbar = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const { current } = useContext(CurrentContext);
   const { pathname } = useLocation();
-  const withoutNavbar = ["/sign-in", "/cmuOAuthCallback"];
+  const withoutNavbar = ["/", "/cmuOAuthCallback"];
   const navigate = useNavigate();
   const [mobileSidebar, setMobileSidebar] = useState(false);
 
@@ -33,11 +33,14 @@ const CMUNavbar = () => {
   useEffect(() => {
     if (userInfo.itAccountType) {
       const check = async () => {
-        const isPermission = await CheckPermission(userInfo.itAccountType, pathname);
+        const isPermission = await CheckPermission(
+          userInfo.itAccountType,
+          pathname
+        );
         if (!isPermission) {
           setUserInfo(null);
-          await signOut().finally(navigate("/sign-in"));
-        };
+          await signOut().finally(navigate("/"));
+        }
       };
       check();
     }
@@ -50,7 +53,7 @@ const CMUNavbar = () => {
   // -------------------------------------------------------------------------
 
   if (withoutNavbar.includes(pathname)) return null;
-  const userRole = userInfo.itAccountType === "StdAcc" ? "hidden" : "flex";
+  const userRole = userInfo.itAccountType === "MISEmpAcc" ? "flex" : "hidden";
 
   // Sidebar
   const handleSidebar = () => {
@@ -69,6 +72,13 @@ const CMUNavbar = () => {
     handleSidebarClick(true);
     navToSemesterYear(semester, year);
   };
+
+  const dashboardPath =
+    userInfo.itAccountType === ROLE.STUDENT
+      ? "/student-dashboard"
+      : userInfo.itAccountType === ROLE.INSTRUCTOR
+      ? "/instructor-dashboard"
+      : "/admin-dashboard";
 
   return (
     <>
@@ -109,7 +119,7 @@ const CMUNavbar = () => {
             </div>
             <div className="cursor-pointer mb-20 px-14">
               <div
-                onClick={() => signOut().finally(navigate("/sign-in"))}
+                onClick={() => signOut().finally(navigate("/"))}
                 className="text-2xl font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-lg mt-5 px-12 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
               >
                 Log out
@@ -129,19 +139,21 @@ const CMUNavbar = () => {
           >
             <PiSidebarSimpleFill className="text-white text-4xl md:text-[42px] lg:text-5xl hover:text-black" />
           </div>
-
-          <img
-            src={cmulogo}
-            alt="CMULogo"
-            className="lg:w-52 md:w-44 w-36 drop-shadow-lg"
-            // CMU Logo Navbar
-          />
+          <a href={dashboardPath}>
+            <img
+              src={cmulogo}
+              alt="CMULogo"
+              className="lg:w-52 md:w-44 w-36 drop-shadow-lg cursor-pointer"
+              // CMU Logo Navbar
+            />
+          </a>
         </div>
         <div
           className="py-2"
           //navbar right content
         >
-          {(userInfo && userInfo.itAccountType === ROLE.STUDENT && (
+          {((userInfo && userInfo.itAccountType === ROLE.STUDENT ||
+          userInfo.itAccountType === ROLE.ADMIN) && (
             <Menu>
               <Menu.Target>
                 <Flex
@@ -162,7 +174,11 @@ const CMUNavbar = () => {
                       <Text className="text-[#f7c878] group-hover:text-[#e6bd76] lg:text-xl md:text-lg drop-shadow text-end sm:text-sm">
                         {`${current[0]?.semester}/${current[0]?.year
                           .toString()
-                          .slice(2)}, Student`}
+                          .slice(2)}, ${
+                            userInfo.itAccountType === "Admin"
+                              ? "Admin"
+                              : "Student"
+                          }`}
                       </Text>
                     </div>
                     <IoMdArrowDropdown className="text-3xl text-white " />
@@ -171,7 +187,7 @@ const CMUNavbar = () => {
               </Menu.Target>
               <Menu.Dropdown className="border-red-500 fade-bottom transition-all hover:bg-red-500 border-[3px] rounded-xl p-0 m-3 group">
                 <button
-                  onClick={() => signOut().finally(navigate("/sign-in"))}
+                  onClick={() => signOut().finally(navigate("/"))}
                   className="px-3 py-1"
                 >
                   <div className="text-xl font-bold text-red-500 group-hover:text-white flex items-center gap-3 px-10">
@@ -182,8 +198,8 @@ const CMUNavbar = () => {
               </Menu.Dropdown>
             </Menu>
           )) ||
-            ((userInfo.itAccountType === ROLE.INSTRUCTOR ||
-              userInfo.itAccountType === ROLE.ADMIN) && (
+            (userInfo.itAccountType === ROLE.INSTRUCTOR &&
+               (
               <Flex
                 gap="5px"
                 align="flex-end"
@@ -202,11 +218,7 @@ const CMUNavbar = () => {
                     <Text className="text-[#f7c878] group-hover:text-[#e6bd76] 2xl:text-xl xl:text-lg lg:text-md md:text-sm drop-shadow text-end ">
                       {`${current[0]?.semester}/${current[0]?.year
                         .toString()
-                        .slice(2)}, ${
-                        userInfo.itAccountType === "Admin"
-                          ? "Admin"
-                          : "Instructor"
-                      }`}
+                        .slice(2)}, Instructor`}
                     </Text>
                   </div>
                 </div>
