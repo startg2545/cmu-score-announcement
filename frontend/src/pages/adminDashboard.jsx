@@ -206,8 +206,8 @@ const AdminDashboard = () => {
   const showEmail = admins?.map((element, key) => {
     return (
       <div
-        className="bg-white drop-shadow border-black-50 border-[1px] xl:text-lg text-xs md:text-lg   mt-3
-                      xl:w-[550px] lg:w-[640px] md:w-[380px] w-[230px] h-[50px] rounded-xl flex 
+        className="bg-white drop-shadow border-black-50 border-[1px] xl:text-lg text-base md:text-lg   mt-3
+                      xl:w-[550px] lg:w-[640px] md:w-[380px] sm:w-[230px] w-[250px] h-[50px] rounded-xl flex 
                       justify-between items-center px-3 cursor-default"
         key={key}
       >
@@ -463,10 +463,10 @@ const AdminDashboard = () => {
                         Admin with access
                       </p>
                       <div
-                        className="  overflow-y-auto  border-[1px] border-black-50 rounded-lg 
+                        className="  overflow-y-auto overflow-x-auto   rounded-lg 
                                    flex xl:flex-col flex-col items-center lg:px-10 
                                    xl:h-full h-5/6
-                                   xl:w-5/6 lg:w-[920px] w-5/6 md:mx-10 py-3"
+                                   xl:w-5/6 lg:w-[920px] w-5/5 md:mx-10 py-3"
                       >
                         <div className="flex flex-col gap-0">{showEmail}</div>
                       </div>
