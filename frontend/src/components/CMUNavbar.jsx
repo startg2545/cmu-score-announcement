@@ -185,7 +185,7 @@ const CMUNavbar = () => {
                   onClick={() => signOut().finally(navigate("/"))}
                   className="px-3 py-1"
                 >
-                  <div className="text-xl font-bold text-red-500 group-hover:text-white flex items-center gap-3 px-10">
+                  <div className="md:text-xl sm:text-lg text-base font-bold text-red-500 group-hover:text-white flex items-center gap-3 lg:px-10 md:px-10 px-3">
                     Log out
                     <FaSignOutAlt />
                   </div>
