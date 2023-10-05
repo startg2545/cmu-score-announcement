@@ -206,7 +206,7 @@ const AdminDashboard = () => {
   const showEmail = admins?.map((element, key) => {
     return (
       <div
-        className="bg-white drop-shadow border-black-50 border-[1px] xl:text-lg text-xs md:text-lg  xl:mt-3 md:mt-0 mt-3
+        className="bg-white drop-shadow border-black-50 border-[1px] xl:text-lg text-xs md:text-lg   mt-3
                       xl:w-[550px] lg:w-[640px] md:w-[380px] w-[230px] h-[50px] rounded-xl flex 
                       justify-between items-center px-3 cursor-default"
         key={key}
@@ -412,7 +412,7 @@ const AdminDashboard = () => {
                       })}
                       className="bg-white drop-shadow-lg border-black-70 border-[1px] rounded-xl
                                flex flex-col items-center py-5 gap-5 
-                               lg:h-2/6 md:h-[180px] h-[360px] "
+                               xl:h-2/5 lg:h-2/6 md:h-[180px] h-[360px] "
                     >
                       <p
                         className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
@@ -454,7 +454,7 @@ const AdminDashboard = () => {
                     <div
                       className="bg-white drop-shadow-lg border-black-70 border-[1px] rounded-xl
                                flex flex-col items-center py-5 gap-5 mt-2
-                              lg:h-4/6 md:h-[500px] h-[360px]"
+                               xl:h-3/5 lg:h-4/6 md:h-[500px] h-[360px] "
                     >
                       <p
                         className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
@@ -498,6 +498,7 @@ const AdminDashboard = () => {
                       </div>
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>
