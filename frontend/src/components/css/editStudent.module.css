@@ -4,8 +4,6 @@
   /* You can specify other font formats (e.g., woff, woff2) as needed */
 }
 
-
-
 .sizeTa {
   height: 200px;
   font-family: "SF PRo";
@@ -16,43 +14,59 @@
   border-right: 1px solid #d0cdfe;
   border-bottom: 1px solid #d0cdfe;
 }
+.child{
+  font-size: 18.5px;
 
+  @media (max-width: 1000px){
+    font-size: 17px;
+  }
+  @media (max-width: 800px){
+    font-size: 16px;
+  }
+  @media (max-width: 500px){
+    font-size: 16px;
+  }
+}
 
 .col {
   width: 605px;
   text-align: center;
   background-color: #d0cdfe;
-}
 
+  font-family: "SF PRo";
+  height: 80px;
+}
 .col.front {
-    border-top-left-radius: 40px;
-    border-right: 1.7px solid #8084c8;
-    border-bottom: 1.7px solid #8084c8;
-  }
-.col.back {
-    border-top-right-radius: 40px;
-    border-bottom: 1.7px solid #8084c8;
-  }
-.col.eachCl {
+  border-top-left-radius: 40px;
   border-right: 1.7px solid #8084c8;
   border-bottom: 1.7px solid #8084c8;
-  font-size: 22px;
+}
+.col.back {
+  border-top-right-radius: 40px;
+  border-bottom: 1.7px solid #8084c8;
+}
+.col.md {
+  border-right: 1.7px solid #8084c8;
+  border-bottom: 1.7px solid #8084c8;
 }
 
-.publicBT {
-  width: 40px;
-  height: 30px;
-  border-radius: 30px;
-  flex-shrink: 0;
-  background-color: grey;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+.col.eachCl {
+  border-top-right-radius: 1px solid;
+  font-size: 19px;
+
+  @media (max-width: 1000px) {
+    font-size: 17.5px;
+  }
+  @media (max-width: 800px) {
+    font-size: 16.5px;
+  }
+  @media (max-width: 500px) {
+    font-size: 16.5px;
+  }
 }
 
 .publicBT.active {
-  background-color: #6fbf77;
+  background-color: #6fbf77; 
 }
 
 .manageBtDisplay {
@@ -71,6 +85,27 @@
   border-radius: 100%;
   flex-shrink: 0;
   cursor: pointer;
+  @media (max-width: 800px){
+    width: 34px;
+    height: 34px;
+  }
+  @media (max-width: 500px){
+    width: 32px;
+    height: 32px;
+  }
+}
+.manageBT svg{
+  width: 20px;
+  height: 20px;
+
+  @media (max-width: 800px){
+    width: 17px;
+    height: 17px;
+  }
+  @media (max-width: 500px){
+    width: 17px;
+    height: 17px;
+  }
 }
 .manageBT.logBT {
   background-color: #a5a2a2;
@@ -149,7 +184,6 @@
   padding-left: 7px;
   padding-right: 7px;
 }
-
 
 .primaryButton {
   width: 110px;

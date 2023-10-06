@@ -20,7 +20,7 @@ const CMUNavbar = () => {
   const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const { current } = useContext(CurrentContext);
   const { pathname } = useLocation();
-  const withoutNavbar = ["/sign-in", "/cmuOAuthCallback"];
+  const withoutNavbar = ["/", "/cmuOAuthCallback"];
   const navigate = useNavigate();
   const [mobileSidebar, setMobileSidebar] = useState(false);
 
@@ -33,11 +33,14 @@ const CMUNavbar = () => {
   useEffect(() => {
     if (userInfo.itAccountType) {
       const check = async () => {
-        const isPermission = await CheckPermission(userInfo.itAccountType, pathname);
+        const isPermission = await CheckPermission(
+          userInfo.itAccountType,
+          pathname
+        );
         if (!isPermission) {
           setUserInfo(null);
-          await signOut().finally(navigate("/sign-in"));
-        };
+          await signOut().finally(navigate("/"));
+        }
       };
       check();
     }
@@ -70,6 +73,13 @@ const CMUNavbar = () => {
     navToSemesterYear(semester, year);
   };
 
+  const dashboardPath =
+    userInfo.itAccountType === ROLE.STUDENT
+      ? "/student-dashboard"
+      : userInfo.itAccountType === ROLE.INSTRUCTOR
+      ? "/instructor-dashboard"
+      : "/admin-dashboard";
+
   return (
     <>
       <nav
@@ -80,19 +90,19 @@ const CMUNavbar = () => {
           className={
             mobileSidebar
               ? "absolute lg:hidden md::hidden left-0 top-[65px] md:top-[60px] lg:top-[76px] justify-center w-full h-max items-center z-50 drop-shadow-xl duration-[600ms] bg-white"
-              : "absolute lg:hidden md::hidden -left-[150%] top-[65px] md:top-[60px] lg:top-[76px] w-full h-max z-50 duration-[2000ms]"
+              : "absolute lg:hidden md::hidden -left-[150%] top-[65px] md:top-[60px] lg:top-[76px] w-full h-max z-50 duration-[2000ms] "
           }
           style={{
             boxShadow: "5px 3px 10px rgba(0,0,0,0.25)",
           }}
           //Mobile Only Sidebar
         >
-          <div className="flex flex-col rounded-md min-h-screen h-full justify-between">
-            <div className="flex flex-col py-2">
-              <ul className="flex flex-col gap-3 pt-5 pb-10 text-gray-800 justify-center text-center items-center font-semibold mx-3">
+          <div className="flex flex-col rounded-md min-h-screen max-h-screen justify-between ">
+            <div className="flex flex-col py-2 overflow-y-auto">
+              <ul className="flex flex-col gap-3 pt-5 pb-10 text-gray-800 justify-center text-center items-center font-semibold mx-3 ">
                 {current?.map((data, i) => (
                   <li
-                    className="w-full justify-center flex cursor-pointer gap-1 text-2xl items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl "
+                    className="w-full justify-center flex cursor-pointer gap-1 md:text-2xl text-xl  items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl"
                     key={i}
                   >
                     <HiChevronRight />
@@ -107,10 +117,10 @@ const CMUNavbar = () => {
                 ))}
               </ul>
             </div>
-            <div className="cursor-pointer mb-28 px-14">
+            <div className="cursor-pointer mb-20 px-14">
               <div
-                onClick={() => signOut().finally(navigate("/sign-in"))}
-                className="text-2xl font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-lg mt-5 px-12 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
+                onClick={() => signOut().finally(navigate("/"))}
+                className="text-xl font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-lg mt-5 px-12 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
               >
                 Log out
                 <FaSignOutAlt />
@@ -129,13 +139,14 @@ const CMUNavbar = () => {
           >
             <PiSidebarSimpleFill className="text-white text-4xl md:text-[42px] lg:text-5xl hover:text-black" />
           </div>
-
-          <img
-            src={cmulogo}
-            alt="CMULogo"
-            className="lg:w-52 md:w-44 w-36 drop-shadow-lg"
-            // CMU Logo Navbar
-          />
+          <a href={dashboardPath}>
+            <img
+              src={cmulogo}
+              alt="CMULogo"
+              className="lg:w-52 md:w-44 w-36 drop-shadow-lg cursor-pointer"
+              // CMU Logo Navbar
+            />
+          </a>
         </div>
         <div
           className="py-2"
@@ -171,10 +182,10 @@ const CMUNavbar = () => {
               </Menu.Target>
               <Menu.Dropdown className="border-red-500 fade-bottom transition-all hover:bg-red-500 border-[3px] rounded-xl p-0 m-3 group">
                 <button
-                  onClick={() => signOut().finally(navigate("/sign-in"))}
+                  onClick={() => signOut().finally(navigate("/"))}
                   className="px-3 py-1"
                 >
-                  <div className="text-xl font-bold text-red-500 group-hover:text-white flex items-center gap-3 px-10">
+                  <div className="md:text-xl sm:text-lg text-base font-bold text-red-500 group-hover:text-white flex items-center gap-3 lg:px-10 md:px-10 px-3">
                     Log out
                     <FaSignOutAlt />
                   </div>

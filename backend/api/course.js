@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/add", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token);
+    const user = await verifyAndValidateToken(token, res);
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
@@ -51,7 +51,9 @@ router.post("/add", async (req, res) => {
       if (cannotAdd.length) {
         return res.send({
           ok: false,
-          message: `Section ${cannotAdd.map((e) => `  ${e}` )} you will upload already has an owner.`,
+          message: `Section ${cannotAdd.map(
+            (e) => `  ${e}`
+          )} you will upload already has an owner.`,
         });
       }
     }
@@ -82,12 +84,21 @@ router.post("/add", async (req, res) => {
           }
         } else {
           // Add new section
-          const coIns = course.sections.find(
-            (s) =>
-              s.instructor === user.cmuAccount ||
-              s.coInstructors.includes(user.cmuAccount)
-          ).coInstructors;
-          reqSection["coInstructors"] = coIns;
+          if (
+            course.sections.find(
+              (s) =>
+                s.section === null &&
+                (s.instructor === user.cmuAccount ||
+                  s.coInstructors.includes(user.cmuAccount))
+            )
+          ) {
+            const coIns = course.sections.find(
+              (s) =>
+                s.instructor === user.cmuAccount ||
+                s.coInstructors.includes(user.cmuAccount)
+            ).coInstructors;
+            reqSection["coInstructors"] = coIns;
+          }
           course.sections.push(reqSection);
         }
       }
@@ -123,25 +134,49 @@ router.post("/add", async (req, res) => {
 router.put("/", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token);
+    const user = await verifyAndValidateToken(token, res);
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
     const socket = req.app.get("socket");
 
-    await courseModel.findOneAndUpdate(
-      {
-        courseNo: req.body.courseNo,
-        year: req.body.year,
-        semester: req.body.semester,
-        $or: [
-          { "sections.instructor": user.cmuAccount },
-          { "sections.coInstructors": user.cmuAccount },
-        ],
-      },
-      { $addToSet: { "sections.$[].coInstructors": req.body.coInstructors } },
-      { new: true }
-    );
+    const { courseNo, year, semester, sections, coInstructors, type } =
+      req.body;
+
+    if (type === "addCoAllSec" || !type) {
+      await courseModel.findOneAndUpdate(
+        {
+          courseNo: courseNo,
+          year: year,
+          semester: semester,
+          $or: [
+            { "sections.instructor": user.cmuAccount },
+            { "sections.coInstructors": user.cmuAccount },
+          ],
+        },
+        { $addToSet: { "sections.$[].coInstructors": coInstructors } },
+        { new: true }
+      );
+    } else if (type === "addCoEachSec") {
+      await courseModel.findOneAndUpdate(
+        {
+          courseNo: courseNo,
+          year: year,
+          semester: semester,
+          "sections.section": { $in: sections },
+          $or: [
+            { "sections.instructor": user.cmuAccount },
+            { "sections.coInstructors": user.cmuAccount },
+          ],
+        },
+        { $addToSet: { "sections.$[elem].coInstructors": coInstructors } },
+        {
+          new: true,
+          arrayFilters: [{ "elem.section": { $in: sections } }],
+        }
+      );
+    }
+
     socket.emit("courseUpdate", "update");
     return res.send("Co-Instructor have been added.");
   } catch (err) {
@@ -155,7 +190,7 @@ router.put("/", async (req, res) => {
 router.delete("/", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token);
+    const user = await verifyAndValidateToken(token, res);
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }

@@ -242,20 +242,35 @@ export default function StudentDashboard() {
   const statLine = [];
   for (let i = 0; i < title.length; i++) {
     if (i !== 2) {
+    
+    const smScreen = 640; 
+    const mdScreen = 860; 
+    const lgScreen = 1024;
+
+    const windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    let fontSize = 15;
+    if (windowWidth <= smScreen) {
+      fontSize = 14;
+    } else if (windowWidth <= mdScreen ) {
+      fontSize = 16; 
+    } else if (windowWidth >= lgScreen) {
+      fontSize = 17; 
+    }
+    
       statLine.push({
         type: "line",
         label: {
           content: `${title[i]} ${stat[i]}`,
           display: true,
           position: "start",
-          yAdjust: i === 3 ? 20 : i === 0 ? -20 : 0,
-          xAdjust: 8,
+          yAdjust: i === 1 ? 10 : i === 0 ? -20 : i * 15,
+          xAdjust: 5,
           // rotation: i === 0 ? 90 : 0,
           color: colorProgress[i],
           backgroundColor: "rgb(0,0,0,0)",
           font: {
-            // size: 15,
-            // fontFamily: "SF PRo, sans-serif",
+            size: fontSize,
+            fontFamily: "SF PRo, sans-serif",
           },
         },
         value: stat[i],
@@ -493,7 +508,8 @@ export default function StudentDashboard() {
                   </div>
                 )}
                 {isShowGraph && (
-                  <div className="lg:h-full md:h-full">
+                  <div className="h-full
+                                  xl:p-10 lg:p-8 md:p-7 sm:p-6 p-5">
                     <Line
                       data={data}
                       options={{

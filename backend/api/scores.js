@@ -8,7 +8,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token);
+    const user = await verifyAndValidateToken(token, res);
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
             (s) =>
               s.instructor === user.cmuAccount ||
               s.coInstructors?.includes(user.cmuAccount)
-          );
+          ).sort((a,b) => a.section - b.section);
           if (filteredSections.length > 0) {
             return { ...e._doc, sections: filteredSections };
           }
@@ -48,10 +48,9 @@ router.get("/", async (req, res) => {
         .filter(Boolean);
 
       if (sections.length) {
-        sections.sort((a,b) => a.courseNo - b.courseNo)
+        sections.sort((a, b) => a.courseNo - b.courseNo);
         return res.send({ ok: true, course: sections });
-      } 
-      else return res.send({ ok: false, message: "No Course" });
+      } else return res.send({ ok: false, message: "No Course" });
     }
   } catch (err) {
     return res
@@ -64,7 +63,7 @@ router.get("/", async (req, res) => {
 router.get("/students", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token);
+    const user = await verifyAndValidateToken(token, res);
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
@@ -95,7 +94,7 @@ router.get("/students", async (req, res) => {
 router.delete("/", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token);
+    const user = await verifyAndValidateToken(token, res);
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }

@@ -63,15 +63,15 @@ const EditStudent = () => {
   const td = data.map((element, key) => (
     <tr key={key}>
       <td>
-        <center>{element.studentId}</center>
+        <center className={`${editStu.child}`}>{element.studentId}</center>
       </td>
       <td>
-        <center>
+        <center className={`${editStu.child}`}>
           {element.firstName} {element.lastName}
         </center>
       </td>
       <td>
-        <center>{element.point}</center>
+        <center className={`${editStu.child}`}>{element.point}</center>
       </td>
       <td>
         <center>
@@ -87,8 +87,6 @@ const EditStudent = () => {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
                   viewBox="0 0 15 15"
                   fill="none"
                 >
@@ -260,11 +258,11 @@ const EditStudent = () => {
             >
               <center>Student ID</center>
             </th>
-            <th className={` ${editStu.col} ${editStu.eachCl}`}>
+            <th className={` ${editStu.col}  ${editStu.md} ${editStu.eachCl}`}>
               <center>Name</center>
             </th>
 
-            <th className={` ${editStu.col} ${editStu.eachCl}`}>
+            <th className={` ${editStu.col} ${editStu.md} ${editStu.eachCl}`}>
               <center>Point</center>
             </th>
             <th
@@ -275,7 +273,7 @@ const EditStudent = () => {
             </th>
           </tr>
         </thead>
-        <tbody className={`${editStu.Stbody} ${editStu.child}`}>{td}</tbody>
+        <tbody className={`${editStu.Stbody}`}>{td}</tbody>
       </Table>
       {isOpeningForm ? editForm() : null}
     </>

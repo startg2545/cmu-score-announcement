@@ -8,7 +8,14 @@ import {
 } from "./scores";
 import { getStudentScores, addStudentGrade, putStudentGrade } from "./student";
 import { getUserInfo, signOut } from "./user";
-import { addCurrent, getCurrent, deleteCurrent } from "./admins"
+import {
+  getAdminUser,
+  addAdmin,
+  deleteAdmin,
+  addCurrent,
+  getCurrent,
+  deleteCurrent,
+} from "./admins";
 import { socket } from "./socket";
 
 export {
@@ -26,6 +33,9 @@ export {
   putStudentGrade,
   getUserInfo,
   signOut,
+  getAdminUser,
+  addAdmin,
+  deleteAdmin,
   addCurrent,
   getCurrent,
   deleteCurrent,

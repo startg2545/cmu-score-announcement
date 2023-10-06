@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import { addStudentGrade, socket } from "../services";
-import secMan from "./css/manage.module.css";
 import TableScore from "./TableScore";
 import Course from "../pages/css/course166.module.css";
 import upStyle from "./css/uploadScore.module.css";
@@ -40,7 +39,6 @@ const Management = ({ data, courseName }) => {
         showTable(searchParams.get("section"));
       }
     }
-    data.sort((a, b) => a.section - b.section);
   }, [data, searchParams, dataTable]);
 
   const handleCheckboxChange = (e, value) => {
@@ -75,7 +73,6 @@ const Management = ({ data, courseName }) => {
     setTimeout(() => {
       setShowLoadComplete(false);
     }, 700);
-    if (resp_student) console.log("response: ", resp_student);
   };
 
   const submitPublishEach = async () => {
@@ -130,14 +127,17 @@ const Management = ({ data, courseName }) => {
         closeOnEscape={false}
       >
         <div className=" align-middle justify-center text-center">
-          <div className="bg-primary py-1.5 flex justify-center text-2xl font-semibold text-white mb-3">
-            <p className="text-white lg:text-2xl font-semibold text-center gap-2">
+          <div className="bg-primary py-1.5 px-8 flex justify-center  font-semibold mb-3">
+            <p className="text-white lg:text-2xl  font-semibold text-center gap-2 text-lg">
               Select section to publish
             </p>
           </div>
-          <div>
+          <div className="h-fit overflow-y-auto">
             {data?.map((value, key) => (
-              <div key={key}>
+              <div
+                key={key}
+                className="flex justify-center gap-5 mb-4 sm:text-md"
+              >
                 <Checkbox
                   color="indigo"
                   size="md"
@@ -150,21 +150,21 @@ const Management = ({ data, courseName }) => {
                     alignItems: "center",
                   }}
                 />
-                <p style={{ marginLeft: "40px", fontSize: "22px" }}>
+                <p style={{ fontSize: "22px" }}>
                   Section{" "}
-                  {value.section < 100
+                  {value.section < 10
                     ? `00${value.section}`
-                    : value.section < 10
+                    : value.section < 100
                     ? `0${value.section}`
                     : value.section}
                 </p>
               </div>
             ))}
           </div>
-          <div className="overflow-hidden">
-            <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl my-4 py-1">
+          <div className={tabStyle.ScorePopupButtons}>
+            <div className="flex flex-row justify-evenly gap-3 text-black text-md md:text-lg lg:text-xl">
               <Button
-                style={{ marginRight: "20px" }}
+                style={{ marginRight: "10px" }}
                 className={Course.CancelPopupButton}
                 onClick={() => {
                   publishEach[1].close();
@@ -181,7 +181,7 @@ const Management = ({ data, courseName }) => {
                 Cancel
               </Button>
               <Button
-                style={{ marginLeft: "20px" }}
+                style={{ marginLeft: "10px" }}
                 className={Course.AddPopupButton}
                 type="submit"
                 sx={{
@@ -296,7 +296,7 @@ const Management = ({ data, courseName }) => {
           </p>
           <div className={tabStyle.ScorePopupButtons}>
             <Button
-              style={{ marginRight: "20px" }}
+              style={{ marginRight: "10px" }}
               className={Course.CancelPopupButton}
               onClick={() => {
                 publishAll[1].close();
@@ -312,7 +312,7 @@ const Management = ({ data, courseName }) => {
               Cancel
             </Button>
             <Button
-              style={{ marginLeft: "20px" }}
+              style={{ marginLeft: "10px" }}
               className={Course.AddPopupButton}
               type="submit"
               sx={{
@@ -331,62 +331,57 @@ const Management = ({ data, courseName }) => {
           </div>
         </div>
       </Modal>
-      <div className=" max-h-screen ">
-      <div
-        className={`overflow-auto 
+      <div className=" max-h-screen">
+        <div
+          className={` overflow-y-auto
                       ${
                         searchParams.get("section")
                           ? "xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-145px)] h-[calc(85vh-145px)] "
-                          : "xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-190px)] h-[calc(85vh-193px)]"
+                          : "xl:h-[calc(84vh-204px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-190px)] h-[calc(85vh-193px)]"
                       }
                       ${data.length === 0 && "overflow-hidden"}
                       `}
-      >
-        {!searchParams.get("section") && data.length !== 0 && (
-          <div className="flex flex-col py-4 px-5 h-full lg:px-14 gap-5 cursor-pointer bg-slate-50">
-            {data.map((e, key) => (
-              <p
-                className="w-full bg-white py-4 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
-                key={key}
-                onClick={() => {
-                  showTable(e.section);
-                }}
-              >
-                Section{" "}
-                {e.section < 10
-                  ? `00${e.section}`
-                  : e.section < 100
-                  ? `0${e.section}`
-                  : e.section}
-              </p>
-            ))}
-          </div>
-        )}
-
-        {data.length === 0 && !searchParams.get("section") && (
-          <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] bg-slate-50">
-            <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
-              No section
-            </p>
-            <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 ">
-              Section will show when file is uploaded
-            </span>
-          </div>
-        )}
-        <div
-          className="xl:my-5 lg:my-5 md:my-6 sm:my-8 my-8  
-                        xl:mx-5 lg:mx-5
-                        md:max-w-full lg:max-w-full max-w-32 "
         >
-          {searchParams.get("section") && (
-            <TableScore data={dataTable} courseName={courseName} />
+          {!searchParams.get("section") && data.length !== 0 && (
+            <div className="flex flex-col py-4 px-5 lg:px-14 gap-5 bg-slate-50 h-fit">
+              {data.map((e, key) => (
+                <p
+                  className="w-full bg-white py-4 rounded-xl group cursor-pointer active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
+                  key={key}
+                  onClick={() => {
+                    showTable(e.section);
+                  }}
+                >
+                  Section{" "}
+                  {e.section < 10
+                    ? `00${e.section}`
+                    : e.section < 100
+                    ? `0${e.section}`
+                    : e.section}
+                </p>
+              ))}
+            </div>
           )}
-          {}
+
+          {data.length === 0 && !searchParams.get("section") && (
+            <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] bg-slate-50">
+              <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
+                No section
+              </p>
+              <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 ">
+                Section will show when file is uploaded
+              </span>
+            </div>
+          )}
+          <div className="mt-5 xl:mx-2">
+            {searchParams.get("section") && (
+              <TableScore data={dataTable} courseName={courseName} />
+            )}
+          </div>
         </div>
       </div>
-      </div>
       {isCurrent && !searchParams.get("section") && (
-        <div className="flex w-full justify-between gap-1 ">
+        <div className="flex w-full justify-between gap-1">
           <button
             className={`w-full h-full  py-3
             ${
@@ -463,19 +458,6 @@ const Management = ({ data, courseName }) => {
           </div>
         )}
       </div>
-
-      {/* {data.length === 0 && (
-        <div className="bg-green-400">
-          <div className="bg-red-400">
-            <p className="bg-sky-400" style={{ fontWeight: "600" }}>
-              Publish Each Section
-            </p>
-          </div>
-          <div className="bg-emerald-400">
-            <p className="bg-yellow-400">Publish All Sections</p>
-          </div>
-        </div>
-      )} */}
     </>
   );
 };

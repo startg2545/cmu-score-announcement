@@ -5,7 +5,7 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token);
+    const user = await verifyAndValidateToken(token, res);
 
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
@@ -13,11 +13,6 @@ router.get("/", async (req, res) => {
 
     return res.send({ok: true, user});
   } catch (err) {
-    if(!err.ok) {
-      return res
-      .status(400)
-      .send({ ok: false, message: "Invalid token" });
-    }
     return res
       .status(500)
       .send({ ok: false, message: "Internal Server Error" });

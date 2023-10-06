@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
 import { StateContext, CurrentContext } from "../context";
-import secMan from "../components/css/manage.module.css";
+import tabStyle from "../components/css/tableScore.module.css";
 import {
   addCoInstructors,
   addCourse,
@@ -18,11 +18,10 @@ import { useDisclosure } from "@mantine/hooks";
 import { HiChevronRight } from "react-icons/hi";
 import { FaChevronRight, FaSignOutAlt } from "react-icons/fa";
 import { AiFillMinusCircle } from "react-icons/ai";
-import { IoPersonAddOutline } from "react-icons/io5";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import { FiPlus, FiEdit3 } from "react-icons/fi";
 import { BiPlus } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { TextInput, Button, Flex } from "@mantine/core";
 import Course from "./css/course166.module.css";
 
@@ -43,10 +42,12 @@ export default function Course166Container() {
     useContext(StateContext);
   const [sidebar, setLgSidebar] = useState(false);
   const navigate = useNavigate();
+  const [coInstructors, setCoInstructors] = useState("");
   const addCourseButton = useDisclosure();
-  const [checkedCourses, setCheckedCourse] = useState([]);
+  const addCoSec = useDisclosure();
   const [countChecked, setCountChecked] = useState(0);
   const { current } = useContext(CurrentContext);
+  const [checkedSections, setCheckedSections] = useState([]);
 
   const navToSemesterYear = (semester, year) => {
     navigate({
@@ -59,33 +60,37 @@ export default function Course166Container() {
     handleSidebarClick(true);
     navToSemesterYear(semester, year);
   };
-  const instructorClosePopup = async (coInstructors) => {
+  const instructorClosePopup = async () => {
     if (!isEmailValid) {
       return;
     }
-    const data = {
-      courseNo: params.courseNo,
-      year: parseInt(params.year),
-      semester: parseInt(params.semester),
-      coInstructors: coInstructors,
-    };
-    const resp = await addCoInstructors(data);
+    if (!sections.length) {
+      const data = {
+        courseNo: searchParams.get("courseNo"),
+        year: searchParams.get("year"),
+        semester: searchParams.get("semester"),
+        coInstructors: coInstructors,
+      };
+      const resp = await addCoInstructors(data);
+      emailform.reset();
+    } else {
+      addCoSec[1].open();
+    }
     close();
-    emailform.reset();
-    return resp;
   };
 
   const handleCheckboxChange = (e, value) => {
+   
     if (e.target.checked === true) {
       setCountChecked(countChecked + 1);
     } else {
       setCountChecked(countChecked - 1);
     }
-    const courseNo = value.course;
+    const coEachSec = value.section;
     if (e.target.checked) {
-      setCheckedCourse([...checkedCourses, courseNo]);
+      setCheckedSections([...checkedSections, coEachSec]);
     } else {
-      setCheckedCourse(checkedCourses.filter((c) => c !== courseNo));
+      setCheckedSections(checkedSections.filter((c) => c !== coEachSec));
     }
   };
 
@@ -154,6 +159,7 @@ export default function Course166Container() {
   const backToDashboard = () => {
     localStorage.removeItem("page");
     localStorage.removeItem("Edit");
+    localStorage.removeItem("editScore");
     setUploadScore(false);
     setSelectedCourse(false);
     searchParams.delete("courseNo");
@@ -164,6 +170,7 @@ export default function Course166Container() {
   const backToCourse = () => {
     localStorage.removeItem("page");
     localStorage.removeItem("Edit");
+    localStorage.removeItem("editScore");
     setUploadScore(false);
     searchParams.delete("section");
     setSearchParams(searchParams);
@@ -302,6 +309,41 @@ export default function Course166Container() {
     courseForm.reset();
   };
 
+  const addCoAllSec = async () => {
+    const data = {
+      courseNo: searchParams.get("courseNo"),
+      year: searchParams.get("year"),
+      semester: searchParams.get("semester"),
+      coInstructors: coInstructors,
+      type: "addCoAllSec",
+    };
+    const resp = await addCoInstructors(data);
+    addCoSec[1].close();
+    setCheckedSections([]);
+    emailform.reset();
+  };
+
+  const addCoEachSec = async () => {
+    const section_arr = [];
+    for (let checked in checkedSections) {
+      sections.map((e) => {
+        if (e.section == checkedSections[checked]) section_arr.push(e.section);
+      });
+    }
+    const data = {
+      courseNo: searchParams.get("courseNo"),
+      year: searchParams.get("year"),
+      semester: searchParams.get("semester"),
+      sections: section_arr,
+      coInstructors: coInstructors,
+      type: "addCoEachSec",
+    };
+    const resp = await addCoInstructors(data);
+    addCoSec[1].close();
+    setCheckedSections([]);
+    emailform.reset();
+  };
+
   const isCurrent =
     searchParams.get("year") == current[0]?.year &&
     searchParams.get("semester") == current[0]?.semester;
@@ -317,8 +359,8 @@ export default function Course166Container() {
               : "transform -translate-x-full w-0"
           }`}
         >
-          <div className="flex flex-col px-3 py-14">
-            <ul className="flex flex-col gap-3 pt-2 pb-10 text-gray-800 justify-center text-center items-center font-semibold ">
+          <div className="flex flex-col px-3 mt-14 overflow-y-auto">
+            <ul className="flex flex-col gap-3 pt-2  text-gray-800 justify-center text-center items-center font-semibold ">
               {current?.map((data, i) => (
                 <li
                   className="w-full flex flex-row cursor-pointer justify-center gap-2 text-lg items-center hover:bg-[#D0CDFE] duration-300 px-5 py-2 rounded-xl mr-3"
@@ -338,7 +380,7 @@ export default function Course166Container() {
           </div>
           <div className="cursor-pointer px-5">
             <div
-              onClick={() => signOut().finally(navigate("/sign-in"))}
+              onClick={() => signOut().finally(navigate("/"))}
               className="text-lg font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-3xl mt-5 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
             >
               Log out
@@ -346,7 +388,11 @@ export default function Course166Container() {
             </div>
           </div>
         </div>
-        <div className={showSidebar ? "w-full flex lg:px-5" : "w-full flex "}>
+        <div
+          className={`w-full flex overflow-x-auto ${
+            showSidebar && "lg:px-5 "
+          }`}
+        >
           <div className="flex w-full flex-col h-full">
             {isSelectedCourse ? null : (
               <>
@@ -432,106 +478,237 @@ export default function Course166Container() {
                   </form>
                 </Modal>
 
-                <div className="mx-[1%] lg:mt-3 max-h-screen bg-slate-50">
-                  <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(85vh-50px)] overflow-hidden border-[3px] border-primary ">
-                    <div
-                      className={`flex flex-col ${noCourse ? "h-full" : ""}`}
-                    >
-                      <div className="mb-4 bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
-                        <div className="flex items-start flex-col justify-center ">
-                          <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
-                            Course {params.semester}/
-                            {params.year ? params.year.slice(2) : params.year}
-                          </p>
-                          <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
-                            {formatDate(currentDate)}
-                          </p>
+                <div className="mx-[1%] lg:mt-3 max-h-fit bg-slate-50">
+                  <div className=" lg:rounded-xl rounded-xl xl:h-[calc(90vh-50px)] lg:h-[calc(89vh-30px)] md:h-[calc(93vh-50px)]   h-[calc(93vh-50px)] overflow-hidden border-[3px] border-primary ">
+                    <div className=" bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
+                      <div className="flex items-start flex-col justify-center ">
+                        <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
+                          Course {params.semester}/
+                          {params.year ? params.year.slice(2) : params.year}
+                        </p>
+                        <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
+                          {formatDate(currentDate)}
+                        </p>
+                      </div>
+                      {isCurrent && (
+                        <div
+                          className=" flex lg:flex-row  md:flex-row flex-col gap-2 lg:py-4 md:py-4 py-1 items-end 
+                                          lg:text-xl md:text-lg text-md text-white font-medium w-22 "
+                        >
+                          <div
+                            className={`lg:px-3 px-2 rounded-2xl py-1 flex md:gap-2 gap-2 justify-center items-center hover:cursor-pointer
+                            hover:shadow-md lg:w-[115px] md:w-[92px] w-[83px] transition ease-in-out cursor-pointer ${
+                              isDelete
+                                ? " border-green-500 hover: hover:bg-green-400"
+                                : " border-orange-400 hover: hover:bg-orange-400"
+                            }`}
+                            onClick={() => setIsDelete(!isDelete)}
+                          >
+                            {!isDelete && (
+                              <>
+                                {" "}
+                                <FiEdit3 className="lg:pr-2 lg:text-3xl text-xl" />
+                                <span>Edit</span>{" "}
+                              </>
+                            )}
+                            {isDelete && (
+                              <>
+                                <MdDone className="lg:text-3xl text-xl" />
+                                <span>Done</span>
+                              </>
+                            )}
+                          </div>
+                          <div
+                            className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md transition ease-in-out"
+                            onClick={addCourseButton[1].open}
+                          >
+                            <FiPlus className="lg:text-3xl text-xl " />
+                            <span>Add Course</span>
+                          </div>
                         </div>
-                        {isCurrent && (
-                          <div className=" flex lg:flex-row  md:flex-row flex-col gap-2 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22 ">
-                            <div
-                              className={`lg:px-5 px-1 gap-3 rounded-2xl py-1 flex justify-end items-center hover:cursor-pointer hover:shadow-md transition ease-in-out cursor-pointer ${
-                                isDelete
-                                  ? " border-green-500 hover: hover:bg-green-400"
-                                  : " border-orange-400 hover: hover:bg-orange-400"
-                              }`}
-                              onClick={() => setIsDelete(!isDelete)}
-                            >
-                              {!isDelete && (
-                                <>
-                                  {" "}
-                                  <FiEdit3 className="lg:text-3xl text-xl" />
-                                  <span>Edit</span>{" "}
-                                </>
-                              )}
-                              {isDelete && (
-                                <>
-                                  <MdDone className="lg:text-3xl text-xl" />
-                                  <span>Done</span>
-                                </>
-                              )}
-                            </div>
-                            <div
-                              className="lg:px-5 px-2 gap-1 rounded-2xl py-1 flex justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md transition ease-in-out"
-                              onClick={addCourseButton[1].open}
-                            >
-                              <FiPlus className="lg:text-3xl text-xl " />
-                              <span>Add Course</span>
-                            </div>
+                      )}
+                    </div>
+                    <div className=" max-h-screen">
+                      <div
+                        className={
+                          " overflow-y-auto xl:h-[calc(90vh-140px)] lg:h-[calc(89vh-120px)] md:h-[calc(93vh-138px)]  h-[calc(93vh-131px)]"
+                        }
+                      >
+                        {noCourse && (
+                          <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
+                            <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
+                              {noCourse}
+                            </p>
+                            <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 ">
+                              Click add course at top right corner
+                            </span>
                           </div>
                         )}
-                      </div>
-                      {noCourse && (
-                        <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
-                          <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
-                            {noCourse}
-                          </p>
-                          <span className="xl:text-2xl lg:text-xl md:text-lg text-base text-maintext opacity-60 ">
-                            Click add course at top right corner
-                          </span>
-                        </div>
-                      )}
-                      {!course.length && !noCourse && (
-                        <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
-                          <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
-                            Loading....
-                          </p>
-                        </div>
-                      )}
-                      {course.map((item, key) => {
-                        return (
-                          <div
-                            key={key}
-                            className="flex-row flex lg:px-4 cursor-pointer lg:text-2xl px-5 gap-3 py-3 items-center"
-                          >
-                            {isDelete && (
-                              <AiFillMinusCircle
-                                className=" text-4xl text-red-500 cursor-pointer"
-                                onClick={() => clickDeleteCourse(item.courseNo)}
-                              />
-                            )}
-                            <div
-                              className="  w-full bg-white lg:py-3 py-2 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
-                              onClick={() => onClickCourse(item)}
-                            >
-                              <div className={`lg:px-5 px-3 lg:py-3 py-2 font-medium flex justify-between items-center ${isDelete ? "cursor-default" : "cursor-pointer"}`}>
-                                <div className="text-black lg:text-2xl text-lg">
-                                  {item.courseNo}
-                                  {item.courseName
-                                    ? ` - ${item.courseName}`
-                                    : null}
-                                </div>
-                                {/* <HiChevronRight className="lg:text-3xl text-xl mx-1 text-white" /> */}
-                              </div>
-                            </div>
+                        {!course.length && !noCourse && (
+                          <div className="flex flex-col justify-center text-center items-center xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
+                            <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
+                              Loading....
+                            </p>
                           </div>
-                        );
-                      })}
+                        )}
+                        <div className="overflow-y-auto h-fit">
+                          {course.map((item, key) => {
+                            return (
+                              <div
+                                key={key}
+                                className="flex-row flex lg:px-4 lg:text-2xl px-5 gap-3 py-3 items-center"
+                              >
+                                {isDelete && (
+                                  <AiFillMinusCircle
+                                    className=" text-4xl text-red-500 cursor-pointer"
+                                    onClick={() =>
+                                      clickDeleteCourse(item.courseNo)
+                                    }
+                                  />
+                                )}
+                                <div
+                                  className="  w-full bg-white lg:py-3 py-2 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
+                                  onClick={() => onClickCourse(item)}
+                                >
+                                  <div
+                                    className={`lg:px-5 px-3 lg:py-3 py-2 font-medium flex justify-between items-center ${
+                                      isDelete
+                                        ? "cursor-default"
+                                        : "cursor-pointer"
+                                    }`}
+                                  >
+                                    <div className="text-black lg:text-2xl text-lg">
+                                      {item.courseNo}
+                                      {item.courseName
+                                        ? ` - ${item.courseName}`
+                                        : null}
+                                    </div>
+                                    {/* <HiChevronRight className="lg:text-3xl text-xl mx-1 text-white" /> */}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </>
             )}
+            <Modal
+              opened={addCoSec[0]}
+              onClose={addCoSec[1].close}
+              centered
+              withCloseButton={false}
+              size="auto"
+              display="flex"
+              yOffset={0}
+              xOffset={0}
+              padding={0}
+              radius={10}
+              overlayProps={{
+                opacity: 0.55,
+                blur: 3,
+              }}
+              closeOnClickOutside={false}
+              closeOnEscape={false}
+            >
+              <div className=" align-middle justify-center text-center">
+                <div className="bg-primary py-1.5 px-8 flex justify-center  font-semibold mb-3">
+                  <p className="text-white lg:text-2xl  font-semibold text-center gap-2 text-lg">
+                    Select section to Add Co-Instructor
+                  </p>
+                </div>
+                <div className="h-fit max-h-96 overflow-y-auto">
+                  {sections?.map((value, key) => (
+                    <div
+                      key={key}
+                      className="flex justify-center gap-5 mb-4 sm:text-md"
+                    >
+                      <Checkbox
+                        color="indigo"
+                        size="md"
+                        onChange={(e) => handleCheckboxChange(e, value)}
+                        id="selected-section"
+                        name="selected-section"
+                        style={{
+                          justifyContent: "center",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      />
+                      <p style={{ fontSize: "22px" }}>
+                        Section{" "}
+                        {value.section < 10
+                          ? `00${value.section}`
+                          : value.section < 100
+                          ? `0${value.section}`
+                          : value.section}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="overflow-hidden">
+                  <div>
+                    <div className={tabStyle.ScorePopupButtons}>
+                      <Button
+                        onClick={() => {
+                          addCoAllSec();
+                        }}
+                        className={tabStyle.secondaryButton}
+                        sx={{
+                          color: "black",
+                          "&:hover": {
+                            backgroundColor: "#8084c8",
+                            color: "#ffffff",
+                          },
+                        }}
+                      >
+                        All Sections
+                      </Button>
+                      <Button
+                        style={{ marginLeft: "20px" }}
+                        className={Course.AddPopupButton}
+                        type="submit"
+                        sx={{
+                          "&:hover": {
+                            backgroundColor: "#d499ff",
+                          },
+                        }}
+                        onClick={() => {
+                          addCoEachSec();
+                        }}
+                        radius="md"
+                        disabled={countChecked === 0}
+                      >
+                        Confirm
+                      </Button>
+                    </div>
+                    <div className={tabStyle.ScorePopupButtons2}>
+                      <Button
+                        className={tabStyle.tertiaryButton}
+                        onClick={() => {
+                          addCoSec[1].close();
+                          setCheckedSections([]);
+                          emailform.reset();
+                        }}
+                        radius="md"
+                        sx={{
+                          color: "black",
+                          "&:hover": {
+                            backgroundColor: "#F0EAEA",
+                          },
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Modal>
             <Modal
               opened={opened}
               onClose={() => {
@@ -554,14 +731,23 @@ export default function Course166Container() {
                     {`Add Co-Instructor ${params.courseNo}`}
                   </p>
                 </div>
-                <div className="text-gray-600 text-[18px] px-10 text-center py-5 max-w-lg">
-                  Co-Instructors have full access to edit and change scores in
-                  all documents. Input an email with the domain cmu.ac.th to
-                  invite.
+                <div className="text-gray-600 text-[18px] text-center px-10 py-5 max-w-lg">
+                  {sections.length ? (
+                    " Input an email with the domain cmu.ac.th to invite."
+                  ) : (
+                    <>
+                      Note: If you add Co-Instructor before uploading your
+                      scores, Co-Instructor can access and edit scores in all
+                      sections. <br />
+                      Input an email with the domain cmu.ac.th to invite.
+                    </>
+                  )}
                 </div>
+
                 <form
                   onSubmit={emailform.onSubmit((data) => {
-                    instructorClosePopup(data.email);
+                    setCoInstructors(data.email);
+                    instructorClosePopup();
                   })}
                   className="px-10 lg:px-24"
                 >
@@ -598,7 +784,7 @@ export default function Course166Container() {
                           },
                         }}
                       >
-                        Add
+                        {sections.length ? "Continue" : "Add"}
                       </Button>
                     </div>
                   </div>
@@ -612,9 +798,12 @@ export default function Course166Container() {
                   <p className="flex flex-row items-center font-semibold text-primary gap-2 xl:-mt-2.5 lg:-mt-5 md:-mt-2.5 -mt-2 ">
                     <p
                       onClick={backToDashboard}
-                      className="text-primary lg:text-xl text-md cursor-pointer"
+                      className="text-primary lg:text-xl text-md cursor-pointer flex flex-row gap-1"
                     >
-                      Course {params.semester}/{params.year.slice(2)}
+                      <span className="sm:block hidden">Course </span>
+                      <span>
+                        {params.semester}/{params.year.slice(2)}
+                      </span>
                     </p>
 
                     <HiChevronRight className="lg:text-2xl text-md" />
@@ -645,7 +834,7 @@ export default function Course166Container() {
                       <>
                         <HiChevronRight className="lg:text-2xl text-md" />
                         <p
-                          className="text-primary lg:text-xl text-md"
+                          className="text-primary lg:text-xl text-md flex flex-row gap-1"
                           style={{
                             cursor:
                               searchParams.get("section") &&
@@ -657,7 +846,8 @@ export default function Course166Container() {
                             backToSec();
                           }}
                         >
-                          Section{" "}
+                          <span className="sm:block hidden">Section</span>
+                          <span className="sm:hidden block">Sec</span>
                           {searchParams.get("section") < 10
                             ? `00${searchParams.get("section")}`
                             : searchParams.get("section") < 100
@@ -717,13 +907,16 @@ export default function Course166Container() {
                       </div>
 
                       {isCurrent && (
-                        <div className=" flex lg:flex-row  md:flex-row flex-col gap-1 lg:py-4 md:py-4 py-1 lg:text-xl md:text-lg text-md text-white font-medium">
+                        <div
+                          className="flex md:flex-row flex-col gap-2 items-end lg:py-4 md:py-4 
+                        py-1 lg:text-xl md:text-lg text-md text-white font-medium w-22 "
+                        >
                           <div
                             className="lg:px-5 px-3 gap-1 rounded-2xl py-1 flex justify-end md:justify-center items-center hover:cursor-pointer hover:text-black hover:bg-white hover:shadow-md
                                     "
                             onClick={() => open()}
                           >
-                            <IoPersonAddOutline />
+                            <AiOutlineUserAdd className="lg:text-3xl text-xl " />
                             <p>Instructor</p>
                           </div>
 
@@ -740,7 +933,7 @@ export default function Course166Container() {
                             }
                             onClick={goToUpload}
                           >
-                            <BiPlus />
+                            <BiPlus className="lg:text-3xl text-xl "/>
                             <p>Upload Score</p>
                           </div>
                         </div>

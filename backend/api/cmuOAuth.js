@@ -1,6 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
+const adminUserModel = require("../db/adminUserSchema");
 const router = express.Router();
 
 const getCMUBasicInfoAsync = async (accessToken) => {
@@ -52,14 +53,11 @@ router.post("/", async (req, res) => {
         .send({ ok: false, message: "Cannot get cmu basic info" });
     }
 
-    const itAccountType_id =
-      response2.cmuitaccount === "newin_yamaguchi@cmu.ac.th" ||
-      response2.cmuitaccount === "sawit_cha@cmu.ac.th" ||
-      response2.cmuitaccount === "worapitcha_muangyot@cmu.ac.th" ||
-      response2.cmuitaccount === "patrasorn_k@cmu.ac.th" ||
-      response2.cmuitaccount === "thanaporn_chan@cmu.ac.th"
-        ? "Admin"
-        : response2.itaccounttype_id;
+    const itAccountType_id = (await adminUserModel.findOne({
+      admin: response2.cmuitaccount,
+    }))
+      ? "Admin"
+      : response2.itaccounttype_id;
 
     //create session
     const token = jwt.sign(
@@ -79,13 +77,13 @@ router.post("/", async (req, res) => {
           },
       process.env.JWT_SECRET,
       {
-        expiresIn: "7d", // Token will last for 7 day only
+        expiresIn: "7d", // Token will last for 7 days only
       }
     );
 
     return res
       .cookie("token", token, {
-        maxAge: 3600000 * 24 * 7, // Cookie will last for 7 day only
+        maxAge: 3600000 * 24 * 7, // Cookie will last for 7 days only
         //Set httpOnly to true so that client JavaScript cannot read or modify token
         //And the created token can be read by server side only
         httpOnly: true,

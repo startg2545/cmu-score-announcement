@@ -33,7 +33,7 @@ const Dashboard = () => {
             : "transform -translate-x-full w-0"
         }`}
       >
-        <div className="flex flex-col px-3 py-14">
+        <div className="flex flex-col px-3 mt-14 overflow-y-auto">
           <ul className="flex flex-col gap-3 pt-2 pb-10 text-gray-800 justify-center text-center items-center font-semibold ">
             {current?.map((data, i) => (
               <li
@@ -54,7 +54,7 @@ const Dashboard = () => {
         </div>
         <div className="cursor-pointer px-5">
           <div
-            onClick={() => signOut().finally(navigate("/sign-in"))}
+            onClick={() => signOut().finally(navigate("/"))}
             className="text-lg font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-3xl mt-5 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
           >
             Log out
