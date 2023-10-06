@@ -364,7 +364,7 @@ const AdminDashboard = () => {
               <div className="flex flex-col ">
                 <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between cursor-default ">
                   <div className="flex items-start flex-col justify-center ">
-                    <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
+                    <div className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
                       {
                         <>
                           <p
@@ -381,7 +381,7 @@ const AdminDashboard = () => {
                           </p>
                         </>
                       }
-                    </p>
+                    </div>
 
                     <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
                       {formatDate(currentDate)}
