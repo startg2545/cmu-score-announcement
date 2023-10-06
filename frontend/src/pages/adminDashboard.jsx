@@ -358,10 +358,10 @@ const AdminDashboard = () => {
             </div>
           </div>
         </div>
-        <div className="flex w-full flex-col h-full">
+        <div className="flex w-full flex-col h-full overflow-x-auto">
           <div className="mx-[2%] lg:mt-3 max-h-screen ">
             <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-60px)] lg:h-[calc(88vh-60px)] md:h-[calc(89vh-55px)]  h-[calc(88vh-50px)] overflow-hidden border-[3px] border-primary mt-24 ">
-              <div className="flex flex-col ">
+              <div className="flex flex-col">
                 <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between cursor-default ">
                   <div className="flex items-start flex-col justify-center ">
                     <div className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
@@ -463,7 +463,7 @@ const AdminDashboard = () => {
                         Admin with access
                       </p>
                       <div
-                        className="  overflow-y-auto overflow-x-auto   rounded-lg 
+                        className="  overflow-y-auto rounded-lg 
                                    flex xl:flex-col flex-col items-center lg:px-10 
                                    xl:h-full h-5/6
                                    xl:w-5/6 lg:w-[920px] w-5/5 md:mx-10 py-3"
@@ -498,7 +498,6 @@ const AdminDashboard = () => {
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
