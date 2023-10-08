@@ -294,7 +294,7 @@ router.post("/add", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const token = req.cookies.token;
-    const user = await verifyAndValidateToken(token);
+    const user = await verifyAndValidateToken(token, res);
     if (!user.cmuAccount) {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
