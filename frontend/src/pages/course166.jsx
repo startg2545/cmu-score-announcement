@@ -22,7 +22,7 @@ import { AiOutlineUserAdd } from "react-icons/ai";
 import { FiPlus, FiEdit3 } from "react-icons/fi";
 import { BiPlus } from "react-icons/bi";
 import { MdDone } from "react-icons/md";
-import { TextInput, Button, Flex } from "@mantine/core";
+import { TextInput, Button } from "@mantine/core";
 import Course from "./css/course166.module.css";
 
 export default function Course166Container() {
@@ -71,7 +71,7 @@ export default function Course166Container() {
         semester: searchParams.get("semester"),
         coInstructors: coInstructors,
       };
-      const resp = await addCoInstructors(data);
+      await addCoInstructors(data);
       emailform.reset();
     } else {
       addCoSec[1].open();
@@ -111,7 +111,6 @@ export default function Course166Container() {
           : "Please enter a valid email address ending with @cmu.ac.th";
       },
     },
-    // validateInputOnChange: true,
     validateInputOnBlur: true,
   });
 
@@ -300,7 +299,7 @@ export default function Course166Container() {
   };
 
   const ConfirmhandleClosePopup = async (data) => {
-    let resp = await addCourse({
+    await addCourse({
       year: parseInt(params.year),
       semester: parseInt(params.semester),
       courseNo: data.courseNo,
@@ -317,7 +316,7 @@ export default function Course166Container() {
       coInstructors: coInstructors,
       type: "addCoAllSec",
     };
-    const resp = await addCoInstructors(data);
+    await addCoInstructors(data);
     addCoSec[1].close();
     setCheckedSections([]);
     emailform.reset();
@@ -338,7 +337,7 @@ export default function Course166Container() {
       coInstructors: coInstructors,
       type: "addCoEachSec",
     };
-    const resp = await addCoInstructors(data);
+    await addCoInstructors(data);
     addCoSec[1].close();
     setCheckedSections([]);
     emailform.reset();

@@ -15,7 +15,7 @@ export default function CMUOAuthCallback() {
   async function signIn(authorizationCode) {
     try {
       const resp = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/api/v1/cmuOAuth`,
+        `${process.env.REACT_APP_API_BASE_URL}/api/v1/cmuOAuth`,
         {},
         {
           params: {
@@ -28,7 +28,6 @@ export default function CMUOAuthCallback() {
           withCredentials: true,
         }
       );
-
       return resp.data;
     } catch (err) {
       if (!err.response) {
