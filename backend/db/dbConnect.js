@@ -8,10 +8,9 @@ async function dbConnect() {
   mongoose.connection.on("disconnected", () => {
     console.log("database is disconnected successfully");
   });
-  mongoose.connection.on(
-    "error",
-    console.error.bind(console, "connection error:")
-  );
+  mongoose.connection.on("error", () => {
+    console.error.bind(console, "connection error:");
+  });
 }
 
 module.exports = dbConnect;

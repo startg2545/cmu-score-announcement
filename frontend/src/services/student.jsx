@@ -3,7 +3,7 @@ import axios from "axios";
 export async function getStudentScores(year, semester) {
   try {
     const resp = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/student`,
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/student`,
       {
         params: {
           year: year,
@@ -21,7 +21,7 @@ export async function getStudentScores(year, semester) {
 export async function putStudentGrade(data) {
   try {
     const resp = await axios.put(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/student/update`,
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/student/update`,
       data,
       {
         withCredentials: true,
@@ -36,7 +36,7 @@ export async function putStudentGrade(data) {
 export async function addStudentGrade(data) {
   try {
     const resp = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/student/add`,
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/student/add`,
       data,
       {
         withCredentials: true,

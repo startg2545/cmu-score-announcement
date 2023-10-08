@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.20165673.css",
+    "main.js": "/static/js/main.f5cdfeea.js",
+    "static/media/SF-Pro.ttf": "/static/media/SF-Pro.18c415fbef8df674e66b.ttf",
+    "static/media/emblemcmu.png": "/static/media/emblemcmu.0c26138d5e631388c21b.png",
+    "static/media/cmulogo2.png": "/static/media/cmulogo2.766e5820c3473e335353.png",
+    "static/media/Template.xlsx": "/static/media/Template.e50634f26f1a1073c16e.xlsx",
+    "static/media/Example.xlsx": "/static/media/Example.b07b5841e691188502cd.xlsx",
+    "index.html": "/index.html",
+    "main.20165673.css.map": "/static/css/main.20165673.css.map",
+    "main.f5cdfeea.js.map": "/static/js/main.f5cdfeea.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.20165673.css",
+    "static/js/main.f5cdfeea.js"
+  ]
+}

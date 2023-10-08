@@ -3,17 +3,14 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { MantineProvider } from "@mantine/core";
 import { getUserInfo, getCurrent, socket } from "./services";
-import { ROLE, StateContext, UserInfoContext, CurrentContext } from "./context";
-import { CMUNavbar, TableScore } from "./components";
-import Home from "./pages";
+import { StateContext, UserInfoContext, CurrentContext } from "./context";
+import { CMUNavbar } from "./components";
 import SignIn from "./pages/signIn";
 import StudentDashboard from "./pages/studentDashboard";
 import InstructorDashboard from "./pages/instructorDashboard";
 import AdminDashboard from "./pages/adminDashboard";
-import CourseDetail from "./pages/courseDetail";
 import CMUOAuthCallback from "./pages/cmuOAuthCallback";
 import Course166 from "./pages/course166";
-import EditStudent from "./components/editStudent";
 
 function App() {
   const [current, setCurrent] = useState([]);
@@ -114,9 +111,6 @@ function App() {
                   element={<AdminDashboard />}
                 />
                 <Route path="/course" element={<Course166 />} />
-                <Route exact path="/table-score" element={<TableScore />} />
-                <Route path="/course-detail" element={<CourseDetail />} />
-                <Route path="/edit-student" element={<EditStudent />} />
               </Routes>
             </Router>
           </CurrentContext.Provider>
