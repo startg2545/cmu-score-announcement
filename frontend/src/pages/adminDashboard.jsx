@@ -148,7 +148,7 @@ const AdminDashboard = () => {
         fetchAdmin();
       }
     }
-  }, [setCurrent]);
+  }, [admins, setCurrent]);
 
   const handleDelete = async (_id) => {
     const resp = await deleteCurrent({
@@ -403,7 +403,7 @@ const AdminDashboard = () => {
                 <div
                   className="flex xl:flex-row flex-col  overflow-y-auto
                              p-5  xl:gap-3 sm:gap-6 gap-10 xl:justify-between 
-                            xl:h-[calc(89vh-148px)] lg:h-[calc(88vh-148px)] md:h-[calc(89vh-140px)] sm:h-[calc(78vh)] border-[2px] border-black h-[calc(63vh)] "
+                            xl:h-[calc(89vh-148px)] lg:h-[calc(88vh-148px)] md:h-[calc(89vh-140px)] sm:h-[calc(75vh)]  h-[calc(63vh)] "
                 >
                   <div className="xl:flex xl:flex-col xl:w-4/6  ">
                     <form
