@@ -397,7 +397,7 @@ export default function Course166Container() {
               <>
                 <div
                   className=" text-maintext font-semibold cursor-default py-2 
-                                 xl:mt-20 lg:mt-19 md:mt-16 sm:mt-16 mt-16 
+                                 xl:mt-14 lg:mt-19 md:mt-16 sm:mt-16 mt-16 
                                  xl:px-10lg: lg:px-9 md: md:px-8 sm:px-8  px-6
                                  "
                 ></div>
@@ -478,11 +478,13 @@ export default function Course166Container() {
                 </Modal>
 
                 <div className="mx-[1%] lg:mt-3 max-h-fit bg-slate-50">
+
                   <div className=" lg:rounded-xl rounded-xl xl:h-[calc(90vh-50px)] lg:h-[calc(89vh-30px)] md:h-[calc(93vh-50px)]  h-[calc(80vh-50px)] overflow-hidden border-[3px] border-primary sm:mb-12 ">
+
 
                     <div className=" bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
                       <div className="flex items-start flex-col justify-center ">
-                        <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
+                        <p className="text-white lg:font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl md:font-medium sm:font-medium">
                           Course {params.semester}/
                           {params.year ? params.year.slice(2) : params.year}
                         </p>
