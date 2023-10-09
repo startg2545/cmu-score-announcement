@@ -479,7 +479,7 @@ export default function Course166Container() {
 
                 <div className="mx-[1%] lg:mt-3 max-h-fit bg-slate-50">
 
-                  <div className=" lg:rounded-xl rounded-xl xl:h-[calc(90vh-50px)] lg:h-[calc(89vh-30px)] md:h-[calc(93vh-50px)]  h-[calc(80vh-50px)] overflow-hidden border-[3px] border-primary sm:mb-12 ">
+                  <div className=" lg:rounded-xl rounded-xl xl:h-[calc(90vh-50px)] lg:h-[calc(89vh-30px)] md:h-[calc(93vh-50px)] sm:h-[calc(87vh-50px)] h-[calc(80vh-50px)] overflow-hidden border-[3px] border-primary sm:mb-12 ">
 
 
                     <div className=" bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
@@ -533,11 +533,11 @@ export default function Course166Container() {
                     <div className=" max-h-screen">
                       <div
                         className={
-                          " overflow-y-auto xl:h-[calc(90vh-140px)] lg:h-[calc(89vh-120px)] md:h-[calc(93vh-138px)]  h-[calc(80vh-150px)] "
+                          "overflow-y-auto xl:h-[calc(90vh-140px)] lg:h-[calc(89vh-120px)] md:h-[calc(93vh-138px)] sm:h-[calc(87vh-150px)]   h-[calc(80vh-150px)] "
                         }
                       >
                         {noCourse && (
-                          <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
+                          <div className=" flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)]  sm:h-[calc(87vh-150px)] h-[calc(85vh-193px)] ">
                             <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
                               {noCourse}
                             </p>
@@ -547,7 +547,7 @@ export default function Course166Container() {
                           </div>
                         )}
                         {!course.length && !noCourse && (
-                          <div className="flex flex-col justify-center text-center items-center xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] ">
+                          <div className="flex flex-col justify-center text-center items-center xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)]  h-[calc(85vh-193px)] ">
                             <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
                               Loading....
                             </p>
@@ -617,7 +617,7 @@ export default function Course166Container() {
               closeOnEscape={false}
             >
               <div className=" align-middle justify-center text-center">
-                <div className="bg-primary py-1.5 px-8 flex justify-center  font-semibold mb-3">
+                <div className=" bg-primary py-1.5 px-8 flex justify-center  font-semibold mb-3">
                   <p className="text-white lg:text-2xl  font-semibold text-center gap-2 text-lg">
                     Select section to Add Co-Instructor
                   </p>
@@ -797,7 +797,7 @@ export default function Course166Container() {
             {isSelectedCourse && (
               <div className="mx-[2%] lg:mt-24 mt-20 max-h-screen">
                 <div className="  pb-2 xl:mb-5 lg:mb-4 md:mb-3 mb-2  ">
-                  <p className="flex flex-row items-center font-semibold text-primary gap-2 xl:-mt-2.5 lg:-mt-5 md:-mt-2.5 -mt-2 ">
+                  <p className=" flex flex-row items-center font-semibold text-primary gap-2 xl:-mt-2.5 lg:-mt-5 md:-mt-2.5 -mt-2 ">
                     <p
                       onClick={backToDashboard}
                       className="text-primary lg:text-xl text-md cursor-pointer flex flex-row gap-1"
@@ -876,7 +876,7 @@ export default function Course166Container() {
                   <div className="mt-3 border-b-[3px] border-primary shadow-inset-md opacity-25"></div>
                 </div>
 
-                <div className=" lg:rounded-xl rounded-xl xl:h-[calc(84vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(71vh-50px)]  overflow-hidden border-[3px] border-primary">
+                <div className=" lg:rounded-xl rounded-xl xl:h-[calc(84vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)] sm:h-[calc(83vh-50px)]  h-[calc(71vh-50px)]  overflow-hidden border-[3px] border-primary">
                   <div className="flex flex-col">
                     <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between cursor-default">
                       <div className="flex items-start flex-col justify-center ">
