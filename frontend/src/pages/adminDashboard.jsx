@@ -321,7 +321,7 @@ const AdminDashboard = () => {
           </div>
         )}
       </div>
-      <div className="flex flex-row gap-3 justify-center ">
+      <div className="flex flex-row gap-3 justify-center overscroll-y-none">
         <div
           className={`hidden lg:flex lg:overflow-hidden lg:flex-col pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen duration-500 ${
             showSidebar
@@ -360,7 +360,7 @@ const AdminDashboard = () => {
         </div>
         <div className="flex w-full flex-col h-full overflow-x-auto">
           <div className="mx-[2%] lg:mt-3 max-h-screen ">
-            <div className="lg:rounded-xl rounded-xl xl:h-[calc(89vh-60px)] lg:h-[calc(88vh-60px)] md:h-[calc(89vh-55px)]  h-[calc(88vh-50px)] overflow-hidden border-[3px] border-primary mt-24 ">
+            <div className="lg:rounded-xl rounded-xl  xl:h-[calc(89vh-60px)] lg:h-[calc(88vh-60px)] md:h-[calc(89vh-55px)]  h-[calc(88vh-90px)] overflow-hidden border-[3px] border-primary mt-16 lg:mt-24">
               <div className="flex flex-col">
                 <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between cursor-default ">
                   <div className="flex items-start flex-col justify-center ">
@@ -369,13 +369,13 @@ const AdminDashboard = () => {
                         <>
                           <p
                             className="xl:hidden lg:hidden md:hidden sm:hidden block 
-                                             text-[29px]"
+                                             text-[29px] font-medium"
                           >
                             Admin
                           </p>
                           <p
                             className="xl:text-4xl lg:text-4xl md:text-3xl  sm:text-3xl
-                                  ˝         xl:block lg:block md:block sm:block hidden"
+                                  ˝         xl:block lg:block md:block sm:block hidden font-semibold"
                           >
                             Admin Dashboard
                           </p>
@@ -383,7 +383,7 @@ const AdminDashboard = () => {
                       }
                     </div>
 
-                    <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
+                    <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-basen sm:font-normal">
                       {formatDate(currentDate)}
                     </p>
                   </div>
