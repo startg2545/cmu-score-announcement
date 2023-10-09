@@ -333,7 +333,7 @@ const Management = ({ data, courseName }) => {
       </Modal>
       <div className=" max-h-screen">
         <div
-          className={` overflow-y-auto  border-[2px] border-black
+          className={` overflow-y-auto  
                       ${
                         searchParams.get("section")
                           ? "xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-145px)] sm:h-[calc(83vh-150px)] h-[calc(71vh-150px)] "
@@ -373,7 +373,7 @@ const Management = ({ data, courseName }) => {
               </span>
             </div>
           )}
-          <div className="mt-5 xl:mx-2">
+          <div className="my-5  xl:mx-2">
             {searchParams.get("section") && (
               <TableScore data={dataTable} courseName={courseName} />
             )}
