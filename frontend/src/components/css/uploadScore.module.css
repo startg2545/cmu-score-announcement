@@ -286,13 +286,13 @@ body {
   font-size: 20px;
   overflow: hidden;
   
-  @media (max-width: 380px){
+  @media (max-width: 449px){
     width: 330px;
-    height: 275px;
+    font-size: 18px;
+    text-align: center;
+    height: 270px;
   }
-  @media (min-width: 380px){
-    width: 385px;
-  }
+
   @media (min-width: 450px){
     width: 450px;
     height: 260px;
