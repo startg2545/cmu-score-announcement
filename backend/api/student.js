@@ -187,98 +187,84 @@ router.post("/add", async (req, res) => {
       socket.emit("courseUpdate", "published one");
       return res.send(`${scoreName} published`);
     } else if (req.body.type == "publish_many") {
-
       const sections = req.body.sections;
-
+      const courseUpdates = [];
+      const studentUpdates = [];
       for (const section of sections) {
+        const req_section = section.section;
         for (const score of section.scores) {
-          const results = score.results;
-          const promises = results.map(async (result) => {
-            const student = await studentModel.findOne({
-              studentId: result.studentId,
-            });
-
+          const {scoreName, results} = score;
+          for (const result of results) {
+            const { studentId, firstName, lastName, point } = result;
+            let student = await studentModel.findOne({ studentId });
+            if (!student) {
+              const studentGrade = {
+                studentId,
+                firstName,
+                lastName,
+                courseGrades: [],
+              };
+              student = await studentModel.create(studentGrade);
+            }
+            // Find or create the course grade
             const courseGrade = {
               courseNo,
-              courseName,
-              section: section.section,
+              section: req_section,
               year,
               semester,
-              scores: [
-                {
-                  scoreName: score.scoreName,
-                  point: result.point,
-                }
-              ],
+              scores: [{ scoreName, point }],
             };
-
-            if (student) {
-              const reqCourse = student.courseGrades.find(
-                (course) =>
-                  course.courseNo === courseNo &&
-                  course.courseName === courseName &&
-                  course.section === section.section &&
-                  course.year === year &&
-                  course.semester === semester
+      
+            const existingCourseIndex = student.courseGrades.findIndex(
+              (grade) =>
+                grade.courseNo === courseNo &&
+                grade.section === req_section &&
+                grade.year === year &&
+                grade.semester === semester
+            );
+      
+            if (existingCourseIndex !== -1) {
+              // Update existing course grade
+              const existingGrade = student.courseGrades[existingCourseIndex];
+              const existingScoreIndex = existingGrade.scores.findIndex(
+                (s) => s.scoreName === scoreName
               );
-              if (reqCourse) {
-                const scoreIndex = reqCourse.scores.findIndex(
-                  (s) => s.scoreName === score.scoreName
-                );
-                
-                if (scoreIndex !== -1) {
-                  reqCourse.scores[scoreIndex].point = result.point;
-                } else {
-                  reqCourse.scores.push({
-                    scoreName: score.scoreName,
-                    point: result.point,
-                  });
-                }
+      
+              if (existingScoreIndex !== -1) {
+                // Update existing score
+                existingGrade.scores[existingScoreIndex].point = point;
+              } else {
+                // Add new score
+                existingGrade.scores.push({ scoreName, point });
               }
-
-              await student.save();
             } else {
-              const studentGrade = {
-                studentId: result.studentId,
-                firstName: result.firstName,
-                lastName: result.lastName,
-                courseGrades: [courseGrade],
-              };
-
-              const test = await studentModel.create(studentGrade);
+              // Add new course grade
+              student.courseGrades.push(courseGrade);
             }
-          });
-
-          // Execute all promises concurrently and wait for them to complete
-          await Promise.all(promises);
-
-
-
-          await scoreModel.findOneAndUpdate(
-            {
+      
+            studentUpdates.push(student.save());
+          }
+        }
+        courseUpdates.push({
+          updateMany: {
+            filter: {
               courseNo,
-              courseName,
               year,
               semester,
-              "sections.section": section.section,
-              "sections.scores.scoreName": score.scoreName
+              "sections.section": req_section,
             },
-            {
+            update: {
               $set: {
-                "sections.$[section].scores.$[score].isPublish": true
-              }
+                "sections.$[section].scores.$[].isPublish": true,
+              },
             },
-            {
-              new: true,
-              arrayFilters: [
-                { "section.section": section.section },
-                { "score.scoreName": score.scoreName }
-              ]
-            }
-          )
-        }
+            arrayFilters: [{ "section.section": req_section }],
+          },
+        });
       }
-
+      await Promise.all(studentUpdates);
+      await scoreModel.bulkWrite(courseUpdates);
+      
       socket.emit("courseUpdate", "published many");
       return res.send("Completed");
     }
