@@ -31,6 +31,18 @@ const AdminDashboard = () => {
   const [message, setMessage] = useState();
   const [showLoadComplete, setShowLoadComplete] = useState(false);
 
+  const fetchData = async () => {
+    const resp = await getCurrent();
+    setCurrent(resp);
+  };
+
+  const fetchAdmin = async () => {
+    const resp = await getAdminUser();
+    if (resp.ok) {
+      setAdmins(resp.admin);
+    }
+  };
+
   useEffect(() => {
     socket.on("adminUpdate", (admin) => {
       setAdmins([]);
@@ -113,6 +125,7 @@ const AdminDashboard = () => {
     } else {
       signOut().finally(navigate("/"));
     }
+    fetchAdmin();
     emailform.reset();
     close();
   };
@@ -129,17 +142,7 @@ const AdminDashboard = () => {
     submitForm.reset();
   };
 
-  const fetchData = async () => {
-    const resp = await getCurrent();
-    setCurrent(resp);
-  };
 
-  const fetchAdmin = async () => {
-    const resp = await getAdminUser();
-    if (resp.ok) {
-      setAdmins(resp.admin);
-    }
-  };
 
   useEffect(() => {
     if (userInfo.itAccountType) {
