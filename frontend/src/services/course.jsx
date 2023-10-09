@@ -3,7 +3,7 @@ import axios from "axios";
 export async function addCourse(data) {
   try {
     const resp = await axios.post(
-      `${process.env.REACT_APP_API_BASE_URL}/api/v1/course/add`,
+      `${process.env.REACT_APP_API_BASE_URL}/course/add`,
       data,
       {
         withCredentials: true
@@ -21,7 +21,7 @@ export async function addCourse(data) {
 export async function addCoInstructors(data) {
   try {
     const resp = await axios.put(
-      `${process.env.REACT_APP_API_BASE_URL}/api/v1/course`,
+      `${process.env.REACT_APP_API_BASE_URL}/course`,
       data,
       {
         withCredentials: true,
@@ -39,7 +39,7 @@ export async function addCoInstructors(data) {
 export async function deleteCourseReally(data) {
   try {
     const resp = await axios.delete(
-      `${process.env.REACT_APP_API_BASE_URL}/api/v1/course/`,
+      `${process.env.REACT_APP_API_BASE_URL}/course/`,
       {
         params: {
           courseNo: data.courseNo,

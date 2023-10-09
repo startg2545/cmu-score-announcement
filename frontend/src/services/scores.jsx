@@ -3,7 +3,7 @@ import axios from "axios";
 export async function getScores(year, semester) {
   try {
     const resp = await axios.get(
-      `${process.env.REACT_APP_API_BASE_URL}/api/v1/scores`,
+      `${process.env.REACT_APP_API_BASE_URL}/scores`,
       {
         params: {
           year: year,
@@ -21,7 +21,7 @@ export async function getScores(year, semester) {
 export async function getScoresCourse(data) {
   try {
     const resp = await axios.get(
-      `${process.env.REACT_APP_API_BASE_URL}/api/v1/scores`,
+      `${process.env.REACT_APP_API_BASE_URL}/scores`,
       {
         params: {
           section: data.section,
@@ -40,7 +40,7 @@ export async function getScoresCourse(data) {
 export async function getListStudentScores(obj) {
   try {
     const resp = await axios.get(
-      `${process.env.REACT_APP_API_BASE_URL}/api/v1/scores/students`,
+      `${process.env.REACT_APP_API_BASE_URL}/scores/students`,
       {
         params: {
           obj: obj
@@ -57,7 +57,7 @@ export async function getListStudentScores(obj) {
 export async function deleteScores(data) {
   try {
     const resp = await axios.delete(
-      `${process.env.REACT_APP_API_BASE_URL}/api/v1/scores`,
+      `${process.env.REACT_APP_API_BASE_URL}/scores`,
       {
         params: {
           courseNo: data.courseNo,

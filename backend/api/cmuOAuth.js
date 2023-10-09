@@ -30,9 +30,9 @@ router.post("/", async (req, res) => {
       {
         params: {
           code: req.query.code,
-          redirect_uri: req.query.redirect_uri,
-          client_id: req.query.client_id,
-          client_secret: req.query.client_secret,
+          redirect_uri: process.env.CMU_OAUTH_REDIRECT_URL,
+          client_id: process.env.CMU_OAUTH_CLIENT_ID,
+          client_secret: process.env.CMU_OAUTH_CLIENT_SECRET,
           grant_type: "authorization_code",
         },
         headers: {
