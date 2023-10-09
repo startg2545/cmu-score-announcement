@@ -3,7 +3,7 @@ import axios from "axios";
 export async function getAdminUser() {
   try {
     const resp = await axios.get(
-      `${process.env.REACT_APP_API_BASE_URL}/admins/user`,
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/admins/user`,
       {
         withCredentials: true,
       }
@@ -17,7 +17,7 @@ export async function getAdminUser() {
 export async function addAdmin(data) {
   try {
     const resp = await axios.post(
-      `${process.env.REACT_APP_API_BASE_URL}/admins/user`,
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/admins/user`,
       data,
       {
         withCredentials: true,
@@ -32,7 +32,7 @@ export async function addAdmin(data) {
 export async function deleteAdmin(_id) {
   try {
     const resp = await axios.delete(
-      `${process.env.REACT_APP_API_BASE_URL}/admins/user`,
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/admins/user`,
       {
         params: {
           _id: _id,
@@ -49,7 +49,7 @@ export async function deleteAdmin(_id) {
 export async function deleteCurrent(data) {
   try {
     const resp = await axios.post(
-      `${process.env.REACT_APP_API_BASE_URL}/admins/delete`,
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/admins/delete`,
       data,
       {
         withCredentials: true,
@@ -64,7 +64,7 @@ export async function deleteCurrent(data) {
 export async function addCurrent(data) {
   try {
     const resp = await axios.post(
-      `${process.env.REACT_APP_API_BASE_URL}/admins`,
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/admins`,
       data,
       {
         timeout: 5000,
@@ -80,7 +80,7 @@ export async function addCurrent(data) {
 export async function getCurrent() {
   try {
     const resp = await axios.get(
-      `${process.env.REACT_APP_API_BASE_URL}/admins`,
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/admins`,
       {
         withCredentials: true,
       }

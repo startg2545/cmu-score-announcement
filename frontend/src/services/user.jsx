@@ -3,7 +3,7 @@ import axios from "axios";
 export async function getUserInfo() {
   try {
     const resp = await axios.get(
-      `${process.env.REACT_APP_API_BASE_URL}/user`,
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/user`,
       {
         withCredentials: true,
       }
@@ -16,7 +16,7 @@ export async function getUserInfo() {
 
 export async function signOut() {
   const resp = await axios.post(
-    `${process.env.REACT_APP_API_BASE_URL}/user/signOut`,
+    `${process.env.REACT_APP_API_BASE_URL}/api/v1/user/signOut`,
     {},
     {
       withCredentials: true,
