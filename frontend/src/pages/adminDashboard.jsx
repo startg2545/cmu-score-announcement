@@ -401,7 +401,7 @@ const AdminDashboard = () => {
                   </div>
                 </div>
                 <div
-                  className="border-[2px] border-black flex xl:flex-row flex-col  overflow-y-auto
+                  className="flex xl:flex-row flex-col  overflow-y-auto
                             p-5  gap-5 xl:justify-between 
                             xl:h-[calc(89vh-148px)] lg:h-[calc(88vh-148px)] md:h-[calc(89vh-140px)] h-[calc(88vh-170px)] "
                 >
