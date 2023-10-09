@@ -301,27 +301,27 @@ const AdminDashboard = () => {
           </form>
         </div>
       </Modal>
-      <div>
-        {showLoadComplete && (
-          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75  z-50">
-            <div class="flex flex-col gap-5 items-center">
-              <svg
-                class="w-20 h-20 mr-2 text-green-500 dark:text-green-400 flex-shrink-0"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-              </svg>
-              <span className="text-white font-semibold lg:text-2xl text-md">
-                {message}
-              </span>
-            </div>
+
+      {showLoadComplete && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75  z-50">
+          <div class="flex flex-col gap-5 items-center">
+            <svg
+              class="w-20 h-20 mr-2 text-green-500 dark:text-green-400 flex-shrink-0"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+            </svg>
+            <span className="text-white font-semibold lg:text-2xl text-md">
+              {message}
+            </span>
           </div>
-        )}
-      </div>
-      <div className="flex flex-row gap-3 justify-center overscroll-y-none">
+        </div>
+      )}
+
+      <div className="flex flex-row gap-3 justify-center">
         <div
           className={`hidden lg:flex lg:overflow-hidden lg:flex-col pt-32 pb-8 lg:pt-10 lg:left-0 justify-between shadow-gray-500 shadow-xl min-h-screen h-screen duration-500 ${
             showSidebar
@@ -401,9 +401,9 @@ const AdminDashboard = () => {
                   </div>
                 </div>
                 <div
-                  className="flex xl:flex-row flex-col  overflow-y-auto
+                  className="border-[2px] border-black flex xl:flex-row flex-col  overflow-y-auto
                             p-5  gap-5 xl:justify-between 
-                            xl:h-[calc(89vh-148px)] lg:h-[calc(88vh-148px)] md:h-[calc(89vh-140px)] h-[calc(88vh-130px)] "
+                            xl:h-[calc(89vh-148px)] lg:h-[calc(88vh-148px)] md:h-[calc(89vh-140px)] h-[calc(88vh-170px)] "
                 >
                   <div className="xl:flex xl:flex-col xl:w-4/6  ">
                     <form

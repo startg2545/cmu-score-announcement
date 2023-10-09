@@ -406,7 +406,7 @@ const Management = ({ data, courseName }) => {
             disabled={data.length === 0 ? true : false}
             onClick={publishAll[1].open}
           >
-            <p className="text-center lg:text-2xl text-white font-semibold ">
+            <p className="text-center lg:text-2xl md:text-2xl text-base text-white font-semibold ">
               Publish All Sections
             </p>
           </button>
