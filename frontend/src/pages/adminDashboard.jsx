@@ -383,7 +383,7 @@ const AdminDashboard = () => {
                       }
                     </div>
 
-                    <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-basen sm:font-normal">
+                    <p className="text-white lg:font-semibold xl:text-xl lg:text-xl md:text-lg text-basen sm:font-normal">
                       {formatDate(currentDate)}
                     </p>
                   </div>
@@ -411,8 +411,8 @@ const AdminDashboard = () => {
                         handleSubmit(data);
                       })}
                       className="bg-white drop-shadow-lg border-black-70 border-[1px] rounded-xl
-                               flex flex-col items-center py-5 gap-5 
-                               xl:h-2/5 lg:h-2/6 md:h-[180px] h-[360px] "
+                               flex flex-col items-center gap-5 
+                               xl:h-2/5 lg:h-2/6 md:h-[180px] h-[320px] "
                     >
                       <p
                         className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
@@ -466,7 +466,7 @@ const AdminDashboard = () => {
                         className="  overflow-y-auto rounded-lg 
                                    flex xl:flex-col flex-col items-center lg:px-10 
                                    xl:h-full h-5/6
-                                   xl:w-5/6 lg:w-[920px] w-5/5 md:mx-10 py-3"
+                                   xl:w-5/6 lg:w-[920px] w-5/5 md:mx-10"
                       >
                         <div className="flex flex-col gap-0">{showEmail}</div>
                       </div>
