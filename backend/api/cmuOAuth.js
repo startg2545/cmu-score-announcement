@@ -90,9 +90,6 @@ router.post("/", async (req, res) => {
         sameSite: "lax",
         //force cookie to use HTTPS only in production code
         secure: process.env.NODE_ENV === "production",
-        path: "/",
-        //change to your hostname in production
-        domain: process.env.DOMAIN,
       })
       .send(
         response2.student_id
