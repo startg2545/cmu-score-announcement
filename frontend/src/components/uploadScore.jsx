@@ -375,7 +375,7 @@ export default function UploadScorePageContainer() {
       )}
       <div
         className="flex flex-col justify-start  overflow-y-auto max-h-max
-                   xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-143px)] sm:h-[calc(85vh-160px)]  h-[calc(85vh-160px)]
+                   xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-143px)] sm:h-[calc(85vh-160px)]  h-[calc(78vh-151px)] border-[2px] border-black 
                    xl:px-24 lg:px-20 md:px-20 sm:px-14 px-7
                    xl:py-9 lg:py-7 md:py-6 sm:py-5 py-3
                    sm:overflow-y-auto"
