@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.565ab81d.css",
-    "main.js": "/static/js/main.339e0cc0.js",
+    "main.css": "/static/css/main.90b6ca65.css",
+    "main.js": "/static/js/main.d47b3856.js",
     "static/media/SF-Pro.ttf": "/static/media/SF-Pro.18c415fbef8df674e66b.ttf",
     "static/media/emblemcmu.png": "/static/media/emblemcmu.0c26138d5e631388c21b.png",
     "static/media/cmulogo2.png": "/static/media/cmulogo2.766e5820c3473e335353.png",
     "static/media/Template.xlsx": "/static/media/Template.e50634f26f1a1073c16e.xlsx",
     "static/media/Example.xlsx": "/static/media/Example.b07b5841e691188502cd.xlsx",
     "index.html": "/index.html",
-    "main.565ab81d.css.map": "/static/css/main.565ab81d.css.map",
-    "main.339e0cc0.js.map": "/static/js/main.339e0cc0.js.map"
+    "main.90b6ca65.css.map": "/static/css/main.90b6ca65.css.map",
+    "main.d47b3856.js.map": "/static/js/main.d47b3856.js.map"
   },
   "entrypoints": [
-    "static/css/main.565ab81d.css",
-    "static/js/main.339e0cc0.js"
+    "static/css/main.90b6ca65.css",
+    "static/js/main.d47b3856.js"
   ]
 }

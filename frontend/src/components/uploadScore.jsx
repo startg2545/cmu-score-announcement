@@ -30,7 +30,7 @@ export default function UploadScorePageContainer() {
   const [row, setRow] = useState(0);
   const [column, setColumn] = useState(0);
   const [typeError, setTypeError] = useState(false);
-  const [dataError, setDataError] = useState(false);
+  const [dataError, setDataError] = useState(0);
 
   const scores = {
     courseNo: courseNo,
@@ -156,7 +156,7 @@ export default function UploadScorePageContainer() {
   const handleFile = async (e) => {
     const file = e.target.files[0];
     setTypeError(false);
-    setDataError(false);
+    setDataError(0);
     if (!file.name.endsWith(".xlsx")) {
       setTypeError(true);
       fileError[1].open();
@@ -181,6 +181,18 @@ export default function UploadScorePageContainer() {
       let full_score = resultsData.shift();
       const keys = resultsData.shift();
 
+      // Validate the studentId
+      for (let i = 0; i < resultsData.length; i++) {
+        if (keys[1] && !isNumeric(resultsData[i][1]) && resultsData[i][1].length !== 9) {
+          setRow(i + 3);
+          setColumn(getColumnAlphabet(1));
+          e.target.value = null;
+          setDataError(1);
+          fileError[1].open();
+          return;
+        }
+      }
+
       // Validate the "point" field
       for (let i = 0; i < resultsData.length; i++) {
         for (let j = 4; j < keys.length; j++) {
@@ -188,7 +200,7 @@ export default function UploadScorePageContainer() {
             setRow(i + 3);
             setColumn(getColumnAlphabet(j));
             e.target.value = null;
-            setDataError(true);
+            setDataError(2);
             fileError[1].open();
             return;
           }
@@ -299,6 +311,7 @@ export default function UploadScorePageContainer() {
           </div>
           <p style={{ marginTop: "20px" }}>
             {dataError && `Row ${row}, Column ${column} must be a number.`}
+            {dataError === 1 && "Invalid format."}
             {typeError && "Support file .xlsx only"}
           </p>
           <div className={upStyle.ScorePopupButtons}>
