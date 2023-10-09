@@ -15,15 +15,11 @@ export default function CMUOAuthCallback() {
   async function signIn(authorizationCode) {
     try {
       const resp = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}/api/v1/cmuOAuth`,
+        `${process.env.REACT_APP_API_BASE_URL}/cmuOAuth`,
         {},
         {
           params: {
             code: authorizationCode,
-            redirect_uri: process.env.REACT_APP_CMU_OAUTH_REDIRECT_URL,
-            client_id: process.env.REACT_APP_CMU_OAUTH_CLIENT_ID,
-            client_secret: process.env.REACT_APP_CMU_OAUTH_CLIENT_SECRET,
-            grant_type: "authorization_code",
           },
           withCredentials: true,
         }
