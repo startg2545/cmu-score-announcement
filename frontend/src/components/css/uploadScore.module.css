@@ -291,6 +291,9 @@ body {
   @media (min-width: 400px){
     width: 385px;
   }
+  @media (min-width: 480px){
+    width: 450px;
+  }
 }
 
 .ScorePopup-ContentInner {
