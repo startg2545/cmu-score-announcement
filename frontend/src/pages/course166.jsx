@@ -478,14 +478,14 @@ export default function Course166Container() {
                 </Modal>
 
                 <div className="mx-[1%] lg:mt-3 max-h-fit bg-slate-50">
-                  <div className=" lg:rounded-xl rounded-xl xl:h-[calc(90vh-50px)] lg:h-[calc(89vh-30px)] md:h-[calc(93vh-50px)]   h-[calc(93vh-50px)] overflow-hidden border-[3px] border-primary ">
+                  <div className=" lg:rounded-xl rounded-xl xl:h-[calc(90vh-50px)] lg:h-[calc(89vh-30px)] md:h-[calc(93vh-50px)]   h-[calc(93vh-50px)] overflow-hidden border-[3px] border-primary sm:mb-12">
                     <div className=" bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
                       <div className="flex items-start flex-col justify-center ">
                         <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
                           Course {params.semester}/
                           {params.year ? params.year.slice(2) : params.year}
                         </p>
-                        <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
+                        <p className="text-white lg:font-semibold xl:text-xl lg:text-xl md:text-lg text-base md:font-normal sm:font-normal">
                           {formatDate(currentDate)}
                         </p>
                       </div>
@@ -877,7 +877,7 @@ export default function Course166Container() {
                   <div className="flex flex-col">
                     <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between cursor-default">
                       <div className="flex items-start flex-col justify-center ">
-                        <p className="text-white font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl">
+                        <p className="text-white lg:font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl md:font-medium sm:font-medium">
                           {isSelectedCourse &&
                             !isUploadScore &&
                             params.courseNo}
@@ -900,7 +900,7 @@ export default function Course166Container() {
                           )}
                         </p>
 
-                        <p className="text-white font-semibold xl:text-xl lg:text-xl md:text-lg text-base">
+                        <p className="text-white lg:font-semibold xl:text-xl lg:text-xl md:text-lg text-base md:font-normal sm:font-normal">
                           {formatDate(currentDate)}
                         </p>
                       </div>
