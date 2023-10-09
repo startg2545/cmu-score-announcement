@@ -50,7 +50,6 @@ export default function UploadScorePageContainer() {
         setShowLoadComplete(false);
       }, 1700);
     }
-    localStorage.removeItem("page");
   };
 
   useEffect(() => {
@@ -452,7 +451,8 @@ export default function UploadScorePageContainer() {
           <button
             className="flex flex-row justify-between items-center rounded-xl overflow-hidden border-red-500 border-2 group cursor-pointer drop-shadow-lg"
             onClick={() => {
-              localStorage.setItem("Upload", true);
+              localStorage.removeItem("page");
+              setUploadScore(false);
             }}
           >
             <p className="text-red-500 px-3 text-center items-center flex font-semibold group-hover:bg-red-500 group-hover:text-white duration-150 transition-all bg-white h-full w-30">
@@ -470,7 +470,9 @@ export default function UploadScorePageContainer() {
                   : " border-gray-500 cursor-normal opacity-50"
               }`}
             disabled={!isFileUploaded}
-            onClick={confirmModal[1].open}
+            onClick={() => {
+              confirmModal[1].open();
+            }}
           >
             <p
               className={`px-3 text-center items-center flex font-semibold duration-150 transition-all bg-white h-full w-30
@@ -601,6 +603,8 @@ export default function UploadScorePageContainer() {
               onClick={() => {
                 submitData();
                 confirmModal[1].close();
+                localStorage.removeItem("page");
+                setUploadScore(false);
               }}
             >
               Yes, Upload
