@@ -413,7 +413,7 @@ const AdminDashboard = () => {
                                xl:h-3/5 lg:h-2/6 md:h-2/6 sm:h-3/6 h-3/6 "
                     >
                       <p
-                        className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
+                        className="xl:text-3xl lg:text-2xl md:text-xl font-medium  text-xl
                                  xl:block lg:block md:block sm:mt-2  text-primary xl:mt-5 cursor-default"
                       >
                         Add new semester and year
@@ -455,7 +455,7 @@ const AdminDashboard = () => {
                                xl:h-3/6 lg:h-4/6 md:h-4/6 sm:h-3/6 h-[360px] "
                     >
                       <p
-                        className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
+                        className="xl:text-3xl lg:text-2xl md:text-xl font-medium  text-xl
                                  xl:block lg:block md:block   text-primary cursor-default"
                       >
                         Admin with access
@@ -477,7 +477,7 @@ const AdminDashboard = () => {
                                     "
                   >
                     <p
-                      className="xl:text-3xl lg:text-2xl md:text-xl font-semibold text-xl 
+                      className="xl:text-3xl lg:text-2xl md:text-xl font-medium text-xl 
                                     xl:block md:block text-primary mb-1 cursor-default"
                     >
                       Semester currently in active
