@@ -148,7 +148,7 @@ const AdminDashboard = () => {
         fetchAdmin();
       }
     }
-  }, [setAdmins, setCurrent]);
+  }, [admins, setCurrent]);
 
   const handleDelete = async (_id) => {
     const resp = await deleteCurrent({
