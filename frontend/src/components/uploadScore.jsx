@@ -183,7 +183,10 @@ export default function UploadScorePageContainer() {
 
       // Validate the studentId
       for (let i = 0; i < resultsData.length; i++) {
-        if (keys[1] && !isNumeric(resultsData[i][1]) && resultsData[i][1].length !== 9) {
+        if (
+          keys[1] &&
+          (!isNumeric(resultsData[i][1]) || resultsData[i][1].length !== 9)
+        ) {
           setRow(i + 3);
           setColumn(getColumnAlphabet(1));
           e.target.value = null;
