@@ -142,14 +142,14 @@ const AdminDashboard = () => {
     submitForm.reset();
   };
 
-
-
   useEffect(() => {
     if (userInfo.itAccountType) {
       fetchData();
-      fetchAdmin();
+      if (!admins.length) {
+        fetchAdmin();
+      }
     }
-  }, [admins, setCurrent]);
+  }, [userInfo, admins, setCurrent]);
 
   const handleDelete = async (_id) => {
     const resp = await deleteCurrent({
