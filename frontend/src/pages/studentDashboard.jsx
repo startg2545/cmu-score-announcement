@@ -296,7 +296,7 @@ export default function StudentDashboard() {
         >
           <div className=" pb-2 lg:-mt-5 md:-mt-4 -mt-3 ">
             <p
-              className={`flex flex-row items-center justify-content font-semibold text-primary gap-3 
+              className={`flex flex-row items-center justify-content font-normal text-primary gap-3 
                            xl:text-xl  lg:text-xl  md:text-lg  sm:text-lg  text-base`}
             >
               <label onClick={backToDashboard} className="cursor-pointer">
@@ -345,7 +345,7 @@ export default function StudentDashboard() {
                   searchParams.get("courseNo")}
                 {searchParams.get("scoreName") && searchParams.get("scoreName")}
               </span>
-              <span className="xl:text-2xl lg:text-2xl md:text-2xl sm:text-xl text-lg">
+              <span className="xl:text-2xl lg:text-2xl md:text-2xl sm:text-xl text-lg  font-normal">
                 {formatDateBE(currentDate)}
               </span>
             </div>
