@@ -3,7 +3,7 @@ import axios from "axios";
 export async function getCourseName(courseNo) {
   try {
     const resp = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/cpe/course`,
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/cpe/course`,
       {
         params: {
           courseNo: courseNo,
@@ -23,7 +23,7 @@ export async function getCourseName(courseNo) {
 export async function getAllSections(req) {
   try {
     const resp = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/cpe/sections`,
+      `${process.env.REACT_APP_API_BASE_URL}/api/v1/cpe/sections`,
       {
         params: {
           courseNo: req.courseNo,
