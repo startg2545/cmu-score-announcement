@@ -392,7 +392,7 @@ const Management = ({ data, courseName }) => {
             disabled={data.length === 0 ? true : false}
             onClick={publishEach[1].open}
           >
-            <p className="text-center lg:text-2xl text-white">
+            <p className="text-center lg:text-2xl md:text-lg text-white">
               Publish Each Section
             </p>
           </button>
@@ -406,7 +406,7 @@ const Management = ({ data, courseName }) => {
             disabled={data.length === 0 ? true : false}
             onClick={publishAll[1].open}
           >
-            <p className="text-center lg:text-2xl md:text-2xl text-base text-white font-semibold ">
+            <p className="text-center lg:text-2xl md:text-lg text-base text-white font-semibold ">
               Publish All Sections
             </p>
           </button>
