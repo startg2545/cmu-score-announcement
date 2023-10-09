@@ -144,9 +144,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     if (userInfo.itAccountType) {
       fetchData();
-      if (!admins.length) {
-        fetchAdmin();
-      }
+      fetchAdmin();
     }
   }, [admins, setCurrent]);
 
