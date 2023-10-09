@@ -45,7 +45,7 @@ const TableScore = ({ data, courseName }) => {
       data[i].Median = MD.toFixed(2);
 
       //calculate Max
-      data[i].Max = sortPoint[e.studentNumber - 1].point;
+      data[i].Max = (sortPoint[e.studentNumber - 1].point).toFixed(2);
 
       //calculate SD
       let x = 0;
