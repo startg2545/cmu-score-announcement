@@ -566,7 +566,7 @@ export default function Course166Container() {
                                   />
                                 )}
                                 <div
-                                  className="  w-full bg-white lg:py-3 py-2 rounded-xl group active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
+                                  className="  w-full  lg:py-3 py-2 rounded-xl group bg-white active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-lg fade-bottom lg:text-2xl px-5 "
                                   onClick={() => onClickCourse(item)}
                                 >
                                   <div
@@ -582,7 +582,7 @@ export default function Course166Container() {
                                         ? ` - ${item.courseName}`
                                         : null}
                                     </div>
-                                    {/* <HiChevronRight className="lg:text-3xl text-xl mx-1 text-white" /> */}
+
                                   </div>
                                 </div>
                               </div>
@@ -938,15 +938,6 @@ export default function Course166Container() {
                         </div>
                       )}
                     </div>
-                    {/* <div className="flex items-center justify-center  text-center bg-red-100">
-                      {!isUploadScore && sections.length === 0 && (
-                        <p className="text-3xl text-center text-maintext font-semibold ">
-                          Please select menu in the navigation bar
-  
-                        </p>
-                      )}
-                    </div> */}
-                    {/* show Upload/Section/TableScore */}
                   </div>
                   {isUploadScore && <UploadSc />}
                   {!isUploadScore && (

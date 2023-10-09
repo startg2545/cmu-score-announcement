@@ -346,7 +346,7 @@ const Management = ({ data, courseName }) => {
             <div className="flex flex-col py-4 px-5 lg:px-14 gap-5 bg-slate-50 h-fit">
               {data.map((e, key) => (
                 <p
-                  className="w-full bg-white py-4 rounded-xl group cursor-pointer active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-xl fade-bottom lg:text-2xl px-5 "
+                  className="w-full bg-white py-4 rounded-xl group cursor-pointer active:bg-gray-300 hover:bg-gray-200 items-center transition-all duration-100 drop-shadow-lg fade-bottom lg:text-2xl px-5 "
                   key={key}
                   onClick={() => {
                     showTable(e.section);
