@@ -402,7 +402,7 @@ const AdminDashboard = () => {
                 </div>
                 <div
                   className="flex xl:flex-row flex-col  overflow-y-auto
-                            p-5  gap-5 xl:justify-between 
+                             p-5  xl:gap-3 sm:gap-6 gap-10 xl:justify-between 
                             xl:h-[calc(89vh-148px)] lg:h-[calc(88vh-148px)] md:h-[calc(89vh-140px)] h-[calc(88vh-170px)] "
                 >
                   <div className="xl:flex xl:flex-col xl:w-4/6  ">
@@ -412,7 +412,7 @@ const AdminDashboard = () => {
                       })}
                       className="bg-white drop-shadow-lg border-black-70 border-[1px] rounded-xl
                                flex flex-col items-center py-5 gap-5 mt-2
-                               xl:h-3/5 lg:h-4/6 md:h-[500px] h-[320px] "
+                               xl:h-3/5 lg:h-2/6 md:h-2/6 sm:h-3/6 h-3/6 "
                     >
                       <p
                         className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
@@ -454,7 +454,7 @@ const AdminDashboard = () => {
                     <div
                       className="bg-white drop-shadow-lg border-black-70 border-[1px] rounded-xl
                                flex flex-col items-center py-5 gap-5 mt-2
-                               xl:h-3/5 lg:h-4/6 md:h-[500px] h-[360px] "
+                               xl:h-3/6 lg:h-4/6 md:h-4/6 sm:h-3/6 h-[360px] "
                     >
                       <p
                         className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
@@ -487,7 +487,7 @@ const AdminDashboard = () => {
                     <div
                       className="py-3  overflow-y-auto  border-[1px] border-black-50 mt-5 rounded-lg 
                                    flex xl:flex-col flex-col items-center lg:px-10 
-                                   xl:h-full h-full
+                                   h-full
                                    xl:w-5/6 lg:w-[920px] w-5/6 md:mx-10"
                     >
                       <div className="xl:hidden  hidden  md:grid md:grid-cols-2 lg:grid-cols-3 lg:gap-5 md:gap-4">
