@@ -360,7 +360,7 @@ const AdminDashboard = () => {
         </div>
         <div className="flex w-full flex-col h-full overflow-x-auto">
           <div className="mx-[2%] lg:mt-3 max-h-screen ">
-            <div className="lg:rounded-xl rounded-xl  xl:h-[calc(89vh-60px)] lg:h-[calc(88vh-60px)] md:h-[calc(89vh-55px)]  h-[calc(88vh-90px)] overflow-hidden border-[3px] border-primary mt-16 lg:mt-24">
+            <div className="lg:rounded-xl rounded-xl  xl:h-[calc(89vh-60px)] lg:h-[calc(88vh-60px)] md:h-[calc(89vh-55px)]  h-[calc(88vh-90px)] overflow-hidden border-[3px] border-primary mt-16 lg:mt-20">
               <div className="flex flex-col">
                 <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between cursor-default ">
                   <div className="flex items-start flex-col justify-center ">
@@ -411,12 +411,12 @@ const AdminDashboard = () => {
                         handleSubmit(data);
                       })}
                       className="bg-white drop-shadow-lg border-black-70 border-[1px] rounded-xl
-                               flex flex-col items-center gap-5 
-                               xl:h-2/5 lg:h-2/6 md:h-[180px] h-[320px] "
+                               flex flex-col items-center py-5 gap-5 mt-2
+                               xl:h-3/5 lg:h-4/6 md:h-[500px] h-[320px] "
                     >
                       <p
                         className="xl:text-3xl lg:text-2xl md:text-xl font-semibold  text-xl
-                                 xl:block lg:block md:block  text-primary xl:mt-5 cursor-default"
+                                 xl:block lg:block md:block sm:mt-2  text-primary xl:mt-5 cursor-default"
                       >
                         Add new semester and year
                       </p>
