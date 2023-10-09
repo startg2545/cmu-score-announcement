@@ -286,15 +286,16 @@ body {
   font-size: 20px;
   overflow: hidden;
   
-  @media (max-width: 450px){
-    width: 380px;
-    height: 250px;
+  @media (max-width: 380px){
+    width: 330px;
+    height: 275px;
   }
-  @media (min-width: 450px){
+  @media (min-width: 380px){
     width: 385px;
   }
-  @media (min-width: 480px){
+  @media (min-width: 450px){
     width: 450px;
+    height: 260px;
   }
 }
 
