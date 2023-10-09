@@ -209,6 +209,7 @@ router.post("/add", async (req, res) => {
             // Find or create the course grade
             const courseGrade = {
               courseNo,
+              courseName,
               section: req_section,
               year,
               semester,
@@ -264,7 +265,7 @@ router.post("/add", async (req, res) => {
       }
       await Promise.all(studentUpdates);
       await scoreModel.bulkWrite(courseUpdates);
-      
+
       socket.emit("courseUpdate", "published many");
       return res.send("Completed");
     }
