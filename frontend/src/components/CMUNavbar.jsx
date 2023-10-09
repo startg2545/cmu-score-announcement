@@ -105,7 +105,7 @@ const CMUNavbar = () => {
                 ))}
               </ul>
             </div>
-            <div className="cursor-pointer mb-20 px-14">
+            <div className="cursor-pointer md:mb-40 mb-[200px] px-14">
               <div
                 onClick={() => signOut().finally(navigate("/"))}
                 className="text-xl font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-lg mt-5 px-12 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
@@ -173,7 +173,7 @@ const CMUNavbar = () => {
                   onClick={() => signOut().finally(navigate("/"))}
                   className="px-3 py-1"
                 >
-                  <div className="md:text-xl sm:text-lg text-base font-bold text-red-500 group-hover:text-white flex items-center gap-3 lg:px-10 md:px-10 px-3">
+                  <div className=" md:text-xl sm:text-lg text-base font-bold text-red-500 group-hover:text-white flex items-center gap-3 lg:px-10 md:px-10 px-3">
                     Log out
                     <FaSignOutAlt />
                   </div>
