@@ -336,8 +336,8 @@ const Management = ({ data, courseName }) => {
           className={` overflow-y-auto  
                       ${
                         searchParams.get("section")
-                          ? "xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-145px)] h-[calc(78vh-150px)] "
-                          : "xl:h-[calc(84vh-204px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-190px)] h-[calc(78vh-193px)]"
+                          ? "xl:h-[calc(84vh-150px)] lg:h-[calc(83vh-150px)] md:h-[calc(85vh-145px)] h-[calc(71vh-150px)] "
+                          : "xl:h-[calc(84vh-204px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-190px)] h-[calc(71vh-193px)]"
                       }
                       ${data.length === 0 && "overflow-hidden"}
                       `}

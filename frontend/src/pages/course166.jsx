@@ -478,7 +478,7 @@ export default function Course166Container() {
                 </Modal>
 
                 <div className="mx-[1%] lg:mt-3 max-h-fit bg-slate-50">
-                  <div className=" lg:rounded-xl rounded-xl xl:h-[calc(90vh-50px)] lg:h-[calc(89vh-30px)] md:h-[calc(93vh-50px)]  h-[calc(86vh-50px)] overflow-hidden border-[3px] border-primary sm:mb-12 ">
+                  <div className=" lg:rounded-xl rounded-xl xl:h-[calc(90vh-50px)] lg:h-[calc(89vh-30px)] md:h-[calc(93vh-50px)]  h-[calc(80vh-50px)] overflow-hidden border-[3px] border-primary sm:mb-12 ">
 
                     <div className=" bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
                       <div className="flex items-start flex-col justify-center ">
@@ -531,7 +531,7 @@ export default function Course166Container() {
                     <div className=" max-h-screen">
                       <div
                         className={
-                          " overflow-y-auto xl:h-[calc(90vh-140px)] lg:h-[calc(89vh-120px)] md:h-[calc(93vh-138px)]  h-[calc(86vh-150px)] "
+                          " overflow-y-auto xl:h-[calc(90vh-140px)] lg:h-[calc(89vh-120px)] md:h-[calc(93vh-138px)]  h-[calc(80vh-150px)] "
                         }
                       >
                         {noCourse && (
@@ -874,7 +874,7 @@ export default function Course166Container() {
                   <div className="mt-3 border-b-[3px] border-primary shadow-inset-md opacity-25"></div>
                 </div>
 
-                <div className=" lg:rounded-xl rounded-xl xl:h-[calc(84vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(78vh-50px)]  overflow-hidden border-[3px] border-primary">
+                <div className=" lg:rounded-xl rounded-xl xl:h-[calc(84vh-60px)] lg:h-[calc(83vh-60px)] md:h-[calc(85vh-55px)]  h-[calc(71vh-50px)]  overflow-hidden border-[3px] border-primary">
                   <div className="flex flex-col">
                     <div className="bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row w-full items-center justify-between cursor-default">
                       <div className="flex items-start flex-col justify-center ">
