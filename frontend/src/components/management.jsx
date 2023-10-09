@@ -364,7 +364,7 @@ const Management = ({ data, courseName }) => {
           )}
 
           {data.length === 0 && !searchParams.get("section") && (
-            <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-205px)] lg:h-[calc(83vh-197px)] md:h-[calc(85vh-207px)] h-[calc(85vh-193px)] bg-slate-50">
+            <div className="flex flex-col justify-center text-center items-center overflow-hidden  xl:h-[calc(84vh-225px)] lg:h-[calc(83vh-220px)] md:h-[calc(85vh-210px)] sm:h-[calc(77vh-170px)] h-[calc(71vh-215px)] bg-slate-50">
               <p className="xl:text-3xl lg:text-2xl md:text-xl text-lg text-maintext font-semibold ">
                 No section
               </p>
