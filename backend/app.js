@@ -20,7 +20,7 @@ const admins = require("./api/admins");
 const dbConnect = require("./db/dbConnect");
 dbConnect();
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: "https://fsd-score.cpe.eng.cmu.ac.th", credentials: true }));
 app.use(express.json({ limit: "50mb" }));
 // app.use(express.urlencoded({limit: '50mb'}));
 app.use(cookieParser());
@@ -40,7 +40,7 @@ const server = app.listen(port, () =>
 
 const io = socket(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://fsd-score.cpe.eng.cmu.ac.th",
     credentials: true,
   },
 });
