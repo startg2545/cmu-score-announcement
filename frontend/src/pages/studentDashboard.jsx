@@ -337,7 +337,7 @@ export default function StudentDashboard() {
               }}
             >
               <span //big text topic
-                className="xl:text-5xl lg:text-5xl md:text-5xl sm:text-4xl text-4xl md:mt-1"
+                className="xl:text-5xl lg:text-5xl md:text-5xl sm:text-4xl text-4xl font-normal md:mt-1"
               >
                 {!searchParams.get("courseNo") && "Dashboard"}
                 {searchParams.get("courseNo") &&
@@ -378,7 +378,7 @@ export default function StudentDashboard() {
         {(message || !searchParams.get("courseNo")) && (
           <div
             className={`flex flex-col gap-3 border-[3px] border-primary rounded-2xl shadow-xl overflow-x-auto
-             xl:h-[70vh] lg:h-[70vh] md:h-[77vh] sm:h-[74vh] h-[75vh] 
+             xl:h-[70vh] lg:h-[70vh] md:h-[77vh] sm:h-[74vh] h-[60vh] 
           `}
           >
             {message && (
@@ -391,7 +391,7 @@ export default function StudentDashboard() {
                 </span>
               </div>
             )}
-            <div className="mt-0">
+            <div className=" mt-0">
               {!searchParams.get("courseNo") &&
                 courseList.map((item, key) => {
                   return (
@@ -435,7 +435,7 @@ export default function StudentDashboard() {
         {(searchParams.get("courseNo") || searchParams.get("scoreName")) && (
           <div
             className={`"flex flex-col border-[3px] border-primary rounded-2xl shadow-xl overflow-y-auto
-             xl:h-[60vh] lg:h-[62vh] md:h-[63vh] sm:h-[67vh] h-[67vh] "
+             xl:h-[60vh] lg:h-[62vh] md:h-[63vh] sm:h-[67vh] h-[54vh] "
           `}
           >
             <div
