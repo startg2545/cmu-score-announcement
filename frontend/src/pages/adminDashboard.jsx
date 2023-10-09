@@ -148,7 +148,7 @@ const AdminDashboard = () => {
         fetchAdmin();
       }
     }
-  }, [admins, setCurrent]);
+  }, [setAdmins, setCurrent]);
 
   const handleDelete = async (_id) => {
     const resp = await deleteCurrent({
@@ -375,7 +375,7 @@ const AdminDashboard = () => {
                           </p>
                           <p
                             className="xl:text-4xl lg:text-4xl md:text-3xl  sm:text-3xl
-                                  ˝         xl:block lg:block md:block sm:block hidden font-semibold"
+                                  ˝         xl:block lg:block md:block sm:block hidden md:font-medium  font-semibold"
                           >
                             Admin Dashboard
                           </p>
@@ -383,7 +383,7 @@ const AdminDashboard = () => {
                       }
                     </div>
 
-                    <p className="text-white lg:font-semibold xl:text-xl lg:text-xl md:text-lg text-basen sm:font-normal">
+                    <p className="text-white lg:font-semibold xl:text-xl lg:text-xl md:text-lg md:font-normal text-base sm:font-normal">
                       {formatDate(currentDate)}
                     </p>
                   </div>
