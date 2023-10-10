@@ -123,8 +123,8 @@ const AdminDashboard = () => {
         setShowLoadComplete(false);
       }, 800);
     } else {
+      setUserInfo(null);
       signOut().finally(() => {
-        setUserInfo(null);
         navigate("/");
       });
     }
@@ -139,8 +139,8 @@ const AdminDashboard = () => {
       year: data.year,
     });
     if (resp.ok === false) {
+      setUserInfo(null);
       signOut().finally(() => {
-        setUserInfo(null);
         navigate("/");
       });
     }
@@ -162,8 +162,8 @@ const AdminDashboard = () => {
       _id: _id,
     });
     if (resp.ok === false) {
+      setUserInfo(null);
       signOut().finally(() => {
-        setUserInfo(null);
         navigate("/");
       });
     }
@@ -178,8 +178,8 @@ const AdminDashboard = () => {
       setMessage(resp.message);
       alert(resp.message);
     } else {
+      setUserInfo(null);
       signOut().finally(() => {
-        setUserInfo(null);
         navigate("/");
       });
     }
@@ -364,8 +364,8 @@ const AdminDashboard = () => {
           <div className="cursor-pointer px-5">
             <div
               onClick={() => {
+                setUserInfo(null);
                 signOut().finally(() => {
-                  setUserInfo(null);
                   navigate("/");
                 });
               }}
