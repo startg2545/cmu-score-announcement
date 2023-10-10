@@ -18,7 +18,7 @@ function App() {
   const [showSidebar, setShowSidebar] = useState(false);
   const [isUploadScore, setUploadScore] = useState(false);
   const pathname = window.location.pathname;
-  const notFetchUser = ["/", "/cmuOAuthCallback"];
+  const notFetchUser = ["/cmuOAuthCallback"];
   const [loadingUserInfo, setLoadingUserInfo] = useState(false);
 
   const handleSidebarClick = () => {
