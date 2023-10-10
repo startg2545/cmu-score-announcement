@@ -31,7 +31,7 @@ function App() {
   };
 
   const fetchData = async () => {
-    if (!userInfo) {
+    if (!userInfo && !loadingUserInfo) {
       setLoadingUserInfo(true);
       const resp = await getUserInfo();
       if (resp.ok) {
