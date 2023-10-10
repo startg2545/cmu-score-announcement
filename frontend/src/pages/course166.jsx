@@ -76,11 +76,11 @@ export default function Course166Container() {
     } else {
       addCoSec[1].open();
     }
+
     close();
   };
 
   const handleCheckboxChange = (e, value) => {
-   
     if (e.target.checked === true) {
       setCountChecked(countChecked + 1);
     } else {
@@ -186,6 +186,11 @@ export default function Course166Container() {
       year: searchParams.get("year"),
       semester: searchParams.get("semester"),
     });
+    setCourse([]);
+    setNoCourse();
+    setSections([]);
+    setNoSections();
+    fetchData();
   };
 
   const fetchData = async () => {
@@ -249,6 +254,14 @@ export default function Course166Container() {
       if (localStorage.getItem("page") === "upload") {
         setUploadScore(true);
       }
+      if (localStorage.getItem("Update")) {
+        setCourse([]);
+        setNoCourse();
+        setSections([]);
+        setNoSections();
+        fetchData();
+        localStorage.removeItem("Update");
+      }
       if (!sections.length && !noSections && course.length) {
         showSection();
       }
@@ -259,7 +272,15 @@ export default function Course166Container() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [course, sections, getParams, params, searchParams, setSearchParams]);
+  }, [
+    course,
+    sections,
+    getParams,
+    params,
+    searchParams,
+    localStorage.getItem("Update"),
+    setSearchParams,
+  ]);
 
   const formatDate = (date) => {
     const buddhistYear = date.getFullYear() + 543;
@@ -306,6 +327,11 @@ export default function Course166Container() {
       courseName: data.courseName,
     });
     courseForm.reset();
+    setCourse([]);
+    setNoCourse();
+    setSections([]);
+    setNoSections();
+    fetchData();
   };
 
   const addCoAllSec = async () => {
@@ -388,9 +414,7 @@ export default function Course166Container() {
           </div>
         </div>
         <div
-          className={`w-full flex overflow-x-auto ${
-            showSidebar && "lg:px-5 "
-          }`}
+          className={`w-full flex overflow-x-auto ${showSidebar && "lg:px-5 "}`}
         >
           <div className="flex w-full flex-col h-full">
             {isSelectedCourse ? null : (
@@ -478,10 +502,7 @@ export default function Course166Container() {
                 </Modal>
 
                 <div className="mx-[1%] lg:mt-3 max-h-fit bg-slate-50">
-
                   <div className=" lg:rounded-xl rounded-xl xl:h-[calc(90vh-50px)] lg:h-[calc(89vh-30px)] md:h-[calc(93vh-50px)] sm:h-[calc(87vh-50px)] h-[calc(80vh-50px)] overflow-hidden border-[3px] border-primary sm:mb-12 ">
-
-
                     <div className=" bg-primary lg:py-2 py-2 lg:px-5 px-3 flex flex-row items-center justify-between cursor-default">
                       <div className="flex items-start flex-col justify-center ">
                         <p className="text-white lg:font-semibold xl:text-4xl lg:text-4xl md:text-3xl text-3xl md:font-medium sm:font-medium">
@@ -585,7 +606,6 @@ export default function Course166Container() {
                                         ? ` - ${item.courseName}`
                                         : null}
                                     </div>
-
                                   </div>
                                 </div>
                               </div>
@@ -935,7 +955,7 @@ export default function Course166Container() {
                             }
                             onClick={goToUpload}
                           >
-                            <BiPlus className="lg:text-3xl text-xl "/>
+                            <BiPlus className="lg:text-3xl text-xl " />
                             <p>Upload Score</p>
                           </div>
                         </div>

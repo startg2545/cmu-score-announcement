@@ -67,6 +67,7 @@ const Management = ({ data, courseName }) => {
     setIsLoading(true);
 
     let resp_student = await addStudentGrade(student_schema);
+    localStorage.setItem("Update", true);
     setMessage(resp_student);
     setIsLoading(false);
     setShowLoadComplete(true);
@@ -93,13 +94,13 @@ const Management = ({ data, courseName }) => {
     setIsLoading(true);
 
     let resp_student = await addStudentGrade(student_schema);
+    localStorage.setItem("Update", true);
     setMessage(resp_student);
     setIsLoading(false);
     setShowLoadComplete(true);
     setTimeout(() => {
       setShowLoadComplete(false);
     }, 700);
-    if (resp_student) console.log("response: ", resp_student);
   };
 
   const isCurrent =

@@ -125,7 +125,6 @@ const EditStudent = () => {
       point: parseFloat(e),
     };
     const resp = await putStudentGrade(send_obj);
-    if (resp) console.log("receive", resp);
     showData();
   };
 
