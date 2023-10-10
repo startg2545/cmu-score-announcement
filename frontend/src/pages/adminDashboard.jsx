@@ -150,12 +150,11 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (userInfo.itAccountType) {
-      fetchData();
       if (!admins.length) {
         fetchAdmin();
       }
     }
-  }, [userInfo, admins, setCurrent]);
+  }, [userInfo, admins]);
 
   const handleDelete = async (_id) => {
     const resp = await deleteCurrent({
