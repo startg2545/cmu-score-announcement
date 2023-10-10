@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
       return res.status(403).send({ ok: false, message: "Invalid token" });
     }
 
-    return res.send({ok: true, user});
+    return res.send({ ok: true, user });
   } catch (err) {
     return res
       .status(500)
@@ -20,13 +20,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/signOut", async (req, res) => {
-  res
-    .clearCookie("token", {
-      path: "/",
-      //change to your hostname in production
-      domain: process.env.DOMAIN,
-    })
-    .send({ ok: true });
+  return res.clearCookie("token").send({ ok: true });
 });
 
 module.exports = router;
