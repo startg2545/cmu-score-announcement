@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { UploadSc, Management } from "../components";
-import { StateContext, CurrentContext } from "../context";
+import { StateContext, CurrentContext, UserInfoContext } from "../context";
 import tabStyle from "../components/css/tableScore.module.css";
 import {
   addCoInstructors,
@@ -26,6 +26,7 @@ import { TextInput, Button } from "@mantine/core";
 import Course from "./css/course166.module.css";
 
 export default function Course166Container() {
+  const { setUserInfo } = useContext(UserInfoContext);
   const [noCourse, setNoCourse] = useState();
   const [course, setCourse] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams({});
@@ -405,7 +406,12 @@ export default function Course166Container() {
           </div>
           <div className="cursor-pointer px-5">
             <div
-              onClick={() => signOut().finally(navigate("/"))}
+              onClick={() => {
+                signOut().finally(() => {
+                  setUserInfo(null);
+                  navigate("/");
+                });
+              }}
               className="text-lg font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-3xl mt-5 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
             >
               Log out

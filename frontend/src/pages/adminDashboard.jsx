@@ -19,7 +19,7 @@ import Course from "./css/course166.module.css";
 import { FaChevronRight, FaSignOutAlt } from "react-icons/fa";
 
 const AdminDashboard = () => {
-  const { userInfo } = useContext(UserInfoContext);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   const { current, setCurrent } = useContext(CurrentContext);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isEmailValid, setIsEmailValid] = useState(true);
@@ -123,7 +123,10 @@ const AdminDashboard = () => {
         setShowLoadComplete(false);
       }, 800);
     } else {
-      signOut().finally(navigate("/"));
+      signOut().finally(() => {
+        setUserInfo(null);
+        navigate("/");
+      });
     }
     fetchAdmin();
     emailform.reset();
@@ -136,7 +139,10 @@ const AdminDashboard = () => {
       year: data.year,
     });
     if (resp.ok === false) {
-      signOut().finally(navigate("/"));
+      signOut().finally(() => {
+        setUserInfo(null);
+        navigate("/");
+      });
     }
     fetchData();
     submitForm.reset();
@@ -156,7 +162,10 @@ const AdminDashboard = () => {
       _id: _id,
     });
     if (resp.ok === false) {
-      signOut().finally(navigate("/"));
+      signOut().finally(() => {
+        setUserInfo(null);
+        navigate("/");
+      });
     }
     fetchData();
   };
@@ -169,7 +178,10 @@ const AdminDashboard = () => {
       setMessage(resp.message);
       alert(resp.message);
     } else {
-      signOut().finally(navigate("/"));
+      signOut().finally(() => {
+        setUserInfo(null);
+        navigate("/");
+      });
     }
     fetchAdmin();
   };
@@ -351,7 +363,12 @@ const AdminDashboard = () => {
           </div>
           <div className="cursor-pointer px-5">
             <div
-              onClick={() => signOut().finally(navigate("/"))}
+              onClick={() => {
+                signOut().finally(() => {
+                  setUserInfo(null);
+                  navigate("/");
+                });
+              }}
               className="text-lg font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-3xl mt-5 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
             >
               Log out

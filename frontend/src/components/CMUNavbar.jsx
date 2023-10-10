@@ -43,8 +43,10 @@ const CMUNavbar = () => {
           pathname
         );
         if (!isPermission) {
-          setUserInfo(null);
-          await signOut().finally(navigate("/"));
+          await signOut().finally(() => {
+            setUserInfo(null);
+            navigate("/");
+          });
         }
       };
       check();
@@ -118,7 +120,12 @@ const CMUNavbar = () => {
             </div>
             <div className="cursor-pointer md:mb-40 mb-[200px] px-14">
               <div
-                onClick={() => signOut().finally(navigate("/"))}
+                onClick={() => {
+                  signOut().finally(() => {
+                    setUserInfo(null);
+                    navigate("/");
+                  });
+                }}
                 className="text-xl font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-lg mt-5 px-12 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
               >
                 Log out
@@ -181,7 +188,12 @@ const CMUNavbar = () => {
               </Menu.Target>
               <Menu.Dropdown className="border-red-500 fade-bottom transition-all hover:bg-red-500 border-[3px] rounded-xl p-0 m-3 group">
                 <button
-                  onClick={() => signOut().finally(navigate("/"))}
+                  onClick={() => {
+                    signOut().finally(() => {
+                      setUserInfo(null);
+                      navigate("/");
+                    });
+                  }}
                   className="px-3 py-1"
                 >
                   <div className=" md:text-xl sm:text-lg text-base font-bold text-red-500 group-hover:text-white flex items-center gap-3 lg:px-10 md:px-10 px-3">
