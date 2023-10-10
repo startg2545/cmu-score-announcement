@@ -26,6 +26,17 @@ const CMUNavbar = () => {
 
   useEffect(() => {
     if (userInfo.itAccountType) {
+      if (pathname === "/") {
+        if (userInfo.itAccountType === "Admin") {
+          navigate("/admin-dashboard");
+        } else if (userInfo.itAccountType === "StdAcc") {
+          navigate("/student-dashboard");
+        } else if (userInfo.itAccountType === "MISEmpAcc") {
+          navigate("/instructor-dashboard");
+        } else {
+          navigate("/");
+        }
+      }
       const check = async () => {
         const isPermission = await CheckPermission(
           userInfo.itAccountType,
