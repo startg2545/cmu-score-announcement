@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { StateContext, CurrentContext } from "../context";
+import { StateContext, CurrentContext, UserInfoContext } from "../context";
 import { FaSignOutAlt } from "react-icons/fa";
 import { signOut } from "../services";
 import { FaChevronRight } from "react-icons/fa";
 
 const Dashboard = () => {
+  const { setUserInfo } = useContext(UserInfoContext);
   const { current } = useContext(CurrentContext);
   const { showSidebar, handleSidebarClick } = useContext(StateContext);
   const [sidebar, setLgSidebar] = useState(false);
@@ -54,7 +55,12 @@ const Dashboard = () => {
         </div>
         <div className="cursor-pointer px-5">
           <div
-            onClick={() => signOut().finally(navigate("/"))}
+            onClick={() => {
+              signOut().finally(() => {
+                setUserInfo(null);
+                navigate("/");
+              });
+            }}
             className="text-lg font-bold hover:bg-red-500 shadow-md duration-200 text-center rounded-3xl mt-5 py-1 justify-center border-[3px] border-red-500 text-red-500 flex items-center gap-3 hover:cursor-pointer hover:text-white"
           >
             Log out
