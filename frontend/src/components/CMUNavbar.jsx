@@ -43,8 +43,8 @@ const CMUNavbar = () => {
           pathname
         );
         if (!isPermission) {
-          setUserInfo(null);
           await signOut().finally(() => {
+            setUserInfo(null);
             navigate("/");
           });
         }
@@ -121,8 +121,8 @@ const CMUNavbar = () => {
             <div className="cursor-pointer md:mb-40 mb-[200px] px-14">
               <div
                 onClick={() => {
-                  setUserInfo(null);
                   signOut().finally(() => {
+                    setUserInfo(null);
                     navigate("/");
                   });
                 }}
@@ -189,8 +189,8 @@ const CMUNavbar = () => {
               <Menu.Dropdown className="border-red-500 fade-bottom transition-all hover:bg-red-500 border-[3px] rounded-xl p-0 m-3 group">
                 <button
                   onClick={() => {
-                    setUserInfo(null);
                     signOut().finally(() => {
+                      setUserInfo(null);
                       navigate("/");
                     });
                   }}

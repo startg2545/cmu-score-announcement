@@ -407,8 +407,8 @@ export default function Course166Container() {
           <div className="cursor-pointer px-5">
             <div
               onClick={() => {
-                setUserInfo(null);
                 signOut().finally(() => {
+                  setUserInfo(null);
                   navigate("/");
                 });
               }}
