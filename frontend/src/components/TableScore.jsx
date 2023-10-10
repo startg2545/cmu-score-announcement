@@ -107,6 +107,7 @@ const TableScore = ({ data, courseName }) => {
     setIsLoading(true);
 
     const resp = await addStudentGrade(student_schema);
+    localStorage.setItem("Update", true);
     setMessage(resp);
     setIsLoading(false);
     setShowLoadComplete(true);
@@ -131,6 +132,7 @@ const TableScore = ({ data, courseName }) => {
     setIsLoading(true);
 
     const resp = await deleteScores(scoreDelete);
+    localStorage.setItem("Update", true);
     setMessage(resp.message);
     setIsLoading(false);
     setShowLoadComplete(true);
@@ -155,6 +157,7 @@ const TableScore = ({ data, courseName }) => {
     setIsLoading(true);
 
     const resp = await deleteScores(scoreDelete);
+    localStorage.setItem("Update", true);
     setMessage(resp.message);
     setIsLoading(false);
     setShowLoadComplete(true);
@@ -174,6 +177,7 @@ const TableScore = ({ data, courseName }) => {
     setIsLoading(true);
 
     const resp = await deleteScores(scoreDelete);
+    localStorage.setItem("Update", true);
     setMessage(resp.message);
     setIsLoading(false);
     setShowLoadComplete(true);
