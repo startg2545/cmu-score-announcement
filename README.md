@@ -8,7 +8,7 @@
 ### MongoDB is located in "cmu-score-announcement/backend/db/dbConnect.js"
 
 # Let's get started
-## Connect the backend system by configuring variables in .env
+## Connect the backend system by configuring variables in cmu-score-announcement/backend/.env
 ## 1. CMU OAuth
 ## 2. MongoDB
 ## 3. CPE API
