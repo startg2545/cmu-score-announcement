@@ -11,35 +11,37 @@
 ## Edit .env file
 ### Backend add database and domain links
 ### Frontend add API link
-## Develop project at directory "cmu-score-announcement" by running command
-## 1. run frontend
-###   1.1) open first terminal
-###   1.2) run ``` cd frontend ```
-###   1.3) run ``` npm start ``` 
-## 2. run backend
-###   2.1) open second terminal
-###   2.2) run ``` cd backend ```
-###   2.3) run ``` npm run dev ```
+## Please do the following steps before you start
+### Frontend Part
+1. Run ``` cd frontend ``` to access frontend directory
+2. Run ``` npm install ``` to install node modules
+3. Update the .env file
+4. Run ``` npm start ``` to develop project
+### Backend Part
+1. Run ``` cd backend ``` to access backend directory
+2. Run ``` npm install ``` to install node modules
+3. Update the .env file
+4. Run ``` npm run dev ``` to run backend system
 ## install nvm
-### ``` $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash ```
-### ``` $ nvm install 18.18 ```
+1. ``` $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash ```
+2. ``` $ nvm install 18.18 ```
 ## install MongoDB by following link 
-### "https://www.cherryservers.com/blog/install-mongodb-ubuntu-22-04"
+https://www.cherryservers.com/blog/install-mongodb-ubuntu-22-04
 ## Deploy project
-### ``` $ sudo apt-get update ``` 
-### ``` $ sudo apt-get upgrade ``` 
-### ``` $ sudo npm install pm2 -g ``` 
-### ``` $ cd frontend ``` 
-### ``` $ npm install ``` 
-### ``` $ npm run build ``` 
-### ``` $ pm2 serve build 300 --name "frontend" --spa ``` 
-### ``` $ cd ../backend ``` 
-### ``` $ npm install ``` 
-### ``` $ pm2 save ``` 
-### ``` $ pm2 startup system ``` 
-## Developers
-### 630615028 Newin Yamaguchu
-### 640610638 Thanaporn Chanchanayothin
-### 640610657 Patrasorn Khantipongse
-### 640610666 Worapitcha Muangyot
-### 640610672 Switch Jaruekpoonpol
+1. ``` $ sudo apt-get update ``` 
+2. ``` $ sudo apt-get upgrade ``` 
+3. ``` $ sudo npm install pm2 -g ``` 
+4. ``` $ cd frontend ``` 
+5. ``` $ npm install ``` 
+6. ``` $ npm run build ``` 
+7. ``` $ pm2 serve build 300 --name "frontend" --spa ``` 
+8. ``` $ cd ../backend ``` 
+9. ``` $ npm install ``` 
+10. ``` $ pm2 save ``` 
+11. ``` $ pm2 startup system ``` 
+# Developers
+- 630615028 Newin Yamaguchu
+- 640610638 Thanaporn Chanchanayothin
+- 640610657 Patrasorn Khantipongse
+- 640610666 Worapitcha Muangyot
+- 640610672 Switch Jaruekpoonpol
