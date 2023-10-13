@@ -21,24 +21,24 @@
 ###   2.2) run ``` cd backend ```
 ###   2.3) run ``` npm run dev ```
 ## install nvm
-``` $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash ```
-``` $ nvm install 18.18 ```
+### ``` $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash ```
+### ``` $ nvm install 18.18 ```
 ## install MongoDB by following link "https://www.cherryservers.com/blog/install-mongodb-ubuntu-22-04"
 ## Deploy project
-### ``` $ sudo apt-get update ``` ### 
-### ``` $ sudo apt-get upgrade ``` ### 
-### ``` $ sudo npm install pm2 -g ``` ### 
-### ``` $ cd frontend ``` ### 
-### ``` $ npm install ``` ### 
-### ``` $ npm run build ``` ### 
-### ``` $ pm2 serve build 300 --name "frontend" --spa ``` ### 
-### ``` $ cd ../backend ``` ### 
-### ``` $ npm install ``` ### 
-### ``` $ pm2 save ``` ### 
-### ``` $ pm2 startup system ``` ### 
-Developers
-630615028 Newin Yamaguchu
-640610638 Thanaporn Chanchanayothin
-640610657 
-640610666 Worapitcha Muangyot
-640610672 
+### ``` $ sudo apt-get update ``` 
+### ``` $ sudo apt-get upgrade ``` 
+### ``` $ sudo npm install pm2 -g ``` 
+### ``` $ cd frontend ``` 
+### ``` $ npm install ``` 
+### ``` $ npm run build ``` 
+### ``` $ pm2 serve build 300 --name "frontend" --spa ``` 
+### ``` $ cd ../backend ``` 
+### ``` $ npm install ``` 
+### ``` $ pm2 save ``` 
+### ``` $ pm2 startup system ``` 
+## Developers
+### 630615028 Newin Yamaguchu
+### 640610638 Thanaporn Chanchanayothin
+### 640610657 Patrasorn Khantipongse
+### 640610666 Worapitcha Muangyot
+### 640610672 Switch Jaruekpoonpol
