@@ -8,12 +8,10 @@
 ### MongoDB is located in "cmu-score-announcement/backend/db/dbConnect.js"
 
 # Let's get started
-## Connect the backend system by configuring variables in cmu-score-announcement/backend/.env
-## 1. CMU OAuth
-## 2. MongoDB
-## 3. CPE API
-## 4. etc
-## Deploy project at directory "cmu-score-announcement" by running command
+## Edit .enc file
+### Backend add database and domain links
+### Frontend add API link
+## Develop project at directory "cmu-score-announcement" by running command
 ## 1. run frontend
 ###   1.1) open first terminal
 ###   1.2) run ``` cd frontend ```
@@ -22,3 +20,9 @@
 ###   2.1) open second terminal
 ###   2.2) run ``` cd backend ```
 ###   2.3) run ``` npm run dev ```
+## Deploy project
+``` $ sudo apt-get update ```
+``` $ sudo apt-get upgrade ```
+### install nvm ###
+``` $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash ```
+``` $ nvm install 18.18 ```
