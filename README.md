@@ -8,7 +8,7 @@
 ### MongoDB is located in "cmu-score-announcement/backend/db/dbConnect.js"
 
 # Let's get started
-## Edit .enc file
+## Edit .env file
 ### Backend add database and domain links
 ### Frontend add API link
 ## Develop project at directory "cmu-score-announcement" by running command
@@ -20,9 +20,19 @@
 ###   2.1) open second terminal
 ###   2.2) run ``` cd backend ```
 ###   2.3) run ``` npm run dev ```
+## install nvm
+``` $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash ```
+``` $ nvm install 18.18 ```
+## install MongoDB by following link "https://www.cherryservers.com/blog/install-mongodb-ubuntu-22-04"
 ## Deploy project
 ``` $ sudo apt-get update ```
 ``` $ sudo apt-get upgrade ```
-### install nvm ###
-``` $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash ```
-``` $ nvm install 18.18 ```
+``` $ sudo npm install pm2 -g ``` 
+``` $ cd frontend ``` 
+``` $ npm install ``` 
+``` $ npm run build ``` 
+``` $ pm2 serve build 300 --name "frontend" --spa ``` 
+``` $ cd ../backend ``` 
+``` $ npm install ``` 
+``` $ pm2 save ``` 
+``` $ pm2 startup system ``` 
