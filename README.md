@@ -23,7 +23,8 @@
 ## install nvm
 ### ``` $ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash ```
 ### ``` $ nvm install 18.18 ```
-## install MongoDB by following link "https://www.cherryservers.com/blog/install-mongodb-ubuntu-22-04"
+## install MongoDB by following link 
+### "https://www.cherryservers.com/blog/install-mongodb-ubuntu-22-04"
 ## Deploy project
 ### ``` $ sudo apt-get update ``` 
 ### ``` $ sudo apt-get upgrade ``` 
