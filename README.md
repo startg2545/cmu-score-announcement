@@ -7,7 +7,7 @@
 ### App main is located in "cmu-score-announcement/frontend/src/App.jsx"
 ### MongoDB is located in "cmu-score-announcement/backend/db/dbConnect.js"
 
-# Getting started
+# Let's get started
 ## Connect the backend system by configuring variables in .env
 ## 1. CMU OAuth
 ## 2. MongoDB
