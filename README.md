@@ -1,8 +1,7 @@
 # CMU Score Announcement
 ### Framework: ReactJS
 ### Database: MongoDB
-### Uploader: Microsoft Excel
-### IDE: up to you
+### IDE: The choice is yours
 
 ### App main is located in "cmu-score-announcement/frontend/src/App.jsx"
 ### MongoDB is located in "cmu-score-announcement/backend/db/dbConnect.js"
@@ -21,13 +20,17 @@
 4. Run ``` npm run dev ``` to run backend system
 ## Deploy project
 ```
-$ sudo apt-get update
-$ sudo apt-get upgrade
+sudo apt update
+```
+```
+sudo apt upgrade
 ```
 ### install nvm
 ```
-$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-$ nvm install 18.18
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+```
+```
+nvm install 18.18
 ```
 ### install MongoDB by following link 
 https://www.cherryservers.com/blog/install-mongodb-ubuntu-22-04
@@ -39,19 +42,35 @@ https://www.cherryservers.com/blog/install-mongodb-ubuntu-22-04
     - `.env` add API link
 ### install pm2 
 ```
-$ sudo npm install pm2 -g
+sudo npm install pm2 -g
 ```
-### run app
+### install and run app
 ```
-$ cd frontend 
-$ npm install 
-$ npm run build 
-$ pm2 serve build 300 --name "frontend" --spa 
-$ cd ../backend 
-$ npm install 
-$ pm2 start npm --name "backend" -- start 
-$ pm2 save 
-$ pm2 startup system
+cd frontend
+```
+```
+npm install
+```
+```
+npm run build
+```
+```
+pm2 serve build 300 --name "frontend" --spa
+```
+```
+cd ../backend
+```
+```
+npm install
+```
+```
+pm2 start npm --name "backend" -- start
+```
+```
+pm2 save
+```
+```
+pm2 startup system
 ```
 # Developers
 - 630615028 Newin Yamaguchu
