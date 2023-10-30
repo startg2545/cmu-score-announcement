@@ -73,7 +73,7 @@ pm2 save
 pm2 startup system
 ```
 # Developers
-- 630615028 Newin Yamaguchu
+- 630615028 Newin Yamaguchi
 - 640610638 Thanaporn Chanchanayothin
 - 640610657 Patrasorn Khantipongse
 - 640610666 Worapitcha Muangyot
